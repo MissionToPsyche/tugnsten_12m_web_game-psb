@@ -38,7 +38,7 @@ public class Orbit : MonoBehaviour
             // Breaks the calculation early if the virtual orbiter has completed
             // a full orbit, which is detected by checking if the first position
             // calculated is very close to the current one.
-            if ((points[0] - points[step]).magnitude < .1 && step > 100)
+            if ((points[0] - points[step]).magnitude < .01 && step > 100)
             {
                 usedSteps = step;
                 break;

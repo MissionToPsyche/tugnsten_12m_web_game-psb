@@ -1,16 +1,19 @@
 // Based on https://github.com/SebLague/Solar-System/tree/Episode_01
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Orbiter : PointMass
 {
     public PointMass parent;
     public Orbit orbit;
+    public GameObject model;
     public Vector3 initialVelocity;
     private Vector3 currentVelocity;
 
     public const float thrustRate = 0.5f;
+    public const float rotationRate = 2f;
 
     public void Awake()
     {
@@ -23,11 +26,18 @@ public class Orbiter : PointMass
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            currentVelocity += thrustRate * Time.deltaTime * currentVelocity.normalized;
+            // currentVelocity += thrustRate * Time.deltaTime * currentVelocity.normalized;
+            AlignForward();
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            currentVelocity += thrustRate * Time.deltaTime * -currentVelocity.normalized;
+            // currentVelocity += thrustRate * Time.deltaTime * -currentVelocity.normalized;
+            AlignBackward();
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+
         }
     }
 
@@ -67,5 +77,36 @@ public class Orbiter : PointMass
     private void UpdatePosition()
     {
         transform.position += GetNewPosition();
+    }
+
+    private void AlignForward()
+    {
+        float angle = Vector3.SignedAngle(Vector3.up, currentVelocity, Vector3.forward);
+
+        Quaternion target = Quaternion.Euler(0, 0, angle);
+        
+        model.transform.rotation = Quaternion.RotateTowards(model.transform.rotation, target, 2);
+
+        // Quaternion dir = Quaternion.LookRotation(currentVelocity);
+
+        // model.transform.rotation = Quaternion.RotateTowards(model.transform.rotation, dir, rotationRate);
+    }
+
+    private void AlignBackward()
+    {
+        float angle = Vector3.SignedAngle(Vector3.up, -currentVelocity, Vector3.forward);
+
+        Quaternion target = Quaternion.Euler(0, 0, angle);
+        
+        model.transform.rotation = Quaternion.RotateTowards(model.transform.rotation, target, 2);
+
+        // Quaternion dir = Quaternion.LookRotation(-currentVelocity);
+
+        // model.transform.rotation = Quaternion.RotateTowards(model.transform.rotation, dir, rotationRate);
+    }
+
+    private void ApplyThrust()
+    {
+
     }
 }

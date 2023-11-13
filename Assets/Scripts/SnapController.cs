@@ -1,48 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
-// using System.Numerics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ImageScript2 : MonoBehaviour, IPointerDownHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler
+public class SnapController : MonoBehaviour, IDropHandler
 {
+    public List<Transform> snapPoints;
     [SerializeField] 
     private Canvas canvas;
     private CanvasGroup canvasGroup;
-    private RectTransform image2;
+    private RectTransform image;
     // Start is called before the first frame update
-    void Start()
+    void Start() 
     {
-        image2 = GetComponent<RectTransform>();
+        image = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-        // image1.get
     }
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        canvasGroup.alpha = .5f;
-        canvasGroup.blocksRaycasts = false;
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        image2.anchoredPosition += eventData.delta / canvas.scaleFactor;
-
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
+    void Update() 
     {
 
     }

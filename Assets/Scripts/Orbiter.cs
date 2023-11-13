@@ -8,36 +8,42 @@ public class Orbiter : PointMass
 {
     public PointMass parent;
     public Orbit orbit;
-    public GameObject model;
     public Vector3 initialVelocity;
     private Vector3 currentVelocity;
 
-    public const float thrustRate = 0.5f;
+    public const float thrustRate = 0.25f;
     public const float rotationRate = 2f;
 
-    public void Awake()
-    {
+    private void OnValidate() {
         currentVelocity = initialVelocity;
         Time.fixedDeltaTime = physicsTimeStep;
         orbit.parent = parent;
+        
+        orbit.DrawOrbit(transform.position, currentVelocity);
     }
 
     public void Update()
     {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            // currentVelocity += thrustRate * Time.deltaTime * currentVelocity.normalized;
-            AlignForward();
+            AlignPrograde();
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            // currentVelocity += thrustRate * Time.deltaTime * -currentVelocity.normalized;
-            AlignBackward();
+            AlignRetrograde();
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            AlignRadialOut();
+        } 
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            AlignRadialIn();
         }
 
         if (Input.GetKey(KeyCode.Space))
         {
-
+            ApplyThrustForward();
         }
     }
 
@@ -79,34 +85,36 @@ public class Orbiter : PointMass
         transform.position += GetNewPosition();
     }
 
-    private void AlignForward()
+    private void AlignPrograde()
     {
         float angle = Vector3.SignedAngle(Vector3.up, currentVelocity, Vector3.forward);
-
         Quaternion target = Quaternion.Euler(0, 0, angle);
-        
-        model.transform.rotation = Quaternion.RotateTowards(model.transform.rotation, target, 2);
-
-        // Quaternion dir = Quaternion.LookRotation(currentVelocity);
-
-        // model.transform.rotation = Quaternion.RotateTowards(model.transform.rotation, dir, rotationRate);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
     }
 
-    private void AlignBackward()
+    private void AlignRetrograde()
     {
         float angle = Vector3.SignedAngle(Vector3.up, -currentVelocity, Vector3.forward);
-
         Quaternion target = Quaternion.Euler(0, 0, angle);
-        
-        model.transform.rotation = Quaternion.RotateTowards(model.transform.rotation, target, 2);
-
-        // Quaternion dir = Quaternion.LookRotation(-currentVelocity);
-
-        // model.transform.rotation = Quaternion.RotateTowards(model.transform.rotation, dir, rotationRate);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
     }
 
-    private void ApplyThrust()
+    private void AlignRadialIn()
     {
+        float angle = Vector3.SignedAngle(Vector3.right, currentVelocity, Vector3.forward);
+        Quaternion target = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
+    }
 
+    private void AlignRadialOut()
+    {
+        float angle = Vector3.SignedAngle(Vector3.right, -currentVelocity, Vector3.forward);
+        Quaternion target = Quaternion.Euler(0, 0, angle);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
+    }
+
+    private void ApplyThrustForward()
+    {
+        currentVelocity += thrustRate * Time.deltaTime * transform.up;
     }
 }

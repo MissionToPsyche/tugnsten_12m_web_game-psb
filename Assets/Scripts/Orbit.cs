@@ -7,12 +7,52 @@ public class Orbit : MonoBehaviour
 {
     public PointMass parent;
     public LineRenderer lr;
+    public Vector3 apoapsisPosition;
+    public Vector3 periapsisPosition;
+    public float apoapsisDistance;
+    public float periapsisDistance;
 
     // TODO: Add constructor with peri/apo and rotation
 
-    public void Awake()
+    public void OnValidate()
     {
         lr = GetComponent<LineRenderer>();
+    }
+
+    // Finds the maximum point by magnitude in an array known to be unimodal
+    private Vector3 BinarySearchMax(Vector3[] points) {
+        int left = 0;
+        int right = points.Length - 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if(points[mid].magnitude < points[mid + 1].magnitude) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        return points[left];
+    }
+
+    // Finds the minimum point by magnitude in an array known to be unimodal
+    private Vector3 BinarySearchMin(Vector3[] points) {
+        int left = 0;
+        int right = points.Length - 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            if(points[mid].magnitude > points[mid + 1].magnitude) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+
+        return points[left];
     }
 
     public void DrawOrbit(Vector3 position, Vector3 velocity)
@@ -45,8 +85,19 @@ public class Orbit : MonoBehaviour
             }
         }
 
+        // Draws orbit line
         lr.positionCount = usedSteps;
         lr.SetPositions(points);
+
+        // Calculates apo/peri
+        // NOTE: This assumes that the parent will always be at (0, 0, 0) for optimization
+        periapsisPosition = BinarySearchMin(points);
+        periapsisDistance = periapsisPosition.magnitude;
+        apoapsisPosition = BinarySearchMax(points);
+        apoapsisDistance = apoapsisPosition.magnitude;
+
+        // Draws apo/peri
+
     }
 
     // This is essentially the Orbiter class but stripped down. We can't use the 

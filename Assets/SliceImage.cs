@@ -151,6 +151,15 @@ public class SliceImage : MonoBehaviour
         trans.anchoredPosition = new Vector2((imgWidth + 20)*imgNum, (imgHeight + 20)*imgNum); // setting position
         trans.sizeDelta = new Vector2(imgWidth, imgHeight); // set the size
 
+        // adding canvas group component
+         CanvasGroup group = imgObject.AddComponent<CanvasGroup>();
+         group.alpha = 1;
+         group.blocksRaycasts = true;
+
+        // add script component
+        // ScrptName script = imgObject.AddComponent<ScrptName>();
+
+        // adding image component
         Image image = imgObject.AddComponent<Image>();
 
         Vector2 imgSize = new Vector2(imgWidth, imgHeight);

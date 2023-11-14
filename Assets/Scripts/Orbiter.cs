@@ -24,6 +24,11 @@ public class Orbiter : PointMass
 
     public void Update()
     {
+        
+    }
+
+    public void FixedUpdate()
+    {
         if (Input.GetKey(KeyCode.UpArrow))
         {
             AlignPrograde();
@@ -45,10 +50,7 @@ public class Orbiter : PointMass
         {
             ApplyThrustForward();
         }
-    }
 
-    public void FixedUpdate()
-    {
         UpdateVelocity();
         UpdatePosition();
         orbit.DrawOrbit(transform.position, currentVelocity);

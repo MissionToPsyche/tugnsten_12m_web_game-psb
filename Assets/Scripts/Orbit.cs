@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class Orbit : MonoBehaviour
 {
-    public PointMass parent;
     public LineRenderer lr;
+    public GameObject periapsisMarker;
+    public GameObject apoapsisMarker;
+    public PointMass parent;
     public Vector3 apoapsisPosition;
     public Vector3 periapsisPosition;
     public float apoapsisDistance;
@@ -19,17 +22,22 @@ public class Orbit : MonoBehaviour
         lr = GetComponent<LineRenderer>();
     }
 
-    // Finds the maximum point by magnitude in an array known to be unimodal
-    private Vector3 BinarySearchMax(Vector3[] points) {
+    // Finds the maximum point by altitude in an array known to be unimodal
+    private Vector3 BinarySearchMax(Vector3[] points)
+    {
         int left = 0;
         int right = points.Length - 1;
 
-        while (left < right) {
-            int mid = left + (right - left) / 2;
+        while (left < right)
+        {
+            int mid = (left + right) / 2;
 
-            if(points[mid].magnitude < points[mid + 1].magnitude) {
+            if (Vector3.Distance(points[mid], parent.transform.position) < Vector3.Distance(points[mid + 1], parent.transform.position))
+            {
                 left = mid + 1;
-            } else {
+            }
+            else
+            {
                 right = mid;
             }
         }
@@ -37,17 +45,22 @@ public class Orbit : MonoBehaviour
         return points[left];
     }
 
-    // Finds the minimum point by magnitude in an array known to be unimodal
-    private Vector3 BinarySearchMin(Vector3[] points) {
+    // Finds the minimum point by altitude in an array known to be unimodal
+    private Vector3 BinarySearchMin(Vector3[] points)
+    {
         int left = 0;
         int right = points.Length - 1;
 
-        while (left < right) {
-            int mid = left + (right - left) / 2;
+        while (left < right)
+        {
+            int mid = (left + right) / 2;
 
-            if(points[mid].magnitude > points[mid + 1].magnitude) {
+            if (Vector3.Distance(points[mid], parent.transform.position) > Vector3.Distance(points[mid + 1], parent.transform.position))
+            {
                 left = mid + 1;
-            } else {
+            }
+            else
+            {
                 right = mid;
             }
         }
@@ -78,26 +91,31 @@ public class Orbit : MonoBehaviour
             // Breaks the calculation early if the virtual orbiter has completed
             // a full orbit, which is detected by checking if the first position
             // calculated is very close to the current one.
-            if ((points[0] - points[step]).magnitude < .01 && step > 100)
+            if (Vector3.Distance(points[0], points[step]) < .01 && step > 100)
             {
                 usedSteps = step;
                 break;
             }
         }
 
+        Array.Resize(ref points, usedSteps);
+
         // Draws orbit line
         lr.positionCount = usedSteps;
         lr.SetPositions(points);
 
-        // Calculates apo/peri
-        // NOTE: This assumes that the parent will always be at (0, 0, 0) for optimization
+        // Calculates apoapsis and periapsis
         periapsisPosition = BinarySearchMin(points);
-        periapsisDistance = periapsisPosition.magnitude;
+        periapsisDistance = Vector3.Distance(periapsisPosition, parent.transform.position);
         apoapsisPosition = BinarySearchMax(points);
-        apoapsisDistance = apoapsisPosition.magnitude;
+        apoapsisDistance = Vector3.Distance(apoapsisPosition, parent.transform.position);
 
-        // Draws apo/peri
+        // Small offset to avoid clipping into the orbit line
+        Vector3 zOffset = new(0, 0, -0.001f);
 
+        // Positions apoapsis and periapsis markers apo/peri
+        apoapsisMarker.transform.position = apoapsisPosition + zOffset;
+        periapsisMarker.transform.position = periapsisPosition + zOffset;
     }
 
     // This is essentially the Orbiter class but stripped down. We can't use the 

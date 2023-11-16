@@ -10,6 +10,9 @@ public class SnapController : MonoBehaviour, IDropHandler
     // [SerializeField] private GameObject image;  // select the image object 
     // [SerializeField] private GameObject dragObject;  // select the image object 
     [SerializeField] private GameObject targetImage;  // select the image object 
+    [SerializeField] private Vector2 snapPoint;
+
+    
     private RectTransform targetRect;
     // [SerializeField] public List<GameObject> targetImages;
     
@@ -40,15 +43,15 @@ public class SnapController : MonoBehaviour, IDropHandler
             Vector2 snapPosition = targetImage.GetComponent<RectTransform>().anchoredPosition;
             Debug.Log("Image 2: " + snapPosition);
 
-            Vector2 snapOffset = new Vector2(20f, 25f);
+            // Vector2 snapOffset = new Vector2(20f, 25f);
 
-            Debug.Log("position + offset " + (snapPosition + snapOffset));
+            Debug.Log("position + offset " + (snapPosition + snapPoint));
 
             // Set the position of the dropped object to the corner of the target object
             // droppedRect.anchoredPosition = snapPosition + snapOffset;
             // Debug.Log("Image 1: " + droppedRect.anchoredPosition);
 
-            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = snapPosition + snapOffset;
+            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = snapPosition + snapPoint;
         
         }
     }

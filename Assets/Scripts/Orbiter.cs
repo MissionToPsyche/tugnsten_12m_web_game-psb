@@ -1,7 +1,6 @@
 // Based on https://github.com/SebLague/Solar-System/tree/Episode_01
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class Orbiter : PointMass

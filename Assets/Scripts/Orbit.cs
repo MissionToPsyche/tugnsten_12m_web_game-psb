@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
@@ -12,6 +10,8 @@ public class Orbit : MonoBehaviour
     public PointMass parent;
     public Vector3 apoapsisPosition;
     public Vector3 periapsisPosition;
+    public const int maxSteps = 10000;
+    public Vector3[] orbitLinePositions;
     public float apoapsisDistance;
     public float periapsisDistance;
 
@@ -68,9 +68,8 @@ public class Orbit : MonoBehaviour
         return points[left];
     }
 
-    public void DrawOrbit(Vector3 position, Vector3 velocity)
+    public void CalcOrbit(Vector3 position, Vector3 velocity)
     {
-        const int maxSteps = 10000;
         int usedSteps = maxSteps;
 
         // This "virtual" orbiter will step through the real one's orbit without
@@ -100,15 +99,19 @@ public class Orbit : MonoBehaviour
 
         Array.Resize(ref points, usedSteps);
 
-        // Draws orbit line
-        lr.positionCount = usedSteps;
-        lr.SetPositions(points);
+        orbitLinePositions = points;
 
         // Calculates apoapsis and periapsis
         periapsisPosition = BinarySearchMin(points);
         periapsisDistance = Vector3.Distance(periapsisPosition, parent.transform.position);
         apoapsisPosition = BinarySearchMax(points);
         apoapsisDistance = Vector3.Distance(apoapsisPosition, parent.transform.position);
+    }
+
+    public void DrawOrbit() {
+        // Draws orbit line
+        lr.positionCount = orbitLinePositions.Length;
+        lr.SetPositions(orbitLinePositions);
 
         // Small offset to avoid clipping into the orbit line
         Vector3 zOffset = new(0, 0, -0.001f);

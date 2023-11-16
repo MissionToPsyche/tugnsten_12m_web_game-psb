@@ -19,7 +19,8 @@ public class Orbiter : PointMass
         Time.fixedDeltaTime = physicsTimeStep;
         orbit.parent = parent;
         
-        orbit.DrawOrbit(transform.position, currentVelocity);
+        orbit.CalcOrbit(transform.position, currentVelocity);
+        orbit.DrawOrbit();
     }
 
     public void Update()
@@ -53,7 +54,8 @@ public class Orbiter : PointMass
 
         UpdateVelocity();
         UpdatePosition();
-        orbit.DrawOrbit(transform.position, currentVelocity);
+        orbit.CalcOrbit(transform.position, currentVelocity);
+        orbit.DrawOrbit();
     }
 
     private Vector3 GetNewAcceleration()

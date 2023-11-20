@@ -4,22 +4,28 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class Orbit : MonoBehaviour
 {
+    public const int maxCalcSteps = 10000;
+    public const int ellipsePoints = 200;
+    public Vector3[] orbitLinePositions;
     public LineRenderer lr;
+    public PointMass parent;
     public GameObject periapsisMarker;
     public GameObject apoapsisMarker;
-    public PointMass parent;
     public Vector3 apoapsisPosition;
     public Vector3 periapsisPosition;
-    public const int maxSteps = 10000;
-    public Vector3[] orbitLinePositions;
     public float apoapsisDistance;
     public float periapsisDistance;
-
-    // TODO: Add constructor with peri/apo and rotation
+    public float rotation;
 
     public void OnValidate()
     {
         lr = GetComponent<LineRenderer>();
+
+        // Constrains the apoapsis to be greater than the periapsis
+        apoapsisDistance = Mathf.Max(apoapsisDistance, periapsisDistance);
+        
+        CalcOrbitFixed();
+        DrawOrbit();
     }
 
     // Finds the maximum point by altitude in an array known to be unimodal
@@ -68,19 +74,67 @@ public class Orbit : MonoBehaviour
         return points[left];
     }
 
-    public void CalcOrbit(Vector3 position, Vector3 velocity)
+    // Uses periapsis altitude, apoapsis altitude, and rotation to calculate
+    // orbit path.
+    public void CalcOrbitFixed()
     {
-        int usedSteps = maxSteps;
+        float semiMajorAxis = (apoapsisDistance + periapsisDistance) / 2;
+        // Focus / semi-major axis
+        float eccentricity = (semiMajorAxis - periapsisDistance) / semiMajorAxis;
+        float semiMinorAxis = semiMajorAxis * Mathf.Sqrt(1 - eccentricity * eccentricity);
+        
+        Vector3[] points = new Vector3[ellipsePoints];
+        float angleStep = 360f / ellipsePoints;
+        
+        // Calculates the points along the ellipse
+        for (int i = 0; i < ellipsePoints; i++)
+        {
+            float angle = i * angleStep;
+            float x = semiMajorAxis * Mathf.Cos(angle * Mathf.Deg2Rad);
+            float y = semiMinorAxis * Mathf.Sin(angle * Mathf.Deg2Rad);
+
+            points[i] = new Vector3(x, y, 0);
+        }
+
+        // Rotates each point around the origin
+        for (int i = 0; i < ellipsePoints; i++) {
+            points[i] = Quaternion.Euler(0,0, rotation) * points[i];
+        }
+
+        // Orbit initially has the planet at its center, so its periapsis and
+        // apoapsis distance is equal to its semi-major axis. It needs to be
+        // shifted along its semi-major axis by the difference between the
+        // current position (semi-major axis) and the desired periapsis height. 
+
+        float shiftDist = semiMajorAxis - periapsisDistance;
+        // Vector pointing from periapsis to apoapsis
+        Vector3 axisDir = (apoapsisPosition - periapsisPosition).normalized;
+        Vector3 shiftVector = axisDir * shiftDist;
+
+        for (int i = 0; i < ellipsePoints; i++) {
+            points[i] += shiftVector;
+        }
+
+        orbitLinePositions = points;
+
+        // Calculates apoapsis and periapsis
+        periapsisPosition = BinarySearchMin(points);
+        apoapsisPosition = BinarySearchMax(points);
+    }
+
+    public void CalcOrbitFromOrbiter(Vector3 position, Vector3 velocity)
+    {
+        int usedSteps = maxCalcSteps;
 
         // This "virtual" orbiter will step through the real one's orbit without
         // actually moving the real one. 
         VirtualOrbiter virtualOrbiter = new(parent, velocity, position);
 
-        Vector3[] points = new Vector3[maxSteps];
+        Vector3[] points = new Vector3[maxCalcSteps];
 
         // Step the orbit forward until either it completes a full orbit or
         // reaches maxSteps many increments.
-        for (int step = 0; step < maxSteps; step++)
+        for (int step = 0; step < maxCalcSteps; step++)
         {
             virtualOrbiter.UpdateVelocity();
             virtualOrbiter.UpdatePosition();
@@ -106,9 +160,12 @@ public class Orbit : MonoBehaviour
         periapsisDistance = Vector3.Distance(periapsisPosition, parent.transform.position);
         apoapsisPosition = BinarySearchMax(points);
         apoapsisDistance = Vector3.Distance(apoapsisPosition, parent.transform.position);
+
+        rotation = Vector3.Angle(periapsisPosition, Vector3.up);
     }
 
-    public void DrawOrbit() {
+    public void DrawOrbit()
+    {
         // Draws orbit line
         lr.positionCount = orbitLinePositions.Length;
         lr.SetPositions(orbitLinePositions);

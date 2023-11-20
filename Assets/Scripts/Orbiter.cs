@@ -13,18 +13,19 @@ public class Orbiter : PointMass
     public const float thrustRate = 0.25f;
     public const float rotationRate = 2f;
 
-    private void OnValidate() {
+    private void OnValidate()
+    {
         currentVelocity = initialVelocity;
         Time.fixedDeltaTime = physicsTimeStep;
         orbit.parent = parent;
-        
-        orbit.CalcOrbit(transform.position, currentVelocity);
+
+        orbit.CalcOrbitFromOrbiter(transform.position, currentVelocity);
         orbit.DrawOrbit();
     }
 
     public void Update()
     {
-        
+
     }
 
     public void FixedUpdate()
@@ -40,7 +41,7 @@ public class Orbiter : PointMass
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             AlignRadialOut();
-        } 
+        }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
             AlignRadialIn();
@@ -53,7 +54,7 @@ public class Orbiter : PointMass
 
         UpdateVelocity();
         UpdatePosition();
-        orbit.CalcOrbit(transform.position, currentVelocity);
+        orbit.CalcOrbitFromOrbiter(transform.position, currentVelocity);
         orbit.DrawOrbit();
     }
 

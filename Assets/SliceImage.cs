@@ -30,9 +30,22 @@ public class SliceImage : MonoBehaviour
         float slicedHeight = slicedTexture.height;
 
         // image
-        float imgSize = 0.5f;
+        // int numImgs = 4;
+        // float imgSize = 0.5f;
+        // int numImgs = 5;
+        // float imgSize = 0.5f;
+        int numImgs = 6;
+        float imgSize = 0.4f;
+        // int numImgs = 7;
+        // float imgSize = 0.4f;
         float imgWidth = slicedWidth*imgSize;
         float imgHeight = slicedHeight*imgSize;
+
+        // overlap
+        float minOverlap = 0.8f;
+        float yOverlap = imgHeight*minOverlap;
+        float xOverlap = imgWidth*minOverlap;
+        Vector2 overlap = new Vector2(xOverlap, yOverlap);
 
         // difference
         float maxOverlap = 0.3f;
@@ -55,7 +68,6 @@ public class SliceImage : MonoBehaviour
             }
         }
 
-        int numImgs = 4;
 
         // creates images
         for(int imgNum = 0; imgNum < numImgs; imgNum++) 
@@ -70,6 +82,7 @@ public class SliceImage : MonoBehaviour
             do
             {
                 ctr++;
+                Debug.Log("do: " + ctr);
 
                 int[] cell = cells[randomCell];
                 int cellX = cell[0];
@@ -92,7 +105,7 @@ public class SliceImage : MonoBehaviour
                     break;
                 }
 
-            }while(!isStartDifferent(start, diff));
+            }while(!isStartDifferent(start, diff) && !isOverlap(start, overlap));
 
             starts.Add(start);
             cells.RemoveAt(randomCell);
@@ -108,6 +121,18 @@ public class SliceImage : MonoBehaviour
         foreach(Vector2 start in starts)
         {
             if (Mathf.Abs(start.x - newStart.x) < diff.x && Mathf.Abs(start.y - newStart.y) < diff.y)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool isOverlap(Vector2 newStart, Vector2 overlap)
+    {
+        foreach(Vector2 start in starts)
+        {
+            if (Mathf.Abs(start.x - newStart.x) > overlap.x && Mathf.Abs(start.y - newStart.y) > overlap.y)
             {
                 return false;
             }

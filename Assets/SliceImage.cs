@@ -166,6 +166,20 @@ public class SliceImage : MonoBehaviour
 
     private GameObject createImageObject(float imgWidth, float imgHeight, Vector2 start, Texture2D slicedTexture, int imgNum)
     {
+
+        float displaySize = 300f;
+        int separation = 100;
+
+        List<Vector2> initialPositions = new List<Vector2>();
+        for(int i = 0; i < 2; i ++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                initialPositions.Add(new Vector2(300f + (displaySize + separation) * j, 900f - (displaySize + separation) * i));
+            }
+        }
+        
+
         GameObject imgObject = new GameObject();
         imgObject.name = "img"+ imgNum;
 
@@ -173,8 +187,10 @@ public class SliceImage : MonoBehaviour
         trans.transform.SetParent(canvas.transform); // setting parent
         trans.localScale = Vector3.one;
         // TO DO: position still needs to be determined V
-        trans.anchoredPosition = new Vector2((imgWidth + 20)*imgNum, (imgHeight + 20)*imgNum); // setting position
-        trans.sizeDelta = new Vector2(imgWidth, imgHeight); // set the size
+        // trans.anchoredPosition = new Vector2((imgWidth + 20)*imgNum, (imgHeight + 20)*imgNum); // setting position
+        // trans.sizeDelta = new Vector2(imgWidth, imgHeight); // set the size
+        trans.anchoredPosition = new Vector2(initialPositions[imgNum].x, initialPositions[imgNum].y); // setting position
+        trans.sizeDelta = new Vector2(displaySize, displaySize); // set the size of the image/gameobject
 
         // adding canvas group component
          CanvasGroup group = imgObject.AddComponent<CanvasGroup>();

@@ -15,6 +15,7 @@ public class Orbit : MonoBehaviour
     public Vector3 periapsisPosition;
     public float apoapsisDistance;
     public float periapsisDistance;
+    [Range(0, 360)]
     public float rotation;
 
     public void OnValidate()
@@ -23,6 +24,11 @@ public class Orbit : MonoBehaviour
 
         // Constrains the apoapsis to be greater than the periapsis
         apoapsisDistance = Mathf.Max(apoapsisDistance, periapsisDistance);
+
+        // Hack so the markers work on a circular orbit
+        if (apoapsisDistance == periapsisDistance) {
+            apoapsisDistance += 0.01f;
+        }
         
         CalcOrbitFixed();
         DrawOrbit();
@@ -79,8 +85,8 @@ public class Orbit : MonoBehaviour
     public void CalcOrbitFixed()
     {
         float semiMajorAxis = (apoapsisDistance + periapsisDistance) / 2;
-        // Focus / semi-major axis
-        float eccentricity = (semiMajorAxis - periapsisDistance) / semiMajorAxis;
+        float focus = semiMajorAxis - periapsisDistance; // Ellipse center to Psyche
+        float eccentricity = focus / semiMajorAxis;
         float semiMinorAxis = semiMajorAxis * Mathf.Sqrt(1 - eccentricity * eccentricity);
         
         Vector3[] points = new Vector3[ellipsePoints];
@@ -93,26 +99,12 @@ public class Orbit : MonoBehaviour
             float x = semiMajorAxis * Mathf.Cos(angle * Mathf.Deg2Rad);
             float y = semiMinorAxis * Mathf.Sin(angle * Mathf.Deg2Rad);
 
-            points[i] = new Vector3(x, y, 0);
-        }
+            // Orbit initially has Psyche at its center, so it needs to be
+            // shifted along its semi-major axis by the focus distance.
+            points[i] = new Vector3(x + focus, y, 0);
 
-        // Rotates each point around the origin
-        for (int i = 0; i < ellipsePoints; i++) {
+            // Rotates each point around origin, which rotates the whole ellipse.
             points[i] = Quaternion.Euler(0,0, rotation) * points[i];
-        }
-
-        // Orbit initially has the planet at its center, so its periapsis and
-        // apoapsis distance is equal to its semi-major axis. It needs to be
-        // shifted along its semi-major axis by the difference between the
-        // current position (semi-major axis) and the desired periapsis height. 
-
-        float shiftDist = semiMajorAxis - periapsisDistance;
-        // Vector pointing from periapsis to apoapsis
-        Vector3 axisDir = (apoapsisPosition - periapsisPosition).normalized;
-        Vector3 shiftVector = axisDir * shiftDist;
-
-        for (int i = 0; i < ellipsePoints; i++) {
-            points[i] += shiftVector;
         }
 
         orbitLinePositions = points;

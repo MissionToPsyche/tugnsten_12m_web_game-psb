@@ -6,6 +6,8 @@ public class Orbit : MonoBehaviour
 {
     public const int maxCalcSteps = 10000;
     public const int ellipsePoints = 200;
+    public const float crashThreshold = 0.5f;
+    public const float escapeThreshold = 10;
     public Vector3[] orbitLinePositions;
     public LineRenderer lr;
     public PointMass parent;
@@ -17,6 +19,12 @@ public class Orbit : MonoBehaviour
     public float periapsisDistance;
     [Range(0, 360)]
     public float rotation;
+    public bool isTargetOrbit = true;
+
+    public bool isCrashing = false;
+    public bool isEscaping = false;
+    public bool hasCrashed = false;
+    public bool hasEscaped = false;
 
     public void OnValidate()
     {
@@ -26,12 +34,15 @@ public class Orbit : MonoBehaviour
         apoapsisDistance = Mathf.Max(apoapsisDistance, periapsisDistance);
 
         // Hack so the markers work on a circular orbit
-        if (apoapsisDistance == periapsisDistance) {
+        if (apoapsisDistance == periapsisDistance)
+        {
             apoapsisDistance += 0.01f;
         }
-        
-        CalcOrbitFixed();
-        DrawOrbit();
+
+        if (isTargetOrbit) {
+            CalcOrbitFixed();
+            DrawOrbit();
+        }
     }
 
     // Finds the maximum point by altitude in an array known to be unimodal
@@ -88,10 +99,10 @@ public class Orbit : MonoBehaviour
         float focus = semiMajorAxis - periapsisDistance; // Ellipse center to Psyche
         float eccentricity = focus / semiMajorAxis;
         float semiMinorAxis = semiMajorAxis * Mathf.Sqrt(1 - eccentricity * eccentricity);
-        
+
         Vector3[] points = new Vector3[ellipsePoints];
         float angleStep = 360f / ellipsePoints;
-        
+
         // Calculates the points along the ellipse
         for (int i = 0; i < ellipsePoints; i++)
         {
@@ -104,7 +115,7 @@ public class Orbit : MonoBehaviour
             points[i] = new Vector3(x + focus, y, 0);
 
             // Rotates each point around origin, which rotates the whole ellipse.
-            points[i] = Quaternion.Euler(0,0, rotation) * points[i];
+            points[i] = Quaternion.Euler(0, 0, rotation) * points[i];
         }
 
         orbitLinePositions = points;
@@ -140,6 +151,50 @@ public class Orbit : MonoBehaviour
             {
                 usedSteps = step;
                 break;
+            }
+
+            // Check if crashing
+            if (Vector3.Distance(new(0, 0, 0), points[step]) < crashThreshold)
+            {
+                isCrashing = true;
+                apoapsisMarker.SetActive(false); // Hides the apoapsis marker
+
+                // If the crash is happening very soon
+                if (step < 20) 
+                {
+                    hasCrashed = true;
+                }
+
+                usedSteps = step;
+                break;
+            }
+            else
+            {
+                isCrashing = false;
+                apoapsisMarker.SetActive(true);
+            }
+
+            // Check if escaping
+            if (Vector3.Distance(new(0, 0, 0), points[step]) > escapeThreshold)
+            {
+                isEscaping = true;
+                periapsisMarker.SetActive(false); // Hides the periapsis marker
+                apoapsisMarker.SetActive(false); // Hides the apoapsis marker
+
+                // If the escape is happening very soon
+                if (step < 20) 
+                {
+                    hasEscaped = true;
+                }
+
+                usedSteps = step;
+                break;
+            }
+            else
+            {
+                isEscaping = false;
+                periapsisMarker.SetActive(true);
+                apoapsisMarker.SetActive(true);
             }
         }
 

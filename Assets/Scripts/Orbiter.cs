@@ -18,6 +18,7 @@ public class Orbiter : PointMass
         currentVelocity = initialVelocity;
         Time.fixedDeltaTime = physicsTimeStep;
         orbit.parent = parent;
+        orbit.isTargetOrbit = false;
 
         orbit.CalcOrbitFromOrbiter(transform.position, currentVelocity);
         orbit.DrawOrbit();

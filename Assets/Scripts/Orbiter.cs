@@ -10,7 +10,7 @@ public class Orbiter : PointMass
     public Vector3 initialVelocity;
     private Vector3 currentVelocity;
 
-    public const float thrustRate = 0.25f;
+    public const float thrustRate = 0.15f;
     public const float rotationRate = 2f;
 
     private void OnValidate()

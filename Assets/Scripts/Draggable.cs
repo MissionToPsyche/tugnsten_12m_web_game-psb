@@ -1,20 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 
 public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    [SerializeField] private Canvas canvas; // allow to assign a canvas in Unity
-    [SerializeField] private GameObject image; // Retrieving RectTransform properties of the image
+    // private Canvas canvas; // allow to assign a canvas in Unity
+    private GameObject image; // Retrieving RectTransform properties of the image
+
+    private Canvas canvas;
+    // private GameObject canvasGUI;
+
+    private SliceImage sliceImage;
+
     private CanvasGroup canvasGroup; // canvasGroup attached to the same GameObject as this script
     private RectTransform imageRect;
-    // private float snapPoint { get; set; }
-    // private RectTransform image1;a
+
     // Start is called before the first frame update
     void Start()
     {
+        // image = GetComponent<GameObject>();
+        // canvas = GetCan<Canvas>();
+        // imageRect = GetComponent<RectTransform>();
+        // canvasGroup = GetComponent<CanvasGroup>();
+        // sliceImage = new SliceImage();
+        canvas = GetComponent<Canvas>();
+
+        // canvasGUI = GameObject.Find("CanvasGUI");
         imageRect = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
     }
@@ -35,8 +47,19 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
 
     public void OnDrag(PointerEventData eventData)
     {
+        // var canvasScaler = GetComponent<CanvasScaler>();
+        // if (canvasScaler)
+        // {
+        //     float scaleFactor = canvasScaler.scaleFactor;
+        //     imageRect.anchoredPosition += eventData.delta / scaleFactor;
+        // }
+        // else
+        // {
+        //     imageRect.anchoredPosition += eventData.delta;
+        // }
+
+        // var canvas = GetComponent<Canvas>();
         imageRect.anchoredPosition += eventData.delta / canvas.scaleFactor;
-        // transform.position = Input.mousePosition;
         Debug.Log("OnDrag");
     }
 
@@ -52,4 +75,15 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
     {
         Debug.Log("OnPointerDown");
     }
+
+    public Vector2 GetMousePos()
+    {
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+    }
+
+     public void SetCanvas(Canvas newCanvas) {
+        canvas = newCanvas;
+    }
+
 }

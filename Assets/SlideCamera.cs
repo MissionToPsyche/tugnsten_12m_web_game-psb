@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SlideCamera : MonoBehaviour
 {
+    
     public Vector3[] positions;
     private int currentIndex = 0;
     private float speed = 2.0f;

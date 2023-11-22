@@ -53,10 +53,12 @@ public class Orbiter : PointMass
             ApplyThrustForward();
         }
 
-        UpdateVelocity();
-        UpdatePosition();
-        orbit.CalcOrbitFromOrbiter(transform.position, currentVelocity);
-        orbit.DrawOrbit();
+        if (!orbit.hasCrashed && !orbit.hasEscaped) {
+            UpdateVelocity();
+            UpdatePosition();
+            orbit.CalcOrbitFromOrbiter(transform.position, currentVelocity);
+            orbit.DrawOrbit();
+        }
     }
 
     private Vector3 GetNewAcceleration()

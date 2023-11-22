@@ -13,6 +13,7 @@ public class Orbit : MonoBehaviour
     public PointMass parent;
     public GameObject periapsisMarker;
     public GameObject apoapsisMarker;
+    public GameObject warningMarker;
     public Vector3 apoapsisPosition;
     public Vector3 periapsisPosition;
     public float apoapsisDistance;
@@ -29,6 +30,7 @@ public class Orbit : MonoBehaviour
     public void OnValidate()
     {
         lr = GetComponent<LineRenderer>();
+        warningMarker.GetComponent<Renderer>().enabled = false;
 
         // Constrains the apoapsis to be greater than the periapsis
         apoapsisDistance = Mathf.Max(apoapsisDistance, periapsisDistance);
@@ -157,10 +159,16 @@ public class Orbit : MonoBehaviour
             if (Vector3.Distance(new(0, 0, 0), points[step]) < crashThreshold)
             {
                 isCrashing = true;
-                apoapsisMarker.SetActive(false); // Hides the apoapsis marker
+                periapsisMarker.GetComponent<Renderer>().enabled = false; // Hides the periapsis marker
+                apoapsisMarker.GetComponent<Renderer>().enabled = false; // Hides the apoapsis marker
+                
+                // Shows and positions the warning marker
+                warningMarker.GetComponent<Renderer>().enabled = true;
+                // Adds an offset to avoid clipping into Psyche
+                warningMarker.transform.position = points[step] + new Vector3(0, 0, -2f);
 
                 // If the crash is happening very soon
-                if (step < 20) 
+                if (step < 2) 
                 {
                     hasCrashed = true;
                 }
@@ -171,18 +179,25 @@ public class Orbit : MonoBehaviour
             else
             {
                 isCrashing = false;
-                apoapsisMarker.SetActive(true);
+                periapsisMarker.GetComponent<Renderer>().enabled = true;
+                apoapsisMarker.GetComponent<Renderer>().enabled = true;
+                warningMarker.GetComponent<Renderer>().enabled = false;
             }
 
             // Check if escaping
             if (Vector3.Distance(new(0, 0, 0), points[step]) > escapeThreshold)
             {
                 isEscaping = true;
-                periapsisMarker.SetActive(false); // Hides the periapsis marker
-                apoapsisMarker.SetActive(false); // Hides the apoapsis marker
+                periapsisMarker.GetComponent<Renderer>().enabled = false; // Hides the periapsis marker
+                apoapsisMarker.GetComponent<Renderer>().enabled = false; // Hides the apoapsis marker
+
+                // Shows and positions the warning marker
+                warningMarker.GetComponent<Renderer>().enabled = true;
+                // Adds an offset to avoid clipping into Psyche
+                warningMarker.transform.position = points[step] + new Vector3(0, 0, -2f);
 
                 // If the escape is happening very soon
-                if (step < 20) 
+                if (step < 2) 
                 {
                     hasEscaped = true;
                 }
@@ -193,8 +208,9 @@ public class Orbit : MonoBehaviour
             else
             {
                 isEscaping = false;
-                periapsisMarker.SetActive(true);
-                apoapsisMarker.SetActive(true);
+                periapsisMarker.GetComponent<Renderer>().enabled = true;
+                apoapsisMarker.GetComponent<Renderer>().enabled = true;
+                warningMarker.GetComponent<Renderer>().enabled = false;
             }
         }
 

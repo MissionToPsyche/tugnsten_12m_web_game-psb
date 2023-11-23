@@ -224,7 +224,7 @@ public class Orbit : MonoBehaviour
         apoapsisPosition = BinarySearchMax(points);
         apoapsisDistance = Vector3.Distance(apoapsisPosition, parent.transform.position);
 
-        rotation = Vector3.Angle(periapsisPosition, Vector3.up);
+        rotation = Vector3.Angle(periapsisPosition, Vector3.right);
     }
 
     public void DrawOrbit()

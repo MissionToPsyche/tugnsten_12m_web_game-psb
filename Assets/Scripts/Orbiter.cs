@@ -24,9 +24,8 @@ public class Orbiter : PointMass
         orbit.DrawOrbit();
     }
 
-    public void Update()
-    {
-
+    private void Start() {
+        currentVelocity = initialVelocity;
     }
 
     public void FixedUpdate()

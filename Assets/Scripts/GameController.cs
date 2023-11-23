@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     private bool gameRunning = true;
     public Orbiter spacecraft;
     public Orbit targetOrbit;
+    public UIController ui;
 
     public const float altitudeTolerance = 0.1f;
     public const float rotationTolerance = 4f;
@@ -53,10 +54,15 @@ public class GameController : MonoBehaviour
                 winTimer = 0f;
             }
 
-            if (spacecraft.orbit.hasCrashed || spacecraft.orbit.hasEscaped)
+            if (spacecraft.orbit.hasCrashed)
             {
                 gameRunning = false;
-                Debug.Log("Fail");
+                ui.ShowCrash();
+            }
+            else if (spacecraft.orbit.hasEscaped)
+            {
+                gameRunning = false;
+                ui.ShowEscape();
             }
 
             // If the game has remained in the win state for winTimeRequired,
@@ -64,7 +70,7 @@ public class GameController : MonoBehaviour
             if (winTimer >= winTimeRequired)
             {
                 gameRunning = false;
-                Debug.Log("Win");
+                ui.ShowWin();
             }
         }
     }

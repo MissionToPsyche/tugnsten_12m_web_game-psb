@@ -102,6 +102,13 @@ public class Orbiter : PointMass
     {
         float angle = Vector3.SignedAngle(Vector3.up, currentVelocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
+
+        // Prevents going the long way around when rotating
+        if (Quaternion.Angle(transform.rotation, target) > 180)
+        {
+            target *= Quaternion.Euler(0, 0, 180);
+        }
+
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
     }
 
@@ -109,6 +116,12 @@ public class Orbiter : PointMass
     {
         float angle = Vector3.SignedAngle(Vector3.up, -currentVelocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
+
+        if (Quaternion.Angle(transform.rotation, target) > 180)
+        {
+            target *= Quaternion.Euler(0, 0, 180);
+        }
+
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
     }
 
@@ -116,6 +129,12 @@ public class Orbiter : PointMass
     {
         float angle = Vector3.SignedAngle(Vector3.right, currentVelocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
+
+        if (Quaternion.Angle(transform.rotation, target) > 180)
+        {
+            target *= Quaternion.Euler(0, 0, 180);
+        }
+        
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
     }
 
@@ -123,6 +142,12 @@ public class Orbiter : PointMass
     {
         float angle = Vector3.SignedAngle(Vector3.right, -currentVelocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
+
+        if (Quaternion.Angle(transform.rotation, target) > 180)
+        {
+            target *= Quaternion.Euler(0, 0, 180);
+        }
+
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
     }
 

@@ -14,21 +14,6 @@ public class UIController : MonoBehaviour
         headerText.text = "";
     }
 
-    public void ShowWin()
-    {
-        headerText.text = "Orbit Reached";
-    }
-
-    public void ShowCrash()
-    {
-        headerText.text = "Spacecraft Crashed!";
-    }   
-
-    public void ShowEscape()
-    {
-        headerText.text = "Spacecraft Escaped Orbit!";
-    }
-
     public void ShowText(string message)
     {
         headerText.text = message;

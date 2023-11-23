@@ -41,7 +41,8 @@ public class Orbit : MonoBehaviour
             apoapsisDistance += 0.01f;
         }
 
-        if (isTargetOrbit) {
+        if (isTargetOrbit)
+        {
             CalcOrbitFixed();
             DrawOrbit();
         }
@@ -161,14 +162,14 @@ public class Orbit : MonoBehaviour
                 isCrashing = true;
                 periapsisMarker.GetComponent<Renderer>().enabled = false; // Hides the periapsis marker
                 apoapsisMarker.GetComponent<Renderer>().enabled = false; // Hides the apoapsis marker
-                
+
                 // Shows and positions the warning marker
                 warningMarker.GetComponent<Renderer>().enabled = true;
                 // Adds an offset to avoid clipping into Psyche
                 warningMarker.transform.position = points[step] + new Vector3(0, 0, -2f);
 
                 // If the crash is happening very soon
-                if (step < 2) 
+                if (step < 2)
                 {
                     hasCrashed = true;
                 }
@@ -197,7 +198,7 @@ public class Orbit : MonoBehaviour
                 warningMarker.transform.position = points[step] + new Vector3(0, 0, -2f);
 
                 // If the escape is happening very soon
-                if (step < 2) 
+                if (step < 2)
                 {
                     hasEscaped = true;
                 }

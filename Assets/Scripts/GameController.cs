@@ -49,7 +49,7 @@ public class GameController : MonoBehaviour
             if (winState)
             {
                 winTimer += Time.fixedDeltaTime;
-                
+
                 float secondsRemaining = Mathf.Round(winTimeRequired - winTimer);
                 ui.ShowText("Maintain Orbit..." + secondsRemaining);
             }
@@ -78,6 +78,10 @@ public class GameController : MonoBehaviour
                 ui.ShowText("Orbit Reached");
             }
         }
+        else
+        {
+            FinishGame();
+        }
     }
 
     void InitializeGame()
@@ -86,5 +90,12 @@ public class GameController : MonoBehaviour
 
         spacecraft.transform.position = new Vector3(initialState.position.x, initialState.position.y, 0);
         spacecraft.initialVelocity = new Vector3(initialState.velocity.x, initialState.velocity.y, 0);
+
+        spacecraft.active = true;
+    }
+
+    void FinishGame()
+    {
+        spacecraft.active = false;
     }
 }

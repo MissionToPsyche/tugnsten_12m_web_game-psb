@@ -13,6 +13,8 @@ public class Orbiter : PointMass
     public const float thrustRate = 0.15f;
     public const float rotationRate = 2f;
 
+    public bool active = false; // Enables player control
+
     private void OnValidate()
     {
         currentVelocity = initialVelocity;
@@ -24,35 +26,40 @@ public class Orbiter : PointMass
         orbit.DrawOrbit();
     }
 
-    private void Start() {
+    private void Start()
+    {
         currentVelocity = initialVelocity;
     }
 
     public void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (active)
         {
-            AlignPrograde();
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            AlignRetrograde();
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            AlignRadialOut();
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            AlignRadialIn();
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                AlignPrograde();
+            }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                AlignRetrograde();
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                AlignRadialOut();
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                AlignRadialIn();
+            }
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                ApplyThrustForward();
+            }
         }
 
-        if (Input.GetKey(KeyCode.Space))
+        if (!orbit.hasCrashed && !orbit.hasEscaped)
         {
-            ApplyThrustForward();
-        }
-
-        if (!orbit.hasCrashed && !orbit.hasEscaped) {
             UpdateVelocity();
             UpdatePosition();
             orbit.CalcOrbitFromOrbiter(transform.position, currentVelocity);

@@ -130,4 +130,13 @@ public class Orbiter : PointMass
     {
         currentVelocity += thrustRate * Time.deltaTime * transform.up;
     }
+
+    public void ResetSpacecraft()
+    {
+        orbit.ResetOrbit();
+        // UpdateVelocity();
+        // UpdatePosition();
+        currentVelocity = initialVelocity;
+        active = true;
+    }
 }

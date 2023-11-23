@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -37,46 +38,7 @@ public class GameController : MonoBehaviour
     {
         if (gameRunning)
         {
-            // Checks if the current orbit's rotation and apsis distances are
-            // within tolerance of the target orbit.
-            bool winState = Mathf.Abs(spacecraft.orbit.rotation - targetOrbit.rotation) < rotationTolerance
-                            && Mathf.Abs(spacecraft.orbit.periapsisDistance - targetOrbit.periapsisDistance) < altitudeTolerance
-                            && Mathf.Abs(spacecraft.orbit.apoapsisDistance - targetOrbit.apoapsisDistance) < altitudeTolerance;
-
-            // If the game is in the win state, starts counting up to
-            // winTimeRequired. If the game leaves the win state, the timer is
-            // reset.
-            if (winState)
-            {
-                winTimer += Time.fixedDeltaTime;
-
-                float secondsRemaining = Mathf.Round(winTimeRequired - winTimer);
-                ui.ShowText("Maintain Orbit..." + secondsRemaining);
-            }
-            else
-            {
-                winTimer = 0f;
-                ui.ShowText("");
-            }
-
-            if (spacecraft.orbit.hasCrashed)
-            {
-                gameRunning = false;
-                ui.ShowText("Spacecraft Crashed!");
-            }
-            else if (spacecraft.orbit.hasEscaped)
-            {
-                gameRunning = false;
-                ui.ShowText("Spacecraft Escaped Orbit!");
-            }
-
-            // If the game has remained in the win state for winTimeRequired,
-            // the player has actually won.
-            if (winTimer >= winTimeRequired)
-            {
-                gameRunning = false;
-                ui.ShowText("Orbit Reached");
-            }
+            CheckWinState();
         }
         else
         {
@@ -84,18 +46,77 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void InitializeGame()
+    void CheckWinState()
     {
+        // Checks if the current orbit's rotation and apsis distances are
+        // within tolerance of the target orbit.
+        bool winState = Mathf.Abs(spacecraft.orbit.rotation - targetOrbit.rotation) < rotationTolerance
+                        && Mathf.Abs(spacecraft.orbit.periapsisDistance - targetOrbit.periapsisDistance) < altitudeTolerance
+                        && Mathf.Abs(spacecraft.orbit.apoapsisDistance - targetOrbit.apoapsisDistance) < altitudeTolerance;
+
+        // If the game is in the win state, starts counting up to
+        // winTimeRequired. If the game leaves the win state, the timer is
+        // reset.
+        if (winState)
+        {
+            winTimer += Time.fixedDeltaTime;
+
+            float secondsRemaining = Mathf.Round(winTimeRequired - winTimer);
+            ui.ShowText("Maintain Orbit..." + secondsRemaining);
+        }
+        else
+        {
+            winTimer = 0f;
+            ui.ShowText("");
+        }
+
+        if (spacecraft.orbit.hasCrashed)
+        {
+            gameRunning = false;
+            ui.ShowText("Spacecraft Crashed!");
+            ui.EnterFailState();
+        }
+        else if (spacecraft.orbit.hasEscaped)
+        {
+            gameRunning = false;
+            ui.ShowText("Spacecraft Escaped Orbit!");
+            ui.EnterFailState();
+        }
+
+        // If the game has remained in the win state for winTimeRequired,
+        // the player has actually won.
+        if (winTimer >= winTimeRequired)
+        {
+            gameRunning = false;
+            ui.ShowText("Orbit Reached");
+            ui.EnterWinState();
+        }
+    }
+
+    public void InitializeGame()
+    {
+        ui.ResetUI();
+        spacecraft.ResetSpacecraft();
+
         SpacecraftState initialState = startStates[Random.Range(0, startStates.Length - 1)];
 
         spacecraft.transform.position = new Vector3(initialState.position.x, initialState.position.y, 0);
         spacecraft.initialVelocity = new Vector3(initialState.velocity.x, initialState.velocity.y, 0);
+        
+        winTimer = 0f;
 
-        spacecraft.active = true;
+        gameRunning = true;
     }
 
     void FinishGame()
     {
         spacecraft.active = false;
+    }
+
+    public void SetTargetOrbit(float periapsisDistance, float apoapsisDistance, float rotation)
+    {
+        targetOrbit.periapsisDistance = periapsisDistance;
+        targetOrbit.apoapsisDistance = apoapsisDistance;
+        targetOrbit.rotation = rotation;
     }
 }

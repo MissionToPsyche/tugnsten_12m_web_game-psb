@@ -271,4 +271,12 @@ public class Orbit : MonoBehaviour
             position += PointMass.physicsTimeStep * velocity;
         }
     }
+
+    public void ResetOrbit()
+    {
+        isCrashing = false;
+        isEscaping = false;
+        hasCrashed = false;
+        hasEscaped = false;
+    }
 }

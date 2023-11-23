@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -11,7 +12,7 @@ public class GameController : MonoBehaviour
 
     public const float altitudeTolerance = 0.1f;
     public const float rotationTolerance = 4f;
-    public const float winTimeRequired = 2f;
+    public const float winTimeRequired = 3f;
     private float winTimer = 0f;
 
     private struct SpacecraftState
@@ -48,21 +49,25 @@ public class GameController : MonoBehaviour
             if (winState)
             {
                 winTimer += Time.fixedDeltaTime;
+                
+                float secondsRemaining = Mathf.Round(winTimeRequired - winTimer);
+                ui.ShowText("Maintain Orbit..." + secondsRemaining);
             }
             else
             {
                 winTimer = 0f;
+                ui.ShowText("");
             }
 
             if (spacecraft.orbit.hasCrashed)
             {
                 gameRunning = false;
-                ui.ShowCrash();
+                ui.ShowText("Spacecraft Crashed!");
             }
             else if (spacecraft.orbit.hasEscaped)
             {
                 gameRunning = false;
-                ui.ShowEscape();
+                ui.ShowText("Spacecraft Escaped Orbit!");
             }
 
             // If the game has remained in the win state for winTimeRequired,
@@ -70,7 +75,7 @@ public class GameController : MonoBehaviour
             if (winTimer >= winTimeRequired)
             {
                 gameRunning = false;
-                ui.ShowWin();
+                ui.ShowText("Orbit Reached");
             }
         }
     }

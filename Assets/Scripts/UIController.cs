@@ -27,5 +27,10 @@ public class UIController : MonoBehaviour
     public void ShowEscape()
     {
         headerText.text = "Spacecraft Escaped Orbit!";
-    } 
+    }
+
+    public void ShowText(string message)
+    {
+        headerText.text = message;
+    }
 }

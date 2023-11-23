@@ -11,13 +11,9 @@ public class SliceImage : MonoBehaviour
     private string path;
     private byte[] bytes;
     private List<Vector2> starts;
-    private List<GameObject> images;
+    private List<GameObject> images {get; set;}
 
     private GameObject image;
-
-
-    private List<Vector2> center; /////////////////////////////////// center of the images.
-    private List<Vector2> distance; /////////////////////////////////// distance of the images.
 
     public void slice()
     {

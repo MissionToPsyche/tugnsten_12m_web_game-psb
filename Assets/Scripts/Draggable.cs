@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    // private Canvas canvas; // allow to assign a canvas in Unity
     private GameObject image; // Retrieving RectTransform properties of the image
 
+    // private Canvas canvas {get; set;}
+
     private Canvas canvas;
-    // private GameObject canvasGUI;
 
     private SliceImage sliceImage;
 
@@ -19,14 +19,12 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
     // Start is called before the first frame update
     void Start()
     {
+    //     GameObject canvasObject = GameObject.Find("Canvas");
+    //     if(canvasObject != null)
+    //     {
+    //         canvas = GetComponent<Canvas>();
+    //     }
         // image = GetComponent<GameObject>();
-        // canvas = GetCan<Canvas>();
-        // imageRect = GetComponent<RectTransform>();
-        // canvasGroup = GetComponent<CanvasGroup>();
-        // sliceImage = new SliceImage();
-        canvas = GetComponent<Canvas>();
-
-        // canvasGUI = GameObject.Find("CanvasGUI");
         imageRect = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
     }
@@ -47,20 +45,13 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
 
     public void OnDrag(PointerEventData eventData)
     {
-        // var canvasScaler = GetComponent<CanvasScaler>();
-        // if (canvasScaler)
-        // {
-        //     float scaleFactor = canvasScaler.scaleFactor;
-        //     imageRect.anchoredPosition += eventData.delta / scaleFactor;
-        // }
-        // else
-        // {
-        //     imageRect.anchoredPosition += eventData.delta;
-        // }
+        // imageRect.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        // imageRect.anchoredPosition = Input.mousePosition;
 
-        // var canvas = GetComponent<Canvas>();
-        imageRect.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        transform.position +=(Vector3) eventData.delta / canvas.scaleFactor;
         Debug.Log("OnDrag");
+
+
     }
 
     public void OnEndDrag(PointerEventData eventData)

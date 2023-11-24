@@ -175,8 +175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ced5b52db6970744b2336c184acff86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 836438451}
-  image: {fileID: 443211426}
 --- !u!114 &443211429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,7 +276,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.5, y: -63.1}
+  m_AnchoredPosition: {x: -68.9, y: -49.6}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &619285803
@@ -343,8 +341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ced5b52db6970744b2336c184acff86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 836438451}
-  image: {fileID: 619285801}
 --- !u!114 &619285807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -729,8 +725,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ced5b52db6970744b2336c184acff86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 836438451}
-  image: {fileID: 1301715874}
 --- !u!114 &1301715880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,7 +790,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -101.3, y: -78.7}
+  m_AnchoredPosition: {x: -103.6, y: -48.3}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1338739516
@@ -861,8 +855,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ced5b52db6970744b2336c184acff86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 836438451}
-  image: {fileID: 1338739514}
 --- !u!114 &1338739521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -979,8 +971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ced5b52db6970744b2336c184acff86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 836438451}
-  image: {fileID: 1719033929}
 --- !u!114 &1719033935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,8 +1088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ced5b52db6970744b2336c184acff86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 836438451}
-  image: {fileID: 1884517205}
 --- !u!114 &1884517211
 MonoBehaviour:
   m_ObjectHideFlags: 0

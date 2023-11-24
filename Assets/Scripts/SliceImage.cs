@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using Unity.VisualScripting;
 
 public class SliceImage : MonoBehaviour
 {
@@ -10,10 +11,12 @@ public class SliceImage : MonoBehaviour
     [SerializeField] Canvas canvas; // SerializeField makes this variable visible in unity editor but cannot be accessed by other scripts (unlike public variables)
     private string path;
     private byte[] bytes;
-    private List<Vector2> starts;
-    private List<GameObject> images {get; set;}
-
+    private List<Vector2> starts, snapPosition;
+    private List<GameObject> images { get; set; }
     private GameObject image;
+    private List<float> snapX, snapY;
+    private Dictionary<GameObject, Vector2> originalPositions = new Dictionary<GameObject, Vector2>();
+
 
     public void slice()
     {
@@ -25,7 +28,7 @@ public class SliceImage : MonoBehaviour
         images.Clear();
         starts.Clear();
 
-        
+
         Texture2D slicedTexture = createSectionOfOriginal();
 
         float slicedWidth = slicedTexture.width;
@@ -37,7 +40,7 @@ public class SliceImage : MonoBehaviour
         float imgHeight = slicedHeight * imgSize;
 
         // difference
-        float maxOverlap = 0.3f;
+        float maxOverlap = 0.2f;
         float yDiff = imgHeight * maxOverlap;
         float xDiff = imgWidth * maxOverlap;
         Vector2 diff = new Vector2(xDiff, yDiff);
@@ -100,6 +103,12 @@ public class SliceImage : MonoBehaviour
             cells.RemoveAt(randomCell);
 
             GameObject imgObject = createImageObject(imgWidth, imgHeight, start, slicedTexture, imgNum);
+
+            // calc original position
+            Rect sliceRect = new Rect(start.x, start.y, imgWidth, imgHeight);
+            Vector2 originalPos = GetOriginalPosition(sliceRect, originalImage);
+            originalPositions.Add(imgObject, originalPos);
+
 
             images.Add(imgObject);
         }
@@ -174,7 +183,26 @@ public class SliceImage : MonoBehaviour
         return imgObject;
     }
 
-   
+    // get the original postion of each slice
+    private Vector2 GetOriginalPosition(Rect sliceRect, Texture2D originalImage)
+    {
+        float xPosition = sliceRect.x / originalImage.width;
+        float yPosition = sliceRect.y / originalImage.height;
+        return new Vector2(xPosition, yPosition);
+    }
+
+    // find the relative difference of two img
+    private Vector2 GetRelativePosition(GameObject imageA, GameObject imageB)
+    {
+        if (originalPositions.ContainsKey(imageA) && originalPositions.ContainsKey(imageB))
+        {
+            Vector2 posA = originalPositions[imageA];
+            Vector2 posB = originalPositions[imageB];
+            return posA - posB;
+        }
+        return Vector2.zero;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

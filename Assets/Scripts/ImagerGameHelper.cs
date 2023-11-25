@@ -3,34 +3,49 @@ using UnityEngine;
 
 public class ImageGameHelper : MonoBehaviour
 {
-    // [SerializeField] private Canvas canvas;
+    [SerializeField] private Canvas canvas;
+    // a hash to store the img object and it's position relative to the original picture
     private Dictionary<GameObject, Vector2> originalPositions = new Dictionary<GameObject, Vector2>();
-    private float searchRadius = 300.0f;
+    private float searchRadius = 400.0f;
     // Call this method when you create each image slice
     
-    public Vector2 GetOriginalPosition(Rect sliceRect, Texture2D originalImage)
-    {
-        float xPosition = sliceRect.x / originalImage.width;
-        float yPosition = sliceRect.y / originalImage.height;
-        return new Vector2(xPosition, yPosition);
-    }
+    
+    // store the original position of the sliced image 
     public void AddOriginalPosition(GameObject slice, Rect sliceRect, Texture2D originalImage)
     {
         Vector2 originalPos = GetOriginalPosition(sliceRect, originalImage);
         originalPositions[slice] = originalPos;
+
+        Debug.Log("AddOriginalPosition: (" + originalPositions[slice] + ", " + originalPos + ")");
     }
 
+    // find/calculate the original position of a sliced image based on the image itself before cut
+     public Vector2 GetOriginalPosition(Rect sliceRect, Texture2D originalImage)
+    {
+        float xPosition = sliceRect.x / originalImage.width;
+        float yPosition = sliceRect.y / originalImage.height;
+        return new Vector2(xPosition, yPosition);
+
+    }
+
+    // find the distance between two images 
     public Vector2 GetRelativePosition(GameObject imageA, GameObject imageB)
     {
         if (originalPositions.ContainsKey(imageA) && originalPositions.ContainsKey(imageB))
         {
             Vector2 posA = originalPositions[imageA];
             Vector2 posB = originalPositions[imageB];
+            
+            Debug.Log("Relative distance: " + (posA - posB));
+
             return posA - posB;
         }
+        
+        Debug.Log("Could not find relative position ");
         return Vector2.zero;
     }
 
+    // set the target snap position based on the relative position 
      public void SetTargetPosition(GameObject current, GameObject reference)
     {
         if (originalPositions.ContainsKey(current) && originalPositions.ContainsKey(reference))
@@ -43,8 +58,12 @@ public class ImageGameHelper : MonoBehaviour
             {
                 snapToTarget.SetSnapPosition(targetPosition);
             }
+            
+            Debug.Log("Snap Target Position: " + targetPosition);
         }
     }
+
+    //
     public GameObject FindNearestPiece(GameObject current)
     {
         GameObject nearest = null;  // nearest image

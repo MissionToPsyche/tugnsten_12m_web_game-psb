@@ -65,17 +65,17 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
     void Update()
     {
         
-        if (dragging && imageGameHelper != null)
-        {
-            // find the nearest piece to this gameObject
-            GameObject nearest = imageGameHelper.FindNearestPiece(image);
+        // if (dragging && imageGameHelper != null)
+        // {
+        //     // find the nearest piece to this gameObject
+        //     GameObject nearest = imageGameHelper.FindNearestPiece(image);
 
-            if (nearest != null)
-            {
-                // Call the method to set the snap position relative to the nearest piece
-                imageGameHelper.SetTargetPosition(image, nearest);
-            }
-        }
+        //     if (nearest != null)
+        //     {
+        //         // call the method to set the snap position relative to the nearest piece
+        //         imageGameHelper.SetTargetPosition(image, nearest);
+        //     }
+        // }
     }
 
 }

@@ -6,21 +6,18 @@ using UnityEngine.UI;
 public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     private CanvasGroup canvasGroup; // canvasGroup attached to the same GameObject as this script
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        canvasGroup = GetComponent<CanvasGroup>();
-
-    }
+    private bool isBeingDragged = false; // Flag to indicate dragging state
+    private ImageGameHelper imageGameHelper;
+    public float snapThreshold = 50.0f;
 
     public void OnBeginDrag(PointerEventData eventData)
-    {
-        canvasGroup.alpha = .5f;
-        canvasGroup.blocksRaycasts = false;
+{
+    isBeingDragged = true;
+    canvasGroup.alpha = .5f;
+    canvasGroup.blocksRaycasts = false;
 
-        // Debug.Log("OnBeginDrag");
-    }
+    // Debug.Log("OnBeginDrag");
+}
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -40,16 +37,34 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
     }
 
     public void OnEndDrag(PointerEventData eventData)
-    {
-        canvasGroup.alpha = 1f;
-        canvasGroup.blocksRaycasts = true;
+{
+    isBeingDragged = false;
+    canvasGroup.alpha = 1f;
+    canvasGroup.blocksRaycasts = true;
 
-        // Debug.Log("OnEndDrag");
-    }
+    // Debug.Log("OnEndDrag");
+}
 
     public void OnPointerDown(PointerEventData eventData)
     {
         // Debug.Log("OnPointerDown");
     }
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        canvasGroup = GetComponent<CanvasGroup>();
+    }
+
+    void Update()
+    {
+        if (isBeingDragged)
+        {
+            GameObject nearestPiece = imageGameHelper.FindNearestPiece(nearestPiece); // Your method to find the nearest piece
+            if (nearestPiece != null)
+            {
+                imageGameHelper.SetSnapToTargetPosition(this.gameObject, nearestPiece);
+            }
+        }
+    }
 }

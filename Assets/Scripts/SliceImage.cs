@@ -11,11 +11,12 @@ public class SliceImage : MonoBehaviour
     [SerializeField] Canvas canvas; // SerializeField makes this variable visible in unity editor but cannot be accessed by other scripts (unlike public variables)
     private string path;
     private byte[] bytes;
-    private List<Vector2> starts, snapPosition;
+    private List<Vector2> starts;
     private List<GameObject> images { get; set; }
     private GameObject image;
-    private List<float> snapX, snapY;
-    private Dictionary<GameObject, Vector2> originalPositions = new Dictionary<GameObject, Vector2>();
+    private ImageGameHelper imageGameHelper;
+
+    // private Dictionary<GameObject, Vector2> originalPositions = new Dictionary<GameObject, Vector2>();
 
 
     public void slice()
@@ -104,15 +105,24 @@ public class SliceImage : MonoBehaviour
 
             GameObject imgObject = createImageObject(imgWidth, imgHeight, start, slicedTexture, imgNum);
 
-            // calc original position
+            // // calc original position
+            // Rect sliceRect = new Rect(start.x, start.y, imgWidth, imgHeight);
+            // Vector2 originalPos = GetOriginalPosition(sliceRect);
+            // originalPositions.Add(imgObject, originalPos);
+
+            // // Calculate the target snap position and set it
+            // Vector2 targetSnapPosition = CalculateTargetSnapPosition(sliceRect);
+            // SnapToTarget snapToTarget = imgObject.AddComponent<SnapToTarget>();
+            // snapToTarget.SetTargetPosition();
+
+
             Rect sliceRect = new Rect(start.x, start.y, imgWidth, imgHeight);
-            Vector2 originalPos = GetOriginalPosition(sliceRect, originalImage);
-            originalPositions.Add(imgObject, originalPos);
+            imageGameHelper.RegisterOriginalPosition(imgObject, sliceRect, originalImage);
+
 
 
             images.Add(imgObject);
         }
-        // return images;
     }
 
     private bool isStartDifferent(Vector2 newStart, Vector2 diff)
@@ -183,26 +193,6 @@ public class SliceImage : MonoBehaviour
         return imgObject;
     }
 
-    // get the original postion of each slice
-    private Vector2 GetOriginalPosition(Rect sliceRect, Texture2D originalImage)
-    {
-        float xPosition = sliceRect.x / originalImage.width;
-        float yPosition = sliceRect.y / originalImage.height;
-        return new Vector2(xPosition, yPosition);
-    }
-
-    // find the relative difference of two img
-    private Vector2 GetRelativePosition(GameObject imageA, GameObject imageB)
-    {
-        if (originalPositions.ContainsKey(imageA) && originalPositions.ContainsKey(imageB))
-        {
-            Vector2 posA = originalPositions[imageA];
-            Vector2 posB = originalPositions[imageB];
-            return posA - posB;
-        }
-        return Vector2.zero;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -214,6 +204,7 @@ public class SliceImage : MonoBehaviour
 
         starts = new List<Vector2>();
         images = new List<GameObject>();
+        imageGameHelper = new ImageGameHelper();
     }
 
     // Update is called once per frame

@@ -8,17 +8,23 @@ public class SnapToTarget : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        // RectTransform rectTransform = GetComponent<RectTransform>();
-
-         if (Vector2.Distance(transform.position, targetPosition) < snapThreshold)
-        {
-            transform.position = targetPosition; 
+        RectTransform droppedRect = eventData.pointerDrag.GetComponent<RectTransform>();
+       
+        // if the object is still being drag (!= null)
+        if (eventData != null)
+        {   
+            // if dropped is close enough to target then snaps the object 
+            if (Vector2.Distance(droppedRect.anchoredPosition, targetPosition) < snapThreshold)
+            {
+                transform.position = targetPosition;
+            }
         }
     }
 
     // set the target position from another script
-    public void SetTargetPosition(Vector2 newTargetPosition)
+    public void SetSnapPosition(Vector2 newTargetPosition)
     {
         targetPosition = newTargetPosition;
     }
+
 }

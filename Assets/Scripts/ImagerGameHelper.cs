@@ -3,22 +3,21 @@ using UnityEngine;
 
 public class ImageGameHelper : MonoBehaviour
 {
-    [SerializeField] private Canvas canvas;
+    // [SerializeField] private Canvas canvas;
     private Dictionary<GameObject, Vector2> originalPositions = new Dictionary<GameObject, Vector2>();
-    // private Vector2 canvasOffset = new Vector2(10f, 10f); // Example offset, adjust as needed
-    private float searchRadius = 40.0f; // Adjust as needed
+    private float searchRadius = 300.0f;
     // Call this method when you create each image slice
-    public void RegisterOriginalPosition(GameObject slice, Rect sliceRect, Texture2D originalImage)
-    {
-        Vector2 originalPos = GetOriginalPosition(sliceRect, originalImage);
-        originalPositions[slice] = originalPos;
-    }
-
+    
     public Vector2 GetOriginalPosition(Rect sliceRect, Texture2D originalImage)
     {
         float xPosition = sliceRect.x / originalImage.width;
         float yPosition = sliceRect.y / originalImage.height;
         return new Vector2(xPosition, yPosition);
+    }
+    public void AddOriginalPosition(GameObject slice, Rect sliceRect, Texture2D originalImage)
+    {
+        Vector2 originalPos = GetOriginalPosition(sliceRect, originalImage);
+        originalPositions[slice] = originalPos;
     }
 
     public Vector2 GetRelativePosition(GameObject imageA, GameObject imageB)
@@ -32,60 +31,41 @@ public class ImageGameHelper : MonoBehaviour
         return Vector2.zero;
     }
 
-    public void SetSnapToTargetPosition(GameObject currentPiece, GameObject referencePiece)
+     public void SetTargetPosition(GameObject current, GameObject reference)
     {
-        Vector2 relativePosition = GetRelativePosition(currentPiece, referencePiece);
-
-        // Assuming the referencePiece is already in its correct position
-        Vector2 referencePosition = referencePiece.transform.position;
-        Vector2 targetPosition = referencePosition + relativePosition;
-
-        SnapToTarget snapToTarget = currentPiece.GetComponent<SnapToTarget>();
-        if (snapToTarget != null)
+        if (originalPositions.ContainsKey(current) && originalPositions.ContainsKey(reference))
         {
-            snapToTarget.SetTargetPosition(targetPosition);
+            Vector2 relativePosition = GetRelativePosition(current, reference);
+            Vector2 targetPosition = (Vector2)reference.transform.position + relativePosition;
+
+            SnapToTarget snapToTarget = current.GetComponent<SnapToTarget>();
+            if (snapToTarget != null)
+            {
+                snapToTarget.SetSnapPosition(targetPosition);
+            }
         }
     }
-    // get snap position
-    public Vector2 CalculateTargetSnapPosition(GameObject currentPiece, GameObject referencePiece)
+    public GameObject FindNearestPiece(GameObject current)
     {
-        if (originalPositions.ContainsKey(currentPiece) && originalPositions.ContainsKey(referencePiece))
-        {
-            // Get the original relative position
-            Vector2 relativePosition = GetRelativePosition(currentPiece, referencePiece);
-
-            // Get the current position of the reference piece
-            Vector2 referencePieceCurrentPosition = referencePiece.transform.position;
-
-            // Calculate the target snap position for the current piece
-            Vector2 targetSnapPosition = referencePieceCurrentPosition + relativePosition;
-
-            return targetSnapPosition;
-        }
-
-        return Vector2.zero;
-    }
-
-    public GameObject FindNearestPiece(GameObject currentPiece)
-    {
-        GameObject nearestPiece = null;
-        float minDistance = float.MaxValue;
+        GameObject nearest = null;  // nearest image
+        float minDistance = 0;
 
         foreach (KeyValuePair<GameObject, Vector2> entry in originalPositions)
         {
             GameObject piece = entry.Key;
-            if (piece != currentPiece && piece.activeInHierarchy)
+            if (piece != current && piece.activeInHierarchy) // avoid comparing the current image to itself
             {
-                float distance = Vector2.Distance(currentPiece.transform.position, piece.transform.position);
+                float distance = Vector2.Distance(current.transform.position, piece.transform.position);
+                // if distance is within the searchRadius, updates minDistance
                 if (distance < minDistance && distance <= searchRadius)
                 {
                     minDistance = distance;
-                    nearestPiece = piece;
+                    nearest = piece;
                 }
             }
         }
 
-        return nearestPiece;
+        return nearest;
     }
 
 }

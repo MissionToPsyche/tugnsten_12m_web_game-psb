@@ -22,12 +22,12 @@ public class SliceImage : MonoBehaviour
     public void slice()
     {
         // can probably take out (just here to reset for testing)
-        foreach (GameObject obj in images)
-        {
-            Destroy(obj);
-        }
-        images.Clear();
-        starts.Clear();
+        // foreach (GameObject obj in images)
+        // {
+        //     Destroy(obj);
+        // }
+        // images.Clear();
+        // starts.Clear();
 
 
         Texture2D slicedTexture = createSectionOfOriginal();
@@ -115,9 +115,8 @@ public class SliceImage : MonoBehaviour
             // SnapToTarget snapToTarget = imgObject.AddComponent<SnapToTarget>();
             // snapToTarget.SetTargetPosition();
 
-
             Rect sliceRect = new Rect(start.x, start.y, imgWidth, imgHeight);
-            imageGameHelper.RegisterOriginalPosition(imgObject, sliceRect, originalImage);
+            imageGameHelper.AddOriginalPosition(imgObject, sliceRect, originalImage);
 
 
 
@@ -190,6 +189,8 @@ public class SliceImage : MonoBehaviour
         // add script component
         imgObject.AddComponent<Draggable>();
 
+
+
         return imgObject;
     }
 
@@ -204,7 +205,7 @@ public class SliceImage : MonoBehaviour
 
         starts = new List<Vector2>();
         images = new List<GameObject>();
-        imageGameHelper = new ImageGameHelper();
+        imageGameHelper = FindAnyObjectByType<ImageGameHelper>();
     }
 
     // Update is called once per frame

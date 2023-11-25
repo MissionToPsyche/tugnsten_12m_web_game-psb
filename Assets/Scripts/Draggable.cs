@@ -5,19 +5,18 @@ using UnityEngine.UI;
 
 public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    private GameObject image;
     private CanvasGroup canvasGroup; // canvasGroup attached to the same GameObject as this script
-    private bool isBeingDragged = false; // Flag to indicate dragging state
-    private ImageGameHelper imageGameHelper;
-    public float snapThreshold = 50.0f;
-
+    private bool dragging = false; // flag to indicate dragging state
+    public ImageGameHelper imageGameHelper;
     public void OnBeginDrag(PointerEventData eventData)
-{
-    isBeingDragged = true;
-    canvasGroup.alpha = .5f;
-    canvasGroup.blocksRaycasts = false;
+    {
+        dragging = true;
+        canvasGroup.alpha = .5f;
+        canvasGroup.blocksRaycasts = false;
 
-    // Debug.Log("OnBeginDrag");
-}
+        // Debug.Log("OnBeginDrag");
+    }
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -37,13 +36,13 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
     }
 
     public void OnEndDrag(PointerEventData eventData)
-{
-    isBeingDragged = false;
-    canvasGroup.alpha = 1f;
-    canvasGroup.blocksRaycasts = true;
+    {
+        dragging = false;
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
 
-    // Debug.Log("OnEndDrag");
-}
+        // Debug.Log("OnEndDrag");
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -53,18 +52,30 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
     // Start is called before the first frame update
     void Start()
     {
+        image = GetComponent<GameObject>();
         canvasGroup = GetComponent<CanvasGroup>();
+        imageGameHelper = FindAnyObjectByType<ImageGameHelper>();
+
+        if (imageGameHelper == null)
+        {
+            Debug.LogError("ImageGameHelper not found in the scene.");
+        }
     }
 
     void Update()
     {
-        if (isBeingDragged)
+        
+        if (dragging && imageGameHelper != null)
         {
-            GameObject nearestPiece = imageGameHelper.FindNearestPiece(nearestPiece); // Your method to find the nearest piece
-            if (nearestPiece != null)
+            // find the nearest piece to this gameObject
+            GameObject nearest = imageGameHelper.FindNearestPiece(image);
+
+            if (nearest != null)
             {
-                imageGameHelper.SetSnapToTargetPosition(this.gameObject, nearestPiece);
+                // Call the method to set the snap position relative to the nearest piece
+                imageGameHelper.SetTargetPosition(image, nearest);
             }
         }
     }
+
 }

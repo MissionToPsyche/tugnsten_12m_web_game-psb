@@ -686,7 +686,6 @@ GameObject:
   - component: {fileID: 1150757100}
   - component: {fileID: 1150757099}
   - component: {fileID: 1150757098}
-  - component: {fileID: 1150757101}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -759,7 +758,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 145589995}
-        m_TargetAssemblyTypeName: CameraZoom, Assembly-CSharp
+        m_TargetAssemblyTypeName: CameraZoom, AllScripts
         m_MethodName: startCameraMove
         m_Mode: 5
         m_Arguments:
@@ -808,19 +807,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1150757096}
   m_CullTransparentMesh: 1
---- !u!114 &1150757101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1150757096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fbc2cd7223f3fb429dbd47fbbd31e3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 1567248013}
 --- !u!1 &1567248012
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,7 +820,7 @@ GameObject:
   - component: {fileID: 1567248014}
   - component: {fileID: 1567248016}
   m_Layer: 0
-  m_Name: Main Camera (1)
+  m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -15,6 +15,16 @@ public class CameraZoom : MonoBehaviour
 
     [SerializeField] private Camera cam;
 
+    public float getOrthographicSize()
+    {
+        return cam.orthographicSize;
+    }
+
+    public Vector3 getPosition()
+    {
+        return cam.transform.position;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +45,7 @@ public class CameraZoom : MonoBehaviour
         {
             move = false;
         }
-        if(cam.transform.position.y > 12.0f)
+        if(cam.transform.position.y > 12.0f && cam.orthographicSize == finalZoom)
         {
             SceneManager.LoadScene(sceneName);
         }

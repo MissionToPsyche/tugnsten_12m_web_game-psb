@@ -10,8 +10,43 @@ public class SliceImage : MonoBehaviour
     [SerializeField] Canvas canvas; // SerializeField makes this variable visible in unity editor but cannot be accessed by other scripts (unlike public variables)
     private string path;
     private byte[] bytes;
-    private List<Vector2> starts;
-    private List<GameObject> images;
+    private List<Vector2> starts = new List<Vector2>();
+    private List<GameObject> images = new List<GameObject>();
+
+
+    public void setOriginalImage(Texture2D tex)
+    {
+        originalImage = tex;
+    }
+    public Texture2D getOriginalImage()
+    {
+        return originalImage;
+    }
+    public void setCanvas(Canvas canvas)
+    {
+        this.canvas = canvas;
+    }
+    public Canvas getCanvas()
+    {
+        return canvas;
+    }
+    public void setStarts(List<Vector2> starts)
+    {
+        this.starts = starts;
+    }
+    public List<Vector2> getStarts()
+    {
+        return starts;
+    }
+    public void setImages(List<GameObject> imgs)
+    {
+        images = imgs;
+    }
+    public List<GameObject> getImages()
+    {
+        return images;
+    }
+
 
     public void slice() 
     {
@@ -116,7 +151,7 @@ public class SliceImage : MonoBehaviour
         }
     }
 
-    private bool isStartDifferent(Vector2 newStart, Vector2 diff)
+    public bool isStartDifferent(Vector2 newStart, Vector2 diff)
     {
         foreach(Vector2 start in starts)
         {
@@ -128,19 +163,19 @@ public class SliceImage : MonoBehaviour
         return true;
     }
 
-    private bool isOverlap(Vector2 newStart, Vector2 overlap)
+    public bool isOverlap(Vector2 newStart, Vector2 overlap)
     {
         foreach(Vector2 start in starts)
         {
-            if (Mathf.Abs(start.x - newStart.x) > overlap.x && Mathf.Abs(start.y - newStart.y) > overlap.y)
+            if (Mathf.Abs(start.x - newStart.x) < overlap.x && Mathf.Abs(start.y - newStart.y) < overlap.y)
             {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
-    private Texture2D createSectionOfOriginal()
+    public Texture2D createSectionOfOriginal()
     {
         float originalWidth = originalImage.width;
         float originalHeight = originalImage.height;
@@ -164,7 +199,7 @@ public class SliceImage : MonoBehaviour
         return slicedTexture;
     }
 
-    private GameObject createImageObject(float imgWidth, float imgHeight, Vector2 start, Texture2D slicedTexture, int imgNum)
+    public GameObject createImageObject(float imgWidth, float imgHeight, Vector2 start, Texture2D slicedTexture, int imgNum)
     {
 
         float displaySize = 300f;
@@ -219,9 +254,6 @@ public class SliceImage : MonoBehaviour
         bytes = File.ReadAllBytes(path);
         originalImage = new Texture2D(1,1); // size will be replaced by image size
         originalImage.LoadImage(bytes); // create a texture2d asset from the image
-
-        starts = new List<Vector2>();
-        images = new List<GameObject>();
     }
 
     // Update is called once per frame

@@ -16,8 +16,8 @@ public class Orbit : MonoBehaviour
     public GameObject warningMarker;
     public Vector3 apoapsisPosition;
     public Vector3 periapsisPosition;
-    public float apoapsisDistance;
-    public float periapsisDistance;
+    public float apoapsisDistance = 2;
+    public float periapsisDistance = 1;
     [Range(0, 360)]
     public float rotation;
     public bool isTargetOrbit = true;
@@ -27,10 +27,14 @@ public class Orbit : MonoBehaviour
     public bool hasCrashed = false;
     public bool hasEscaped = false;
 
-    public void OnValidate()
+    private void OnValidate()
     {
+        // Skips the setup if the parent is not set
+        if (parent == null) {
+            return;
+        }
+
         lr = GetComponent<LineRenderer>();
-        warningMarker.GetComponent<Renderer>().enabled = false;
 
         // Constrains the apoapsis to be greater than the periapsis
         apoapsisDistance = Mathf.Max(apoapsisDistance, periapsisDistance);
@@ -48,8 +52,12 @@ public class Orbit : MonoBehaviour
         }
     }
 
+    private void Start() {
+        warningMarker.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
     // Finds the maximum point by altitude in an array known to be unimodal
-    private Vector3 BinarySearchMax(Vector3[] points)
+    public Vector3 BinarySearchMax(Vector3[] points)
     {
         int left = 0;
         int right = points.Length - 1;
@@ -72,7 +80,7 @@ public class Orbit : MonoBehaviour
     }
 
     // Finds the minimum point by altitude in an array known to be unimodal
-    private Vector3 BinarySearchMin(Vector3[] points)
+    public Vector3 BinarySearchMin(Vector3[] points)
     {
         int left = 0;
         int right = points.Length - 1;
@@ -160,11 +168,11 @@ public class Orbit : MonoBehaviour
             if (Vector3.Distance(new(0, 0, 0), points[step]) < crashThreshold)
             {
                 isCrashing = true;
-                periapsisMarker.GetComponent<Renderer>().enabled = false; // Hides the periapsis marker
-                apoapsisMarker.GetComponent<Renderer>().enabled = false; // Hides the apoapsis marker
+                periapsisMarker.GetComponent<SpriteRenderer>().enabled = false; // Hides the periapsis marker
+                apoapsisMarker.GetComponent<SpriteRenderer>().enabled = false; // Hides the apoapsis marker
 
                 // Shows and positions the warning marker
-                warningMarker.GetComponent<Renderer>().enabled = true;
+                warningMarker.GetComponent<SpriteRenderer>().enabled = true;
                 // Adds an offset to avoid clipping into Psyche
                 warningMarker.transform.position = points[step] + new Vector3(0, 0, -2f);
 
@@ -180,20 +188,20 @@ public class Orbit : MonoBehaviour
             else
             {
                 isCrashing = false;
-                periapsisMarker.GetComponent<Renderer>().enabled = true;
-                apoapsisMarker.GetComponent<Renderer>().enabled = true;
-                warningMarker.GetComponent<Renderer>().enabled = false;
+                periapsisMarker.GetComponent<SpriteRenderer>().enabled = true;
+                apoapsisMarker.GetComponent<SpriteRenderer>().enabled = true;
+                warningMarker.GetComponent<SpriteRenderer>().enabled = false;
             }
 
             // Check if escaping
             if (Vector3.Distance(new(0, 0, 0), points[step]) > escapeThreshold)
             {
                 isEscaping = true;
-                periapsisMarker.GetComponent<Renderer>().enabled = false; // Hides the periapsis marker
-                apoapsisMarker.GetComponent<Renderer>().enabled = false; // Hides the apoapsis marker
+                periapsisMarker.GetComponent<SpriteRenderer>().enabled = false; // Hides the periapsis marker
+                apoapsisMarker.GetComponent<SpriteRenderer>().enabled = false; // Hides the apoapsis marker
 
                 // Shows and positions the warning marker
-                warningMarker.GetComponent<Renderer>().enabled = true;
+                warningMarker.GetComponent<SpriteRenderer>().enabled = true;
                 // Adds an offset to avoid clipping into Psyche
                 warningMarker.transform.position = points[step] + new Vector3(0, 0, -2f);
 
@@ -209,9 +217,9 @@ public class Orbit : MonoBehaviour
             else
             {
                 isEscaping = false;
-                periapsisMarker.GetComponent<Renderer>().enabled = true;
-                apoapsisMarker.GetComponent<Renderer>().enabled = true;
-                warningMarker.GetComponent<Renderer>().enabled = false;
+                periapsisMarker.GetComponent<SpriteRenderer>().enabled = true;
+                apoapsisMarker.GetComponent<SpriteRenderer>().enabled = true;
+                warningMarker.GetComponent<SpriteRenderer>().enabled = false;
             }
         }
 

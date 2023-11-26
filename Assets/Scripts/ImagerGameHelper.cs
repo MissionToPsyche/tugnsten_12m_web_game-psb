@@ -7,8 +7,6 @@ public class ImageGameHelper : MonoBehaviour
     // a hash to store the img object and it's position relative to the original picture
     private Dictionary<GameObject, Vector2> originalPositions = new Dictionary<GameObject, Vector2>();
     private float searchRadius = 400.0f;
-    // Call this method when you create each image slice
-    
     
     // store the original position of the sliced image 
     public void AddOriginalPosition(GameObject slice, Rect sliceRect, Texture2D originalImage)
@@ -48,12 +46,15 @@ public class ImageGameHelper : MonoBehaviour
     // set the target snap position based on the relative position 
      public void SetTargetPosition(GameObject current, GameObject reference)
     {
+        // look throught the hash map
         if (originalPositions.ContainsKey(current) && originalPositions.ContainsKey(reference))
         {
+            // get the distance between the two img
             Vector2 relativePosition = GetRelativePosition(current, reference);
+            // set a target position for snapping
             Vector2 targetPosition = (Vector2)reference.transform.position + relativePosition;
 
-            SnapToTarget snapToTarget = current.GetComponent<SnapToTarget>();
+            SnapToTarget snapToTarget = current.GetComponent<SnapToTarget>();   // suppose to call the snaptarget component of the img obj instead
             if (snapToTarget != null)
             {
                 snapToTarget.SetSnapPosition(targetPosition);
@@ -63,7 +64,7 @@ public class ImageGameHelper : MonoBehaviour
         }
     }
 
-    //
+    // see if other images is near the current dragging img
     public GameObject FindNearestPiece(GameObject current)
     {
         GameObject nearest = null;  // nearest image

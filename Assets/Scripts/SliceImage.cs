@@ -186,7 +186,7 @@ public class SliceImage : MonoBehaviour
 
         // add script component
         imgObject.AddComponent<Draggable>();
-        imgObject.AddComponent<SnapToTarget>();
+        imgObject.AddComponent<SnapToTarget>(); //// need to take this snapToTarget and setTargetPosition in imageGameHelper
 
         Rect sliceRect = new Rect(start.x, start.y, imgWidth, imgHeight);
         imageGameHelper.AddOriginalPosition(imgObject, sliceRect, originalImage);

@@ -10,8 +10,43 @@ public class SliceImageTexture : MonoBehaviour
     [SerializeField] Canvas canvas; // SerializeField makes this variable visible in unity editor but cannot be accessed by other scripts (unlike public variables)
     private string path;
     private byte[] bytes;
-    private List<Vector2> starts;
-    private List<GameObject> images;
+    private List<Vector2> starts = new List<Vector2>();
+    private List<GameObject> images = new List<GameObject>();
+
+
+    public void setOriginalImage(Texture2D tex)
+    {
+        originalImage = tex;
+    }
+    public Texture2D getOriginalImage()
+    {
+        return originalImage;
+    }
+    public void setCanvas(Canvas canvas)
+    {
+        this.canvas = canvas;
+    }
+    public Canvas getCanvas()
+    {
+        return canvas;
+    }
+    public void setStarts(List<Vector2> starts)
+    {
+        this.starts = starts;
+    }
+    public List<Vector2> getStarts()
+    {
+        return starts;
+    }
+    public void setImages(List<GameObject> imgs)
+    {
+        images = imgs;
+    }
+    public List<GameObject> getImages()
+    {
+        return images;
+    }
+
 
     public void slice() 
     {
@@ -30,9 +65,22 @@ public class SliceImageTexture : MonoBehaviour
         float slicedHeight = slicedTexture.height;
 
         // image
-        float imgSize = 0.5f;
+        // int numImgs = 4;
+        // float imgSize = 0.5f;
+        // int numImgs = 5;
+        // float imgSize = 0.5f;
+        int numImgs = 6;
+        float imgSize = 0.4f;
+        // int numImgs = 7;
+        // float imgSize = 0.4f;
         float imgWidth = slicedWidth*imgSize;
         float imgHeight = slicedHeight*imgSize;
+
+        // overlap
+        float minOverlap = 0.8f;
+        float yOverlap = imgHeight*minOverlap;
+        float xOverlap = imgWidth*minOverlap;
+        Vector2 overlap = new Vector2(xOverlap, yOverlap);
 
         // difference
         float maxOverlap = 0.3f;
@@ -55,7 +103,6 @@ public class SliceImageTexture : MonoBehaviour
             }
         }
 
-        int numImgs = 4;
 
         // creates images
         for(int imgNum = 0; imgNum < numImgs; imgNum++) 
@@ -70,6 +117,7 @@ public class SliceImageTexture : MonoBehaviour
             do
             {
                 ctr++;
+                Debug.Log("do: " + ctr);
 
                 int[] cell = cells[randomCell];
                 int cellX = cell[0];
@@ -92,7 +140,7 @@ public class SliceImageTexture : MonoBehaviour
                     break;
                 }
 
-            }while(!isStartDifferent(start, diff));
+            }while(!isStartDifferent(start, diff) && !isOverlap(start, overlap));
 
             starts.Add(start);
             cells.RemoveAt(randomCell);
@@ -103,7 +151,7 @@ public class SliceImageTexture : MonoBehaviour
         }
     }
 
-    private bool isStartDifferent(Vector2 newStart, Vector2 diff)
+    public bool isStartDifferent(Vector2 newStart, Vector2 diff)
     {
         foreach(Vector2 start in starts)
         {
@@ -115,7 +163,19 @@ public class SliceImageTexture : MonoBehaviour
         return true;
     }
 
-    private Texture2D createSectionOfOriginal()
+    public bool isOverlap(Vector2 newStart, Vector2 overlap)
+    {
+        foreach(Vector2 start in starts)
+        {
+            if (Mathf.Abs(start.x - newStart.x) < overlap.x && Mathf.Abs(start.y - newStart.y) < overlap.y)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Texture2D createSectionOfOriginal()
     {
         float originalWidth = originalImage.width;
         float originalHeight = originalImage.height;
@@ -139,8 +199,22 @@ public class SliceImageTexture : MonoBehaviour
         return slicedTexture;
     }
 
-    private GameObject createImageObject(float imgWidth, float imgHeight, Vector2 start, Texture2D slicedTexture, int imgNum)
+    public GameObject createImageObject(float imgWidth, float imgHeight, Vector2 start, Texture2D slicedTexture, int imgNum)
     {
+
+        float displaySize = 300f;
+        int separation = 100;
+
+        List<Vector2> initialPositions = new List<Vector2>();
+        for(int i = 0; i < 2; i ++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                initialPositions.Add(new Vector2(300f + (displaySize + separation) * j, 900f - (displaySize + separation) * i));
+            }
+        }
+        
+
         GameObject imgObject = new GameObject();
         imgObject.name = "img"+ imgNum;
 
@@ -148,8 +222,10 @@ public class SliceImageTexture : MonoBehaviour
         trans.transform.SetParent(canvas.transform); // setting parent
         trans.localScale = Vector3.one;
         // TO DO: position still needs to be determined V
-        trans.anchoredPosition = new Vector2((imgWidth + 20)*imgNum, (imgHeight + 20)*imgNum); // setting position
-        trans.sizeDelta = new Vector2(imgWidth, imgHeight); // set the size
+        // trans.anchoredPosition = new Vector2((imgWidth + 20)*imgNum, (imgHeight + 20)*imgNum); // setting position
+        // trans.sizeDelta = new Vector2(imgWidth, imgHeight); // set the size
+        trans.anchoredPosition = new Vector2(initialPositions[imgNum].x, initialPositions[imgNum].y); // setting position
+        trans.sizeDelta = new Vector2(displaySize, displaySize); // set the size of the image/gameobject
 
         // adding canvas group component
          CanvasGroup group = imgObject.AddComponent<CanvasGroup>();
@@ -179,9 +255,6 @@ public class SliceImageTexture : MonoBehaviour
         bytes = File.ReadAllBytes(path);
         originalImage = new Texture2D(1,1); // size will be replaced by image size
         originalImage.LoadImage(bytes); // create a texture2d asset from the image
-
-        starts = new List<Vector2>();
-        images = new List<GameObject>();
     }
 
     // Update is called once per frame

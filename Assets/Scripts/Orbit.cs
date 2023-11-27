@@ -145,10 +145,11 @@ public class Orbit : MonoBehaviour
         VirtualOrbiter virtualOrbiter = new(parent, velocity, position);
 
         Vector3[] points = new Vector3[maxCalcSteps];
+        points[0] = position;
 
         // Step the orbit forward until either it completes a full orbit or
         // reaches maxSteps many increments.
-        for (int step = 0; step < maxCalcSteps; step++)
+        for (int step = 1; step < maxCalcSteps; step++)
         {
             virtualOrbiter.UpdateVelocity();
             virtualOrbiter.UpdatePosition();
@@ -252,10 +253,10 @@ public class Orbit : MonoBehaviour
 
     // This is essentially the Orbiter class but stripped down. We can't use the 
     // actual Orbiter class because we can't make new instances of Unity monobehaviors.
-    private class VirtualOrbiter
+    public class VirtualOrbiter
     {
         private PointMass parent;
-        private Vector3 velocity;
+        public Vector3 velocity;
         public Vector3 position;
 
         public VirtualOrbiter(PointMass p, Vector3 vel, Vector3 pos)

@@ -8,7 +8,7 @@ public class Orbiter : PointMass
     public PointMass parent;
     public Orbit orbit;
     public Vector3 initialVelocity;
-    private Vector3 currentVelocity;
+    public Vector3 currentVelocity;
 
     public const float thrustRate = 0.15f;
     public const float rotationRate = 2f;
@@ -19,6 +19,12 @@ public class Orbiter : PointMass
     {
         currentVelocity = initialVelocity;
         Time.fixedDeltaTime = physicsTimeStep;
+        
+        // Exit early if parent is not set
+        if (parent == null) {
+            return;
+        }
+        
         orbit.parent = parent;
         orbit.isTargetOrbit = false;
 
@@ -83,7 +89,7 @@ public class Orbiter : PointMass
         return GetNewAcceleration() * physicsTimeStep;
     }
 
-    private void UpdateVelocity()
+    public void UpdateVelocity()
     {
         currentVelocity += GetNewVelocity();
     }
@@ -93,12 +99,12 @@ public class Orbiter : PointMass
         return currentVelocity * physicsTimeStep;
     }
 
-    private void UpdatePosition()
+    public void UpdatePosition()
     {
         transform.position += GetNewPosition();
     }
 
-    private void AlignPrograde()
+    public void AlignPrograde()
     {
         float angle = Vector3.SignedAngle(Vector3.up, currentVelocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
@@ -112,7 +118,7 @@ public class Orbiter : PointMass
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
     }
 
-    private void AlignRetrograde()
+    public void AlignRetrograde()
     {
         float angle = Vector3.SignedAngle(Vector3.up, -currentVelocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
@@ -125,7 +131,7 @@ public class Orbiter : PointMass
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
     }
 
-    private void AlignRadialIn()
+    public void AlignRadialIn()
     {
         float angle = Vector3.SignedAngle(Vector3.right, currentVelocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
@@ -138,7 +144,7 @@ public class Orbiter : PointMass
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
     }
 
-    private void AlignRadialOut()
+    public void AlignRadialOut()
     {
         float angle = Vector3.SignedAngle(Vector3.right, -currentVelocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
@@ -151,7 +157,7 @@ public class Orbiter : PointMass
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
     }
 
-    private void ApplyThrustForward()
+    public void ApplyThrustForward()
     {
         currentVelocity += thrustRate * Time.deltaTime * transform.up;
     }

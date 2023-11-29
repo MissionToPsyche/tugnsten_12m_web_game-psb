@@ -13,7 +13,7 @@ public class TitleController : MonoBehaviour
 
     private string[] minigames = new string[] {
         "Magnetometer",
-        "Imager",
+        "Multispectral Imager",
         "Gravity Science",
         "Spectrometer",
     };

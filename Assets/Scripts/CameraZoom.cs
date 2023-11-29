@@ -10,7 +10,7 @@ public class CameraZoom : MonoBehaviour
     // private float finalZoom = 25.0f; // how far to zoom (smaller = closer)
     private float finalZoom = 4.0f; // how far to zoom (smaller = closer)
     // private float zoomSpeed = 30.5f;
-    private float zoomSpeed = 12f;
+    private float zoomSpeed = 5f;
     private bool move;
     // private float moveSpeed = 25.0f;
     private float moveSpeed = 20.0f;
@@ -60,7 +60,14 @@ public class CameraZoom : MonoBehaviour
         // {
         //     SceneManager.LoadScene(sceneName);
         // }
-        if(cam.transform.position.y >= 9.0f && cam.fieldOfView <= finalZoom)
+        // if(cam.transform.position.y >= 9.0f && cam.fieldOfView <= finalZoom)
+        // {
+        //     move = false;
+        //     zoom = false;
+        //     cam.transform.position = new Vector3(slidePosition.x, 9.0f, slidePosition.z);
+        //     SceneManager.LoadScene(sceneName);
+        // }
+        if(cam.fieldOfView <= finalZoom)
         {
             move = false;
             zoom = false;
@@ -91,8 +98,11 @@ public class CameraZoom : MonoBehaviour
             if (zoom) ZoomCamera();
             if (move) MoveCamera();
 
+            if (!zoom && !move) break;
+
             yield return null;
         }
+        yield return null;
     }
 
     public void startCameraMove(string sceneName)

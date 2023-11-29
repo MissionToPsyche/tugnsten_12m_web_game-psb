@@ -71,7 +71,6 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
         image = GetComponent<GameObject>();
         canvasGroup = GetComponent<CanvasGroup>();
         // imageGameHelper = FindAnyObjectByType<ImageGameHelper>();
-        imageController = GetComponent<imageController>();
         imagerGameHelper = GameObject.Find("ImagerHelper").GetComponent<ImagerGameHelper>();
 
         if (imagerGameHelper == null)

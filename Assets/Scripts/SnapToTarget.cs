@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SnapToTarget : MonoBehaviour, IDropHandler
+public class SnapToTarget : MonoBehaviour, IEndDragHandler
 {
     public Vector2 targetPosition;
     public float snapThreshold = 50.0f; // How close it needs to be to snap
@@ -34,7 +34,7 @@ public class SnapToTarget : MonoBehaviour, IDropHandler
     private float snapRadius = 50.0f;
     
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnEndDrag(PointerEventData eventData)
     {
         SnapIfInRange();
     }

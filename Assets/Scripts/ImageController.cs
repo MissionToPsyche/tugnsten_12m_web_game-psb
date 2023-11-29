@@ -13,11 +13,11 @@ public class ImageController : MonoBehaviour
     }
 
 
-    public void setSnapOffsets(List<Vector3> offsets)
+    public void setSnapOffsets(Dictionary<string, Vector3> offsets)
     {
-        foreach (Vector3 offset in offsets)
+        foreach (var offset in offsets)
         {
-            snapOffsets.Add(offset);
+            snapOffsets[offset.Key] = offset.Value;
         }
     }
 
@@ -28,19 +28,24 @@ public class ImageController : MonoBehaviour
             if(img != gameObject)
             {
                 snapPoints.Add(img.name, calcSnapPoint(img.transform.position, snapOffsets[img.name]));
+                Debug.Log(gameObject.name + " to " + img.name);
+                Debug.Log("offset: " + snapOffsets[img.name]);
+                Debug.Log("snap point: " + snapPoints[img.name]);
             }
         }
+        Debug.Log("NEXT");
     }
 
 
     public Vector3 calcSnapPoint(Vector3 position, Vector3 offset)
     {
-        return new Vector3(position.x - offset.x, position.y - offset.y, position.z - offset.z);
+        // return new Vector3(position.x - offset.x, position.y - offset.y, position.z - offset.z);
+        return position-offset;
     }
 
 
     public void updateSnapPoint(string name, Vector3 position)
     {
-        snapPositions[name] = calcSnapPoint(position, snapOffsets[name]);
+        snapPoints[name] = calcSnapPoint(position, snapOffsets[name]);
     }
 }

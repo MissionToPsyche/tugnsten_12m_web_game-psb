@@ -9,6 +9,7 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
     private CanvasGroup canvasGroup; // canvasGroup attached to the same GameObject as this script
     private bool dragging = false; // flag to indicate dragging state
     public ImagerGameHelper imagerGameHelper;
+    private SnapToTarget snapToTarget;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -43,6 +44,7 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
 
         // Debug.Log("OnEndDrag");
 
+        snapToTarget.SnapIfInRange();        
         // update snap positions
         imagerGameHelper.updateSnapPositions(gameObject);
     }
@@ -70,12 +72,13 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
     {
         image = GetComponent<GameObject>();
         canvasGroup = GetComponent<CanvasGroup>();
+        snapToTarget = GetComponent<SnapToTarget>();
         // imageGameHelper = FindAnyObjectByType<ImageGameHelper>();
         imagerGameHelper = GameObject.Find("ImagerHelper").GetComponent<ImagerGameHelper>();
 
         if (imagerGameHelper == null)
         {
-            Debug.LogError("ImagerGameHelper not found in the scene.");
+            Debug.LogError("ImageGameHelper not found in the scene.");
         }
     }
 

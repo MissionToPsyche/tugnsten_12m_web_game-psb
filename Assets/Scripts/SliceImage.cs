@@ -12,7 +12,7 @@ public class SliceImage : MonoBehaviour
     private byte[] bytes;
     private List<Vector2> starts = new List<Vector2>();
     private List<GameObject> images = new List<GameObject>();
-    private ImageGameHelper imagerGameHelper;
+    // private ImageGameHelper imagerGameHelper;
     private float displaySize = 300f;
 
 
@@ -52,6 +52,7 @@ public class SliceImage : MonoBehaviour
 
     public void slice()
     {
+        Debug.Log("slice");
         // can probably take out (just here to reset for testing)
         foreach (GameObject obj in images)
         {
@@ -263,21 +264,25 @@ public class SliceImage : MonoBehaviour
     {
         for(int i = 0; i < images.Count; i++)
         {
-            List<Vector3> snapOffsets = new List<Vector3>();
+            Dictionary<string, Vector3> snapOffsets = new Dictionary<string, Vector3>();
             for(int j = 0; j < images.Count; j++)
             {
                 if(images[j] != images[i])
                 {
+                    // Debug.Log(images[i].name + " to " + images[j].name);
+                    // Debug.Log(starts[i].x - starts[j].x);
                     float widthOffset = starts[i].x - starts[j].x;
                     float heightOffset = starts[i].y - starts[j].y;
-                    if(Mathf.Abs(widthDiff) < imgWidth || Mathf.Abs(heightDiff) < imgHeight)
+                    // Debug.Log("x offset: " + widthOffset);
+                    // Debug.Log("y offset: " + heightOffset);
+                    if(Mathf.Abs(widthOffset) < imgWidth || Mathf.Abs(heightOffset) < imgHeight)
                     {
                         Vector3 offset = new Vector3(widthOffset, heightOffset, 0);
-                        snapOffsets.Add(offset);
+                        snapOffsets.Add(images[j].name, offset);
                     }
                 }
             }
-            images[i].GetComponent<ImageController>.setSnapOffsets(snapOffsets); // set offsets for snapping
+            images[i].GetComponent<ImageController>().setSnapOffsets(snapOffsets); // set offsets for snapping
         }
     }
 
@@ -285,7 +290,7 @@ public class SliceImage : MonoBehaviour
     {
         foreach (GameObject image in images)
         {
-            image.GetComponent<ImageController>.setSnapPoints(images);
+            image.GetComponent<ImageController>().setSnapPoints(images);
         }
     }
 

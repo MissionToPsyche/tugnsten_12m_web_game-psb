@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.00013056796, g: 0.00012234834, b: 0.00013140666, a: 1}
+  m_IndirectSpecularColor: {r: 0.00013143057, g: 0.00012164495, b: 0.00013107073, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -607,7 +607,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 264630226}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 669435021}
+        m_TargetAssemblyTypeName: ChangeScene, Scripts
+        m_MethodName: NextScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Magnetometer_minigame
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &264630226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -818,6 +830,7 @@ MonoBehaviour:
   parent: {fileID: 1105785295}
   orbit: {fileID: 1619926807}
   initialVelocity: {x: 1.5, y: 0.75, z: 0}
+  currentVelocity: {x: 1.5, y: 0.75, z: 0}
   active: 0
 --- !u!4 &454798050
 Transform:
@@ -1568,6 +1581,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &669435020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 669435022}
+  - component: {fileID: 669435021}
+  m_Layer: 0
+  m_Name: ChangeScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &669435021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669435020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdca5ae8a6c5bcb4b8acae80a92c4f3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &669435022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669435020}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1030723356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1880,7 +1937,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1197573658}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 669435021}
+        m_TargetAssemblyTypeName: ChangeScene, Scripts
+        m_MethodName: NextScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Magnetometer_minigame
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1197573658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2081,6 +2150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbitLinePositions:
+  - {x: -0, y: -2.38, z: 0}
   - {x: 0.015, y: -2.3724117, z: 0}
   - {x: 0.029999439, y: -2.3647346, z: 0}
   - {x: 0.044997744, y: -2.3569682, z: 0}
@@ -4012,7 +4082,6 @@ MonoBehaviour:
   - {x: -0.053478688, y: -2.4062834, z: 0}
   - {x: -0.038480815, y: -2.3990073, z: 0}
   - {x: -0.023481548, y: -2.3916445, z: 0}
-  - {x: -0.0084814215, y: -2.3841941, z: 0}
   lr: {fileID: 1619926808}
   parent: {fileID: 1105785295}
   periapsisMarker: {fileID: 603720014}
@@ -4071,6 +4140,7 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
+  - {x: -0, y: -2.38, z: 0}
   - {x: 0.015, y: -2.3724117, z: 0}
   - {x: 0.029999439, y: -2.3647346, z: 0}
   - {x: 0.044997744, y: -2.3569682, z: 0}
@@ -6002,7 +6072,6 @@ LineRenderer:
   - {x: -0.053478688, y: -2.4062834, z: 0}
   - {x: -0.038480815, y: -2.3990073, z: 0}
   - {x: -0.023481548, y: -2.3916445, z: 0}
-  - {x: -0.0084814215, y: -2.3841941, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -6756,3 +6825,4 @@ SceneRoots:
   - {fileID: 543450652254639083}
   - {fileID: 454798050}
   - {fileID: 484453898}
+  - {fileID: 669435022}

@@ -27,4 +27,29 @@ public class SnapToTarget : MonoBehaviour, IDropHandler
         targetPosition = newTargetPosition;
     }
 
+
+
+
+
+    private float snapRadius = 50.0f;
+    
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        SnapIfInRange();
+    }
+
+    void SnapIfInRange()
+    {
+        Dictionary<string, Vector3>.ValueCollection snapPoints = GetComponent<ImageController>.getSnapPoints();
+
+        foreach (var snapPoint in snapPoints)
+        {
+            if(Mathf.Abs(transform.position - snapPoint) < snapRadius)
+            {
+                transform.position = snapPoint.position;
+            }
+        }
+    }
+
 }

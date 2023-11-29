@@ -8,7 +8,8 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
     private GameObject image;
     private CanvasGroup canvasGroup; // canvasGroup attached to the same GameObject as this script
     private bool dragging = false; // flag to indicate dragging state
-    public ImageGameHelper imageGameHelper;
+    public ImagerGameHelper imagerGameHelper;
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         dragging = true;
@@ -32,7 +33,6 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
         // Debug.Log("Object's position " + transform.position);
         // Debug.Log("mouse Pousition: " + Input.mousePosition);
 
-
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -42,7 +42,23 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
         canvasGroup.blocksRaycasts = true;
 
         // Debug.Log("OnEndDrag");
+
+        // update snap positions
+        imagerGameHelper.updateSnapPositions(gameObject);
     }
+
+    // private List<GameObject> images = SliceImage.getImages();//////////
+
+    // public void updateSnapPositions()
+    // {
+    //     foreach (GameObject img in images)
+    //     {
+    //         if(img != gameObject)
+    //         {
+    //             img.GetComponent<ImageController>.updateSnapPoint(gameObject.name, gameObject.transform.position);
+    //         }
+    //     }
+    // }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -54,11 +70,13 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IBegi
     {
         image = GetComponent<GameObject>();
         canvasGroup = GetComponent<CanvasGroup>();
-        imageGameHelper = FindAnyObjectByType<ImageGameHelper>();
+        // imageGameHelper = FindAnyObjectByType<ImageGameHelper>();
+        imageController = GetComponent<imageController>();
+        imagerGameHelper = GameObject.Find("ImagerHelper").GetComponent<ImagerGameHelper>();
 
-        if (imageGameHelper == null)
+        if (imagerGameHelper == null)
         {
-            Debug.LogError("ImageGameHelper not found in the scene.");
+            Debug.LogError("ImagerGameHelper not found in the scene.");
         }
     }
 

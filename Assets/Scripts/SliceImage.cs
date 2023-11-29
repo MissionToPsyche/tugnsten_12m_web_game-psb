@@ -13,6 +13,7 @@ public class SliceImage : MonoBehaviour
     private List<Vector2> starts = new List<Vector2>();
     private List<GameObject> images = new List<GameObject>();
     private ImageGameHelper imagerGameHelper;
+    private float displaySize = 300f;
 
 
     public void setOriginalImage(Texture2D tex)
@@ -150,6 +151,10 @@ public class SliceImage : MonoBehaviour
 
             images.Add(imgObject);
         }
+
+        // add snap offsets to each image
+        addSnapOffsets(imgWidth, imgHeight);
+        setInitialSnapPositions(); 
     }
 
     public bool isStartDifferent(Vector2 newStart, Vector2 diff)
@@ -202,8 +207,6 @@ public class SliceImage : MonoBehaviour
 
     public GameObject createImageObject(float imgWidth, float imgHeight, Vector2 start, Texture2D slicedTexture, int imgNum)
     {
-
-        float displaySize = 300f;
         int separation = 100;
 
         List<Vector2> initialPositions = new List<Vector2>();
@@ -233,9 +236,6 @@ public class SliceImage : MonoBehaviour
         group.alpha = 1;
         group.blocksRaycasts = true;
 
-        // add script component
-        // ScrptName script = imgObject.AddComponent<ScrptName>();
-
         // adding image component
         Image image = imgObject.AddComponent<Image>();
 
@@ -245,13 +245,48 @@ public class SliceImage : MonoBehaviour
 
         imgObject.transform.SetParent(canvas.transform); // sets the parent
 
+        imgObject.AddComponent<ImageController>();
+
+        // adding script to drag image
         imgObject.AddComponent<Draggable>();
+
+        // adding script to snap images
         imgObject.AddComponent<SnapToTarget>(); //// need to take this snapToTarget and setTargetPosition in imageGameHelper
 
         // Rect sliceRect = new Rect(start.x, start.y, imgWidth, imgHeight);
         // imagerGameHelper.AddOriginalPosition(imgObject, sliceRect, originalImage);
 
         return imgObject;
+    }
+
+    public void addSnapOffsets(float imgWidth, float imgHeight)
+    {
+        for(int i = 0; i < images.Count; i++)
+        {
+            List<Vector3> snapOffsets = new List<Vector3>();
+            for(int j = 0; j < images.Count; j++)
+            {
+                if(images[j] != images[i])
+                {
+                    float widthOffset = starts[i].x - starts[j].x;
+                    float heightOffset = starts[i].y - starts[j].y;
+                    if(Mathf.Abs(widthDiff) < imgWidth || Mathf.Abs(heightDiff) < imgHeight)
+                    {
+                        Vector3 offset = new Vector3(widthOffset, heightOffset, 0);
+                        snapOffsets.Add(offset);
+                    }
+                }
+            }
+            images[i].GetComponent<ImageController>.setSnapOffsets(snapOffsets); // set offsets for snapping
+        }
+    }
+
+    public void setInitialSnapPositions()
+    {
+        foreach (GameObject image in images)
+        {
+            image.GetComponent<ImageController>.setSnapPoints(images);
+        }
     }
 
     // Start is called before the first frame update

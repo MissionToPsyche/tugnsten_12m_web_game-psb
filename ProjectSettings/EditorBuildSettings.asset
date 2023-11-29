@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/SliceImage.unity
+    path: Assets/Scenes/Imager Minigame.unity
     guid: 20e1a5509ae595445aab6accd1914a19
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Imager_minigame.unity
     guid: 43758fb9f4330fe49aaae263489cb4bf
   - enabled: 1

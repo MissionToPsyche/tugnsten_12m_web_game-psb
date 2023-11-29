@@ -88,4 +88,19 @@ public class ImageGameHelper : MonoBehaviour
         return nearest;
     }
 
+
+
+    private List<GameObject> images = GameObject.Find("GenImgSlices").GetComponent<SliceImage>().getImages();
+
+    public void updateSnapPositions(GameObject imageMoved)
+    {
+        foreach (GameObject img in images)
+        {
+            if(img != imageMoved)
+            {
+                img.GetComponent<ImageController>.updateSnapPoint(imageMoved.name, imageMoved.transform.position);
+            }
+        }
+    }
+
 }

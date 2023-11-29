@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class OnClick : MonoBehaviour
+public class ChangeScene : MonoBehaviour
 {
     public void NextScene(string scene)
     {

@@ -229,8 +229,10 @@ public class SliceImage : MonoBehaviour
         // TO DO: position still needs to be determined V
         // trans.anchoredPosition = new Vector2((imgWidth + 20)*imgNum, (imgHeight + 20)*imgNum); // setting position
         // trans.sizeDelta = new Vector2(imgWidth, imgHeight); // set the size
+        trans.pivot = new Vector2(0.5f, 0.5f);
         trans.anchoredPosition = new Vector2(initialPositions[imgNum].x, initialPositions[imgNum].y); // setting position
-        trans.sizeDelta = new Vector2(displaySize, displaySize); // set the size of the image/gameobject
+        // trans.sizeDelta = new Vector2(displaySize, displaySize); // set the size of the image/gameobject
+        trans.sizeDelta = new Vector2(imgWidth, imgHeight);
 
         // adding canvas group component
         CanvasGroup group = imgObject.AddComponent<CanvasGroup>();
@@ -240,7 +242,20 @@ public class SliceImage : MonoBehaviour
         // adding image component
         Image image = imgObject.AddComponent<Image>();
 
+        image.preserveAspect = true;
+        image.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        // Set the Image Type
+        // image.type = Image.Type.Filled;
+        // // Set the Fill Method
+        // image.fillMethod = Image.FillMethod.Horizontal;
+        // // Set the Fill Origin for Horizontal fill (optional)
+        // image.fillOrigin = (int)Image.OriginHorizontal.Left;
+        // // Set the Fill Amount
+        // image.fillAmount = 1.0f;
+
+        // Vector2 imgSize = new Vector2(imgWidth, imgHeight);
         Vector2 imgSize = new Vector2(imgWidth, imgHeight);
+        // displaySize
         // sets the texture of the sprite to a section of the slicedImage and specifies the center of the new image
         image.sprite = Sprite.Create(slicedTexture, new Rect(start, imgSize), new Vector2(0.5f, 0.5f));
 
@@ -264,7 +279,7 @@ public class SliceImage : MonoBehaviour
     {
         for(int i = 0; i < images.Count; i++)
         {
-            Dictionary<string, Vector3> snapOffsets = new Dictionary<string, Vector3>();
+            Dictionary<string, Vector2> snapOffsets = new Dictionary<string, Vector2>();
             for(int j = 0; j < images.Count; j++)
             {
                 if(images[j] != images[i])
@@ -277,7 +292,7 @@ public class SliceImage : MonoBehaviour
                     // Debug.Log("y offset: " + heightOffset);
                     if(Mathf.Abs(widthOffset) < imgWidth || Mathf.Abs(heightOffset) < imgHeight)
                     {
-                        Vector3 offset = new Vector3(widthOffset, heightOffset, 0);
+                        Vector2 offset = new Vector2(widthOffset, heightOffset);
                         snapOffsets.Add(images[j].name, offset);
                     }
                 }

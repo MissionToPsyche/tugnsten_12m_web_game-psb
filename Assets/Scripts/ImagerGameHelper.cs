@@ -105,7 +105,7 @@ public class ImagerGameHelper : MonoBehaviour
         {
             if(img != imageMoved)
             {
-                img.GetComponent<ImageController>().updateSnapPoint(imageMoved.name, imageMoved.transform.position);
+                img.GetComponent<ImageController>().updateSnapPoint(imageMoved.name, imageMoved.GetComponent<RectTransform>().anchoredPosition);
             }
         }
     }

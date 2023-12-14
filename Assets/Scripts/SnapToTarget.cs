@@ -44,18 +44,18 @@ public class SnapToTarget : MonoBehaviour
     public void SnapIfInRange()
     {
         Debug.Log("enter snap");
-        Dictionary<string, Vector3>.ValueCollection snapPoints = GetComponent<ImageController>().getSnapPoints();
+        Dictionary<string, Vector2>.ValueCollection snapPoints = GetComponent<ImageController>().getSnapPoints();
 
-        foreach (Vector3 snapPoint in snapPoints)
+        foreach (Vector2 snapPoint in snapPoints)
         {
-            if(Mathf.Abs(Vector3.Distance(transform.position, snapPoint)) < snapRadius)
+            if(Mathf.Abs(Vector2.Distance(GetComponent<RectTransform>().anchoredPosition, snapPoint)) < snapRadius)
             {
                 Debug.Log("snap");
-                Debug.Log("current position: " + transform.position);
+                Debug.Log("current position: " + GetComponent<RectTransform>().anchoredPosition);
                 Debug.Log("snapPoint: " + snapPoint);
                 Debug.Log("radius: " + snapRadius);
-                transform.position = snapPoint;
-                Debug.Log("new position: " + transform.position);
+                GetComponent<RectTransform>().anchoredPosition = snapPoint;
+                Debug.Log("new position: " + GetComponent<RectTransform>().anchoredPosition);
             }
         }
     }

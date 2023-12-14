@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class ImageController : MonoBehaviour
 {
-    private Dictionary<string, Vector3> snapPoints = new Dictionary<string, Vector3>();
-    private Dictionary<string, Vector3> snapOffsets = new Dictionary<string, Vector3>();
+    private Dictionary<string, Vector2> snapPoints = new Dictionary<string, Vector2>();
+    private Dictionary<string, Vector2> snapOffsets = new Dictionary<string, Vector2>();
 
-    public Dictionary<string, Vector3>.ValueCollection getSnapPoints()
+    public Dictionary<string, Vector2>.ValueCollection getSnapPoints()
     {
         return snapPoints.Values;
     }
 
 
-    public void setSnapOffsets(Dictionary<string, Vector3> offsets)
+    public void setSnapOffsets(Dictionary<string, Vector2> offsets)
     {
         foreach (var offset in offsets)
         {
@@ -27,24 +27,28 @@ public class ImageController : MonoBehaviour
         {
             if(img != gameObject)
             {
-                snapPoints.Add(img.name, calcSnapPoint(img.transform.position, snapOffsets[img.name]));
+                snapPoints.Add(img.name, calcSnapPoint(img.GetComponent<RectTransform>().anchoredPosition, snapOffsets[img.name]));
                 Debug.Log(gameObject.name + " to " + img.name);
+                // Debug.Log("curent pos: " + gameObject.transform.position);
+                Debug.Log("current rect pos: " + gameObject.GetComponent<RectTransform>().anchoredPosition);
                 Debug.Log("offset: " + snapOffsets[img.name]);
                 Debug.Log("snap point: " + snapPoints[img.name]);
+                // Debug.Log("rect snap point: " + img.GetComponent<RectTransform>().anchoredPosition);
             }
         }
         Debug.Log("NEXT");
     }
 
 
-    public Vector3 calcSnapPoint(Vector3 position, Vector3 offset)
+    public Vector2 calcSnapPoint(Vector2 position, Vector2 offset)
     {
         // return new Vector3(position.x - offset.x, position.y - offset.y, position.z - offset.z);
-        return position-offset;
+        return position+offset;
+        // return position;
     }
 
 
-    public void updateSnapPoint(string name, Vector3 position)
+    public void updateSnapPoint(string name, Vector2 position)
     {
         snapPoints[name] = calcSnapPoint(position, snapOffsets[name]);
     }

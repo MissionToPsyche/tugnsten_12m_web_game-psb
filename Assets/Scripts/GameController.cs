@@ -98,7 +98,7 @@ public class GameController : MonoBehaviour
         ui.ResetUI();
         spacecraft.ResetSpacecraft();
 
-        SpacecraftState initialState = startStates[Random.Range(0, startStates.Length - 1)];
+        SpacecraftState initialState = startStates[Random.Range(0, startStates.Length)]; // int random excludes max
 
         spacecraft.transform.position = new Vector3(initialState.position.x, initialState.position.y, 0);
         spacecraft.initialVelocity = new Vector3(initialState.velocity.x, initialState.velocity.y, 0);

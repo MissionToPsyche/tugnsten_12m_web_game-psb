@@ -6,13 +6,14 @@ using System.IO;
 
 public class SliceImage : MonoBehaviour
 {
-    private Texture2D originalImage;
-    [SerializeField] Canvas canvas; // SerializeField makes this variable visible in unity editor but cannot be accessed by other scripts (unlike public variables)
+    // SerializeField makes this variable visible in unity editor but cannot be accessed by other scripts (unlike public variables)
+    [SerializeField] Canvas canvas; 
+     private Texture2D originalImage;
     private string path;
     private byte[] bytes;
     private List<Vector2> starts = new List<Vector2>();
     private List<GameObject> images = new List<GameObject>();
-    private ImageGameHelper imagerGameHelper;
+    private float displaySize = 300f;
 
 
     public void setOriginalImage(Texture2D tex)
@@ -51,6 +52,7 @@ public class SliceImage : MonoBehaviour
 
     public void slice()
     {
+        Debug.Log("slice");
         // can probably take out (just here to reset for testing)
         foreach (GameObject obj in images)
         {
@@ -150,6 +152,10 @@ public class SliceImage : MonoBehaviour
 
             images.Add(imgObject);
         }
+
+        // add snap offsets to each image
+        addSnapOffsets(imgWidth, imgHeight);
+        setInitialSnapPositions(); 
     }
 
     public bool isStartDifferent(Vector2 newStart, Vector2 diff)
@@ -202,8 +208,6 @@ public class SliceImage : MonoBehaviour
 
     public GameObject createImageObject(float imgWidth, float imgHeight, Vector2 start, Texture2D slicedTexture, int imgNum)
     {
-
-        float displaySize = 300f;
         int separation = 100;
 
         List<Vector2> initialPositions = new List<Vector2>();
@@ -222,36 +226,67 @@ public class SliceImage : MonoBehaviour
         RectTransform trans = imgObject.AddComponent<RectTransform>();
         trans.transform.SetParent(canvas.transform); // setting parent
         trans.localScale = Vector3.one;
-        // TO DO: position still needs to be determined V
-        // trans.anchoredPosition = new Vector2((imgWidth + 20)*imgNum, (imgHeight + 20)*imgNum); // setting position
-        // trans.sizeDelta = new Vector2(imgWidth, imgHeight); // set the size
+        trans.pivot = new Vector2(0.5f, 0.5f);
         trans.anchoredPosition = new Vector2(initialPositions[imgNum].x, initialPositions[imgNum].y); // setting position
-        trans.sizeDelta = new Vector2(displaySize, displaySize); // set the size of the image/gameobject
+        // trans.sizeDelta = new Vector2(displaySize, displaySize); // set the size of the image/gameobject
+        trans.sizeDelta = new Vector2(imgWidth, imgHeight);
 
         // adding canvas group component
         CanvasGroup group = imgObject.AddComponent<CanvasGroup>();
         group.alpha = 1;
         group.blocksRaycasts = true;
 
-        // add script component
-        // ScrptName script = imgObject.AddComponent<ScrptName>();
-
         // adding image component
         Image image = imgObject.AddComponent<Image>();
 
+        image.preserveAspect = true;
+        image.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+
         Vector2 imgSize = new Vector2(imgWidth, imgHeight);
+
         // sets the texture of the sprite to a section of the slicedImage and specifies the center of the new image
         image.sprite = Sprite.Create(slicedTexture, new Rect(start, imgSize), new Vector2(0.5f, 0.5f));
 
         imgObject.transform.SetParent(canvas.transform); // sets the parent
 
-        imgObject.AddComponent<Draggable>();
-        imgObject.AddComponent<SnapToTarget>(); //// need to take this snapToTarget and setTargetPosition in imageGameHelper
 
-        // Rect sliceRect = new Rect(start.x, start.y, imgWidth, imgHeight);
-        // imagerGameHelper.AddOriginalPosition(imgObject, sliceRect, originalImage);
+        imgObject.AddComponent<ImageController>();
+        imgObject.AddComponent<Draggable>(); // adding script to drag image
+
+        // adding script to snap image
+        imgObject.AddComponent<SnapToTarget>(); // need to take this snapToTarget and setTargetPosition in imageGameHelper
 
         return imgObject;
+    }
+
+    public void addSnapOffsets(float imgWidth, float imgHeight)
+    {
+        for(int i = 0; i < images.Count; i++)
+        {
+            Dictionary<string, Vector2> snapOffsets = new Dictionary<string, Vector2>();
+            for(int j = 0; j < images.Count; j++)
+            {
+                if(images[j] != images[i])
+                {
+                    float widthOffset = starts[i].x - starts[j].x;
+                    float heightOffset = starts[i].y - starts[j].y;
+                    if(Mathf.Abs(widthOffset) < imgWidth || Mathf.Abs(heightOffset) < imgHeight)
+                    {
+                        Vector2 offset = new Vector2(widthOffset, heightOffset);
+                        snapOffsets.Add(images[j].name, offset);
+                    }
+                }
+            }
+            images[i].GetComponent<ImageController>().setSnapOffsets(snapOffsets); // set offsets for snapping
+        }
+    }
+
+    public void setInitialSnapPositions()
+    {
+        foreach (GameObject image in images)
+        {
+            image.GetComponent<ImageController>().setSnapPoints(images);
+        }
     }
 
     // Start is called before the first frame update

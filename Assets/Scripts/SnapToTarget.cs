@@ -1,30 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SnapToTarget : MonoBehaviour, IDropHandler
+public class SnapToTarget : MonoBehaviour
 {
-    public Vector2 targetPosition;
-    public float snapThreshold = 50.0f; // How close it needs to be to snap
+    private float snapRadius = 100.0f;
 
-    public void OnDrop(PointerEventData eventData)
+    public void SnapIfInRange()
     {
-        RectTransform droppedRect = eventData.pointerDrag.GetComponent<RectTransform>();
-       
-        // if the object is still being drag (!= null)
-        if (eventData != null)
-        {   
-            // if dropped is close enough to target then snaps the object 
-            if (Vector2.Distance(droppedRect.anchoredPosition, targetPosition) < snapThreshold)
+        Dictionary<string, Vector2>.ValueCollection snapPoints = GetComponent<ImageController>().getSnapPoints();
+
+        foreach (Vector2 snapPoint in snapPoints)
+        {
+            if(Mathf.Abs(Vector2.Distance(GetComponent<RectTransform>().anchoredPosition, snapPoint)) < snapRadius)
             {
-                transform.position = targetPosition;
+                GetComponent<RectTransform>().anchoredPosition = snapPoint;
             }
         }
-    }
-
-    // set the target position from another script
-    public void SetSnapPosition(Vector2 newTargetPosition)
-    {
-        targetPosition = newTargetPosition;
     }
 
 }

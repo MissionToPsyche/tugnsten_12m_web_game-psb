@@ -73,7 +73,7 @@ public class GameController : MonoBehaviour
         if (spacecraft.orbit.hasCrashed)
         {
             gameRunning = false;
-            ui.ShowText("Spacecraft Crashed!");
+            ui.ShowText("Spacecraft Deorbited!");
             ui.EnterFailState();
         }
         else if (spacecraft.orbit.hasEscaped)

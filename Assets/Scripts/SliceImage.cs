@@ -6,13 +6,13 @@ using System.IO;
 
 public class SliceImage : MonoBehaviour
 {
-    private Texture2D originalImage;
-    [SerializeField] Canvas canvas; // SerializeField makes this variable visible in unity editor but cannot be accessed by other scripts (unlike public variables)
+    // SerializeField makes this variable visible in unity editor but cannot be accessed by other scripts (unlike public variables)
+    [SerializeField] Canvas canvas; 
+     private Texture2D originalImage;
     private string path;
     private byte[] bytes;
     private List<Vector2> starts = new List<Vector2>();
     private List<GameObject> images = new List<GameObject>();
-    // private ImageGameHelper imagerGameHelper;
     private float displaySize = 300f;
 
 
@@ -226,9 +226,6 @@ public class SliceImage : MonoBehaviour
         RectTransform trans = imgObject.AddComponent<RectTransform>();
         trans.transform.SetParent(canvas.transform); // setting parent
         trans.localScale = Vector3.one;
-        // TO DO: position still needs to be determined V
-        // trans.anchoredPosition = new Vector2((imgWidth + 20)*imgNum, (imgHeight + 20)*imgNum); // setting position
-        // trans.sizeDelta = new Vector2(imgWidth, imgHeight); // set the size
         trans.pivot = new Vector2(0.5f, 0.5f);
         trans.anchoredPosition = new Vector2(initialPositions[imgNum].x, initialPositions[imgNum].y); // setting position
         // trans.sizeDelta = new Vector2(displaySize, displaySize); // set the size of the image/gameobject
@@ -244,33 +241,20 @@ public class SliceImage : MonoBehaviour
 
         image.preserveAspect = true;
         image.rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        // Set the Image Type
-        // image.type = Image.Type.Filled;
-        // // Set the Fill Method
-        // image.fillMethod = Image.FillMethod.Horizontal;
-        // // Set the Fill Origin for Horizontal fill (optional)
-        // image.fillOrigin = (int)Image.OriginHorizontal.Left;
-        // // Set the Fill Amount
-        // image.fillAmount = 1.0f;
 
-        // Vector2 imgSize = new Vector2(imgWidth, imgHeight);
         Vector2 imgSize = new Vector2(imgWidth, imgHeight);
-        // displaySize
+
         // sets the texture of the sprite to a section of the slicedImage and specifies the center of the new image
         image.sprite = Sprite.Create(slicedTexture, new Rect(start, imgSize), new Vector2(0.5f, 0.5f));
 
         imgObject.transform.SetParent(canvas.transform); // sets the parent
 
+
         imgObject.AddComponent<ImageController>();
+        imgObject.AddComponent<Draggable>(); // adding script to drag image
 
-        // adding script to drag image
-        imgObject.AddComponent<Draggable>();
-
-        // adding script to snap images
-        imgObject.AddComponent<SnapToTarget>(); //// need to take this snapToTarget and setTargetPosition in imageGameHelper
-
-        // Rect sliceRect = new Rect(start.x, start.y, imgWidth, imgHeight);
-        // imagerGameHelper.AddOriginalPosition(imgObject, sliceRect, originalImage);
+        // adding script to snap image
+        imgObject.AddComponent<SnapToTarget>(); // need to take this snapToTarget and setTargetPosition in imageGameHelper
 
         return imgObject;
     }
@@ -284,12 +268,8 @@ public class SliceImage : MonoBehaviour
             {
                 if(images[j] != images[i])
                 {
-                    // Debug.Log(images[i].name + " to " + images[j].name);
-                    // Debug.Log(starts[i].x - starts[j].x);
                     float widthOffset = starts[i].x - starts[j].x;
                     float heightOffset = starts[i].y - starts[j].y;
-                    // Debug.Log("x offset: " + widthOffset);
-                    // Debug.Log("y offset: " + heightOffset);
                     if(Mathf.Abs(widthOffset) < imgWidth || Mathf.Abs(heightOffset) < imgHeight)
                     {
                         Vector2 offset = new Vector2(widthOffset, heightOffset);

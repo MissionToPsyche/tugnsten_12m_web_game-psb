@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class TorusGenerator : MonoBehaviour
 {
+    private GameObject torus;
 
     void Start()
     {
+        torus = new GameObject("MagneticTorus");
         drawTorus();
+        torus.AddComponent<MoveTorus>();
     }
 
     public void drawTorus()
@@ -16,6 +19,7 @@ public class TorusGenerator : MonoBehaviour
         float ellipseFactor = 2f;
         float ellipseRatio = 2f;
         int reflection = 1;
+        int ellipseNum = 1;
 
         // generates 2x numEllipses
         for(int i = 1; i <= numEllipses; i++)
@@ -23,7 +27,7 @@ public class TorusGenerator : MonoBehaviour
             float semiMajorAxis = (0.75f * (i) + Mathf.Pow(2, i)/(i+2))/ellipseFactor;
             float semiMinorAxis = (0.75f * 0.75f * (i) + Mathf.Pow(2, i)/(i+1))/ellipseFactor/ellipseRatio;
 
-            createEllipse(i, reflection, semiMajorAxis, semiMinorAxis);
+            createEllipse(ellipseNum, reflection, semiMajorAxis, semiMinorAxis);
 
             // flips across x axis and resets to generate second half of ellipses
             if(i == 5 && reflection == 1) 
@@ -31,6 +35,8 @@ public class TorusGenerator : MonoBehaviour
                 i = 0;
                 reflection = -1;
             }
+
+            ellipseNum++;
         }
     }
 
@@ -55,8 +61,15 @@ public class TorusGenerator : MonoBehaviour
         // Create a new GameObject
         GameObject lineObject = new GameObject("Ellipse" + ellipseNum);
 
+        // set ellipse gameobject as a child of torus gameobject
+        lineObject.transform.SetParent(torus.transform, false);
+        lineObject.transform.localScale = Vector3.one;
+
         // Attach LineRenderer component to the new GameObject
         LineRenderer lineRenderer = lineObject.AddComponent<LineRenderer>();
+
+        // makes line renderer scale/rotate/transform with parent (torus)
+        lineRenderer.useWorldSpace = false;
 
         // Assign the points to the LineRenderer
         lineRenderer.positionCount = points.Length;

@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class TorusGenerator : MonoBehaviour
 {
+    private int numPoints;
     private GameObject torus;
 
     void Start()
     {
-        torus = new GameObject("MagneticTorus");
-        drawTorus();
-        torus.AddComponent<MoveTorus>();
+
     }
 
-    public void drawTorus()
+    public void drawTorus(int numEllipses, GameObject torus, int numPoints)
     {
-        float numEllipses = 5;
+        this.numPoints = numPoints;
+        this.torus = torus;
+
         float ellipseFactor = 2f;
         float ellipseRatio = 2f;
         int reflection = 1;
@@ -42,7 +43,6 @@ public class TorusGenerator : MonoBehaviour
 
     private void createEllipse(int ellipseNum, int reflection, float semiMajorAxis, float semiMinorAxis)
     {
-        int numPoints = 200;
         Vector3[] points = new Vector3[numPoints];
         float angleStep = 360f / numPoints;
 

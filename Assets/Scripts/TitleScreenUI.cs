@@ -6,13 +6,14 @@ public class TitleScreenUI : MonoBehaviour
     public ChangeScene SceneChanger;
     public TitleController titleController;
     public GameObject MinigameSelectMenu, Canvas, Console;
-    private Button playButton, GameSelectButton, OptionsButton, CreditsButton;
-    private VisualElement root, mainScreen, optionsScreen, creditsScreen, optionsWindow;
+    private Button playButton, gameSelectButton, OptionsButton, CreditsButton;
+    private VisualElement root, mainScreen, gameSelectScreen, optionsScreen, creditsScreen;
 
     private void OnEnable()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
-        mainScreen = root.Q<VisualElement>("MainScreen");
+        mainScreen = root.Q<VisualElement>("MainMenuScreen");
+        gameSelectScreen = root.Q<VisualElement>("GameSelectScreen");
         optionsScreen = root.Q<VisualElement>("OptionsScreen");
         creditsScreen = root.Q<VisualElement>("CreditsScreen");
         // optionsWindow = root.Q<VisualElement>("OptionsWindow");
@@ -20,12 +21,12 @@ public class TitleScreenUI : MonoBehaviour
         optionsScreen.visible = false;
 
         playButton = mainScreen.Q<Button>("PlayButton");
-        GameSelectButton = mainScreen.Q<Button>("GameSelectButton");
+        gameSelectButton = mainScreen.Q<Button>("GameSelectButton");
         OptionsButton = mainScreen.Q<Button>("OptionsButton");
         CreditsButton = mainScreen.Q<Button>("CreditsButton");
 
         playButton.clicked += () => playButtonClicked();
-        GameSelectButton.clicked += () => minigameSelectClicked();
+        gameSelectButton.clicked += () => minigameSelectClicked();
         OptionsButton.clicked += () => optionsButtonClicked();
 
     }
@@ -43,6 +44,10 @@ public class TitleScreenUI : MonoBehaviour
 
         // hide the screens
         mainScreen.visible = false;
+
+        // set minigame select menu to active
+        gameSelectScreen.visible = true;
+        
 
         titleController.minigameSelect();
     }

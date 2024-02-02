@@ -12,10 +12,12 @@ public class TorusGenerator : MonoBehaviour
 
     }
 
-    public void drawTorus(int numEllipses, GameObject torus, int numPoints)
+    public List<float> drawTorus(int numEllipses, GameObject torus, int numPoints)
     {
         this.numPoints = numPoints;
         this.torus = torus;
+
+        List<float> ellipseXaxes = new List<float>();
 
         float ellipseFactor = 2f;
         float ellipseRatio = 2f;
@@ -28,6 +30,8 @@ public class TorusGenerator : MonoBehaviour
             float semiMajorAxis = (0.75f * (i) + Mathf.Pow(2, i)/(i+2))/ellipseFactor;
             float semiMinorAxis = (0.75f * 0.75f * (i) + Mathf.Pow(2, i)/(i+1))/ellipseFactor/ellipseRatio;
 
+            ellipseXaxes.Add(semiMinorAxis*reflection);
+
             createEllipse(ellipseNum, reflection, semiMajorAxis, semiMinorAxis);
 
             // flips across x axis and resets to generate second half of ellipses
@@ -39,6 +43,8 @@ public class TorusGenerator : MonoBehaviour
 
             ellipseNum++;
         }
+
+        return ellipseXaxes;
     }
 
     private void createEllipse(int ellipseNum, int reflection, float semiMajorAxis, float semiMinorAxis)
@@ -82,6 +88,7 @@ public class TorusGenerator : MonoBehaviour
         lineRenderer.loop = true;
 
         // set color and width
+        
         lineRenderer.startColor = Color.white;
         lineRenderer.endColor = Color.white;
         lineRenderer.startWidth = 0.1f;

@@ -8,16 +8,17 @@ public class MagnetometerController : MonoBehaviour
     private int numEllipses = 5;
     private GameObject torus;
     private int numPoints = 200;
+    [SerializeField] private GameObject arrowPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
         TorusGenerator torusGenerator = GameObject.Find("TorusGenerator").GetComponent<TorusGenerator>();
         torus = new GameObject("MagneticTorus");
-        torusGenerator.drawTorus(numEllipses, torus, numPoints);
+        List<float> ellipseAxes = torusGenerator.drawTorus(numEllipses, torus, numPoints);
         torus.AddComponent<MoveTorus>();
 
-        List<(Vector3, Vector3)> fieldPoints = getFieldPoints();
+        List<(Vector3, float, Vector3)> fieldPoints = getFieldPoints(ellipseAxes);
         drawArrows(fieldPoints);
     }
 
@@ -27,12 +28,12 @@ public class MagnetometerController : MonoBehaviour
 
     }
 
-    private List<(Vector3, Vector3)> getFieldPoints()
+    private List<(Vector3, float, Vector3)> getFieldPoints(List<float> ellipseAxes)
     {
-        List<(Vector3, Vector3)> fieldPoints = new List<(Vector3, Vector3)>();
+        List<(Vector3, float, Vector3)> fieldPoints = new List<(Vector3, float, Vector3)>();
 
         // variables for calculating magnetic field
-        Vector3 magneticMoment = new Vector3(0, 2 * Mathf.Pow(10f, 14f), 0);
+        Vector3 magneticMoment = new Vector3(2 * Mathf.Pow(10f, 14f), 0, 0);
         float vacuumPermeability = 4f * Mathf.PI * Mathf.Pow(10f, -7f);
 
         List<GameObject> ellipses = new List<GameObject>();
@@ -47,8 +48,17 @@ public class MagnetometerController : MonoBehaviour
         // iterate to get points for arrows
         for (int i = 0; i < numArrows; i++)
         {
-            float cutoff = 0.1f;
-            int ellipseNum = Random.Range(0, ellipses.Count); // get random ellipse line
+            float cutoff = 0.2f;
+
+            int ellipseNum;
+            // don't use closest lines
+            do
+            {
+                ellipseNum = Random.Range(0, ellipses.Count); // get random ellipse line
+            } while (ellipseNum == 0 || ellipseNum == Mathf.Floor(torus.transform.childCount / 2));
+
+            Debug.Log("ellipse num: " + ellipseNum);
+
             int pointIndex = Random.Range((int)(numPoints * cutoff), (int)(numPoints * (1 - cutoff))); // get random point on ellipse line within a range
 
             // calculate radius and angle
@@ -74,7 +84,7 @@ public class MagnetometerController : MonoBehaviour
 
             // make magnetic field one vector
             Vector3 magField = radialVector + tangentialVector;
-            fieldPoints.Add((r, magField));
+            fieldPoints.Add((r, ellipseAxes[ellipseNum], magField));
 
             ellipses.RemoveAt(ellipseNum);
         }
@@ -82,86 +92,55 @@ public class MagnetometerController : MonoBehaviour
         return fieldPoints;
     }
 
-    private void drawArrows(List<(Vector3, Vector3)> fieldPoints)
+    // THIS IS WHAT NEEDS DONE
+    private void drawArrows(List<(Vector3, float, Vector3)> fieldPoints)
     {
+        // CODE USING 3D ARROW
+        // int i = 0;
+        // foreach ((Vector3, float, Vector3) point in fieldPoints)
+        // {
+        //     Debug.Log("point: " + point.Item1 + " ellipse y axis " + point.Item2 + " magnetic field: " + point.Item3);
+
+        //     Vector3 referenceVector = new Vector3(1, point.Item2, 0);
+
+        //     float angle = Vector3.SignedAngle(point.Item1, referenceVector, Vector3.back);
+        //     Debug.Log("angle: " + angle);
+        //     // float angle2 = angle + (90 * Mathf.Sign(angle)); 
+        //     float angle2 = angle + 90;
+
+        //     Debug.Log("angle adjusted: " + angle2);
+        //     Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+        //     // Instantiate at a position and rotation
+        //     Instantiate(arrowPrefab, point.Item1, rotation);
+        //     // Instantiate(arrowPrefab, point.Item1, Quaternion.Euler(0, 0, angle2));
+
+        //     i++;
+        // }
+
+
+        // CODE USING IMAGE ARROW
         int i = 0;
-        foreach ((Vector3, Vector3) point in fieldPoints)
+        foreach ((Vector3, float, Vector3) point in fieldPoints)
         {
-            Debug.Log("point: " + point.Item1 + " magnetic field: " + point.Item2);
+            Debug.Log("point: " + point.Item1 + " ellipse y axis " + point.Item2 + " magnetic field: " + point.Item3);
 
-            GameObject arrow = new GameObject("arrow" + i);
+            Vector3 referenceVector = new Vector3(1, point.Item2, 0);
 
-            // add components
-            arrow.AddComponent<MeshFilter>();
-            MeshRenderer mr = arrow.AddComponent<MeshRenderer>();
-            ArrowGenerator ag = arrow.AddComponent<ArrowGenerator>();
+            float angle = Vector3.SignedAngle(point.Item1, referenceVector, Vector3.back);
+            Debug.Log("angle: " + angle);
+            // float angle2 = angle + (90 * Mathf.Sign(angle)); 
+            float angle2 = angle + 90;
 
-            // set material and color
-            mr.material = new Material(Shader.Find("Diffuse"));
-            mr.material.SetColor("_Color", new Color(255f, 0f, 0f));
+            Debug.Log("angle adjusted: " + angle2);
+            Quaternion rotation = Quaternion.Euler(0, 0, angle);
 
-            // calc stem length
-            float stemLength = 0.5f; // default
-            float magnitude = point.Item2.magnitude;
-            int digits = countDigits(magnitude);
-            switch(digits)
-            {
-                case 12:
-                    stemLength = 1.0f;
-                    break;
-                case 11:
-                    stemLength = 09f;
-                    break;
-                case 10:
-                    stemLength = 0.8f;
-                    break;
-                case 9:
-                    stemLength = 0.7f;
-                    break;
-                case 8:
-                    stemLength = 0.6f;
-                    break;
-                case 7:
-                    stemLength = 0.5f;
-                    break;
-                case 6:
-                    stemLength = 0.4f;
-                    break;
-                case 5:
-                    stemLength = 0.3f;
-                    break;
-            }
-            Debug.Log("stemLength: " + stemLength);
+            // Instantiate at a position and rotation
+            Instantiate(arrowPrefab, point.Item1, rotation);
+            // Instantiate(arrowPrefab, point.Item1, Quaternion.Euler(0, 0, angle2));
 
-            // set position/rotation
-            arrow.transform.position = point.Item1;
-
-            // add code to get angle of rotation to match direction of point.Item2's direction
-
-
-            // get rotation angle
-            // Quaternion rotation = Quaternion.LookRotation(point.Item2.normalized);
-            // arrow.transform.rotation = rotation;
-
-
-            // Vector3 magNorm = point.Item2.normalized;
-            // float rotation = magNorm.normalized;
-
-            // arrow.transform.Rotate(new Vector3(0, 0, rotation));
-
-            ag.GenerateArrow(stemLength);
             i++;
         }
     }
-
-    private int countDigits(float mag) 
-    { 
-        int count = 0; 
-        while (mag > 1.0f) { 
-            mag /= 10; 
-            ++count; 
-        } 
-        return count; 
-    } 
 
 }

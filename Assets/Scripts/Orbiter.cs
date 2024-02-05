@@ -21,6 +21,8 @@ public class Orbiter : PointMass
     public bool reducedThrustEnabled = false;
     public bool active = false; // Enables player control
 
+    public float fuelUsed = 0;
+
     private void OnValidate()
     {
         currentVelocity = initialVelocity;
@@ -222,6 +224,7 @@ public class Orbiter : PointMass
     public void ApplyThrustForward(float thrustRate)
     {
         currentVelocity += thrustRate * Time.deltaTime * transform.up;
+        fuelUsed += thrustRate * Time.deltaTime;
     }
 
     public void ResetSpacecraft()

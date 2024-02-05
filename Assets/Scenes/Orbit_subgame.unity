@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.00013143057, g: 0.00012164495, b: 0.00013107073, a: 1}
+  m_IndirectSpecularColor: {r: 0.00013166612, g: 0.00012185342, b: 0.00013131215, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -791,12 +791,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 343803934}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51191ba96bb257a4195c26e740f0e129, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c49abe36b745c243b63733090b32ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spacecraft: {fileID: 454798049}
   targetOrbit: {fileID: 484453896}
   ui: {fileID: 1292352343}
+  idealFuelUsage: 0.5
+  maxScore: 10000
 --- !u!1 &454798048
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,7 +833,12 @@ MonoBehaviour:
   orbit: {fileID: 1619926807}
   initialVelocity: {x: 1.5, y: 0.75, z: 0}
   currentVelocity: {x: 1.5, y: 0.75, z: 0}
+  toggleRotation: 0
+  rotation: 1
+  toggleThrustAmount: 0
+  reducedThrustEnabled: 0
   active: 0
+  fuelUsed: 0
 --- !u!4 &454798050
 Transform:
   m_ObjectHideFlags: 0

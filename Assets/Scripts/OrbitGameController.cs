@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
+public class OrbitGameController : MonoBehaviour
 {
     private bool gameRunning = true;
     public Orbiter spacecraft;

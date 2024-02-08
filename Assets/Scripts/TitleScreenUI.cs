@@ -6,29 +6,52 @@ public class TitleScreenUI : MonoBehaviour
     public ChangeScene SceneChanger;
     public TitleController titleController;
     public GameObject MinigameSelectMenu, Canvas, Console;
-    private Button playButton, gameSelectButton, OptionsButton, CreditsButton;
-    private VisualElement root, mainScreen, gameSelectScreen, optionsScreen, creditsScreen;
+    private Button playButton, gameSelectButton, OptionsButton, CreditsButton, backButton;
+    private VisualElement root, mainScreen, gameSelectScreen, gameSelectTop, gameSelectBottom, optionsScreen, creditsScreen,  optionsPopup;
 
     private void OnEnable()
     {
+        // initializing the screens and buttons on the main screen
         root = GetComponent<UIDocument>().rootVisualElement;
-        mainScreen = root.Q<VisualElement>("MainMenuScreen");
-        gameSelectScreen = root.Q<VisualElement>("GameSelectScreen");
-        optionsScreen = root.Q<VisualElement>("OptionsScreen");
-        creditsScreen = root.Q<VisualElement>("CreditsScreen");
-        // optionsWindow = root.Q<VisualElement>("OptionsWindow");
+        mainScreen = root.Q<VisualElement>("main-menu-screen");
+        gameSelectScreen = root.Q<VisualElement>("game-select-screen");
+        optionsScreen = root.Q<VisualElement>("options-screen");
+        // creditsScreen = root.Q<VisualElement>("credits-screen");
 
-        optionsScreen.visible = false;
-
-        playButton = mainScreen.Q<Button>("PlayButton");
-        gameSelectButton = mainScreen.Q<Button>("GameSelectButton");
-        OptionsButton = mainScreen.Q<Button>("OptionsButton");
-        CreditsButton = mainScreen.Q<Button>("CreditsButton");
+        playButton = mainScreen.Q<Button>("play-button");
+        gameSelectButton = mainScreen.Q<Button>("game-select-button");
+        OptionsButton = mainScreen.Q<Button>("options-button");
+        CreditsButton = mainScreen.Q<Button>("credits-button");
 
         playButton.clicked += () => playButtonClicked();
         gameSelectButton.clicked += () => minigameSelectClicked();
         OptionsButton.clicked += () => optionsButtonClicked();
 
+        // MINIGAME SELECT SCREEN
+        // initializing UI elements in this screen
+        gameSelectTop = gameSelectScreen.Q<VisualElement>("game-select-top");
+        gameSelectBottom = gameSelectScreen.Q<VisualElement>("game-select-bottom");
+        
+        backButton = gameSelectTop.Q<Button>("back-button");
+
+        backButton.clicked += () => backButtonClicked();
+
+        // initializing buttons on the game select screen
+        optionsPopup = optionsScreen.Q<VisualElement>("options-container");
+        
+
+    }
+
+    private void backButtonClicked()
+    {
+        mainScreen.visible = true;
+        gameSelectScreen.visible = false;
+        optionsScreen.visible = false;
+        // creditsScreen.visible = false;
+
+        MinigameSelectMenu.SetActive(false);
+        Canvas.SetActive(false);
+        Console.SetActive(false);
     }
 
     private void playButtonClicked()
@@ -56,4 +79,5 @@ public class TitleScreenUI : MonoBehaviour
         mainScreen.visible = false;
         optionsScreen.visible = true;
     }
+
 }

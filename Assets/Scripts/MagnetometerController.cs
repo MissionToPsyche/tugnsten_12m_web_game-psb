@@ -100,11 +100,21 @@ public class MagnetometerController : MonoBehaviour
             // Rotation facing in the direction of the magnetic field's magnitude
             Quaternion rotation = Quaternion.LookRotation(Vector3.forward, point.Item3);
 
+            float fieldMagnitude = point.Item3.magnitude;
+            float reducedMag = fieldMagnitude / 10000000f;
+            float modifiedMagnitude = Mathf.Log(reducedMag + 1f, 10);
+
+            Debug.Log("orig mag " + point.Item3);
+            Debug.Log("mag float " + fieldMagnitude);
+            Debug.Log("reduced mag " + reducedMag);
+            Debug.Log("mod mag " + modifiedMagnitude);
+
             GameObject go = new();
             go.AddComponent<SpriteRenderer>();
             go.GetComponent<SpriteRenderer>().sprite = arrowPrefab;
             go.transform.SetPositionAndRotation(point.Item1, rotation);
-            go.transform.localScale = new(0.1f, 0.1f, 1);
+            // go.transform.localScale = new(0.1f, 0.1f, 1);
+            go.transform.localScale = new(modifiedMagnitude, modifiedMagnitude, 1);
 
             i++;
         }

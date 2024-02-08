@@ -50,22 +50,22 @@ public class Orbiter : PointMass
     {
         if (active)
         {
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.W))
             {
                 AlignPrograde();
                 rotation = 1;
             }
-            else if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+            else if (Input.GetKey(KeyCode.S))
             {
                 AlignRetrograde();
                 rotation = 2;
             }
-            else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(KeyCode.D))
             {
                 AlignRadialOut();
                 rotation = 3;
             }
-            else if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            else if (Input.GetKey(KeyCode.A))
             {
                 AlignRadialIn();
                 rotation = 4;

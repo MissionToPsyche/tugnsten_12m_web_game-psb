@@ -8,7 +8,7 @@ public class MagnetometerController : MonoBehaviour
     private int numEllipses = 5;
     private GameObject torus;
     private int numPoints = 200;
-    [SerializeField] private GameObject arrowPrefab;
+    [SerializeField] private Sprite arrowPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -92,52 +92,19 @@ public class MagnetometerController : MonoBehaviour
         return fieldPoints;
     }
 
-    // THIS IS WHAT NEEDS DONE
     private void drawArrows(List<(Vector3, float, Vector3)> fieldPoints)
     {
-        // CODE USING 3D ARROW
-        // int i = 0;
-        // foreach ((Vector3, float, Vector3) point in fieldPoints)
-        // {
-        //     Debug.Log("point: " + point.Item1 + " ellipse y axis " + point.Item2 + " magnetic field: " + point.Item3);
-
-        //     Vector3 referenceVector = new Vector3(1, point.Item2, 0);
-
-        //     float angle = Vector3.SignedAngle(point.Item1, referenceVector, Vector3.back);
-        //     Debug.Log("angle: " + angle);
-        //     // float angle2 = angle + (90 * Mathf.Sign(angle)); 
-        //     float angle2 = angle + 90;
-
-        //     Debug.Log("angle adjusted: " + angle2);
-        //     Quaternion rotation = Quaternion.Euler(0, 0, angle);
-
-        //     // Instantiate at a position and rotation
-        //     Instantiate(arrowPrefab, point.Item1, rotation);
-        //     // Instantiate(arrowPrefab, point.Item1, Quaternion.Euler(0, 0, angle2));
-
-        //     i++;
-        // }
-
-
-        // CODE USING IMAGE ARROW
         int i = 0;
         foreach ((Vector3, float, Vector3) point in fieldPoints)
         {
-            Debug.Log("point: " + point.Item1 + " ellipse y axis " + point.Item2 + " magnetic field: " + point.Item3);
+            // Rotation facing in the direction of the magnetic field's magnitude
+            Quaternion rotation = Quaternion.LookRotation(Vector3.forward, point.Item3);
 
-            Vector3 referenceVector = new Vector3(1, point.Item2, 0);
-
-            float angle = Vector3.SignedAngle(point.Item1, referenceVector, Vector3.back);
-            Debug.Log("angle: " + angle);
-            // float angle2 = angle + (90 * Mathf.Sign(angle)); 
-            float angle2 = angle + 90;
-
-            Debug.Log("angle adjusted: " + angle2);
-            Quaternion rotation = Quaternion.Euler(0, 0, angle);
-
-            // Instantiate at a position and rotation
-            Instantiate(arrowPrefab, point.Item1, rotation);
-            // Instantiate(arrowPrefab, point.Item1, Quaternion.Euler(0, 0, angle2));
+            GameObject go = new();
+            go.AddComponent<SpriteRenderer>();
+            go.GetComponent<SpriteRenderer>().sprite = arrowPrefab;
+            go.transform.SetPositionAndRotation(point.Item1, rotation);
+            go.transform.localScale = new(0.1f, 0.1f, 1);
 
             i++;
         }

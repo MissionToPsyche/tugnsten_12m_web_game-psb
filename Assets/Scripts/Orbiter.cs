@@ -48,15 +48,6 @@ public class Orbiter : PointMass
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
-        {
-            // Toggles reduced thrust
-            reducedThrustEnabled = !reducedThrustEnabled;
-        }
-    }
-
-    public void FixedUpdate()
-    {
         if (active)
         {
             if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
@@ -128,6 +119,15 @@ public class Orbiter : PointMass
 
         }
 
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        {
+            // Toggles reduced thrust
+            reducedThrustEnabled = !reducedThrustEnabled;
+        }
+    }
+
+    public void FixedUpdate()
+    {
         if (!orbit.hasCrashed && !orbit.hasEscaped)
         {
             UpdateVelocity();
@@ -179,7 +179,7 @@ public class Orbiter : PointMass
             target *= Quaternion.Euler(0, 0, 180);
         }
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 200 * Time.deltaTime);
     }
 
     public void AlignRetrograde()
@@ -192,7 +192,7 @@ public class Orbiter : PointMass
             target *= Quaternion.Euler(0, 0, 180);
         }
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 200 * Time.deltaTime);
     }
 
     public void AlignRadialIn()
@@ -205,7 +205,7 @@ public class Orbiter : PointMass
             target *= Quaternion.Euler(0, 0, 180);
         }
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 200 * Time.deltaTime);
     }
 
     public void AlignRadialOut()
@@ -218,7 +218,7 @@ public class Orbiter : PointMass
             target *= Quaternion.Euler(0, 0, 180);
         }
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 2);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 200 * Time.deltaTime);
     }
 
     public void ApplyThrustForward(float thrustRate)

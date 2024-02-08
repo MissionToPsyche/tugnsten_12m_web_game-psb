@@ -13,7 +13,7 @@ public class Orbiter : PointMass
     public const float maxThrust = 0.15f;
     public const float reducedThrustPercent = 0.25f;
     private const float reducedThrust = maxThrust * reducedThrustPercent;
-    public const float rotationRate = 2f;
+    public const float rotationRate = 200f;
 
     public bool toggleRotation = false;
     public int rotation = 1; // 1 = forward, 2 = backward, 3 = out, 4 = in
@@ -179,7 +179,7 @@ public class Orbiter : PointMass
             target *= Quaternion.Euler(0, 0, 180);
         }
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 200 * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, rotationRate * Time.deltaTime);
     }
 
     public void AlignRetrograde()
@@ -192,7 +192,7 @@ public class Orbiter : PointMass
             target *= Quaternion.Euler(0, 0, 180);
         }
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 200 * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, rotationRate * Time.deltaTime);
     }
 
     public void AlignRadialIn()
@@ -205,7 +205,7 @@ public class Orbiter : PointMass
             target *= Quaternion.Euler(0, 0, 180);
         }
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 200 * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, rotationRate * Time.deltaTime);
     }
 
     public void AlignRadialOut()
@@ -218,7 +218,7 @@ public class Orbiter : PointMass
             target *= Quaternion.Euler(0, 0, 180);
         }
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, 200 * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target, rotationRate * Time.deltaTime);
     }
 
     public void ApplyThrustForward(float thrustRate)

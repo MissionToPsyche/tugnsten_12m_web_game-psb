@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
+public class OrbitGameController : MonoBehaviour
 {
     private bool gameRunning = true;
     public Orbiter spacecraft;
@@ -15,6 +15,10 @@ public class GameController : MonoBehaviour
     public const float rotationTolerance = 4f;
     public const float winTimeRequired = 3f;
     private float winTimer = 0f;
+
+    // TODO: tune this
+    public float idealFuelUsage = 0.5f; // fuel use value for maximum possible score
+    public int maxScore = 10000;
 
     private struct SpacecraftState
     {
@@ -44,6 +48,16 @@ public class GameController : MonoBehaviour
         {
             FinishGame();
         }
+    }
+
+    public int GetScore() {
+        float fuelRatio = idealFuelUsage / spacecraft.fuelUsed;
+        
+        fuelRatio = Mathf.Max(fuelRatio, 1.0f);
+
+        int score = Mathf.RoundToInt(maxScore * fuelRatio);
+
+        return score;        
     }
 
     void CheckWinState()

@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class OrbitGameController : GameController
 {
     public Orbiter spacecraft;
     public Orbit targetOrbit;
+    public OrbitDataGenerator generator;
 
     public const float altitudeTolerance = 0.1f;
     public const float rotationTolerance = 4f;
@@ -16,31 +15,13 @@ public class OrbitGameController : GameController
     // TODO: tune this
     public float idealFuelUsage = 0.5f; // fuel use value for maximum possible score
 
-    // TODO: refactor into own generator class
-    private struct SpacecraftState
-    {
-        public Vector2 position;
-        public Vector2 velocity;
-    }
-
-    private readonly SpacecraftState[] startStates = {
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.55f, 0)},
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.1f, 0)},
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.1f, 1.1f)},
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.5f, 0.75f)},
-    };
-    // end TODO
-
     override public void InitializeGame()
     {
         ui.ResetUI();
         spacecraft.ResetSpacecraft();
 
-        SpacecraftState initialState = startStates[Random.Range(0, startStates.Length)]; // int random excludes max
+        (spacecraft.transform.position, spacecraft.initialVelocity) = generator.GetInitialState();
 
-        spacecraft.transform.position = new Vector3(initialState.position.x, initialState.position.y, 0);
-        spacecraft.initialVelocity = new Vector3(initialState.velocity.x, initialState.velocity.y, 0);
-        
         winTimer = 0f;
 
         gameRunning = true;
@@ -51,14 +32,15 @@ public class OrbitGameController : GameController
         spacecraft.active = false;
     }
 
-    override public int GetScore() {
+    override public int GetScore()
+    {
         float fuelRatio = idealFuelUsage / spacecraft.fuelUsed;
-        
+
         fuelRatio = Mathf.Max(fuelRatio, 1.0f);
 
         int score = Mathf.RoundToInt(maxScore * fuelRatio);
 
-        return score;        
+        return score;
     }
 
     override public bool CheckWin()
@@ -104,7 +86,9 @@ public class OrbitGameController : GameController
         {
             gameRunning = false;
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     }

@@ -65,7 +65,7 @@ public class TorusGenerator : MonoBehaviour
     private void drawEllipse(int ellipseNum, Vector3[] points)
     {
         // Create a new GameObject
-        GameObject lineObject = new GameObject("Ellipse" + ellipseNum);
+        GameObject lineObject = new GameObject("Ellipse" + (ellipseNum-1));
 
         // set ellipse gameobject as a child of torus gameobject
         lineObject.transform.SetParent(torus.transform, false);

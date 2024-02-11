@@ -48,22 +48,32 @@ public class MagnetometerController : MonoBehaviour
         // iterate to get points for arrows
         for (int i = 0; i < numArrows; i++)
         {
-            float cutoff = 0.2f;
+            float cutoff = 0.25f;
 
             int ellipseNum;
-            // don't use closest lines
+            // don't use ellipses closest to Psyche
             do
             {
-                ellipseNum = Random.Range(0, ellipses.Count); // get random ellipse line
-            } while (ellipseNum == 0 || ellipseNum == Mathf.Floor(torus.transform.childCount / 2));
+                ellipseNum = Random.Range(1, ellipses.Count); // get random ellipse line
+            } while(ellipseNum == Mathf.Floor(torus.transform.childCount / 2));
 
-            Debug.Log("ellipse num: " + ellipseNum);
+            // Debug.Log("ellipse num: " + ellipseNum);
 
-            int pointIndex = Random.Range((int)(numPoints * cutoff), (int)(numPoints * (1 - cutoff))); // get random point on ellipse line within a range
-
-            // calculate radius and angle
             GameObject ellipse = ellipses[ellipseNum];
-            Vector3 r = ellipse.GetComponent<LineRenderer>().GetPosition(pointIndex);
+
+            int pointIndex;
+            Vector3 r;
+            // keep arrows out of Psyche
+            do
+            {
+                // get random point on ellipse line within a range
+                pointIndex = Random.Range((int)(numPoints * cutoff), (int)(numPoints * (1 - cutoff)));
+
+                r = ellipse.GetComponent<LineRenderer>().GetPosition(pointIndex);
+
+            } while(r.magnitude < 1f);
+
+            // Debug.Log("point: " + pointIndex);
 
             // Calculate angle with respect to the x-axis
             float angle = Mathf.Atan2(r.y, r.x) * Mathf.Rad2Deg;
@@ -86,7 +96,7 @@ public class MagnetometerController : MonoBehaviour
             Vector3 magField = radialVector + tangentialVector;
             fieldPoints.Add((r, ellipseAxes[ellipseNum], magField));
 
-            ellipses.RemoveAt(ellipseNum);
+            // ellipses.RemoveAt(ellipseNum);
         }
 
         return fieldPoints;
@@ -101,20 +111,28 @@ public class MagnetometerController : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(Vector3.forward, point.Item3);
 
             float fieldMagnitude = point.Item3.magnitude;
-            float reducedMag = fieldMagnitude / 10000000f;
-            float modifiedMagnitude = Mathf.Log(reducedMag + 1f, 10);
 
-            Debug.Log("orig mag " + point.Item3);
-            Debug.Log("mag float " + fieldMagnitude);
-            Debug.Log("reduced mag " + reducedMag);
-            Debug.Log("mod mag " + modifiedMagnitude);
+            // janky math to normalize the scale of the arrows
+            float reducedMag = fieldMagnitude / 1000000f;
+            float modifiedMagnitude = (0.15f/(1f+Mathf.Exp(-(reducedMag-1f)))) + (1f-Mathf.Exp(-reducedMag)) * (0.1f-0.06f) * ((reducedMag-0.2f)/(10f-0.2f));
 
-            GameObject go = new();
-            go.AddComponent<SpriteRenderer>();
-            go.GetComponent<SpriteRenderer>().sprite = arrowPrefab;
-            go.transform.SetPositionAndRotation(point.Item1, rotation);
-            // go.transform.localScale = new(0.1f, 0.1f, 1);
-            go.transform.localScale = new(modifiedMagnitude, modifiedMagnitude, 1);
+            // Debug.Log("orig mag " + point.Item3);
+            // Debug.Log("mag float " + fieldMagnitude);
+            // Debug.Log("reduced mag " + reducedMag);
+            // Debug.Log("mod mag " + modifiedMagnitude);
+
+            GameObject arrow = new("arrow" + i);
+            arrow.AddComponent<SpriteRenderer>();
+            arrow.GetComponent<SpriteRenderer>().sprite = arrowPrefab;
+            arrow.transform.SetPositionAndRotation(point.Item1, rotation);
+
+            // bring arrow in front of torus
+            Transform ArrowTransform = arrow.transform;
+            Vector3 newPosition = ArrowTransform.position;
+            newPosition.z = -1;
+            ArrowTransform.position = newPosition;
+
+            arrow.transform.localScale = new(modifiedMagnitude, modifiedMagnitude, 1);
 
             i++;
         }

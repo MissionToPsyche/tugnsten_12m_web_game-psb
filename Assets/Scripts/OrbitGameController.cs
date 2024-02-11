@@ -4,22 +4,19 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OrbitGameController : MonoBehaviour
+public class OrbitGameController : GameController
 {
-    private bool gameRunning = true;
     public Orbiter spacecraft;
     public Orbit targetOrbit;
-    public UIController ui;
 
     public const float altitudeTolerance = 0.1f;
     public const float rotationTolerance = 4f;
     public const float winTimeRequired = 3f;
     private float winTimer = 0f;
-
     // TODO: tune this
     public float idealFuelUsage = 0.5f; // fuel use value for maximum possible score
-    public int maxScore = 10000;
 
+    // TODO: refactor into own generator class
     private struct SpacecraftState
     {
         public Vector2 position;
@@ -32,82 +29,9 @@ public class OrbitGameController : MonoBehaviour
         new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.1f, 1.1f)},
         new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.5f, 0.75f)},
     };
+    // end TODO
 
-    void Start()
-    {
-        InitializeGame();
-    }
-
-    void FixedUpdate()
-    {
-        if (gameRunning)
-        {
-            CheckWinState();
-        }
-        else
-        {
-            FinishGame();
-        }
-    }
-
-    public int GetScore() {
-        float fuelRatio = idealFuelUsage / spacecraft.fuelUsed;
-        
-        fuelRatio = Mathf.Max(fuelRatio, 1.0f);
-
-        int score = Mathf.RoundToInt(maxScore * fuelRatio);
-
-        return score;        
-    }
-
-    void CheckWinState()
-    {
-        // Checks if the current orbit's rotation and apsis distances are
-        // within tolerance of the target orbit.
-        bool winState = Mathf.Abs(spacecraft.orbit.rotation - targetOrbit.rotation) < rotationTolerance
-                        && Mathf.Abs(spacecraft.orbit.periapsisDistance - targetOrbit.periapsisDistance) < altitudeTolerance
-                        && Mathf.Abs(spacecraft.orbit.apoapsisDistance - targetOrbit.apoapsisDistance) < altitudeTolerance;
-
-        // If the game is in the win state, starts counting up to
-        // winTimeRequired. If the game leaves the win state, the timer is
-        // reset.
-        if (winState)
-        {
-            winTimer += Time.fixedDeltaTime;
-
-            float secondsRemaining = Mathf.Round(winTimeRequired - winTimer);
-            ui.ShowText("Maintain Orbit..." + secondsRemaining);
-        }
-        else
-        {
-            winTimer = 0f;
-            ui.ShowText("");
-        }
-
-        if (spacecraft.orbit.hasCrashed)
-        {
-            gameRunning = false;
-            ui.ShowText("Spacecraft Deorbited!");
-            ui.EnterFailState();
-        }
-        else if (spacecraft.orbit.hasEscaped)
-        {
-            gameRunning = false;
-            ui.ShowText("Spacecraft Escaped Orbit!");
-            ui.EnterFailState();
-        }
-
-        // If the game has remained in the win state for winTimeRequired,
-        // the player has actually won.
-        if (winTimer >= winTimeRequired)
-        {
-            gameRunning = false;
-            ui.ShowText("Orbit Reached");
-            ui.EnterWinState();
-        }
-    }
-
-    public void InitializeGame()
+    override public void InitializeGame()
     {
         ui.ResetUI();
         spacecraft.ResetSpacecraft();
@@ -122,9 +46,67 @@ public class OrbitGameController : MonoBehaviour
         gameRunning = true;
     }
 
-    void FinishGame()
+    override public void FinishGame()
     {
         spacecraft.active = false;
+    }
+
+    override public int GetScore() {
+        float fuelRatio = idealFuelUsage / spacecraft.fuelUsed;
+        
+        fuelRatio = Mathf.Max(fuelRatio, 1.0f);
+
+        int score = Mathf.RoundToInt(maxScore * fuelRatio);
+
+        return score;        
+    }
+
+    override public bool CheckWin()
+    {
+        // Checks if the current orbit's rotation and apsis distances are
+        // within tolerance of the target orbit.
+        bool winState = Mathf.Abs(spacecraft.orbit.rotation - targetOrbit.rotation) < rotationTolerance
+                        && Mathf.Abs(spacecraft.orbit.periapsisDistance - targetOrbit.periapsisDistance) < altitudeTolerance
+                        && Mathf.Abs(spacecraft.orbit.apoapsisDistance - targetOrbit.apoapsisDistance) < altitudeTolerance;
+
+        // If the game is in the win state, starts counting up to
+        // winTimeRequired. If the game leaves the win state, the timer is
+        // reset.
+        if (winState)
+        {
+            winTimer += Time.deltaTime;
+
+            float secondsRemaining = Mathf.Round(winTimeRequired - winTimer);
+            ui.ShowMsg("Maintain Orbit..." + secondsRemaining);
+        }
+        else
+        {
+            winTimer = 0f;
+            ui.ShowMsg("");
+        }
+
+        if (spacecraft.orbit.hasCrashed)
+        {
+            gameRunning = false;
+            ui.ShowMsg("Spacecraft Deorbited!");
+            ui.EnterFailState();
+        }
+        else if (spacecraft.orbit.hasEscaped)
+        {
+            gameRunning = false;
+            ui.ShowMsg("Spacecraft Escaped Orbit!");
+            ui.EnterFailState();
+        }
+
+        // If the game has remained in the win state for winTimeRequired,
+        // the player has actually won.
+        if (winTimer >= winTimeRequired)
+        {
+            gameRunning = false;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void SetTargetOrbit(float periapsisDistance, float apoapsisDistance, float rotation)

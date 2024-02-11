@@ -4,19 +4,26 @@ using UnityEngine;
 
 public static class EmissionSpectra
 {
-    // Lists of emission peaks of the form (position, intensity) indexed by
-    // their lowercased element symbol. 
-    public static Dictionary<string, List<(int, float)>> spectra;
+    public static Dictionary<string, Element> elements;
 
-    // List of all available element symbols populated from `spectra`
-    public static List<string> elements;
-
-    // Range of the graph
+    // Minimum and maximum x values
     public static (int, int) spectraRange;
 
     [RuntimeInitializeOnLoadMethod]
     static void InitializeSpectra()
     {
+        elements = new Dictionary<string, Element>(){
+            {"h", new("h")},   // hydrogen
+            {"c", new("c")},   // carbon
+            {"o", new("o")},   // oxygen
+            {"mg", new("mg")}, // magnesium
+            {"si", new("si")}, // silicon
+            {"s", new("s")},   // sulfur
+            {"ca", new("ca")}, // calcium
+            {"fe", new("fe")}, // iron
+            {"ni", new("ni")}, // nickel
+        };
+
         // Peaks fudged from data at
         // https://www.atomtrace.com/elements-database/, which is from
         // laser-induced plasma spectroscopy. Scientifically, these are
@@ -24,73 +31,67 @@ public static class EmissionSpectra
         // data is hard to find and messy.
         //
         // Due to the above, the location of these peaks is in nanometer
-        // wavelengths ranging [200nm, 900nm]. Intensity is [0.0, 1.0].
-        spectra = new Dictionary<string, List<(int, float)>>(){
-            // hydrogen
-            {"h", new(){
-                (655, 1.0f),
-            }},
-            // carbon
-            {"c", new(){
-                (250, 1.0f),
-            }},
-            // oxygen
-            {"o", new(){
-                (780, 1.0f),
-                (845, 0.5f),
-            }},
-            // magnesium
-            {"mg", new(){
-                (280, 0.6f),
-                (285, 1.0f),
-            }},
-            // silicon
-            {"si", new(){
-                (200, 1.0f),
-                (250, 1.0f),
-                (290, 0.7f),
-            }},
-            // sulfur
-            {"s", new(){
-                (410, 0.1f),
-                (470, 0.3f),
-                (605, 0.5f),
-                (675, 1.0f),
-                (770, 0.3f),
-            }},
-            // calcium
-            {"ca", new(){
-                (210, 0.2f),
-                (310, 0.9f),
-                (365, 0.4f),
-                (395, 0.7f),
-                (430, 1.0f),
-                (620, 0.3f),
-            }},
-            // iron
-            {"fe", new(){
-                (250, 1.0f),
-                (300, 1.0f),
-                (360, 1.0f),
-                (405, 0.6f),
-                (440, 0.6f),
-                (495, 0.2f),
-                (540, 0.1f),
-            }},
-            // nickel
-            {"ni", new(){
-                (235, 1.0f),
-                (300, 0.4f),
-                (340, 1.0f),
-                (400, 0.2f),
-                (510, 0.2f),
-            }},
-        };
+        // wavelengths ranging [200, 900]. Intensity is [0.0, 1.0].
 
-        // Extracts the keys from the spectra dictionary
-        elements = new(spectra.Keys);
+        elements["h"].AddPeaks(new(){
+            new(655, 1.0f),
+        });
+
+        elements["c"].AddPeaks(new(){
+            new(250, 1.0f),
+        });
+
+        elements["o"].AddPeaks(new(){
+            new(780, 1.0f),
+            new(845, 0.5f),
+        });
+
+        elements["mg"].AddPeaks(new(){
+            new(280, 0.6f),
+            new(285, 1.0f),
+        });
+
+        elements["si"].AddPeaks(new(){
+            new(200, 1.0f),
+            new(250, 1.0f),
+            new(290, 0.7f),
+        });
+
+        elements["s"].AddPeaks(new(){
+            new(410, 0.1f),
+            new(470, 0.3f),
+            new(605, 0.5f),
+            new(675, 1.0f),
+            new(770, 0.3f),
+        });
+
+        elements["ca"].AddPeaks(new(){
+            new(210, 0.2f),
+            new(310, 0.9f),
+            new(365, 0.4f),
+            new(395, 0.7f),
+            new(430, 1.0f),
+            new(620, 0.3f),
+        });
+
+        elements["fe"].AddPeaks(new(){
+            new(250, 1.0f),
+            new(300, 1.0f),
+            new(360, 1.0f),
+            new(405, 0.6f),
+            new(440, 0.6f),
+            new(495, 0.2f),
+            new(540, 0.1f),
+        });
+
+        elements["ni"].AddPeaks(new(){
+            new(235, 1.0f),
+            new(300, 0.4f),
+            new(340, 1.0f),
+            new(400, 0.2f),
+            new(510, 0.2f),
+        });
 
         spectraRange = (200, 900);
     }
-
 }

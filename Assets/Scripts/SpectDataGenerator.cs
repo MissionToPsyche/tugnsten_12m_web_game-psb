@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpectrumGenerator : MonoBehaviour
+public class SpectDataGenerator : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

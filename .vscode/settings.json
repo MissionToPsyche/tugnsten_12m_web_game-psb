@@ -56,5 +56,8 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "tugnsten_12m_web_game-psb.sln"
+    "dotnet.defaultSolution": "tugnsten_12m_web_game-psb.sln",
+    "cSpell.words": [
+        "Spect"
+    ]
 }

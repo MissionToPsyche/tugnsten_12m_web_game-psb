@@ -11,6 +11,9 @@ public static class EmissionSpectra
     // List of all available element symbols populated from `spectra`
     public static List<string> elements;
 
+    // Range of the graph
+    public static (int, int) spectraRange;
+
     [RuntimeInitializeOnLoadMethod]
     static void InitializeSpectra()
     {
@@ -86,6 +89,8 @@ public static class EmissionSpectra
 
         // Extracts the keys from the spectra dictionary
         elements = new(spectra.Keys);
+
+        spectraRange = (200, 900);
     }
 
 }

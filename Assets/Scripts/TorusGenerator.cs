@@ -12,12 +12,10 @@ public class TorusGenerator : MonoBehaviour
 
     }
 
-    public List<float> drawTorus(int numEllipses, GameObject torus, int numPoints)
+    public void drawTorus(int numEllipses, GameObject torus, int numPoints)
     {
         this.numPoints = numPoints;
         this.torus = torus;
-
-        List<float> ellipseXaxes = new List<float>();
 
         float ellipseFactor = 2f;
         float ellipseRatio = 2f;
@@ -29,8 +27,6 @@ public class TorusGenerator : MonoBehaviour
         {
             float semiMajorAxis = (0.75f * (i) + Mathf.Pow(2, i)/(i+2))/ellipseFactor;
             float semiMinorAxis = (0.75f * 0.75f * (i) + Mathf.Pow(2, i)/(i+1))/ellipseFactor/ellipseRatio;
-
-            ellipseXaxes.Add(semiMinorAxis*reflection);
 
             createEllipse(ellipseNum, reflection, semiMajorAxis, semiMinorAxis);
 
@@ -44,7 +40,7 @@ public class TorusGenerator : MonoBehaviour
             ellipseNum++;
         }
 
-        return ellipseXaxes;
+        setScaleAndRotation();
     }
 
     private void createEllipse(int ellipseNum, int reflection, float semiMajorAxis, float semiMinorAxis)
@@ -93,5 +89,17 @@ public class TorusGenerator : MonoBehaviour
         lineRenderer.endColor = Color.white;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
+    }
+
+    private void setScaleAndRotation()
+    {
+        Transform t = torus.transform;
+
+        int zRotation = Random.Range(0, 360);
+        float scaleFactor = Random.Range(0.3f, 1.1f); // keep torus in screen and bigger than Psyche
+        Vector3 scale = new(scaleFactor, scaleFactor, scaleFactor);
+
+        t.eulerAngles = new Vector3(0, 0, (float)zRotation);
+        t.localScale = scale;
     }
 }

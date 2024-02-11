@@ -8,17 +8,17 @@ public class MagnetometerController : MonoBehaviour
     private int numEllipses = 5;
     private GameObject torus;
     private int numPoints = 200;
-    [SerializeField] private Sprite arrowPrefab;
+    [SerializeField] private Sprite arrowImg;
 
     // Start is called before the first frame update
     void Start()
     {
         TorusGenerator torusGenerator = GameObject.Find("TorusGenerator").GetComponent<TorusGenerator>();
         torus = new GameObject("MagneticTorus");
-        List<float> ellipseAxes = torusGenerator.drawTorus(numEllipses, torus, numPoints);
+        torusGenerator.drawTorus(numEllipses, torus, numPoints);
         torus.AddComponent<MoveTorus>();
 
-        List<(Vector3, float, Vector3)> fieldPoints = getFieldPoints(ellipseAxes);
+        List<(Vector3, Vector3)> fieldPoints = getFieldPoints();
         drawArrows(fieldPoints);
     }
 
@@ -28,9 +28,9 @@ public class MagnetometerController : MonoBehaviour
 
     }
 
-    private List<(Vector3, float, Vector3)> getFieldPoints(List<float> ellipseAxes)
+    private List<(Vector3, Vector3)> getFieldPoints()
     {
-        List<(Vector3, float, Vector3)> fieldPoints = new List<(Vector3, float, Vector3)>();
+        List<(Vector3, Vector3)> fieldPoints = new List<(Vector3, Vector3)>();
 
         // variables for calculating magnetic field
         Vector3 magneticMoment = new Vector3(2 * Mathf.Pow(10f, 14f), 0, 0);
@@ -94,7 +94,7 @@ public class MagnetometerController : MonoBehaviour
 
             // make magnetic field one vector
             Vector3 magField = radialVector + tangentialVector;
-            fieldPoints.Add((r, ellipseAxes[ellipseNum], magField));
+            fieldPoints.Add((r, magField));
 
             // ellipses.RemoveAt(ellipseNum);
         }
@@ -102,28 +102,28 @@ public class MagnetometerController : MonoBehaviour
         return fieldPoints;
     }
 
-    private void drawArrows(List<(Vector3, float, Vector3)> fieldPoints)
+    private void drawArrows(List<(Vector3, Vector3)> fieldPoints)
     {
         int i = 0;
-        foreach ((Vector3, float, Vector3) point in fieldPoints)
+        foreach ((Vector3, Vector3) point in fieldPoints)
         {
             // Rotation facing in the direction of the magnetic field's magnitude
-            Quaternion rotation = Quaternion.LookRotation(Vector3.forward, point.Item3);
+            Quaternion rotation = Quaternion.LookRotation(Vector3.forward, point.Item2);
 
-            float fieldMagnitude = point.Item3.magnitude;
+            float fieldMagnitude = point.Item2.magnitude;
 
             // janky math to normalize the scale of the arrows
             float reducedMag = fieldMagnitude / 1000000f;
             float modifiedMagnitude = (0.15f/(1f+Mathf.Exp(-(reducedMag-1f)))) + (1f-Mathf.Exp(-reducedMag)) * (0.1f-0.06f) * ((reducedMag-0.2f)/(10f-0.2f));
 
-            // Debug.Log("orig mag " + point.Item3);
+            // Debug.Log("orig mag " + point.Item2);
             // Debug.Log("mag float " + fieldMagnitude);
             // Debug.Log("reduced mag " + reducedMag);
             // Debug.Log("mod mag " + modifiedMagnitude);
 
             GameObject arrow = new("arrow" + i);
             arrow.AddComponent<SpriteRenderer>();
-            arrow.GetComponent<SpriteRenderer>().sprite = arrowPrefab;
+            arrow.GetComponent<SpriteRenderer>().sprite = arrowImg;
             arrow.transform.SetPositionAndRotation(point.Item1, rotation);
 
             // bring arrow in front of torus

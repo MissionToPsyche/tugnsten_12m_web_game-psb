@@ -1,41 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class UIController : MonoBehaviour
+abstract public class UIController : MonoBehaviour
 {
-    public TextMeshProUGUI headerText;
-    public GameObject skipButton;
-    public GameObject restartButton;
     public GameObject continueButton;
+    // TODO: Menu button
 
-    // Start is called before the first frame update
     private void Start()
     {
         ResetUI();
     }
 
-    public void ShowText(string message)
-    {
-        headerText.text = message;
-    }
+    // Used to announce win/fail/etc.
+    abstract public void ShowMsg(string msg);
 
-    public void ResetUI()
-    {
-        ShowText("");
-        restartButton.SetActive(false);
-        continueButton.SetActive(false);
-    }
-
-    public void EnterFailState()
-    {
-        restartButton.SetActive(true);
-    }
-
-    public void EnterWinState()
-    {
-        restartButton.SetActive(true);
-        continueButton.SetActive(true);
-    }
+    abstract public void EnterFailState();
+    abstract public void EnterWinState();
+    abstract public void ResetUI();
 }

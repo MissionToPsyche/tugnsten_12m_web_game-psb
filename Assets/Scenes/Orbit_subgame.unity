@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.00013166612, g: 0.00012185342, b: 0.00013131215, a: 1}
+  m_IndirectSpecularColor: {r: 0.00013056796, g: 0.00012234834, b: 0.00013140666, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -794,11 +794,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c49abe36b745c243b63733090b32ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ui: {fileID: 1292352344}
+  maxScore: 10000
   spacecraft: {fileID: 454798049}
   targetOrbit: {fileID: 484453896}
-  ui: {fileID: 1292352343}
   idealFuelUsage: 0.5
-  maxScore: 10000
 --- !u!1 &454798048
 GameObject:
   m_ObjectHideFlags: 0
@@ -2008,7 +2008,7 @@ GameObject:
   - component: {fileID: 1292352338}
   - component: {fileID: 1292352337}
   - component: {fileID: 1292352342}
-  - component: {fileID: 1292352343}
+  - component: {fileID: 1292352344}
   m_Layer: 5
   m_Name: Main UI Canvas
   m_TagString: Untagged
@@ -2110,7 +2110,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292352336}
   m_CullTransparentMesh: 1
---- !u!114 &1292352343
+--- !u!114 &1292352344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2119,13 +2119,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1292352336}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04e9ae89b0664724b87b7930455c3bae, type: 3}
+  m_Script: {fileID: 11500000, guid: 66707d35ac5b2eb48bb532a14fd36fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  continueButton: {fileID: 264630223}
   headerText: {fileID: 145810902}
   skipButton: {fileID: 1197573655}
   restartButton: {fileID: 1030723356}
-  continueButton: {fileID: 264630223}
 --- !u!1 &1619926806
 GameObject:
   m_ObjectHideFlags: 0

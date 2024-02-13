@@ -9,8 +9,7 @@ public static class EmissionSpectra
     // Minimum and maximum x values
     public static (int, int) spectraRange;
 
-    [RuntimeInitializeOnLoadMethod]
-    static void InitializeSpectra()
+    static EmissionSpectra()
     {
         elements = new Dictionary<string, Element>(){
             {"h", new("h")},   // hydrogen

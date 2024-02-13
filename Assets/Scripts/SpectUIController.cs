@@ -11,16 +11,19 @@ public class SpectUIController : UIController
 
     public override void ResetUI()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Reset UI.");
+        return;
     }
 
     public override void EnterFailState()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("UI entered fail state.");
+        return;
     }
 
     public override void EnterWinState()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("UI entered win state.");
+        return;
     }
 }

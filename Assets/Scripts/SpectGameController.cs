@@ -5,15 +5,29 @@ using UnityEngine;
 public class SpectGameController : GameController
 {
     public SpectDataGenerator generator;
+    public SpectrumGraph referenceGraph;
+    public SpectrumGraph userGraph;
+    // private SpectrumGraph[] controls;
 
     public override void InitializeGame()
     {
-        throw new System.NotImplementedException();
+        (List<Element> trueElements, List<Element> falseElements) = generator.GetData();
+
+        referenceGraph.elements = trueElements;
+
+        // draw control graphs
+
+        // draw user graph
+        
+        // start timer
+
+        gameRunning = true;
     }
 
     public override void FinishGame()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Game finished.");
+        return;
     }
 
     public override int GetScore()
@@ -23,6 +37,6 @@ public class SpectGameController : GameController
 
     public override bool CheckWin()
     {
-        throw new System.NotImplementedException();
+        return false;
     }
 }

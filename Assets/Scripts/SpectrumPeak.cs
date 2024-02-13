@@ -9,7 +9,7 @@ public class SpectrumPeak
     // Gaussian function constant ro that controls peak width
     public float width;
 
-    public SpectrumPeak(int location, float intensity, float width = 1.0f)
+    public SpectrumPeak(int location, float intensity, float width = 12.0f)
     {
         this.location = location;
         this.intensity = intensity;

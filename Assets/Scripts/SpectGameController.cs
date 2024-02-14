@@ -11,7 +11,7 @@ public class SpectGameController : GameController
 
     public override void InitializeGame()
     {
-        (List<Element> trueElements, List<Element> falseElements) = generator.GetData();
+        (Dictionary<string, Element> trueElements, Dictionary<string, Element> falseElements) = generator.GetData();
 
         referenceGraph.elements = trueElements;
 

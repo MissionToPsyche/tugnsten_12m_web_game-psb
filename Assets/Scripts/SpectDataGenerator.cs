@@ -12,11 +12,11 @@ public class SpectDataGenerator : MonoBehaviour
 
     public const float minQuantity = 0.1f;
 
-    public (List<Element>, List<Element>) GetData()
+    public (Dictionary<string, Element>, Dictionary<string, Element>) GetData()
     {
         List<Element> allElements = EmissionSpectra.elements.Values.ToList();
-        List<Element> trueSelected = new();
-        List<Element> falseSelected = new();
+        Dictionary<string, Element> trueSelected = new();
+        Dictionary<string, Element> falseSelected = new();
 
         // Randomly gets unique elements 
         for (int i = 0; i < numTrueElements + numFalseElements; i++)
@@ -28,12 +28,13 @@ public class SpectDataGenerator : MonoBehaviour
             // numFalseElements to falseElements.
             if (i < numTrueElements)
             {
+                // Quantity randomization is only needed for true elements
                 allElements[selectedIndex].quantity = Random.Range(minQuantity, 1.0f);
-                trueSelected.Add(allElements[selectedIndex]);
+                trueSelected.Add(allElements[selectedIndex].name, allElements[selectedIndex]);
             }
             else
             {
-                falseSelected.Add(allElements[selectedIndex]);
+                falseSelected.Add(allElements[selectedIndex].name, allElements[selectedIndex]);
             }
 
             // Removes the selected element so it can't be selected twice

@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(RectTransform))]
 public class SpectrumGraph : MonoBehaviour
 {
-    public List<Element> elements;
+    public Dictionary<string, Element> elements;
     public LineRenderer lr;
     public RectTransform rt;
 
@@ -81,7 +81,7 @@ public class SpectrumGraph : MonoBehaviour
 
         // Calculates the graph points for each peak in each element using a
         // Gaussian function and combines them all into combinedPoints.
-        foreach (Element element in elements)
+        foreach (Element element in elements.Values)
         {
             foreach (SpectrumPeak peak in element.peaks)
             {

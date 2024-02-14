@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SpectGameController : GameController
@@ -12,13 +13,25 @@ public class SpectGameController : GameController
     public override void InitializeGame()
     {
         (Dictionary<string, Element> trueElements, Dictionary<string, Element> falseElements) = generator.GetData();
+        
+        // This gross code seems to be the best way to merge two dicts
+        Dictionary<string, Element>[] dictionaries = { trueElements, falseElements };
+        Dictionary<string, Element> allElements = dictionaries.SelectMany(d => d).ToDictionary(p => p.Key, p => p.Value.Clone());
 
-        referenceGraph.elements = trueElements;
+        // Deep copy
+        referenceGraph.elements = trueElements.ToDictionary(p => p.Key, p => p.Value.Clone());
+
+        // Deep copy
+        userGraph.elements = allElements.ToDictionary(p => p.Key, p => p.Value.Clone());
+
+        // Sets the element quantities in the user graph to 0
+        foreach (Element element in userGraph.elements.Values)
+        {
+            element.quantity = 0f;
+        }
 
         // draw control graphs
 
-        // draw user graph
-        
         // start timer
 
         gameRunning = true;

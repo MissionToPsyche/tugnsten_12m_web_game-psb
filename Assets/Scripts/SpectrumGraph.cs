@@ -13,11 +13,9 @@ public class SpectrumGraph : MonoBehaviour
 
     public bool showPeaks = false;
 
-    // Scaling factor applied to LineRenderer
-    // public float scale = 1.0f;
-
     public float horizontalScale = 1f;
     public float verticalScale = 100.0f;
+    public float lineWidth = 0.04f;
 
     // Amount of x room to add beyond the min/max peak position, so the bell
     // curve isn't truncated at the edge of the graph.
@@ -35,6 +33,11 @@ public class SpectrumGraph : MonoBehaviour
     {
         lr = GetComponent<LineRenderer>();
         rt = GetComponent<RectTransform>();
+
+        // TODO: fix this resource path
+        lr.material = new(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
+        lr.useWorldSpace = false;
+        lr.startWidth = lineWidth;
 
         graphStart = EmissionSpectra.spectraRange.Item1 - graphEndPadding;
         graphEnd = EmissionSpectra.spectraRange.Item2 + graphEndPadding;
@@ -111,7 +114,7 @@ public class SpectrumGraph : MonoBehaviour
                     Vector3 a = combinedPoints[i];
                     Vector3 b = points[i];
 
-                    combinedPoints[i] = new Vector3(b.x, a.y + b.y, b.z);                    
+                    combinedPoints[i] = new Vector3(b.x, a.y + b.y, b.z);
                 }
             }
         }

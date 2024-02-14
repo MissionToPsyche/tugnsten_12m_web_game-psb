@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MagnetometerController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class MagnetometerController : MonoBehaviour
     private int numPoints = 200;
     private Vector3 magneticMoment;
     [SerializeField] private Sprite arrowImg;
+    [SerializeField] private GameObject buttonObj;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +23,40 @@ public class MagnetometerController : MonoBehaviour
 
         List<(Vector3, Vector3)> fieldPoints = getFieldPoints();
         drawArrows(fieldPoints);
+
+        float targetRotation = Vector3.SignedAngle(Vector3.right, magneticMoment, Vector3.forward);
+        Debug.Log("rotation target: " + targetRotation);
+
+        Button button = buttonObj.GetComponent<Button>();
+        button.onClick.AddListener(checkCorrectness);
+    }
+
+
+    private void checkCorrectness()
+    {
+        float targetRotation = 0f;
+        Vector3 targetScale = new(1, 1, 1);
+
+        float scaleMargin = 0.15f;
+        float rotationMargin = 10f;
+
+        float rotation = torus.transform.localRotation.eulerAngles.z;
+        float rotation2 = rotation - Mathf.Sign(rotation)*180;
+        Vector3 scale = torus.transform.localScale;
+
+        float diff1 = Mathf.Abs(rotation - targetRotation);
+        float diff2 = Mathf.Abs(rotation2 - targetRotation);
+
+        if((diff1 < rotationMargin || diff2 < rotationMargin) && Mathf.Abs(Vector3.Distance(scale, targetScale)) < scaleMargin)
+        {
+            Debug.Log("yay!");
+            // return true;
+        }
+        else
+        {
+            Debug.Log("boo");
+            // return false;
+        }
     }
 
     // Update is called once per frame

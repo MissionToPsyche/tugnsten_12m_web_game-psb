@@ -37,7 +37,6 @@ public class TorusGenerator : MonoBehaviour
         rotationAngle = Vector3.SignedAngle(Vector3.right, magneticMoment, Vector3.forward);
         rotationAngle *= Mathf.Deg2Rad;
 
-        float ellipseSize = 1f; // MAY CAUSE CRASH IF CHANGED
         float ellipseFactor = 2f;
         float ellipseRatio = 2f;
         int reflection = 1;
@@ -46,8 +45,8 @@ public class TorusGenerator : MonoBehaviour
         // generates 2x numEllipses
         for (int i = 1; i <= numEllipses; i++)
         {
-            float semiMajorAxis = ((0.75f * (i) + Mathf.Pow(2, i) / (i + 2)) / ellipseFactor) * ellipseSize;
-            float semiMinorAxis = ((0.75f * 0.75f * (i) + Mathf.Pow(2, i) / (i + 1)) / ellipseFactor / ellipseRatio) * ellipseSize;
+            float semiMajorAxis = (0.75f * (i) + Mathf.Pow(2, i) / (i + 2)) / ellipseFactor;
+            float semiMinorAxis = (0.75f * 0.75f * (i) + Mathf.Pow(2, i) / (i + 1)) / ellipseFactor / ellipseRatio;
 
             // Debug.Log("major: " + semiMajorAxis);
             // Debug.Log("minor: " + semiMinorAxis);

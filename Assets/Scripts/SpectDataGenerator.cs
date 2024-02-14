@@ -10,6 +10,8 @@ public class SpectDataGenerator : MonoBehaviour
     // Extra elements given to the user that are not in the reference graph
     public const int numFalseElements = 1;
 
+    public const float minQuantity = 0.1f;
+
     public (List<Element>, List<Element>) GetData()
     {
         List<Element> allElements = EmissionSpectra.elements.Values.ToList();
@@ -26,6 +28,7 @@ public class SpectDataGenerator : MonoBehaviour
             // numFalseElements to falseElements.
             if (i < numTrueElements)
             {
+                allElements[selectedIndex].quantity = Random.Range(minQuantity, 1.0f);
                 trueSelected.Add(allElements[selectedIndex]);
             }
             else

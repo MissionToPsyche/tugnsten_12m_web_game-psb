@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+// using System.Reflection.Emit;
+using PlasticGui.WorkspaceWindow;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TitleController : MonoBehaviour
 {
@@ -53,13 +56,34 @@ public class TitleController : MonoBehaviour
     {
         this.index = index;
         textController.setText(minigames[index]);
+        
+
         nextScene = scenes[index];
     }
+
+    // public string getMinigameName(int index)
+    // {
+    //     if (index >= 0 && index < minigames.Length)
+    //     {
+    //         return minigames[index];
+    //     }
+    //     return "";
+    // }
 
     // Start is called before the first frame update
     public void minigameSelect()
     {
         textController = GameObject.Find("Minigame Text").GetComponent<TextController>();
         nextScene = scenes[0];
+    }
+    public void updateMinigame(Label minigameText)
+    {
+         if(minigameText != null && index >= 0 && index < minigames.Length)
+        {
+            minigameText.text = minigames[index];
+            // this.index = index;
+            nextScene = scenes[index];
+        }
+        setMinigame(index);
     }
 }

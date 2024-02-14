@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -5,8 +6,10 @@ public class TitleScreenUI : MonoBehaviour
 {
     public ChangeScene SceneChanger;
     public TitleController titleController;
+    private TextController textController;
     public GameObject MinigameSelectMenu, Canvas, Console;
-    private Button playButton, gameSelectButton, OptionsButton, CreditsButton, backButton;
+    public Label minigameText;
+    private Button playButton, gameSelectButton, OptionsButton, CreditsButton, minigameBackButton, playMinigameButton;
     private VisualElement root, mainScreen, gameSelectScreen, gameSelectTop, gameSelectBottom, optionsScreen, creditsScreen,  optionsPopup;
 
     private void OnEnable()
@@ -31,14 +34,16 @@ public class TitleScreenUI : MonoBehaviour
         // initializing UI elements in this screen
         gameSelectTop = gameSelectScreen.Q<VisualElement>("game-select-top");
         gameSelectBottom = gameSelectScreen.Q<VisualElement>("game-select-bottom");
-        
-        backButton = gameSelectTop.Q<Button>("back-button");
 
-        backButton.clicked += () => backButtonClicked();
+        minigameBackButton = gameSelectTop.Q<Button>("minigame-back-button");
+        minigameBackButton.clicked += () => backButtonClicked();
+
+        minigameText = gameSelectBottom.Q<Label>("minigame-text");
+        textController.setText(minigameText.text);
+        playMinigameButton = gameSelectBottom.Q<Button>("play-minigame-button");
 
         // initializing buttons on the game select screen
         optionsPopup = optionsScreen.Q<VisualElement>("options-container");
-        
 
     }
 
@@ -70,14 +75,14 @@ public class TitleScreenUI : MonoBehaviour
 
         // set minigame select menu to active
         gameSelectScreen.visible = true;
-        
 
         titleController.minigameSelect();
+        titleController.updateMinigame(minigameText);
+        
     }
     private void optionsButtonClicked()
     {
         mainScreen.visible = false;
         optionsScreen.visible = true;
     }
-
 }

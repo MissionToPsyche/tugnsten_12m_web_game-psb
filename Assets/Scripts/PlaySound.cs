@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class PlaySound : MonoBehaviour
 {
-    [SerializeField] private AudioClip clip;
-    public AudioSource audio;
-    void Start(){
-        SoundManager.Instance.PlaySound(clip);
-    }
-
-    public void PlayButton()
+    public void PlayButton(AudioSource audio)
     {
         audio.Play();
     }

@@ -1386,7 +1386,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: Title
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
 --- !u!114 &2120035842
 MonoBehaviour:
   m_ObjectHideFlags: 0

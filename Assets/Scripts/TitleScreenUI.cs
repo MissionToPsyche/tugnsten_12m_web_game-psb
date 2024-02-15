@@ -77,12 +77,13 @@ public class TitleScreenUI : MonoBehaviour
         gameSelectScreen.visible = true;
 
         titleController.minigameSelect();
-        titleController.updateMinigame(minigameText);
+        // titleController.updateMinigame(minigameText);
         
     }
     private void optionsButtonClicked()
     {
         mainScreen.visible = false;
         optionsScreen.visible = true;
+        // creditsScreen.visible = false;
     }
 }

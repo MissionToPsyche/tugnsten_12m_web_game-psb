@@ -73,12 +73,13 @@ public class TitleController : MonoBehaviour
     // Start is called before the first frame update
     public void minigameSelect()
     {
-        textController = GameObject.Find("Minigame Text").GetComponent<TextController>();
+        // textController = GameObject.Find("Minigame Text").GetComponent<TextController>();
+        textController.setText(minigames[0]);
         nextScene = scenes[0];
     }
     public void updateMinigame(Label minigameText)
     {
-         if(minigameText != null && index >= 0 && index < minigames.Length)
+        if(minigameText != null && index >= 0 && index < minigames.Length)
         {
             minigameText.text = minigames[index];
             // this.index = index;

@@ -19,6 +19,5 @@ public class TextController : MonoBehaviour
     void Start()
     {
         // minigameText = GetComponent<TextMeshProUGUI>();
-        minigameText = GetComponent<Label>();
     }
 }

@@ -1,4 +1,5 @@
 using System.Threading;
+using Codice.Client.Common.GameUI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,9 +7,8 @@ public class TitleScreenUI : MonoBehaviour
 {
     public ChangeScene SceneChanger;
     public TitleController titleController;
-    private TextController textController;
     public GameObject MinigameSelectMenu, Canvas, Console;
-    public Label minigameText;
+    private Label minigameText;
     private Button playButton, gameSelectButton, OptionsButton, CreditsButton, minigameBackButton, playMinigameButton;
     private VisualElement root, mainScreen, gameSelectScreen, gameSelectTop, gameSelectBottom, optionsScreen, creditsScreen,  optionsPopup;
 
@@ -39,14 +39,26 @@ public class TitleScreenUI : MonoBehaviour
         minigameBackButton.clicked += () => backButtonClicked();
 
         minigameText = gameSelectBottom.Q<Label>("minigame-text");
-        textController.setText(minigameText.text);
         playMinigameButton = gameSelectBottom.Q<Button>("play-minigame-button");
-
+        playMinigameButton.clicked += () => playButtonClicked();
         // initializing buttons on the game select screen
         optionsPopup = optionsScreen.Q<VisualElement>("options-container");
-
     }
 
+    void Update()
+    {
+        titleController.updateMinigame(minigameText);
+    }
+
+    public void setMinigameText(string text)
+    {
+        minigameText.text = text;
+    }
+
+    public string getMinigameText()
+    {
+        return minigameText.text;
+    }
     private void backButtonClicked()
     {
         mainScreen.visible = true;
@@ -54,6 +66,7 @@ public class TitleScreenUI : MonoBehaviour
         optionsScreen.visible = false;
         // creditsScreen.visible = false;
 
+        minigameText.visible = false;
         MinigameSelectMenu.SetActive(false);
         Canvas.SetActive(false);
         Console.SetActive(false);
@@ -61,7 +74,8 @@ public class TitleScreenUI : MonoBehaviour
 
     private void playButtonClicked()
     {
-        SceneChanger.NextScene("Magnetometer_minigame");
+        minigameText.text = titleController.getNextScene();
+        SceneChanger.NextScene(minigameText.text);
     }
     private void minigameSelectClicked()
     {
@@ -75,15 +89,12 @@ public class TitleScreenUI : MonoBehaviour
 
         // set minigame select menu to active
         gameSelectScreen.visible = true;
-
-        titleController.minigameSelect();
-        // titleController.updateMinigame(minigameText);
-        
+        minigameText.visible = true;
+        titleController.minigameSelect(minigameText);
     }
     private void optionsButtonClicked()
     {
         mainScreen.visible = false;
-        optionsScreen.visible = true;
         // creditsScreen.visible = false;
     }
 }

@@ -1,66 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class OrbitGameController : MonoBehaviour
+public class OrbitGameController : GameController
 {
-    private bool gameRunning = true;
     public Orbiter spacecraft;
     public Orbit targetOrbit;
-    public UIController ui;
+    public OrbitDataGenerator generator;
 
     public const float altitudeTolerance = 0.1f;
     public const float rotationTolerance = 4f;
     public const float winTimeRequired = 3f;
     private float winTimer = 0f;
-
     // TODO: tune this
     public float idealFuelUsage = 0.5f; // fuel use value for maximum possible score
-    public int maxScore = 10000;
 
-    private struct SpacecraftState
+    override public void InitializeGame()
     {
-        public Vector2 position;
-        public Vector2 velocity;
+        ui.ResetUI();
+        spacecraft.ResetSpacecraft();
+
+        (spacecraft.transform.position, spacecraft.initialVelocity) = generator.GetInitialState();
+
+        winTimer = 0f;
+
+        gameRunning = true;
     }
 
-    private readonly SpacecraftState[] startStates = {
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.55f, 0)},
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.1f, 0)},
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.1f, 1.1f)},
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.5f, 0.75f)},
-    };
-
-    void Start()
+    override public void FinishGame()
     {
-        InitializeGame();
+        spacecraft.active = false;
     }
 
-    void FixedUpdate()
+    override public int GetScore()
     {
-        if (gameRunning)
-        {
-            CheckWinState();
-        }
-        else
-        {
-            FinishGame();
-        }
-    }
-
-    public int GetScore() {
         float fuelRatio = idealFuelUsage / spacecraft.fuelUsed;
-        
+
         fuelRatio = Mathf.Max(fuelRatio, 1.0f);
 
         int score = Mathf.RoundToInt(maxScore * fuelRatio);
 
-        return score;        
+        return score;
     }
 
-    void CheckWinState()
+    override public bool CheckWin()
     {
         // Checks if the current orbit's rotation and apsis distances are
         // within tolerance of the target orbit.
@@ -73,27 +56,27 @@ public class OrbitGameController : MonoBehaviour
         // reset.
         if (winState)
         {
-            winTimer += Time.fixedDeltaTime;
+            winTimer += Time.deltaTime;
 
             float secondsRemaining = Mathf.Round(winTimeRequired - winTimer);
-            ui.ShowText("Maintain Orbit..." + secondsRemaining);
+            ui.ShowMsg("Maintain Orbit..." + secondsRemaining);
         }
         else
         {
             winTimer = 0f;
-            ui.ShowText("");
+            ui.ShowMsg("");
         }
 
         if (spacecraft.orbit.hasCrashed)
         {
             gameRunning = false;
-            ui.ShowText("Spacecraft Deorbited!");
+            ui.ShowMsg("Spacecraft Deorbited!");
             ui.EnterFailState();
         }
         else if (spacecraft.orbit.hasEscaped)
         {
             gameRunning = false;
-            ui.ShowText("Spacecraft Escaped Orbit!");
+            ui.ShowMsg("Spacecraft Escaped Orbit!");
             ui.EnterFailState();
         }
 
@@ -102,29 +85,12 @@ public class OrbitGameController : MonoBehaviour
         if (winTimer >= winTimeRequired)
         {
             gameRunning = false;
-            ui.ShowText("Orbit Reached");
-            ui.EnterWinState();
+            return true;
         }
-    }
-
-    public void InitializeGame()
-    {
-        ui.ResetUI();
-        spacecraft.ResetSpacecraft();
-
-        SpacecraftState initialState = startStates[Random.Range(0, startStates.Length)]; // int random excludes max
-
-        spacecraft.transform.position = new Vector3(initialState.position.x, initialState.position.y, 0);
-        spacecraft.initialVelocity = new Vector3(initialState.velocity.x, initialState.velocity.y, 0);
-        
-        winTimer = 0f;
-
-        gameRunning = true;
-    }
-
-    void FinishGame()
-    {
-        spacecraft.active = false;
+        else
+        {
+            return false;
+        }
     }
 
     public void SetTargetOrbit(float periapsisDistance, float apoapsisDistance, float rotation)

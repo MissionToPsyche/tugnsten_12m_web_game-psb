@@ -6,66 +6,64 @@ public class MoveTorus : MonoBehaviour
 {
     float startDistance;
     Vector3 startScale;
-    float angle = 0f;
-
+    private Vector3 initialMousePosition;
+    private Quaternion initialTorusRotation;
 
     void Update()
     {
         // detect when left mouse button initially pressed down
         if (Input.GetMouseButtonDown(0))
         {
-            // initialize varibale for scaling
-            Vector2 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            startDistance = Vector2.Distance(transform.position, worldPos);
+            // initialize variables for scaling
+            startDistance = Vector2.Distance(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
             startScale = transform.localScale;
 
-            angle = Vector3.Angle(transform.forward, Input.mousePosition);
-            // Debug.Log("angle: " + angle);
+            // record initial mouse position and torus rotation for rotation
+            initialMousePosition = Input.mousePosition;
+            initialTorusRotation = transform.rotation;
         }
+
         // detect left mouse button down
         if (Input.GetMouseButton(0))
         {
-            rotate(angle);
-            scale();
+            RotateTorus();
+            ScaleTorus();
         }
     }
 
-    private void rotate(float angle)
+    private void RotateTorus()
     {
-        // get rotation from angle
-        Quaternion rotation = Quaternion.Euler(0, 0, angle);
-        // Debug.Log("rotation: " + rotation);
+        // Calculate initial and current mouse positions in world space
+        Vector3 initialMouseWorldPos = Camera.main.ScreenToWorldPoint(initialMousePosition);
+        Vector3 currentMouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        //which direction is up
-        Vector3 upAxis = new Vector3(0, 0, -1);
-        Vector3 mouseScreenPosition = Input.mousePosition;
-        // Debug.Log("mousescreenpos: " + mouseScreenPosition);
-        // offset vector by angle
-        // mouseScreenPosition = mouseScreenPosition * rotation;
-        // mouseScreenPosition = Quaternion.AngleAxis(angle, upAxis) * mouseScreenPosition;
-        // Debug.Log("mousescreenpos2: " + mouseScreenPosition);
+        // Ignore z-axis component to ensure rotation only around the z-axis
+        initialMouseWorldPos.z = 0f;
+        currentMouseWorldPos.z = 0f;
 
-        //set mouses z to targets
-        mouseScreenPosition.z = transform.position.z;
-        Vector3 mouseWorldSpace = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+        // Check if mouse has moved
+        if (initialMouseWorldPos != currentMouseWorldPos)
+        {
+            // Calculate rotation angle around the z-axis
+            Vector3 initialDirection = (initialMouseWorldPos - transform.position).normalized;
+            Vector3 currentDirection = (currentMouseWorldPos - transform.position).normalized;
+            float angle = Mathf.Atan2(currentDirection.y, currentDirection.x) - Mathf.Atan2(initialDirection.y, initialDirection.x);
 
-        // rotate torus
-        transform.LookAt(mouseWorldSpace, upAxis);
+            // Apply rotation around the z-axis
+            transform.Rotate(Vector3.forward, angle * Mathf.Rad2Deg, Space.Self);
 
-        //zero out all rotations except the z-axis
-        transform.eulerAngles = new Vector3(0, 0, -transform.eulerAngles.z);
+            // Update initial mouse position for next frame
+            initialMousePosition = Input.mousePosition;
+        }
     }
 
-    private void scale()
-	{
-        // set world position
-		Vector2 newWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    private void ScaleTorus()
+    {
+        // calculate scaling factor based on mouse movement
+        float endDistance = Vector2.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position);
+        float scaleFactor = endDistance / startDistance;
 
-        // distance mouse moved
-		float endDistance = Vector2.Distance(newWorldPos, transform.position);
-		float scaleFactor = endDistance / startDistance;
-
-        // scale
-		transform.localScale = startScale * scaleFactor;
-	}
+        // apply scaling
+        transform.localScale = startScale * scaleFactor;
+    }
 }

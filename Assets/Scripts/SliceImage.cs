@@ -7,8 +7,8 @@ using System.IO;
 public class SliceImage : MonoBehaviour
 {
     // SerializeField makes this variable visible in unity editor but cannot be accessed by other scripts (unlike public variables)
-    [SerializeField] Canvas canvas; 
-     private Texture2D originalImage;
+    [SerializeField] Canvas canvas;
+    private Texture2D originalImage;
     private string path;
     private byte[] bytes;
     private List<Vector2> starts = new List<Vector2>();
@@ -52,7 +52,7 @@ public class SliceImage : MonoBehaviour
 
     public void slice()
     {
-        Debug.Log("slice");
+        // Debug.Log("slice");
         // can probably take out (just here to reset for testing)
         foreach (GameObject obj in images)
         {
@@ -120,7 +120,7 @@ public class SliceImage : MonoBehaviour
             do
             {
                 ctr++;
-                Debug.Log("do: " + ctr);
+                // Debug.Log("do: " + ctr);
 
                 int[] cell = cells[randomCell];
                 int cellX = cell[0];
@@ -155,7 +155,7 @@ public class SliceImage : MonoBehaviour
 
         // add snap offsets to each image
         addSnapOffsets(imgWidth, imgHeight);
-        setInitialSnapPositions(); 
+        setInitialSnapPositions();
     }
 
     public bool isStartDifferent(Vector2 newStart, Vector2 diff)
@@ -261,16 +261,16 @@ public class SliceImage : MonoBehaviour
 
     public void addSnapOffsets(float imgWidth, float imgHeight)
     {
-        for(int i = 0; i < images.Count; i++)
+        for (int i = 0; i < images.Count; i++)
         {
             Dictionary<string, Vector2> snapOffsets = new Dictionary<string, Vector2>();
-            for(int j = 0; j < images.Count; j++)
+            for (int j = 0; j < images.Count; j++)
             {
-                if(images[j] != images[i])
+                if (images[j] != images[i])
                 {
                     float widthOffset = starts[i].x - starts[j].x;
                     float heightOffset = starts[i].y - starts[j].y;
-                    if(Mathf.Abs(widthOffset) < imgWidth || Mathf.Abs(heightOffset) < imgHeight)
+                    if (Mathf.Abs(widthOffset) < imgWidth || Mathf.Abs(heightOffset) < imgHeight)
                     {
                         Vector2 offset = new Vector2(widthOffset, heightOffset);
                         snapOffsets.Add(images[j].name, offset);

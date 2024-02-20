@@ -33,9 +33,15 @@ public class TorusGenerator : MonoBehaviour
         float magMomentMagnitudeY = magMoments[index];
         Vector3 magneticMoment = new Vector3(magMomentMagnitudeX, magMomentMagnitudeY, 0);
         // Debug.Log("mag mom: " + magneticMoment);
+        // magneticMoment = new Vector3(2 * Mathf.Pow(10f, 14f), 0, 0);
 
         rotationAngle = Vector3.SignedAngle(Vector3.right, magneticMoment, Vector3.forward);
         rotationAngle *= Mathf.Deg2Rad;
+        // Calculate the angle between the magnetic moment and the position vector
+        // Vector3 cross = Vector3.Cross(Vector3.right.normalized, magneticMoment.normalized);
+        // rotationAngle = Mathf.Acos(Vector3.Dot(Vector3.right.normalized, magneticMoment.normalized)) * Mathf.Rad2Deg;
+        // Adjust angle sign based on the direction of the cross product
+        // rotationAngle *= Mathf.Sign(Vector3.Dot(cross, Vector3.back));
 
         float ellipseFactor = 2f;
         float ellipseRatio = 2f;

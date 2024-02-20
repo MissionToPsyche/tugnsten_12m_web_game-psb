@@ -24,9 +24,7 @@ public class MagnetometerController : MonoBehaviour
         List<(Vector3, Vector3)> fieldPoints = getFieldPoints();
         drawArrows(fieldPoints);
 
-        float targetRotation = Vector3.SignedAngle(Vector3.right, magneticMoment, Vector3.forward);
-        Debug.Log("rotation target: " + targetRotation);
-
+        // temporary
         Button button = buttonObj.GetComponent<Button>();
         button.onClick.AddListener(checkCorrectness);
     }
@@ -41,13 +39,13 @@ public class MagnetometerController : MonoBehaviour
         float rotationMargin = 10f;
 
         float rotation = torus.transform.localRotation.eulerAngles.z;
-        float rotation2 = rotation - Mathf.Sign(rotation)*180;
+        float rotation180 = rotation - Mathf.Sign(rotation) * 180;
         Vector3 scale = torus.transform.localScale;
 
         float diff1 = Mathf.Abs(rotation - targetRotation);
-        float diff2 = Mathf.Abs(rotation2 - targetRotation);
+        float diff2 = Mathf.Abs(rotation180 - targetRotation);
 
-        if((diff1 < rotationMargin || diff2 < rotationMargin) && Mathf.Abs(Vector3.Distance(scale, targetScale)) < scaleMargin)
+        if ((diff1 < rotationMargin || diff2 < rotationMargin) && Mathf.Abs(Vector3.Distance(scale, targetScale)) < scaleMargin)
         {
             Debug.Log("yay!");
             // return true;
@@ -102,24 +100,59 @@ public class MagnetometerController : MonoBehaviour
 
                 r = ellipse.GetComponent<LineRenderer>().GetPosition(pointIndex);
 
-            } while(proximity(r, fieldPoints) || (r.magnitude < 1f));
+            } while (proximity(r, fieldPoints) || (r.magnitude < 1f));
+
 
             float angle = Vector3.SignedAngle(magneticMoment, r, Vector3.forward);
             angle *= Mathf.Deg2Rad;
 
-            // calculate magnetic field radial and tangential components
+            // // calculate magnetic field radial and tangential components
             float radial = -vacuumPermeability * Vector3.Dot(magneticMoment, r.normalized) * 2f * Mathf.Sin(angle) / (4f * Mathf.PI * Mathf.Pow(r.magnitude, 3f));
             float tangential = vacuumPermeability * Vector3.Dot(magneticMoment, r.normalized) * Mathf.Cos(angle) / (4f * Mathf.PI * Mathf.Pow(r.magnitude, 3f));
             // Debug.Log("radial component: " + radial);
             // Debug.Log("tangential component: " + tangential);
 
+
+
+            // Debug.Log("r: " + r);
+            // Debug.Log("mag mom: " + magneticMoment);
+
+            // Calculate the angle between the magnetic moment and the position vector
+            // Vector3 cross = Vector3.Cross(r.normalized, magneticMoment.normalized);
+            // float angle2 = Mathf.Acos(Vector3.Dot(r.normalized, magneticMoment.normalized)) * Mathf.Rad2Deg;
+
+            // // Adjust angle sign based on the direction of the cross product
+            // angle2 *= Mathf.Sign(Vector3.Dot(cross, Vector3.back));
+
+            // Debug.Log("angle2: " + angle2);
+            // angle2 *= Mathf.Deg2Rad;
+
+            // // Calculate the radial and tangential components using trigonometric functions
+            // float radial2 = vacuumPermeability * magneticMoment.magnitude * 2f * Mathf.Cos(angle2) / (4f * Mathf.PI * Mathf.Pow(r.magnitude, 3f));
+            // float tangential2 = -vacuumPermeability * magneticMoment.magnitude * Mathf.Sin(angle2) / (4f * Mathf.PI * Mathf.Pow(r.magnitude, 3f));
+
+            // Debug.Log("radial component2: " + radial2);
+            // Debug.Log("tangential component2: " + tangential2);
+
+
+
+
+
             // make components vectors
             Vector3 radialVector = r.normalized * radial;
             Vector3 tangentialVector = new Vector3(-r.y, r.x, 0).normalized * tangential;
+            // Debug.Log("rad vect: " + radialVector);
+            // Debug.Log("tan vect: " + tangentialVector);
+            // Vector3 radialVector2 = r.normalized * radial2;
+            // Vector3 tangentialVector2 = new Vector3(-r.y, r.x, 0).normalized * tangential2;
+            // Debug.Log("rad vect2: " + radialVector2);
+            // Debug.Log("tan vect2: " + tangentialVector2);
 
             // make magnetic field one vector
             Vector3 magField = radialVector + tangentialVector;
             // Debug.Log("magField: " + magField);
+            // Vector3 magField2 = radialVector2 + tangentialVector2;
+            // Debug.Log("magField2: " + magField2);
 
             fieldPoints.Add((r, magField));
 
@@ -131,9 +164,9 @@ public class MagnetometerController : MonoBehaviour
 
     private bool proximity(Vector3 r, List<(Vector3, Vector3)> fieldPoints)
     {
-        foreach((Vector3, Vector3) point in fieldPoints)
+        foreach ((Vector3, Vector3) point in fieldPoints)
         {
-            if(Vector3.Distance(r, point.Item1) < 1.0f)
+            if (Vector3.Distance(r, point.Item1) < 1.0f)
             {
                 return true;
             }
@@ -148,6 +181,8 @@ public class MagnetometerController : MonoBehaviour
         {
             // Rotation facing in the direction of the magnetic field's magnitude
             Quaternion rotation = Quaternion.LookRotation(Vector3.forward, point.Item2);
+            // Vector3 perpendicularDirection = Vector3.Cross(point.Item2, Vector3.forward);
+            // Quaternion rotation = Quaternion.LookRotation(Vector3.forward, -perpendicularDirection);
 
             float fieldMagnitude = point.Item2.magnitude;
 
@@ -172,6 +207,8 @@ public class MagnetometerController : MonoBehaviour
             ArrowTransform.position = newPosition;
 
             arrow.transform.localScale = new(modifiedMagnitude, modifiedMagnitude, 1);
+
+            // Debug.Log("arrow: " + arrow.transform.rotation);
 
             i++;
         }

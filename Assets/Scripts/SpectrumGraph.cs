@@ -10,6 +10,7 @@ public class SpectrumGraph : MonoBehaviour
     public Dictionary<string, Element> elements;
     public LineRenderer lr;
     public RectTransform rt;
+    public GraphFrame frame;
 
     public bool showPeaks = false;
 
@@ -21,9 +22,21 @@ public class SpectrumGraph : MonoBehaviour
     // curve isn't truncated at the edge of the graph.
     public int graphEndPadding = 100;
 
+    // Amount of room between the graph's line and the axes
+    public int graphMargin = 20;
+
+    // Number of tick marks on the axes
+    public int numAxisTicks = 10;
+    // Ratio of x axis ticks to y axis (i.e. 10 on x to 5 on y = 2)
+    public int ratioAxisTicks = 2;
+    // Change between each tick mark label
+    public int tickStep = 1;
+    // Pixel size of the tick marks
+    public int tickSize = 10;
+
     // x values of the first and last points on the line
-    public int graphStart;
-    public int graphEnd;
+    private int graphStart;
+    private int graphEnd;
 
     // Distance between calculated points
     public const float graphStep = 0.5f;
@@ -33,6 +46,7 @@ public class SpectrumGraph : MonoBehaviour
     {
         lr = GetComponent<LineRenderer>();
         rt = GetComponent<RectTransform>();
+        RectTransform frameRt = frame.GetComponent<RectTransform>();
 
         // TODO: fix this resource path
         lr.material = new(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
@@ -52,12 +66,13 @@ public class SpectrumGraph : MonoBehaviour
         // value. That places the vertical center of the graph somewhere near
         // the vertical center of its parent transform. 
         rt.anchoredPosition = new(-((graphEnd - graphStart) / 2 + graphStart), -2 * verticalScale);
-
-        DrawWindow();
+        // And the same for the frame
+        frameRt.anchoredPosition = new(-((graphEnd - graphStart) / 2 + graphStart), -2 * verticalScale);
     }
 
     private void Update()
     {
+        DrawFrame();
         DrawGraph();
 
         // If this graph only has one element, it's a control graph
@@ -135,8 +150,74 @@ public class SpectrumGraph : MonoBehaviour
         // TODO
     }
 
-    public void DrawWindow()
+    public void DrawFrame()
     {
-        // TODO
+        // Pixel width of the graph's line
+        int graphWidth = graphEnd - graphStart;
+
+        int tickSeparation = graphWidth / numAxisTicks;
+        
+        // Bottom right of the graph
+        Vector3 currentPoint = new(graphEnd, -graphMargin);
+        
+        // Points for the LineRenderer
+        List<Vector3> points = new() {currentPoint};
+        
+        // Draws the x axis, ends with currentPoint at graph origin
+        for (int i = 0; i < numAxisTicks; i++)
+        {
+            // Move down to point of tick
+            currentPoint.y -= tickSize;
+            points.Add(currentPoint);
+
+            // TODO: Draw label
+
+            // Move back to tick base
+            currentPoint.y += tickSize;
+            points.Add(currentPoint);
+
+            // Move left one tick
+            currentPoint.x -= tickSeparation;
+            points.Add(currentPoint);
+        }
+        
+        // Move from origin up to first tick base
+        currentPoint.y += tickSeparation;
+        points.Add(currentPoint);
+
+        // Draws the y axis, ends with currentPoint at top left tick base
+        for (int i = 0; i < numAxisTicks / ratioAxisTicks; i++)
+        {
+            // Move left to point of tick
+            currentPoint.x -= tickSize;
+            points.Add(currentPoint);
+
+            // TODO: Draw label
+
+            // Move back to tick base
+            currentPoint.x += tickSize;
+            points.Add(currentPoint);
+
+            // Move up one tick
+            currentPoint.y += tickSeparation;
+            points.Add(currentPoint);
+        }
+
+        // Draws the point of the last y-axis tick
+        currentPoint.x -= tickSize;
+        points.Add(currentPoint);
+
+        frame.lr.positionCount = points.Count;
+        frame.lr.SetPositions(points.ToArray());
+
+        // frame = new();
+
+        // LineRenderer frameLine = frame.AddComponent<LineRenderer>();
+        // TODO: fix this resource path
+        // frameLine.material = new(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
+        // frameLine.useWorldSpace = false;
+        // frameLine.startWidth = lineWidth;
+        
+        // frameLine.SetPositions(points.ToArray());   
     }
 }

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public static class EmissionSpectra
 {
-    public static Dictionary<string, Element> elements;
+    public static SortedDictionary<string, Element> elements;
 
     // Minimum and maximum x values
     public static (int, int) spectraRange;
 
     static EmissionSpectra()
     {
-        elements = new Dictionary<string, Element>(){
+        elements = new SortedDictionary<string, Element>(){
             {"h", new("h")},   // hydrogen
             {"c", new("c")},   // carbon
             {"o", new("o")},   // oxygen

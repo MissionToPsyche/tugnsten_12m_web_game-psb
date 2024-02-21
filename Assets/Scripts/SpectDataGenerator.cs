@@ -12,16 +12,16 @@ public class SpectDataGenerator : MonoBehaviour
 
     public const float minQuantity = 0.1f;
 
-    public (Dictionary<string, Element>, Dictionary<string, Element>) GetData()
+    public (SortedDictionary<string, Element>, SortedDictionary<string, Element>) GetData()
     {
         // Deep copies the element dictionary
-        Dictionary<string, Element> allElements = EmissionSpectra.elements.ToDictionary(p => p.Key, p => p.Value.Clone());
+        SortedDictionary<string, Element> allElements = new(EmissionSpectra.elements.ToDictionary(p => p.Key, p => p.Value.Clone()));
         
         // Converts the dictionary keys to a list for ease of use
         List<Element> allElementsList = allElements.Values.ToList();
         
-        Dictionary<string, Element> trueSelected = new();
-        Dictionary<string, Element> falseSelected = new();
+        SortedDictionary<string, Element> trueSelected = new();
+        SortedDictionary<string, Element> falseSelected = new();
 
         // Randomly gets unique elements 
         for (int i = 0; i < numTrueElements + numFalseElements; i++)

@@ -8,21 +8,21 @@ public class SpectGameController : GameController
     public SpectDataGenerator generator;
     public SpectrumGraph referenceGraph;
     public SpectrumGraph userGraph;
-    // private SpectrumGraph[] controls;
+    public SpectrumGraph[] controls = new SpectrumGraph[4];
 
     public override void InitializeGame()
     {
-        (Dictionary<string, Element> trueElements, Dictionary<string, Element> falseElements) = generator.GetData();
+        (SortedDictionary<string, Element> trueElements, SortedDictionary<string, Element> falseElements) = generator.GetData();
         
         // This gross code seems to be the best way to merge two dicts
-        Dictionary<string, Element>[] dictionaries = { trueElements, falseElements };
-        Dictionary<string, Element> allElements = dictionaries.SelectMany(d => d).ToDictionary(p => p.Key, p => p.Value.Clone());
+        SortedDictionary<string, Element>[] dictionaries = { trueElements, falseElements };
+        SortedDictionary<string, Element> allElements = new(dictionaries.SelectMany(d => d).ToDictionary(p => p.Key, p => p.Value.Clone()));
 
         // Deep copy
-        referenceGraph.elements = trueElements.ToDictionary(p => p.Key, p => p.Value.Clone());
+        referenceGraph.elements = new(trueElements.ToDictionary(p => p.Key, p => p.Value.Clone()));
 
         // Deep copy
-        userGraph.elements = allElements.ToDictionary(p => p.Key, p => p.Value.Clone());
+        userGraph.elements = new(allElements.ToDictionary(p => p.Key, p => p.Value.Clone()));
 
         // Sets the element quantities in the user graph to 0
         foreach (Element element in userGraph.elements.Values)

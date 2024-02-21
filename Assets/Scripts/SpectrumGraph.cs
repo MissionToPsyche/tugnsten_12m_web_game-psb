@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(RectTransform))]
 public class SpectrumGraph : MonoBehaviour
 {
-    public Dictionary<string, Element> elements;
+    public SortedDictionary<string, Element> elements;
     public LineRenderer lr;
     public RectTransform rt;
     public GraphFrame frame;
@@ -15,7 +15,7 @@ public class SpectrumGraph : MonoBehaviour
     public bool showPeaks = false;
 
     public float horizontalScale = 1f;
-    public float verticalScale = 100.0f;
+    public float verticalScale = 150.0f;
     public float lineWidth = 0.04f;
 
     // Amount of x room to add beyond the min/max peak position, so the bell
@@ -26,20 +26,19 @@ public class SpectrumGraph : MonoBehaviour
     public int graphMargin = 20;
 
     // Number of tick marks on the axes
-    public int numAxisTicks = 10;
-    // Ratio of x axis ticks to y axis (i.e. 10 on x to 5 on y = 2)
-    public int ratioAxisTicks = 2;
+    public int numXTicks = 10;
+    public int numYTicks = 5;
     // Change between each tick mark label
     public int tickStep = 1;
     // Pixel size of the tick marks
-    public int tickSize = 10;
+    public int tickSize = 15;
 
     // x values of the first and last points on the line
     private int graphStart;
     private int graphEnd;
 
     // Distance between calculated points
-    public const float graphStep = 0.5f;
+    public const float graphStep = 2f;
     private Vector3[] graphPoints;
 
     void OnValidate()
@@ -61,13 +60,17 @@ public class SpectrumGraph : MonoBehaviour
         // LineRender's own origin is at 0,0, this centers the line within its
         // parent transform.
         //
-        // This also moves the line down by the maximum probable height, which
-        // is two max strength peaks (1.0 each) at max quantity at the same x
-        // value. That places the vertical center of the graph somewhere near
-        // the vertical center of its parent transform. 
-        rt.anchoredPosition = new(-((graphEnd - graphStart) / 2 + graphStart), -2 * verticalScale);
-        // And the same for the frame
-        frameRt.anchoredPosition = new(-((graphEnd - graphStart) / 2 + graphStart), -2 * verticalScale);
+        // Similar logic for moving it down by half its height. 
+
+        float xCenter = (graphEnd - graphStart) / 2f + graphStart;
+        
+        // TODO: fix this
+        float yCenter = (graphEnd - graphStart) / (numXTicks / (float)numYTicks) / 2f;
+        
+        Vector2 newTransform = new(-xCenter, -yCenter);
+
+        rt.anchoredPosition = newTransform;
+        frameRt.anchoredPosition = newTransform;
     }
 
     private void Update()
@@ -155,7 +158,7 @@ public class SpectrumGraph : MonoBehaviour
         // Pixel width of the graph's line
         int graphWidth = graphEnd - graphStart;
 
-        int tickSeparation = graphWidth / numAxisTicks;
+        int tickSeparation = graphWidth / numXTicks;
         
         // Bottom right of the graph
         Vector3 currentPoint = new(graphEnd, -graphMargin);
@@ -164,7 +167,7 @@ public class SpectrumGraph : MonoBehaviour
         List<Vector3> points = new() {currentPoint};
         
         // Draws the x axis, ends with currentPoint at graph origin
-        for (int i = 0; i < numAxisTicks; i++)
+        for (int i = 0; i < numXTicks; i++)
         {
             // Move down to point of tick
             currentPoint.y -= tickSize;
@@ -186,7 +189,7 @@ public class SpectrumGraph : MonoBehaviour
         points.Add(currentPoint);
 
         // Draws the y axis, ends with currentPoint at top left tick base
-        for (int i = 0; i < numAxisTicks / ratioAxisTicks; i++)
+        for (int i = 0; i < numYTicks; i++)
         {
             // Move left to point of tick
             currentPoint.x -= tickSize;

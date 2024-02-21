@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(RectTransform))]
@@ -11,23 +12,28 @@ public class SpectrumGraph : MonoBehaviour
     public LineRenderer lr;
     public RectTransform rt;
     public GraphFrame frame;
+    public Slider slider = null;
 
     public bool showPeaks = false;
+    public bool isControl = false;
 
     public float horizontalScale = 1f;
-    public float verticalScale = 150.0f;
+    public float verticalScale = 200f;
     public float lineWidth = 0.04f;
 
     // Amount of x room to add beyond the min/max peak position, so the bell
     // curve isn't truncated at the edge of the graph.
     public int graphEndPadding = 100;
 
-    // Amount of room between the graph's line and the axes
+    // Amount of space between the graph's line and the axes
     public int graphMargin = 20;
+
+    // Amount of space between the slider and the graph axis
+    public int sliderMargin = 100;
 
     // Number of tick marks on the axes
     public int numXTicks = 10;
-    public int numYTicks = 5;
+    public int numYTicks = 4;
     // Change between each tick mark label
     public int tickStep = 1;
     // Pixel size of the tick marks
@@ -41,7 +47,7 @@ public class SpectrumGraph : MonoBehaviour
     public const float graphStep = 2f;
     private Vector3[] graphPoints;
 
-    void OnValidate()
+    protected void OnValidate()
     {
         lr = GetComponent<LineRenderer>();
         rt = GetComponent<RectTransform>();
@@ -71,19 +77,20 @@ public class SpectrumGraph : MonoBehaviour
 
         rt.anchoredPosition = newTransform;
         frameRt.anchoredPosition = newTransform;
+
+        DrawFrame();
+
+        if (isControl)
+        {
+            slider.direction = Slider.Direction.BottomToTop;
+            slider.GetComponent<RectTransform>().anchoredPosition = new(-(xCenter / 2f + graphStart + sliderMargin), 0);
+        }
     }
 
     private void Update()
     {
         DrawFrame();
         DrawGraph();
-
-        // If this graph only has one element, it's a control graph
-        if (elements.Count == 1)
-        {
-            showPeaks = true;
-            DrawPeaks();
-        }
     }
 
     public void CalculatePoints()
@@ -146,11 +153,6 @@ public class SpectrumGraph : MonoBehaviour
 
         lr.positionCount = graphPoints.Length;
         lr.SetPositions(graphPoints);
-    }
-
-    public void DrawPeaks()
-    {
-        // TODO
     }
 
     public void DrawFrame()

@@ -9,6 +9,8 @@ public class SpectGameController : GameController
     public SpectrumGraph referenceGraph;
     public SpectrumGraph userGraph;
     public SpectrumGraph[] controls = new SpectrumGraph[4];
+    private SortedDictionary<string, SpectrumGraph> controlsDict = new();
+    private SortedDictionary<string, Element> allElements;
 
     public override void InitializeGame()
     {
@@ -16,7 +18,7 @@ public class SpectGameController : GameController
         
         // This gross code seems to be the best way to merge two dicts
         SortedDictionary<string, Element>[] dictionaries = { trueElements, falseElements };
-        SortedDictionary<string, Element> allElements = new(dictionaries.SelectMany(d => d).ToDictionary(p => p.Key, p => p.Value.Clone()));
+        allElements = new(dictionaries.SelectMany(d => d).ToDictionary(p => p.Key, p => p.Value.Clone()));
 
         // Deep copy
         referenceGraph.elements = new(trueElements.ToDictionary(p => p.Key, p => p.Value.Clone()));
@@ -29,10 +31,23 @@ public class SpectGameController : GameController
         {
             element.quantity = 0f;
         }
+        
+        // Initializes control graphs
+        for (int i = 0; i < controls.Length; i++)
+        {   
+            controls[i].elements = new()
+            {
+                { allElements.ElementAt(i).Key, allElements.ElementAt(i).Value.Clone() }
+            };
 
-        // draw control graphs
+            controls[i].elements.ElementAt(0).Value.quantity = 1f;
+            
+            // Converts the array of control graphs into a dict with element
+            // names as keys.
+            controlsDict.Add(controls[i].elements.ElementAt(0).Value.name, controls[i]);
+        }
 
-        // start timer
+        // TODO: start timer
 
         gameRunning = true;
     }
@@ -48,8 +63,18 @@ public class SpectGameController : GameController
         throw new System.NotImplementedException();
     }
 
+    // Called by super's Update()
     public override bool CheckWin()
     {
+        UpdateUserGraph();
         return false;
+    }
+
+    public void UpdateUserGraph()
+    {
+        foreach (Element element in allElements.Values)
+        {
+            // controlsDict[element.name]
+        }
     }
 }

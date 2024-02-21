@@ -74,7 +74,8 @@ public class SpectGameController : GameController
     {
         foreach (Element element in allElements.Values)
         {
-            // controlsDict[element.name]
+            float sliderValue = controlsDict[element.name].slider.value;
+            userGraph.elements[element.name].quantity = sliderValue;
         }
     }
 }

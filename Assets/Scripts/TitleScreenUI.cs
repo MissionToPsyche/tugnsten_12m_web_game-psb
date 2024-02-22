@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 public class TitleScreenUI : MonoBehaviour 
 {
     public ChangeScene SceneChanger;
+    public SoundManager soundManager;
+    public AudioClip clip;
     public TitleController titleController;
     public GameObject MinigameSelectMenu, Canvas, Console;
     private Label minigameText;
@@ -26,9 +28,18 @@ public class TitleScreenUI : MonoBehaviour
         OptionsButton = mainScreen.Q<Button>("options-button");
         CreditsButton = mainScreen.Q<Button>("credits-button");
 
-        playButton.clicked += () => playButtonClicked();
-        gameSelectButton.clicked += () => minigameSelectClicked();
-        OptionsButton.clicked += () => optionsButtonClicked();
+        playButton.clicked += () => {
+            playButtonClicked();
+            playSound();
+        };
+        gameSelectButton.clicked += () => {
+            minigameSelectClicked();
+            playSound();
+        };
+        OptionsButton.clicked += () => {
+            optionsButtonClicked();
+            playSound();
+        };
 
         // MINIGAME SELECT SCREEN
         // initializing UI elements in this screen
@@ -76,6 +87,11 @@ public class TitleScreenUI : MonoBehaviour
     {
         minigameText.text = titleController.getNextScene();
         SceneChanger.NextScene(minigameText.text);
+    }
+
+    private void playSound()
+    {
+        soundManager.PlaySound(clip);
     }
     private void minigameSelectClicked()
     {

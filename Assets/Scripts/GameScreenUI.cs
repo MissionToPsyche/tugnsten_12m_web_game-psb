@@ -32,6 +32,7 @@ public class GameScreenUI : MonoBehaviour
     private void optionsButtonClicked()
     {
         optionsScreen.visible = true;
+        gameScreen.visible = false;
     }
 
     private void continueButtonClicked()
@@ -41,5 +42,6 @@ public class GameScreenUI : MonoBehaviour
     private void cancel()
     {
         optionsScreen.visible = false;
+        gameScreen.visible = true;
     }
 }

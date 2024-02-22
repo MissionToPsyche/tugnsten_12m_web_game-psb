@@ -56,6 +56,11 @@ public class TitleController : MonoBehaviour
         nextScene = scenes[index];
     }
 
+    public string getMinigameText(int index)
+    {
+        return minigames[index];
+    }
+
     // Start is called before the first frame update
     public void minigameSelect(Label minigameText)
     {
@@ -63,6 +68,7 @@ public class TitleController : MonoBehaviour
         minigameText.text = minigames[index];
 
     }
+
 
     public void updateMinigame(Label minigameText)
     {
@@ -73,4 +79,5 @@ public class TitleController : MonoBehaviour
         }
         setMinigame(index);
     }
+
 }

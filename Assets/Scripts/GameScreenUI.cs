@@ -3,10 +3,14 @@ using UnityEngine.UIElements;
 
 public class GameScreenUI : MonoBehaviour
 {
+    private int minigameIndex;
+    public TitleController titleController;
+    public ChangeScene SceneChanger;
     private Button optionsBtn, continueBtn, cancelBtn;
     VisualElement root, gameScreen, optionsScreen, gameBottomContainer, gameTopContainer, gameButtonContainer, optionsContainer, optionsContainerBottom;
     private void OnEnable()
     {
+        minigameIndex = titleController.getIndex();
         // initializing visual elements
         root = GetComponent<UIDocument>().rootVisualElement;
         // game screen
@@ -37,7 +41,9 @@ public class GameScreenUI : MonoBehaviour
 
     private void continueButtonClicked()
     {
-
+        minigameIndex++;
+        // titleController.setMinigame(minigameIndex);
+        SceneChanger.NextScene(titleController.getMinigameText(minigameIndex));
     }
     private void cancel()
     {

@@ -9,7 +9,7 @@ public class SpectGameController : GameController
     public SpectrumGraph referenceGraph;
     public SpectrumGraph userGraph;
     public SpectrumGraph[] controls = new SpectrumGraph[4];
-    private SortedDictionary<string, SpectrumGraph> controlsDict = new();
+    private SortedDictionary<string, SpectrumGraph> controlsDict;
     private SortedDictionary<string, Element> allElements;
 
     public override void InitializeGame()
@@ -33,6 +33,7 @@ public class SpectGameController : GameController
         }
         
         // Initializes control graphs
+        controlsDict = new();
         for (int i = 0; i < controls.Length; i++)
         {   
             controls[i].elements = new()

@@ -1,6 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+// using System.Collections;
+// using System.Collections.Generic;
+// using System.Reflection.Emit;
+// using PlasticGui.WorkspaceWindow;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TitleController : MonoBehaviour
 {
@@ -24,9 +27,7 @@ public class TitleController : MonoBehaviour
         "Science_minigame",
         "Spectrometer_minigame",
     };
-
-    private TextController textController;
-    private string nextScene;
+    private string nextScene = "Magnetometer_minigame";
     private int index;
 
     public Vector3[] getAllPositions()
@@ -49,17 +50,31 @@ public class TitleController : MonoBehaviour
         return nextScene;
     }
 
+    // public string getMinigameTitle()
+    // {
+    //     return minigames[index];
+    // }
     public void setMinigame(int index)
     {
         this.index = index;
-        textController.setText(minigames[index]);
         nextScene = scenes[index];
     }
 
     // Start is called before the first frame update
-    public void minigameSelect()
+    public void minigameSelect(Label minigameText)
     {
-        textController = GameObject.Find("Minigame Text").GetComponent<TextController>();
-        nextScene = scenes[0];
+        setMinigame(0);
+        minigameText.text = minigames[index];
+
+    }
+
+    public void updateMinigame(Label minigameText)
+    {
+        if(minigameText != null && index >= 0 && index < minigames.Length)
+        {
+            minigameText.text = minigames[index];
+            nextScene = scenes[index];
+        }
+        setMinigame(index);
     }
 }

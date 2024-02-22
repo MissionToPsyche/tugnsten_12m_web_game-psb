@@ -1,22 +1,3 @@
-.button-style:hover {
-    background-color: rgb(249, 160, 0);
-    border-left-color: rgb(89, 38, 81);
-    border-right-color: rgb(89, 38, 81);
-    border-top-color: rgb(89, 38, 81);
-    border-bottom-color: rgb(89, 38, 81);
-    color: rgb(89, 38, 81);
-    -unity-background-image-tint-color: rgb(89, 38, 81);
-    font-size: 54px;
-    border-top-width: 5px;
-    border-right-width: 5px;
-    border-bottom-width: 5px;
-    border-left-width: 5px;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-    border-bottom-left-radius: 25px;
-}
-
 .title {
     font-size: 125px;
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&guid=5e45cd4bb34bec24eb2fe66c08f4067a&type=3#AndromedaTV');
@@ -36,6 +17,82 @@
     padding-right: 2%;
     padding-bottom: 0;
     min-width: 100px;
+}
+
+.button {
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&guid=5e45cd4bb34bec24eb2fe66c08f4067a&type=3#AndromedaTV');
+    -unity-font-definition: initial;
+    -unity-font-style: bold;
+    background-color: rgb(89, 38, 81);
+    -unity-background-image-tint-color: rgb(249, 160, 0);
+    border-left-color: rgb(249, 160, 0);
+    border-right-color: rgb(249, 160, 0);
+    border-top-color: rgb(249, 160, 0);
+    border-bottom-color: rgb(249, 160, 0);
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    color: rgb(249, 160, 0);
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    margin-top: 2%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+    width: 25%;
+    flex-grow: 1;
+    height: 10%;
+    flex-shrink: 1;
+    flex-basis: 1px;
+    padding-top: 1%;
+    padding-right: 1%;
+    padding-bottom: 1%;
+    padding-left: 1%;
+    min-width: 25px;
+    min-height: 70px;
+    opacity: 1;
+    max-width: none;
+    max-height: none;
+    flex-wrap: nowrap;
+    align-items: auto;
+    justify-content: flex-start;
+    font-size: 54px;
+}
+
+.button:hover {
+    background-color: rgb(62, 27, 57);
+    border-left-color: rgb(249, 160, 0);
+    border-right-color: rgb(249, 160, 0);
+    border-top-color: rgb(249, 160, 0);
+    border-bottom-color: rgb(249, 160, 0);
+    color: rgb(249, 160, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    font-size: 54px;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.button:focus {
+    background-color: rgb(249, 160, 0);
+    border-left-color: rgb(89, 38, 81);
+    border-right-color: rgb(89, 38, 81);
+    border-top-color: rgb(89, 38, 81);
+    border-bottom-color: rgb(89, 38, 81);
+    color: rgb(89, 38, 81);
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    font-size: 54px;
 }
 
 .back-button {
@@ -81,45 +138,5 @@
     -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
-.button-style {
-    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&guid=5e45cd4bb34bec24eb2fe66c08f4067a&type=3#AndromedaTV');
-    -unity-font-definition: initial;
-    -unity-font-style: bold;
-    background-color: rgb(89, 38, 81);
-    -unity-background-image-tint-color: rgb(249, 160, 0);
-    border-left-color: rgb(249, 160, 0);
-    border-right-color: rgb(249, 160, 0);
-    border-top-color: rgb(249, 160, 0);
-    border-bottom-color: rgb(249, 160, 0);
-    border-top-width: 5px;
-    border-right-width: 5px;
-    border-bottom-width: 5px;
-    border-left-width: 5px;
-    color: rgb(249, 160, 0);
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-    border-bottom-left-radius: 25px;
-    margin-top: 2%;
-    margin-right: 2%;
-    margin-bottom: 2%;
-    margin-left: 2%;
-    width: 25%;
-    flex-grow: 1;
-    height: 10%;
-    flex-shrink: 1;
-    flex-basis: 1px;
-    padding-top: 1%;
-    padding-right: 1%;
-    padding-bottom: 1%;
-    padding-left: 1%;
-    min-width: 25px;
-    min-height: 70px;
-    opacity: 1;
-    max-width: none;
-    max-height: none;
-    flex-wrap: nowrap;
-    align-items: auto;
-    justify-content: flex-start;
-    font-size: 54px;
+.text-style {
 }

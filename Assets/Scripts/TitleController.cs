@@ -50,10 +50,6 @@ public class TitleController : MonoBehaviour
         return nextScene;
     }
 
-    // public string getMinigameTitle()
-    // {
-    //     return minigames[index];
-    // }
     public void setMinigame(int index)
     {
         this.index = index;

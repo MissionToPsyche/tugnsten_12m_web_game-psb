@@ -3,8 +3,8 @@ using UnityEngine.UIElements;
 
 public class GameScreenUI : MonoBehaviour
 {
-    private Button optionsButton, continueButton;
-    VisualElement root, gameScreen, optionsScreen, gameBottomContainer, gameTopContainer, gameButtonContainer, optionsPopup;
+    private Button optionsBtn, continueBtn, cancelBtn;
+    VisualElement root, gameScreen, optionsScreen, gameBottomContainer, gameTopContainer, gameButtonContainer, optionsContainer, optionsContainerBottom;
     private void OnEnable()
     {
         // initializing visual elements
@@ -16,34 +16,30 @@ public class GameScreenUI : MonoBehaviour
         gameButtonContainer = gameBottomContainer.Q<VisualElement>("button-container");
         // options screen
         optionsScreen = root.Q<VisualElement>("options-screen");
-        optionsPopup = optionsScreen.Q<VisualElement>("options-container");
-
+        optionsContainer = optionsScreen.Q<VisualElement>("options-container");
+        optionsContainerBottom = optionsContainer.Q<VisualElement>("bottom-container");
         // 
-        optionsButton = gameButtonContainer.Q<Button>("options-button");
-        optionsButton.clicked += () => optionsButtonClicked();
+        optionsBtn = gameButtonContainer.Q<Button>("options-button");
+        optionsBtn.clicked += () => optionsButtonClicked();
+        cancelBtn = optionsContainerBottom.Q<Button>("cancel-button");
+        cancelBtn.clicked += () => cancel();
 
-        continueButton = gameButtonContainer.Q<Button>("continue-button");
-        continueButton.clicked += () => continueButtonClicked();
+        continueBtn = gameButtonContainer.Q<Button>("continue-button");
+        continueBtn.clicked += () => continueButtonClicked();
 
 
     }
     private void optionsButtonClicked()
     {
-        if (optionsButton != null)
-        {
-            optionsScreen.visible = true;
-            gameScreen.style.opacity = 0.5f;
-            Debug.Log("Options button clicked!");
-        }
-        else
-        {
-            Debug.Log("Options button not found!");
-        }
-
+        optionsScreen.visible = true;
     }
 
     private void continueButtonClicked()
     {
 
+    }
+    private void cancel()
+    {
+        optionsScreen.visible = false;
     }
 }

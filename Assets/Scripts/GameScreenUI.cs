@@ -1,35 +1,49 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GameScreenUI : MonoBehaviour 
+public class GameScreenUI : MonoBehaviour
 {
     private Button optionsButton, continueButton;
     VisualElement root, gameScreen, optionsScreen, gameBottomContainer, gameTopContainer, gameButtonContainer, optionsPopup;
     private void OnEnable()
     {
+        // initializing visual elements
         root = GetComponent<UIDocument>().rootVisualElement;
-
-        // GAME SCREEN
+        // game screen
         gameScreen = root.Q<VisualElement>("game-screen");
         gameTopContainer = gameScreen.Q<VisualElement>("game-top-container");
         gameBottomContainer = gameScreen.Q<VisualElement>("game-bottom-container");
         gameButtonContainer = gameBottomContainer.Q<VisualElement>("button-container");
-        continueButton = gameButtonContainer.Q<Button>("continue-button");
+        // options screen
+        optionsScreen = root.Q<VisualElement>("options-screen");
+        optionsPopup = optionsScreen.Q<VisualElement>("options-container");
+
+        // 
         optionsButton = gameButtonContainer.Q<Button>("options-button");
         optionsButton.clicked += () => optionsButtonClicked();
 
-        // OPTIONS SCREEN
-        optionsScreen = root.Q<VisualElement>("options-screen");
-        optionsPopup = optionsScreen.Q<VisualElement>("options-container");
+        continueButton = gameButtonContainer.Q<Button>("continue-button");
+        continueButton.clicked += () => continueButtonClicked();
+
+
     }
     private void optionsButtonClicked()
     {
-        gameScreen.visible = false;
-        optionsScreen.visible = true;
+        if (optionsButton != null)
+        {
+            optionsScreen.visible = true;
+            gameScreen.style.opacity = 0.5f;
+            Debug.Log("Options button clicked!");
+        }
+        else
+        {
+            Debug.Log("Options button not found!");
+        }
+
     }
 
     private void continueButtonClicked()
     {
-        
+
     }
 }

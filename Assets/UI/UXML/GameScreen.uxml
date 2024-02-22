@@ -7,8 +7,8 @@
             </ui:VisualElement>
             <ui:VisualElement name="game-bottom-container" style="flex-grow: 1; width: 100%; min-width: 100%; background-image: url(&apos;project://database/Assets/minigame-bottom-border.png?fileID=21300000&amp;guid=b0b2276f978574845a34a8bccd26a620&amp;type=3#minigame-bottom-border&apos;); -unity-background-scale-mode: scale-to-fit; -unity-slice-bottom: 0; min-height: 80px; height: 80px; margin-top: 0; justify-content: flex-start; align-self: auto; position: relative; bottom: auto; top: 200px; flex-direction: column;">
                 <ui:VisualElement name="button-container" style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: space-around; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; width: 1918px; background-image: none; -unity-background-scale-mode: scale-to-fit;">
-                    <ui:Button text="Options" parse-escape-sequences="true" display-tooltip-when-elided="true" name="options-button" class="button-style" style="width: 70px; flex-direction: column; margin-right: 30%; min-width: 70px; min-height: 70px; height: 15%;" />
-                    <ui:Button text="Continue" parse-escape-sequences="true" display-tooltip-when-elided="true" name="continue-button" class="button-style" style="left: 2px; margin-left: 30%; min-width: 70px; width: 70px; height: 15%;" />
+                    <ui:Button text="Options" parse-escape-sequences="true" display-tooltip-when-elided="true" name="options-button" class="button" style="width: 70px; flex-direction: column; margin-right: 30%; min-width: 70px; min-height: 70px; height: 15%;" />
+                    <ui:Button text="Continue" parse-escape-sequences="true" display-tooltip-when-elided="true" name="continue-button" class="button" style="left: 2px; margin-left: 30%; min-width: 70px; width: 70px; height: 15%;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
@@ -20,13 +20,13 @@
                     <ui:Slider picking-mode="Ignore" label="Sound" value="42" high-value="100" name="sound-silder" style="-unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&amp;guid=5e45cd4bb34bec24eb2fe66c08f4067a&amp;type=3#AndromedaTV&apos;);" />
                 </ui:VisualElement>
                 <ui:VisualElement name="difficulty-container" style="flex-grow: 1; flex-direction: row; flex-wrap: nowrap; align-items: center; min-width: 100%; min-height: 10px; height: 10px; width: 100%; padding-top: 0; padding-right: 4%; padding-bottom: 0; padding-left: 4%;">
-                    <ui:Button text="Easy" parse-escape-sequences="true" display-tooltip-when-elided="true" name="esay-button" class="button-main-screen button-style" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-right-width: 2px; height: 80px;" />
-                    <ui:Button text="Medium" parse-escape-sequences="true" display-tooltip-when-elided="true" name="medium-button" class="button-main-screen button-style" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-right-width: 2px; border-left-width: 2px; height: 80px;" />
-                    <ui:Button text="Hard" parse-escape-sequences="true" display-tooltip-when-elided="true" name="hard-button" class="button-main-screen button-style" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; border-bottom-left-radius: 0; border-top-left-radius: 0; border-left-width: 2px; height: 80px;" />
+                    <ui:Button text="Easy" parse-escape-sequences="true" display-tooltip-when-elided="true" name="esay-button" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-right-width: 2px; height: 80px;" />
+                    <ui:Button text="Medium" parse-escape-sequences="true" display-tooltip-when-elided="true" name="medium-button" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; border-right-width: 2px; border-left-width: 2px; height: 80px;" />
+                    <ui:Button text="Hard" parse-escape-sequences="true" display-tooltip-when-elided="true" name="hard-button" class="button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; border-bottom-left-radius: 0; border-top-left-radius: 0; border-left-width: 2px; height: 80px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="bottom-container" style="flex-grow: 1; flex-direction: row; justify-content: space-around; align-items: center; min-width: 100%; min-height: 15px; height: 15px; width: 100%;">
-                    <ui:Button text="Cancel" parse-escape-sequences="true" display-tooltip-when-elided="true" name="back-button" focusable="true" class="button-main-screen button-style" style="min-height: 70px; height: 80px; min-width: 30px;" />
-                    <ui:Button text="Apply" parse-escape-sequences="true" display-tooltip-when-elided="true" name="apply-button" class="button-main-screen button-style" style="width: 25px; height: 80px;" />
+                    <ui:Button text="Cancel" parse-escape-sequences="true" display-tooltip-when-elided="true" name="back-button" focusable="true" class="button" style="min-height: 70px; height: 80px; min-width: 30px;" />
+                    <ui:Button text="Apply" parse-escape-sequences="true" display-tooltip-when-elided="true" name="apply-button" class="button" style="width: 25px; height: 80px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

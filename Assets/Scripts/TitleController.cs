@@ -2,6 +2,7 @@
 // using System.Collections.Generic;
 // using System.Reflection.Emit;
 // using PlasticGui.WorkspaceWindow;
+using PlasticGui.WorkspaceWindow;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -78,6 +79,22 @@ public class TitleController : MonoBehaviour
             nextScene = scenes[index];
         }
         setMinigame(index);
+    }
+    public int getSceneIndex(string name)
+    {
+        for(int i = 0; i < scenes.Length; i++)
+        {
+            if(scenes[i] == name)
+            {
+                return i;
+            }
+        }
+        Debug.Log("Scene not found");
+        return -1;
+    }
+    public string getSceneName(int index)
+    {
+        return scenes[index];
     }
 
 }

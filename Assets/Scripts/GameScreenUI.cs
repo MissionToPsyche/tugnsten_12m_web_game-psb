@@ -1,16 +1,20 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class GameScreenUI : MonoBehaviour
 {
     private int minigameIndex;
+    private string currentSceneName;
     public TitleController titleController;
-    public ChangeScene SceneChanger;
-    private Button optionsBtn, continueBtn, cancelBtn;
+    private Button optionsBtn, continueBtn, cancelBtn, mainMenuBtn;
     VisualElement root, gameScreen, optionsScreen, gameBottomContainer, gameTopContainer, gameButtonContainer, optionsContainer, optionsContainerBottom;
     private void OnEnable()
     {
-        minigameIndex = titleController.getIndex();
+        Scene scene = SceneManager.GetActiveScene();
+        currentSceneName = scene.name;
+        minigameIndex = titleController.getSceneIndex(currentSceneName);
+
         // initializing visual elements
         root = GetComponent<UIDocument>().rootVisualElement;
         // game screen
@@ -27,6 +31,8 @@ public class GameScreenUI : MonoBehaviour
         optionsBtn.clicked += () => optionsButtonClicked();
         cancelBtn = optionsContainerBottom.Q<Button>("cancel-button");
         cancelBtn.clicked += () => cancel();
+        mainMenuBtn = optionsContainerBottom.Q<Button>("main-menu-button");
+        mainMenuBtn.clicked += () => SceneManager.LoadScene("Title");
 
         continueBtn = gameButtonContainer.Q<Button>("continue-button");
         continueBtn.clicked += () => continueButtonClicked();
@@ -41,9 +47,13 @@ public class GameScreenUI : MonoBehaviour
 
     private void continueButtonClicked()
     {
-        minigameIndex++;
+        minigameIndex += 1;
         // titleController.setMinigame(minigameIndex);
-        SceneChanger.NextScene(titleController.getMinigameText(minigameIndex));
+
+        if (minigameIndex <= 3)
+        {
+            SceneManager.LoadScene(titleController.getSceneName(minigameIndex));
+        }
     }
     private void cancel()
     {

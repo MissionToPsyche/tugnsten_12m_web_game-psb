@@ -8,7 +8,6 @@ public class TitleScreenUI : MonoBehaviour
 {
     public ChangeScene SceneChanger;
     public TitleController titleController;
-    public SoundManager soundManager;
     public AudioClip clip;
     public GameObject MinigameSelectMenu, Canvas, Console;
     private Label minigameText;
@@ -104,7 +103,7 @@ public class TitleScreenUI : MonoBehaviour
 
     private void playSound()
     {
-        soundManager.PlaySound(clip);
+        SoundManager.Instance.PlaySound(clip);
     }
     private void playMinigameClicked()
     {

@@ -669,7 +669,7 @@ GameObject:
   - component: {fileID: 274471426}
   - component: {fileID: 274471425}
   m_Layer: 0
-  m_Name: DataGenerator
+  m_Name: Data Generator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

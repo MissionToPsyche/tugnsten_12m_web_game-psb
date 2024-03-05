@@ -33,8 +33,8 @@ public class TorusGenerator : MonoBehaviour
         float magMomentMagnitudeY = magMoments[index];
         Vector3 magneticMoment = new Vector3(magMomentMagnitudeX, magMomentMagnitudeY, 0);
         // Debug.Log("mag mom: " + magneticMoment);
-        magneticMoment = new Vector3(2 * Mathf.Pow(10f, 14f), 0, 0);
-        // magneticMoment = new Vector3(8 * Mathf.Pow(10f, 22f), 0, 0);
+        // magneticMoment = new Vector3(2 * Mathf.Pow(10f, 14f), 0, 0);
+        magneticMoment = new Vector3(8 * Mathf.Pow(10f, 22f), 0, 0);
 
         // rotationAngle = Vector3.SignedAngle(Vector3.right, magneticMoment, Vector3.forward);
         // rotationAngle *= Mathf.Deg2Rad;

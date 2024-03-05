@@ -103,8 +103,10 @@ public class MagnetometerController : MonoBehaviour
             } while (proximity(r, fieldPoints) || (r.magnitude < 1f));
 
 
-            r = new(2.238773f, 2.197586f, 0);
+            // r = new(2.238773f, 2.197586f, 0);
             // r = new(6371 * Mathf.Pow(10, 3), 0, 0);
+            r = new(0, 6371 * Mathf.Pow(10, 3), 0);
+            // r = new(0, 2, 0);
             // r = new(2, 0, 0);
 
             float angle = Vector3.SignedAngle(magneticMoment, r, Vector3.forward);
@@ -135,10 +137,15 @@ public class MagnetometerController : MonoBehaviour
 
             // Calculate the radial and tangential components using trigonometric functions
             float radial2 = vacuumPermeability * magneticMoment.magnitude * 2f * Mathf.Cos(angle2) / (4f * Mathf.PI * Mathf.Pow(r.magnitude, 3f));
-            float tangential2 = vacuumPermeability * magneticMoment.magnitude * Mathf.Sin(angle2) / (4f * Mathf.PI * Mathf.Pow(r.magnitude, 3f));
+            float tangential2 = -vacuumPermeability * magneticMoment.magnitude * Mathf.Sin(angle2) / (4f * Mathf.PI * Mathf.Pow(r.magnitude, 3f));
 
             Debug.Log("radial component2: " + radial2);
             Debug.Log("tangential component2: " + tangential2);
+
+
+            Vector3 realMag = (vacuumPermeability / (4 * Mathf.PI)) * ((((2 * Vector3.Dot(magneticMoment, r)) * r) - (magneticMoment * Mathf.Pow(r.magnitude, 2))) / Mathf.Pow(r.magnitude, 5));
+            Debug.Log("test: " + realMag);
+
 
 
             Vector3 radialVector1 = new Vector3(radial2 * Mathf.Cos(angle), radial2 * Mathf.Sin(angle), 0);
@@ -151,7 +158,6 @@ public class MagnetometerController : MonoBehaviour
             Vector3 tangentialVector = new Vector3(-r.y, r.x, 0).normalized * tangential;
             Debug.Log("rad vect: " + radialVector);
             Debug.Log("tan vect: " + tangentialVector);
-            Vector3 perpendicularDirection = Vector3.Cross(point.Item2, Vector3.forward);
             Vector3 radialVector2 = r.normalized * radial2;
             Vector3 tangentialVector2 = new Vector3(-r.y, r.x, 0).normalized * tangential2;
             Debug.Log("rad vect2: " + radialVector2);

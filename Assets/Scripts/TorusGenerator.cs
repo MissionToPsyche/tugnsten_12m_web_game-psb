@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TorusGenerator : MonoBehaviour
 {
     private int numPoints;
-    private GameObject torus;
+    private GameObject torusObject;
     private float rotationAngle = 0f;
 
     void Start()
@@ -13,10 +14,12 @@ public class TorusGenerator : MonoBehaviour
 
     }
 
-    public Vector3 drawTorus(int numEllipses, GameObject torus, int numPoints)
+    public Torus drawTorus(int numEllipses, int numPoints)
     {
         this.numPoints = numPoints;
-        this.torus = torus;
+        this.torusObject = new GameObject("MagneticTorus");
+        Torus torus = new Torus();
+        torus.torusObject = torusObject;
 
         List<float> magMoments = new List<float>();
         magMoments.Add(0f);
@@ -35,6 +38,7 @@ public class TorusGenerator : MonoBehaviour
         // Debug.Log("mag mom: " + magneticMoment);
         // magneticMoment = new Vector3(2 * Mathf.Pow(10f, 14f), 0, 0);
         magneticMoment = new Vector3(8 * Mathf.Pow(10f, 22f), 0, 0);
+        torus.magneticMoment = magneticMoment;
 
         // rotationAngle = Vector3.SignedAngle(Vector3.right, magneticMoment, Vector3.forward);
         // rotationAngle *= Mathf.Deg2Rad;
@@ -44,7 +48,8 @@ public class TorusGenerator : MonoBehaviour
         // Adjust angle sign based on the direction of the cross product
         rotationAngle *= Mathf.Sign(Vector3.Dot(cross, Vector3.back));
 
-        float ellipseFactor = 2f;
+        // float ellipseFactor = 2f;
+        float ellipseFactor = 2.5f;
         float ellipseRatio = 2f;
         int reflection = 1;
         int ellipseNum = 1;
@@ -54,12 +59,15 @@ public class TorusGenerator : MonoBehaviour
         {
             float semiMajorAxis = (0.75f * (i) + Mathf.Pow(2, i) / (i + 2)) / ellipseFactor;
             float semiMinorAxis = (0.75f * 0.75f * (i) + Mathf.Pow(2, i) / (i + 1)) / ellipseFactor / ellipseRatio;
+            Vector3 ellipseCenter = new Vector3(0, semiMinorAxis, 0);
 
-            // Debug.Log("major: " + semiMajorAxis);
-            // Debug.Log("minor: " + semiMinorAxis);
+            Ellipse ellipse = new Ellipse(semiMajorAxis, semiMinorAxis, ellipseCenter);
+
+            Debug.Log("major: " + semiMajorAxis);
+            Debug.Log("minor: " + semiMinorAxis);
 
 
-            createEllipse(ellipseNum, reflection, semiMajorAxis, semiMinorAxis);
+            createEllipse(ellipseNum, reflection, ellipse);
 
             // flips across x axis and resets to generate second half of ellipses
             if (i == 5 && reflection == 1)
@@ -68,17 +76,21 @@ public class TorusGenerator : MonoBehaviour
                 reflection = -1;
             }
 
+            torus.getEllipses().Add(ellipse);
             ellipseNum++;
         }
 
         setScaleAndRotation();
-        return magneticMoment;
+        return torus;
     }
 
-    private void createEllipse(int ellipseNum, int reflection, float semiMajorAxis, float semiMinorAxis)
+    private void createEllipse(int ellipseNum, int reflection, Ellipse ellipse)
     {
         Vector3[] points = new Vector3[numPoints];
         float angleStep = 360f / numPoints;
+        float semiMajorAxis = ellipse.semiMajorAxis;
+        float semiMinorAxis = ellipse.semiMinorAxis;
+        Vector3 ellipseCenter = ellipse.center;
 
         // generates points to form ellipse
         for (int i = 0; i < numPoints; i++)
@@ -86,8 +98,8 @@ public class TorusGenerator : MonoBehaviour
             float angle = i * angleStep;
             angle *= Mathf.Deg2Rad;
 
-            float x = semiMajorAxis * Mathf.Cos(angle);
-            float y = reflection * (semiMinorAxis * Mathf.Sin(angle) + semiMinorAxis);
+            float x = semiMajorAxis * Mathf.Cos(angle) + ellipseCenter.x;
+            float y = reflection * (semiMinorAxis * Mathf.Sin(angle) + ellipseCenter.y);
 
             float rotatedX = (x * Mathf.Cos(rotationAngle)) - (y * Mathf.Sin(rotationAngle));
             float rotatedY = (x * Mathf.Sin(rotationAngle)) + (y * Mathf.Cos(rotationAngle));
@@ -95,22 +107,22 @@ public class TorusGenerator : MonoBehaviour
             points[i] = new Vector3(rotatedX, rotatedY, 0);
         }
 
-        drawEllipse(ellipseNum, points);
+        drawEllipse(ellipseNum, points, ellipse);
     }
 
-    private void drawEllipse(int ellipseNum, Vector3[] points)
+    private void drawEllipse(int ellipseNum, Vector3[] points, Ellipse ellipse)
     {
         // Create a new GameObject
         GameObject lineObject = new GameObject("Ellipse" + (ellipseNum - 1));
 
         // set ellipse gameobject as a child of torus gameobject
-        lineObject.transform.SetParent(torus.transform, false);
+        lineObject.transform.SetParent(torusObject.transform, false);
         lineObject.transform.localScale = Vector3.one;
 
         // Attach LineRenderer component to the new GameObject
         LineRenderer lineRenderer = lineObject.AddComponent<LineRenderer>();
 
-        // makes line renderer scale/rotate/transform with parent (torus)
+        // makes line renderer scale/rotate/transform with parent (torusObject)
         lineRenderer.useWorldSpace = false;
 
         // Assign the points to the LineRenderer
@@ -129,14 +141,17 @@ public class TorusGenerator : MonoBehaviour
         lineRenderer.endColor = Color.white;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
+
+        ellipse.lineObject = lineObject;
     }
 
     private void setScaleAndRotation()
     {
-        Transform t = torus.transform;
+        Transform t = torusObject.transform;
 
         int zRotation = Random.Range(0, 360);
-        float scaleFactor = Random.Range(0.3f, 1.1f); // keep torus in screen and bigger than Psyche
+        // float scaleFactor = Random.Range(0.3f, 1.1f); // keep torus in screen and bigger than Psyche
+        float scaleFactor = Random.Range(0.5f, 1.1f);
         Vector3 scale = new(scaleFactor, scaleFactor, scaleFactor);
 
         // t.eulerAngles = new Vector3(0, 0, (float)zRotation);

@@ -9,11 +9,6 @@ public class TorusGenerator : MonoBehaviour
     private GameObject torusObject;
     private float rotationAngle = 0f;
 
-    void Start()
-    {
-
-    }
-
     public Torus drawTorus(int numEllipses, int numPoints)
     {
         this.numPoints = numPoints;
@@ -37,18 +32,15 @@ public class TorusGenerator : MonoBehaviour
         Vector3 magneticMoment = new Vector3(magMomentMagnitudeX, magMomentMagnitudeY, 0);
         // Debug.Log("mag mom: " + magneticMoment);
         // magneticMoment = new Vector3(2 * Mathf.Pow(10f, 14f), 0, 0);
-        magneticMoment = new Vector3(8 * Mathf.Pow(10f, 22f), 0, 0);
+        // magneticMoment = new Vector3(8 * Mathf.Pow(10f, 22f), 0, 0);
         torus.magneticMoment = magneticMoment;
 
-        // rotationAngle = Vector3.SignedAngle(Vector3.right, magneticMoment, Vector3.forward);
-        // rotationAngle *= Mathf.Deg2Rad;
         // Calculate the angle between the magnetic moment and the position vector
         Vector3 cross = Vector3.Cross(Vector3.right.normalized, magneticMoment.normalized);
         rotationAngle = Mathf.Acos(Vector3.Dot(Vector3.right.normalized, magneticMoment.normalized)) * Mathf.Rad2Deg;
         // Adjust angle sign based on the direction of the cross product
         rotationAngle *= Mathf.Sign(Vector3.Dot(cross, Vector3.back));
 
-        // float ellipseFactor = 2f;
         float ellipseFactor = 2.5f;
         float ellipseRatio = 2f;
         int reflection = 1;
@@ -59,13 +51,11 @@ public class TorusGenerator : MonoBehaviour
         {
             float semiMajorAxis = (0.75f * (i) + Mathf.Pow(2, i) / (i + 2)) / ellipseFactor;
             float semiMinorAxis = (0.75f * 0.75f * (i) + Mathf.Pow(2, i) / (i + 1)) / ellipseFactor / ellipseRatio;
+            // Debug.Log("major: " + semiMajorAxis);
+            // Debug.Log("minor: " + semiMinorAxis);
             Vector3 ellipseCenter = new Vector3(0, semiMinorAxis, 0);
 
             Ellipse ellipse = new Ellipse(semiMajorAxis, semiMinorAxis, ellipseCenter);
-
-            Debug.Log("major: " + semiMajorAxis);
-            Debug.Log("minor: " + semiMinorAxis);
-
 
             createEllipse(ellipseNum, reflection, ellipse);
 
@@ -91,22 +81,29 @@ public class TorusGenerator : MonoBehaviour
         float semiMajorAxis = ellipse.semiMajorAxis;
         float semiMinorAxis = ellipse.semiMinorAxis;
         Vector3 ellipseCenter = ellipse.center;
+        List<(int, Vector3)> usablePoints = new List<(int, Vector3)>();
 
         // generates points to form ellipse
         for (int i = 0; i < numPoints; i++)
         {
-            float angle = i * angleStep;
+            float angle = (i * angleStep) + 270;
             angle *= Mathf.Deg2Rad;
 
-            float x = semiMajorAxis * Mathf.Cos(angle) + ellipseCenter.x;
+            float x = semiMajorAxis * Mathf.Cos(angle);
             float y = reflection * (semiMinorAxis * Mathf.Sin(angle) + ellipseCenter.y);
 
             float rotatedX = (x * Mathf.Cos(rotationAngle)) - (y * Mathf.Sin(rotationAngle));
             float rotatedY = (x * Mathf.Sin(rotationAngle)) + (y * Mathf.Cos(rotationAngle));
 
             points[i] = new Vector3(rotatedX, rotatedY, 0);
+
+            if(points[i].magnitude > 1)
+            {
+                usablePoints.Add((i, points[i]));
+            }
         }
 
+        ellipse.usablePoints = usablePoints;
         drawEllipse(ellipseNum, points, ellipse);
     }
 
@@ -136,7 +133,6 @@ public class TorusGenerator : MonoBehaviour
         lineRenderer.loop = true;
 
         // set color and width
-
         lineRenderer.startColor = Color.white;
         lineRenderer.endColor = Color.white;
         lineRenderer.startWidth = 0.1f;
@@ -150,8 +146,7 @@ public class TorusGenerator : MonoBehaviour
         Transform t = torusObject.transform;
 
         int zRotation = Random.Range(0, 360);
-        // float scaleFactor = Random.Range(0.3f, 1.1f); // keep torus in screen and bigger than Psyche
-        float scaleFactor = Random.Range(0.5f, 1.1f);
+        float scaleFactor = Random.Range(0.3f, 1.0f); // keep torus in screen and bigger than Psyche
         Vector3 scale = new(scaleFactor, scaleFactor, scaleFactor);
 
         // t.eulerAngles = new Vector3(0, 0, (float)zRotation);

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Torus : MonoBehaviour
+public class Torus
 {
     private List<Ellipse> ellipses;
     public Vector3 magneticMoment { get; set; }

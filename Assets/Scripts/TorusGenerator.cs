@@ -149,7 +149,7 @@ public class TorusGenerator : MonoBehaviour
         float scaleFactor = Random.Range(0.3f, 1.0f); // keep torus in screen and bigger than Psyche
         Vector3 scale = new(scaleFactor, scaleFactor, scaleFactor);
 
-        // t.eulerAngles = new Vector3(0, 0, (float)zRotation);
-        // t.localScale = scale;
+        t.eulerAngles = new Vector3(0, 0, (float)zRotation);
+        t.localScale = scale;
     }
 }

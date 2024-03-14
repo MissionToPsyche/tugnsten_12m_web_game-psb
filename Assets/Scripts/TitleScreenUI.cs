@@ -74,6 +74,8 @@ public class TitleScreenUI : MonoBehaviour
         cancelBtn = bottomContainer.Q<Button>("cancel-button");
         cancelBtn.clicked += () => switchScreen(mainScreen);
 
+        musicSlider = soundbar.Q<Slider>("music-slider");
+        soundSlider = soundbar.Q<Slider>("sound-slider");
 
         // CREDITS SCREEN UI ELEMENTS
         closeBtn = creditsScreen.Q<Button>("close-button");

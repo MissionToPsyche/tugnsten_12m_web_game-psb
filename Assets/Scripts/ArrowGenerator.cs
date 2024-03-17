@@ -5,6 +5,7 @@ using UnityEngine;
 public class ArrowGenerator : MonoBehaviour
 {
     [SerializeField] private Sprite arrowImg;
+    private float magneticMoment;
 
     public List<(Vector3, Vector3, Vector3)> getFieldPoints(Torus torus, int numPoints, int numArrows)
     {
@@ -13,7 +14,7 @@ public class ArrowGenerator : MonoBehaviour
         List<Ellipse> ellipses = torus.getEllipses();
 
         // iterate to get points for arrows
-        for(int i = 0; i < numArrows; i++)
+        for (int i = 0; i < numArrows; i++)
         {
             Vector3 r;
             Vector3 nextPoint;
@@ -31,7 +32,7 @@ public class ArrowGenerator : MonoBehaviour
                 {
                     ellipseNum = Random.Range(0, ellipses.Count); // get random ellipse line
 
-                } while(ellipses[ellipseNum].usablePoints.Count == 0);
+                } while (ellipses[ellipseNum].usablePoints.Count == 0);
 
                 ellipse = ellipses[ellipseNum];
                 ellipseUsablePoints = ellipse.usablePoints;
@@ -44,23 +45,23 @@ public class ArrowGenerator : MonoBehaviour
                     // get random point on ellipse line
                     pointIndex = Random.Range(0, ellipseUsablePoints.Count);
                     r = ellipseUsablePoints[pointIndex].Item2;
-                    nextPoint = ellipse.lineObject.GetComponent<LineRenderer>().GetPosition(ellipseUsablePoints[pointIndex].Item1+1);
+                    nextPoint = ellipse.lineObject.GetComponent<LineRenderer>().GetPosition(ellipseUsablePoints[pointIndex].Item1 + 1);
 
-                    if(ctr >= ellipseUsablePoints.Count*2)
+                    if (ctr >= ellipseUsablePoints.Count * 2)
                     {
                         break;
                     }
                     ctr++;
 
-                } while(proximity(r, fieldPoints) || (r.magnitude < 1f));
+                } while (proximity(r, fieldPoints) || (r.magnitude < 1f));
 
-                if(count >= ellipses.Count)
+                if (count >= ellipses.Count)
                 {
                     break;
                 }
                 count++;
 
-            }while(ctr >= ellipseUsablePoints.Count*2);
+            } while (ctr >= ellipseUsablePoints.Count * 2);
 
             Vector3 magField = calcMagField(r, torus.magneticMoment);
 
@@ -74,7 +75,8 @@ public class ArrowGenerator : MonoBehaviour
     {
         foreach ((Vector3, Vector3, Vector3) point in fieldPoints)
         {
-            if (Vector3.Distance(r, point.Item1) < 2.0f)
+            // TODO maybe try to use m_Collider.bounds.Intersects(m_Collider2.bounds) to stop arrows from overlapping (can't do here rn)
+            if (Vector3.Distance(r, point.Item1) < 2.0f) 
             {
                 return true;
             }
@@ -138,10 +140,8 @@ public class ArrowGenerator : MonoBehaviour
         foreach ((Vector3, Vector3, Vector3) point in fieldPoints)
         {
             float fieldMagnitude = point.Item2.magnitude;
-
-            // janky math to normalize the scale of the arrows
-            float reducedMag = fieldMagnitude / 1000000f;
-            float modifiedMagnitude = (0.15f / (1f + Mathf.Exp(-(reducedMag - 1f)))) + (1f - Mathf.Exp(-reducedMag)) * (0.1f - 0.06f) * ((reducedMag - 0.2f) / (10f - 0.2f));
+            // Debug.Log("mag field: " + fieldMagnitude);
+            float modifiedMagnitude = mapRange(fieldMagnitude);
 
             // Debug.Log("orig mag " + point.Item2);
             // Debug.Log("mag float " + fieldMagnitude);
@@ -153,9 +153,22 @@ public class ArrowGenerator : MonoBehaviour
             arrow.GetComponent<SpriteRenderer>().sprite = arrowImg;
             arrow.transform.SetPositionAndRotation(point.Item1, Quaternion.identity);
 
-            // set arrow rotation
-            Vector3 direction = point.Item3 - arrow.transform.position;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            float angle;
+            if (fieldMagnitude == 0)
+            {
+                // set random arrow rotation
+                Vector3 direction = point.Item3 - arrow.transform.position;
+                angle = (Mathf.Atan2(direction.y, direction.x) + 90f) * Mathf.Rad2Deg;
+
+                // set random magnitude
+                modifiedMagnitude = Random.Range(0.06f, 0.3f);
+            }
+            else
+            {
+                // set arrow rotation
+                Vector3 direction = point.Item3 - arrow.transform.position;
+                angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            }
             arrow.transform.rotation = Quaternion.Euler(0, 0, angle);
 
             // bring arrow in front of torus
@@ -168,5 +181,25 @@ public class ArrowGenerator : MonoBehaviour
 
             i++;
         }
+    }
+
+    private float mapRange(float magStrength)
+    {
+        // Debug.Log("mag: " + magStrength);
+        // Define the input range
+        float inputMin = (1 * Mathf.Pow(10, 4));
+        float inputMax = (3 * Mathf.Pow(10, 8));
+
+        // Define the output range
+        float outputMin = 0.58f;
+        float outputMax = 37.06f;
+
+        float mappedMagStrength = (magStrength - inputMin) * ((outputMax - outputMin) / (inputMax - inputMin)) + outputMin;
+        // Debug.Log("mappedVal: " + mappedMagStrength);
+
+        // Function to perform the linear transformation
+        float modifiedMagnitude = (0.15f / (1f + Mathf.Exp(-(mappedMagStrength - 1f)))) + (1f - Mathf.Exp(-mappedMagStrength)) * (0.1f - 0.06f) * ((mappedMagStrength - 0.2f) / (10f - 0.2f));
+        // Debug.Log("modified Magnitude: " + modifiedMagnitude);
+        return modifiedMagnitude;
     }
 }

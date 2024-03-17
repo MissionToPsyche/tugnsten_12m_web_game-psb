@@ -8,7 +8,17 @@ public class GameScreenUI : MonoBehaviour
     private string currentSceneName;
     public TitleController titleController;
     private Button optionsBtn, continueBtn, cancelBtn, mainMenuBtn;
-    VisualElement root, gameScreen, optionsScreen, gameBottomContainer, gameTopContainer, gameButtonContainer, optionsContainer, optionsContainerBottom;
+    private VisualElement root, gameScreen, optionsScreen, gameBottomContainer, gameTopContainer, gameButtonContainer, optionsContainer, optionsContainerBottom;
+    
+    public VisualElement getBottomStrip()
+    {
+        return gameBottomContainer;
+    }
+    public VisualElement getTopStrip()
+    {
+        return gameTopContainer;
+    }
+    
     private void OnEnable()
     {
         Scene scene = SceneManager.GetActiveScene();

@@ -1,26 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MoveTorus : MonoBehaviour
 {
-    float startDistance;
-    Vector3 startScale;
+    private float startDistance;
+    private Vector3 startScale;
     private Vector3 initialMousePosition;
     private Quaternion initialTorusRotation;
+    // private GameScreenUI gui;
+    // private bool uiFlag = false;
+
+    // void Start()
+    // {
+    //     // TODO don't detect mouse click over UI
+    //     gui = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
+    //     gui.getBottomStrip().RegisterCallback<MouseDownEvent>(OnElementClicked);
+    //     gui.getTopStrip().RegisterCallback<MouseDownEvent>(OnElementClicked);
+    //     gui.getBottomStrip().RegisterCallback<MouseUpEvent>(OnElementClicked);
+    //     gui.getTopStrip().RegisterCallback<MouseUpEvent>(OnElementClicked);
+    // }
 
     void Update()
     {
         // detect when left mouse button initially pressed down
         if (Input.GetMouseButtonDown(0))
         {
-            // initialize variables for scaling
-            startDistance = Vector2.Distance(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            startScale = transform.localScale;
+            // if(!uiFlag)
+            // {
+                // initialize variables for scaling
+                startDistance = Vector2.Distance(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                startScale = transform.localScale;
 
-            // record initial mouse position and torus rotation for rotation
-            initialMousePosition = Input.mousePosition;
-            initialTorusRotation = transform.rotation;
+                // record initial mouse position and torus rotation for rotation
+                initialMousePosition = Input.mousePosition;
+                initialTorusRotation = transform.rotation;
+            // }
         }
 
         // detect left mouse button down
@@ -63,7 +79,23 @@ public class MoveTorus : MonoBehaviour
         float endDistance = Vector2.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position);
         float scaleFactor = endDistance / startDistance;
 
+        // Define your maximum scale limit
+        float maxScale = 3.0f; // Adjust this value according to your requirement
+
+        // Calculate the new scale while applying the maximum scale limit
+        Vector3 newScale = startScale * scaleFactor;
+        newScale.x = Mathf.Min(newScale.x, maxScale);
+        newScale.y = Mathf.Min(newScale.y, maxScale);
+        newScale.z = Mathf.Min(newScale.z, maxScale);
+
         // apply scaling
-        transform.localScale = startScale * scaleFactor;
+        // transform.localScale = startScale * scaleFactor;
+        transform.localScale = newScale;
     }
+
+//     void OnElementClicked(EventBase evt)
+//     {
+//         uiFlag = !uiFlag;
+//         Debug.Log("flag flipped");
+//     }
 }

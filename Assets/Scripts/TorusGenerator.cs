@@ -8,6 +8,8 @@ public class TorusGenerator : MonoBehaviour
     private int numPoints;
     private GameObject torusObject;
     private float rotationAngle = 0f;
+    private float minScale = 2.5f;
+    private float maxScale = 4.5f;
 
     public Torus drawTorus(int numEllipses, int numPoints)
     {
@@ -15,33 +17,29 @@ public class TorusGenerator : MonoBehaviour
         this.torusObject = new GameObject("MagneticTorus");
         Torus torus = new Torus();
         torus.torusObject = torusObject;
+        float minMagnitude = 2 * Mathf.Pow(10f, 13f);
+        float maxMagnitude = 2 * Mathf.Pow(10f, 15f);
 
-        List<float> magMoments = new List<float>();
-        magMoments.Add(0f);
-        magMoments.Add(2f * Mathf.Pow(10f, 14f));
-        for (int i = 0; i < 8; i++)
-        {
-            float magMoment = Random.Range(2 * Mathf.Pow(10f, 7f), 2 * Mathf.Pow(10f, 14f));
-            magMoments.Add(magMoment);
-        }
-
-        int index = Random.Range(0, magMoments.Count);
-        float magMomentMagnitudeX = magMoments[index];
-        index = Random.Range(0, magMoments.Count);
-        float magMomentMagnitudeY = magMoments[index];
-        Vector3 magneticMoment = new Vector3(magMomentMagnitudeX, magMomentMagnitudeY, 0);
+        List<Vector3> magMoments = generateMagneticMoments(minMagnitude, maxMagnitude);
+        int magMomentIndex = Random.Range(0, magMoments.Count);
+        Vector3 magneticMoment = magMoments[magMomentIndex];
         // Debug.Log("mag mom: " + magneticMoment);
+        // Debug.Log("mag mag: " + magneticMoment.magnitude);
         // magneticMoment = new Vector3(2 * Mathf.Pow(10f, 14f), 0, 0);
         // magneticMoment = new Vector3(8 * Mathf.Pow(10f, 22f), 0, 0);
+        // magneticMoment = new Vector3(maxMagnitude / Mathf.Sqrt(2f), maxMagnitude / Mathf.Sqrt(2f), 0);
+        // magneticMoment = new Vector3(maxMagnitude, 0, 0);
+        // magneticMoment = new Vector3(0, 0, 0);
+        // Debug.Log("mag mom2: " + magneticMoment);
+        // Debug.Log("mag mag2: " + magneticMoment.magnitude);
         torus.magneticMoment = magneticMoment;
 
         // Calculate the angle between the magnetic moment and the position vector
         Vector3 cross = Vector3.Cross(Vector3.right.normalized, magneticMoment.normalized);
-        rotationAngle = Mathf.Acos(Vector3.Dot(Vector3.right.normalized, magneticMoment.normalized)) * Mathf.Rad2Deg;
-        // Adjust angle sign based on the direction of the cross product
-        rotationAngle *= Mathf.Sign(Vector3.Dot(cross, Vector3.back));
+        rotationAngle = Mathf.Acos(Vector3.Dot(Vector3.right.normalized, magneticMoment.normalized));
+        // Debug.Log("angle: " + rotationAngle * Mathf.Rad2Deg);
 
-        float ellipseFactor = 2.5f;
+        float ellipseFactor = mapEllipseScale(minMagnitude, maxMagnitude, magneticMoment.magnitude);
         float ellipseRatio = 2f;
         int reflection = 1;
         int ellipseNum = 1;
@@ -70,7 +68,7 @@ public class TorusGenerator : MonoBehaviour
             ellipseNum++;
         }
 
-        setScaleAndRotation();
+        setScaleAndRotation(ellipseFactor);
         return torus;
     }
 
@@ -141,15 +139,86 @@ public class TorusGenerator : MonoBehaviour
         ellipse.lineObject = lineObject;
     }
 
-    private void setScaleAndRotation()
+    private float mapEllipseScale(float magStrengthMin, float magStrengthMax, float magStrength)
+    {
+        // Calculate the input scale
+        float inputScale = magStrengthMax - magStrengthMin;
+        
+        // Calculate the inverted proportion of magStrength within its range
+        float invertedProportion = 1 - ((magStrength - magStrengthMin) / inputScale);
+        
+        // Calculate the output scale
+        float outputScale = maxScale - minScale;
+        
+        // Apply the inverted proportion to the output range
+        float ellipseScale = invertedProportion * outputScale + minScale;
+        // Debug.Log("scale: " + ellipseScale);
+
+        return ellipseScale;
+    }
+
+    private (float, float) mapTorusScaleRange(float ellipseScale)
+    {
+        // Define the output ranges for specific values
+        float minScaleMin = 0.3f;
+        float maxScaleMin = 0.55f;
+        float minScaleMax = 1.0f;
+        float maxScaleMax = 1.8f;
+
+        // Calculate the percentage of the input value within the range
+        float percentage = (ellipseScale - minScale) / (maxScale - minScale);
+
+        // Calculate the mapped output range
+        float mappedScaleMin = Mathf.Lerp(minScaleMin, maxScaleMin, percentage);
+        float mappedScaleMax = Mathf.Lerp(minScaleMax, maxScaleMax, percentage);
+        // Debug.Log("min: " + mappedScaleMin);
+        // Debug.Log("max: " + mappedScaleMax);
+
+        return (mappedScaleMin, mappedScaleMax);
+    }
+
+    private List<Vector3> generateMagneticMoments(float minMagnitude, float maxMagnitude)
+    {
+        List<Vector3> magMoments = new List<Vector3>();
+        // Adding moments with max magnitude
+        Vector3 maxXMoment = new Vector3(maxMagnitude, 0f, 0f);
+        Vector3 maxYMoment = new Vector3(0f, maxMagnitude, 0f);
+        magMoments.Add(maxXMoment);
+        magMoments.Add(maxYMoment);
+
+        float componentMaxMagnitude = maxMagnitude / Mathf.Sqrt(2f);
+
+        // Adding moments with random magnitudes
+        for (int i = 0; i < 8; i++)
+        {
+            // x component
+            float magMomentMagnitude = Random.Range(minMagnitude, componentMaxMagnitude);
+            int factor = Random.Range(-1, 1);
+            float magXComp = factor * magMomentMagnitude;
+
+            // y component
+            magMomentMagnitude = Random.Range(minMagnitude, componentMaxMagnitude);
+            factor = Random.Range(-1, 1);
+            float magYComp = factor * magMomentMagnitude;
+
+            Vector3 randomMoment = new Vector3(magXComp, magYComp, 0f);
+            magMoments.Add(randomMoment);
+        }
+
+        return magMoments;
+    }
+
+    private void setScaleAndRotation(float ellipseFactor)
     {
         Transform t = torusObject.transform;
+        (float, float) scaleRange = mapTorusScaleRange(ellipseFactor);
 
         int zRotation = Random.Range(0, 360);
-        float scaleFactor = Random.Range(0.3f, 1.0f); // keep torus in screen and bigger than Psyche
+        float scaleFactor = Random.Range(scaleRange.Item1, scaleRange.Item2); // keep torus in screen and bigger than Psyche
+
         Vector3 scale = new(scaleFactor, scaleFactor, scaleFactor);
 
-        t.eulerAngles = new Vector3(0, 0, (float)zRotation);
-        t.localScale = scale;
+        // t.eulerAngles = new Vector3(0, 0, (float)zRotation);
+        // t.localScale = scale;
     }
 }

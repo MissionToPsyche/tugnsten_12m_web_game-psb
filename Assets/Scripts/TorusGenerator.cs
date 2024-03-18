@@ -147,7 +147,7 @@ public class TorusGenerator : MonoBehaviour
         // Create a static gradient
         Gradient staticGradient = new Gradient();
 
-        float whiteWashValue = ((0.60f / 4) * ((ellipseNum-1) % (numEllipses/2)));
+        float whiteWashValue = ((0.60f / 4) * ((ellipseNum-1) % numEllipses));
         // Debug.Log("ellipseNum: " + ellipseNum + " whiteWashValue: " + whiteWashValue);
 
         // Define color keys

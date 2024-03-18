@@ -6,12 +6,15 @@ public class ArrowGenerator : MonoBehaviour
 {
     [SerializeField] private Sprite arrowImg;
     private float magneticMoment;
+    private List<int> ellipseNums = new List<int>();
+    private int numEllipses;
 
     public List<(Vector3, Vector3, Vector3)> getFieldPoints(Torus torus, int numPoints, int numArrows)
     {
         List<(Vector3, Vector3, Vector3)> fieldPoints = new List<(Vector3, Vector3, Vector3)>();
         GameObject torusObject = torus.torusObject;
         List<Ellipse> ellipses = torus.getEllipses();
+        this.numEllipses = ellipses.Count;
 
         // iterate to get points for arrows
         for (int i = 0; i < numArrows; i++)
@@ -23,10 +26,9 @@ public class ArrowGenerator : MonoBehaviour
             Ellipse ellipse;
             List<(int, Vector3)> ellipseUsablePoints;
 
+            int ellipseNum;
             do
             {
-                int ellipseNum;
-
                 // don't use ellipses too close to Psyche
                 do
                 {
@@ -62,6 +64,7 @@ public class ArrowGenerator : MonoBehaviour
                 count++;
 
             } while (ctr >= ellipseUsablePoints.Count * 2);
+            ellipseNums.Add(ellipseNum);
 
             Vector3 magField = calcMagField(r, torus.magneticMoment);
 
@@ -148,9 +151,13 @@ public class ArrowGenerator : MonoBehaviour
             // Debug.Log("reduced mag " + reducedMag);
             // Debug.Log("mod mag " + modifiedMagnitude);
 
+            float fadeValue = 1.0f - ((0.6f / 4) * ((ellipseNums[i]-1) % (numEllipses/2)));
+            // Debug.Log("fadeValue: " + fadeValue);
+
             GameObject arrow = new("arrow" + i);
             arrow.AddComponent<SpriteRenderer>();
             arrow.GetComponent<SpriteRenderer>().sprite = arrowImg;
+            arrow.GetComponent<SpriteRenderer>().color = new Color(fadeValue, fadeValue, fadeValue, 1);
             arrow.transform.SetPositionAndRotation(point.Item1, Quaternion.identity);
 
             float angle;

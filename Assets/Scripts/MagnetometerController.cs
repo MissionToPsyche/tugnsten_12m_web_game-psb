@@ -38,13 +38,11 @@ public class MagnetometerController : MonoBehaviour
         float rotationMargin = 10f;
 
         float rotation = torus.torusObject.transform.localRotation.eulerAngles.z;
-        float rotation180 = rotation - Mathf.Sign(rotation) * 180;
         Vector3 scale = torus.torusObject.transform.localScale;
 
         float diff1 = Mathf.Abs(rotation - targetRotation);
-        float diff2 = Mathf.Abs(rotation180 - targetRotation);
 
-        if ((diff1 < rotationMargin || diff2 < rotationMargin) && Mathf.Abs(Vector3.Distance(scale, targetScale)) < scaleMargin)
+        if (diff1 < rotationMargin && Mathf.Abs(Vector3.Distance(scale, targetScale)) < scaleMargin)
         {
             Debug.Log("yay!");
             // return true;

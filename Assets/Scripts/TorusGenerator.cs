@@ -6,6 +6,7 @@ using UnityEngine;
 public class TorusGenerator : MonoBehaviour
 {
     private int numPoints;
+    private int numEllipses;
     private GameObject torusObject;
     private float rotationAngle = 0f;
     private float minScale = 2.5f;
@@ -14,6 +15,7 @@ public class TorusGenerator : MonoBehaviour
     public Torus drawTorus(int numEllipses, int numPoints)
     {
         this.numPoints = numPoints;
+        this.numEllipses = numEllipses;
         this.torusObject = new GameObject("MagneticTorus");
         Torus torus = new Torus();
         torus.torusObject = torusObject;
@@ -131,12 +133,46 @@ public class TorusGenerator : MonoBehaviour
         lineRenderer.loop = true;
 
         // set color and width
-        lineRenderer.startColor = Color.white;
-        lineRenderer.endColor = Color.white;
+        // lineRenderer.startColor = Color.red;
+        // lineRenderer.endColor = Color.blue;
+        applyGradient(lineRenderer, ellipseNum);
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
 
         ellipse.lineObject = lineObject;
+    }
+
+    private void applyGradient(LineRenderer lineRenderer, int ellipseNum)
+    {
+        // Create a static gradient
+        Gradient staticGradient = new Gradient();
+
+        float whiteWashValue = ((0.60f / 4) * ((ellipseNum-1) % (numEllipses/2)));
+        // Debug.Log("ellipseNum: " + ellipseNum + " whiteWashValue: " + whiteWashValue);
+
+        // Define color keys
+        GradientColorKey[] colorKeys = new GradientColorKey[2];
+        colorKeys[0].color = new Color(1, whiteWashValue, whiteWashValue, 1);
+        colorKeys[0].time = 0.0f;
+        colorKeys[0].time = 0.35f;
+        colorKeys[1].color = new Color(whiteWashValue, whiteWashValue, 1, 1);
+        colorKeys[1].time = 1.0f;
+        colorKeys[1].time = 0.65f;
+
+        // Define alpha keys (optional, here set to fully opaque)
+        GradientAlphaKey[] alphaKeys = new GradientAlphaKey[2];
+        alphaKeys[0].alpha = 1.0f;
+        alphaKeys[0].time = 0.0f;
+        alphaKeys[0].time = 0.35f;
+        alphaKeys[1].alpha = 1.0f;
+        alphaKeys[1].time = 1.0f;
+        alphaKeys[1].time = 0.65f;
+
+        // Assign color and alpha keys to the gradient
+        staticGradient.SetKeys(colorKeys, alphaKeys);
+
+        // Set the LineRenderer's color gradient
+        lineRenderer.colorGradient = staticGradient;
     }
 
     private float mapEllipseScale(float magStrengthMin, float magStrengthMax, float magStrength)
@@ -218,7 +254,7 @@ public class TorusGenerator : MonoBehaviour
 
         Vector3 scale = new(scaleFactor, scaleFactor, scaleFactor);
 
-        // t.eulerAngles = new Vector3(0, 0, (float)zRotation);
-        // t.localScale = scale;
+        t.eulerAngles = new Vector3(0, 0, (float)zRotation);
+        t.localScale = scale;
     }
 }

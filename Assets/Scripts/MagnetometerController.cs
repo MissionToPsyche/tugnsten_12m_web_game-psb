@@ -11,6 +11,7 @@ public class MagnetometerController : MonoBehaviour
     private int numPoints = 200;
     private Torus torus;
     [SerializeField] private GameObject buttonObj;
+    private Vector3 magneticMoment;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,7 @@ public class MagnetometerController : MonoBehaviour
         TorusGenerator torusGenerator = GameObject.Find("TorusGenerator").GetComponent<TorusGenerator>();
         this.torus = torusGenerator.drawTorus(numEllipses, numPoints);
         torus.torusObject.AddComponent<MoveTorus>();
+        this.magneticMoment = torus.magneticMoment;
 
         ArrowGenerator arrowGenerator = GameObject.Find("ArrowGenerator").GetComponent<ArrowGenerator>();
         List<(Vector3, Vector3, Vector3)> fieldPoints = arrowGenerator.getFieldPoints(torus, numPoints, numArrows);
@@ -28,29 +30,88 @@ public class MagnetometerController : MonoBehaviour
         button.onClick.AddListener(checkCorrectness);
     }
 
-
     private void checkCorrectness()
     {
-        float targetRotation = 0f;
-        Vector3 targetScale = new(1, 1, 1);
+        float maxScore = 10000;
+        float score;
 
-        float scaleMargin = 0.15f;
-        float rotationMargin = 10f;
+        Vector3 targetScale;
+        float scaleMaxDeviation;
+        Vector3 scale;
+        float scaleDiff;
+        float scalePercentage;
 
-        float rotation = torus.torusObject.transform.localRotation.eulerAngles.z;
-        Vector3 scale = torus.torusObject.transform.localScale;
+        float targetRotation;
+        float rotationMaxDeviation;
+        float rotation;
+        float rotationDiff;
+        float rotationPercentage;
 
-        float diff1 = Mathf.Abs(rotation - targetRotation);
+        float avgPercentage;
 
-        if (diff1 < rotationMargin && Mathf.Abs(Vector3.Distance(scale, targetScale)) < scaleMargin)
+        if(magneticMoment == Vector3.zero)
         {
-            Debug.Log("yay!");
-            // return true;
+            float penalty = 0.2f;
+
+            targetScale = new(0, 0, 0);
+            scaleMaxDeviation = 3.0f - targetScale.x;
+            scale = torus.torusObject.transform.localScale;
+            scaleDiff = Mathf.Abs(Vector3.Distance(scale, targetScale));
+            scalePercentage = calc(scaleMaxDeviation, scaleDiff);
+            
+            avgPercentage = scalePercentage - penalty;
+            avgPercentage = Mathf.Clamp(avgPercentage, 0, 1);
         }
         else
         {
-            Debug.Log("boo");
-            // return false;
+            targetScale = new(1, 1, 1);
+            scaleMaxDeviation = 3.0f - targetScale.x;
+            scale = torus.torusObject.transform.localScale;
+            scaleDiff = Mathf.Abs(Vector3.Distance(scale, targetScale));
+            scalePercentage = calc(scaleMaxDeviation, scaleDiff);
+
+            targetRotation = 0f;
+            rotationMaxDeviation = 180f;
+            rotation = torus.torusObject.transform.localRotation.eulerAngles.z;
+            rotationDiff = Mathf.Abs(rotation - targetRotation);
+            rotationPercentage = calc(rotationMaxDeviation, rotationDiff);
+
+            avgPercentage = (scalePercentage + rotationPercentage) / 2f;
         }
+
+        score = avgPercentage * maxScore;
+        // Debug.Log("score: " + score);
+
+        if(score > 9000)
+        {
+            // A
+            Debug.Log("A");
+        }
+        else if(score > 8000)
+        {
+            // B
+            Debug.Log("B");
+        }
+        else if(score > 6500)
+        {
+            // C
+            Debug.Log("C");
+        }
+        else if(score > 4000)
+        {
+            // D
+            Debug.Log("D");
+        }
+        else
+        {
+            // F
+            Debug.Log("F");
+        }
+    }
+
+    private float calc(float maxDeviation, float diff)
+    {
+        float percentage = (maxDeviation - diff) / maxDeviation;
+        return percentage;
     }
 }

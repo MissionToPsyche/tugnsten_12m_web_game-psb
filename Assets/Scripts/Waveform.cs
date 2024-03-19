@@ -22,8 +22,8 @@ public class Waveform : MonoBehaviour
     // Pixel length of line
     public float length = 775f;
 
-    public float amplitude = 120f;
-    public float lineWidth = 0.06f;
+    public float amplitude = 100f;
+    public float lineWidth = 0.1f;
 
     // Distance between calculated points
     public int graphStep = 2;

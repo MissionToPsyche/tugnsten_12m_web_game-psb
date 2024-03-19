@@ -11,6 +11,7 @@ public class MagnetometerController : MonoBehaviour
     private int numPoints = 200;
     private Torus torus;
     [SerializeField] private GameObject buttonObj;
+    [SerializeField] private GameObject buttonObj2;
     private Vector3 magneticMoment;
 
     // Start is called before the first frame update
@@ -28,6 +29,25 @@ public class MagnetometerController : MonoBehaviour
         // temporary
         Button button = buttonObj.GetComponent<Button>();
         button.onClick.AddListener(checkCorrectness);
+        Button button2 = buttonObj2.GetComponent<Button>();
+        button2.onClick.AddListener(noField);
+    }
+
+    private void noField()
+    {
+        float score;
+
+        if(magneticMoment == Vector3.zero)
+        {
+            score = 10000f;
+            Debug.Log("A");
+        }
+        else
+        {
+            score = 0f;
+            Debug.Log("F");
+        }
+        Debug.Log("score: " + score);
     }
 
     private void checkCorrectness()
@@ -80,7 +100,7 @@ public class MagnetometerController : MonoBehaviour
         }
 
         score = avgPercentage * maxScore;
-        // Debug.Log("score: " + score);
+        Debug.Log("score: " + score);
 
         if(score > 9000)
         {

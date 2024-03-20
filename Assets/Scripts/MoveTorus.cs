@@ -14,7 +14,7 @@ public class MoveTorus : MonoBehaviour
 
     // void Start()
     // {
-    //     // TODO don't detect mouse click over UI
+    //     // TODO: don't detect mouse click over UI
     //     gui = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
     //     gui.getBottomStrip().RegisterCallback<MouseDownEvent>(OnElementClicked);
     //     gui.getTopStrip().RegisterCallback<MouseDownEvent>(OnElementClicked);

@@ -7,7 +7,7 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 {
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    public ImagerGameHelper imagerGameHelper;
+    public ImagerController imagerController;
     private SnapToTarget snapToTarget;
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -28,7 +28,7 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
     {
         canvasGroup.blocksRaycasts = true;
         snapToTarget.SnapIfInRange(); // snap to position if close enough
-        imagerGameHelper.updateSnapPositions(gameObject); // update snap positions
+        imagerController.updateSnapPositions(gameObject); // update snap positions
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -46,7 +46,7 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         snapToTarget = GetComponent<SnapToTarget>();
-        imagerGameHelper = GameObject.Find("ImagerHelper").GetComponent<ImagerGameHelper>();
+        imagerController = GameObject.Find("ImagerController").GetComponent<ImagerController>();
     }
 
 }

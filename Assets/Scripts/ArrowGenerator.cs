@@ -78,7 +78,7 @@ public class ArrowGenerator : MonoBehaviour
     {
         foreach ((Vector3, Vector3, Vector3) point in fieldPoints)
         {
-            // TODO maybe try to use m_Collider.bounds.Intersects(m_Collider2.bounds) to stop arrows from overlapping (can't do here rn)
+            // TODO: maybe try to use m_Collider.bounds.Intersects(m_Collider2.bounds) to stop arrows from overlapping (can't do here rn)
             if (Vector3.Distance(r, point.Item1) < 2.0f) 
             {
                 return true;

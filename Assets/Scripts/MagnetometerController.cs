@@ -28,7 +28,7 @@ public class MagnetometerController : MonoBehaviour
 
         // temporary
         Button button = buttonObj.GetComponent<Button>();
-        button.onClick.AddListener(checkCorrectness);
+        button.onClick.AddListener(grade);
         Button button2 = buttonObj2.GetComponent<Button>();
         button2.onClick.AddListener(noField);
     }
@@ -50,7 +50,7 @@ public class MagnetometerController : MonoBehaviour
         Debug.Log("score: " + score);
     }
 
-    private void checkCorrectness()
+    private void grade()
     {
         float maxScore = 10000;
         float score;
@@ -99,7 +99,7 @@ public class MagnetometerController : MonoBehaviour
             avgPercentage = (scalePercentage + rotationPercentage) / 2f;
         }
 
-        score = avgPercentage * maxScore;
+        score = Mathf.RoundToInt(avgPercentage * maxScore);
         Debug.Log("score: " + score);
 
         if(score > 9000)

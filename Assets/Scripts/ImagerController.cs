@@ -1,32 +1,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using System;
+using TMPro;
+using UnityEngine.UI;
 
-public class ImagerController : MonoBehaviour
+public class ImagerController : GameController
 {
     private List<GameObject> images;
     private Timer timer;
+    [SerializeField] private TMP_Text text;
+    // private bool gameRunning = false;
+    [SerializeField] private GameObject buttonObj;
 
-    void Start()
+    override public void InitializeGame()
     {
         SliceImage sliceImage = GameObject.Find("GenImgSlices").GetComponent<SliceImage>();
         sliceImage.slice(); // generate and display images
         images = sliceImage.getImages();
 
         timer = GameObject.Find("Timer").GetComponent<Timer>();
+
+        // temporary
+        Button button = buttonObj.GetComponent<Button>();
+        button.onClick.AddListener(FinishGame);
+
+        gameRunning = true;
         timer.startTimer();
-        // StartCoroutine(ExampleCoroutine());
+        StartCoroutine(updateTimer());
     }
 
-    IEnumerator ExampleCoroutine()
+    private IEnumerator updateTimer()
     {
-        timer.startTimer();
-        yield return new WaitForSeconds(5);
-        timer.stopTimer();
-        yield return new WaitForSeconds(5);
-        timer.startTimer();
-        yield return new WaitForSeconds(5);
-        timer.clearTimer();
+        while(gameRunning)
+        {
+            TimeSpan time = TimeSpan.FromSeconds(timer.getTime());
+            text.text = time.Minutes.ToString("D2") + ":" + time.Seconds.ToString("D2") + ":" + time.Milliseconds.ToString("D3");
+            
+            yield return null; // Wait for the next frame (makes like Update)
+        }
     }
 
     // TODO: maybe move out of the controller class
@@ -41,12 +53,22 @@ public class ImagerController : MonoBehaviour
         }
     }
 
-    private void grade()
+    override public bool CheckWin()
     {
-        // TODO: consolodate maxScore to a single file
-        float maxScore = 10000;
+
+        return false;
+    }
+
+    override public void FinishGame()
+    {
+        timer.stopTimer();
+        gameRunning = false;
+    }
+
+    override public int GetScore()
+    {
         float excellentTime = 4.0f;
-        float lowTime = 40f;
+        float lowTime = 100f;
         float diff = lowTime - excellentTime;
         float score;
 
@@ -65,6 +87,35 @@ public class ImagerController : MonoBehaviour
             score = Mathf.RoundToInt(maxScore - (normalizedTime * maxScore));
         }
         Debug.Log("score: " + score);
+
+        return (int)score;
+
+        // TODO: move this to a single file
+        if (score > 9000)
+        {
+            // A
+            Debug.Log("A");
+        }
+        else if (score > 8000)
+        {
+            // B
+            Debug.Log("B");
+        }
+        else if (score > 6500)
+        {
+            // C
+            Debug.Log("C");
+        }
+        else if (score > 4000)
+        {
+            // D
+            Debug.Log("D");
+        }
+        else
+        {
+            // F
+            Debug.Log("F");
+        }
     }
 
 }

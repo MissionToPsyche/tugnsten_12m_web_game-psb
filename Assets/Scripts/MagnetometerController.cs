@@ -11,12 +11,16 @@ public class MagnetometerController : MonoBehaviour
     private int numPoints = 200;
     private Torus torus;
     [SerializeField] private GameObject buttonObj;
-    [SerializeField] private GameObject buttonObj2;
+    [SerializeField] private GameObject noFieldMsg;
     private Vector3 magneticMoment;
+    private Vector3 noFieldScale = new Vector3(0.25f, 0.25f, 0.25f);
+    private bool gameRunning = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        noFieldMsg.SetActive(false);
+
         TorusGenerator torusGenerator = GameObject.Find("TorusGenerator").GetComponent<TorusGenerator>();
         this.torus = torusGenerator.drawTorus(numEllipses, numPoints);
         torus.torusObject.AddComponent<MoveTorus>();
@@ -29,31 +33,34 @@ public class MagnetometerController : MonoBehaviour
         // temporary
         Button button = buttonObj.GetComponent<Button>();
         button.onClick.AddListener(grade);
-        Button button2 = buttonObj2.GetComponent<Button>();
-        button2.onClick.AddListener(noField);
+
+        gameRunning = true;
+        StartCoroutine(msgControl());
     }
 
-    private void noField()
+    private IEnumerator msgControl()
     {
-        float score;
+        while(gameRunning)
+        {
+            if (torus.torusObject.transform.localScale.magnitude <= noFieldScale.magnitude)
+            {
+                noFieldMsg.SetActive(true);
+            }
+            if (torus.torusObject.transform.localScale.magnitude > noFieldScale.magnitude)
+            {
+                noFieldMsg.SetActive(false);
+            }
 
-        if(magneticMoment == Vector3.zero)
-        {
-            score = 10000f;
-            Debug.Log("A");
+            yield return null; // Wait for the next frame (makes like Update)
         }
-        else
-        {
-            score = 0f;
-            Debug.Log("F");
-        }
-        Debug.Log("score: " + score);
     }
 
     private void grade()
     {
-        float maxScore = 10000;
+        float maxScore = 10000f;
         float score;
+        float rotationWeight = 0.7f;
+        float scaleWeight = 1 - rotationWeight;
 
         Vector3 targetScale;
         float scaleMaxDeviation;
@@ -69,18 +76,19 @@ public class MagnetometerController : MonoBehaviour
 
         float avgPercentage;
 
-        if(magneticMoment == Vector3.zero)
+        if (magneticMoment == Vector3.zero)
         {
-            float penalty = 0.2f;
-
-            targetScale = new(0, 0, 0);
+            targetScale = noFieldScale;
             scaleMaxDeviation = 3.0f - targetScale.x;
             scale = torus.torusObject.transform.localScale;
+            if (scale.magnitude < targetScale.magnitude)
+            {
+                scale = targetScale;
+            }
             scaleDiff = Mathf.Abs(Vector3.Distance(scale, targetScale));
             scalePercentage = calc(scaleMaxDeviation, scaleDiff);
-            
-            avgPercentage = scalePercentage - penalty;
-            avgPercentage = Mathf.Clamp(avgPercentage, 0, 1);
+
+            avgPercentage = Mathf.Clamp(scalePercentage, 0, 1);
         }
         else
         {
@@ -96,28 +104,28 @@ public class MagnetometerController : MonoBehaviour
             rotationDiff = Mathf.Abs(rotation - targetRotation);
             rotationPercentage = calc(rotationMaxDeviation, rotationDiff);
 
-            avgPercentage = (scalePercentage + rotationPercentage) / 2f;
+            avgPercentage = (scalePercentage * scaleWeight) + (rotationPercentage * rotationWeight);
         }
 
         score = Mathf.RoundToInt(avgPercentage * maxScore);
         Debug.Log("score: " + score);
 
-        if(score > 9000)
+        if (score > 9000)
         {
             // A
             Debug.Log("A");
         }
-        else if(score > 8000)
+        else if (score > 8000)
         {
             // B
             Debug.Log("B");
         }
-        else if(score > 6500)
+        else if (score > 6500)
         {
             // C
             Debug.Log("C");
         }
-        else if(score > 4000)
+        else if (score > 4000)
         {
             // D
             Debug.Log("D");

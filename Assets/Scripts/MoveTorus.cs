@@ -14,7 +14,7 @@ public class MoveTorus : MonoBehaviour
 
     // void Start()
     // {
-    //     // TODO don't detect mouse click over UI
+    //     // TODO: don't detect mouse click over UI
     //     gui = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
     //     gui.getBottomStrip().RegisterCallback<MouseDownEvent>(OnElementClicked);
     //     gui.getTopStrip().RegisterCallback<MouseDownEvent>(OnElementClicked);
@@ -79,8 +79,8 @@ public class MoveTorus : MonoBehaviour
         float endDistance = Vector2.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position);
         float scaleFactor = endDistance / startDistance;
 
-        // Define your maximum scale limit
-        float maxScale = 3.0f; // Adjust this value according to your requirement
+        // maximum scale limit
+        float maxScale = 3.0f;
 
         // Calculate the new scale while applying the maximum scale limit
         Vector3 newScale = startScale * scaleFactor;
@@ -89,7 +89,6 @@ public class MoveTorus : MonoBehaviour
         newScale.z = Mathf.Min(newScale.z, maxScale);
 
         // apply scaling
-        // transform.localScale = startScale * scaleFactor;
         transform.localScale = newScale;
     }
 

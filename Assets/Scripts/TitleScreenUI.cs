@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Codice.Client.Common.GameUI;
@@ -12,6 +13,7 @@ public class TitleScreenUI : MonoBehaviour
     public GameObject MinigameSelectMenu, Canvas, Console;
     private Label minigameText;
     private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, minigameBackBtn, playMinigameBtn, easyBtn, mediumBtn, hardBtn, cancelBtn, closeBtn;
+    private Slider musicSlider, soundSlider;
     private VisualElement root, mainScreen, gameSelectScreen, gameSelectTop, gameSelectBottom, optionsScreen,  optionsContainer, soundbar, difficultyContainer, bottomContainer, creditsScreen;
     private List<VisualElement> screens = new List<VisualElement>();
     private void OnEnable()
@@ -77,6 +79,9 @@ public class TitleScreenUI : MonoBehaviour
         musicSlider = soundbar.Q<Slider>("music-slider");
         soundSlider = soundbar.Q<Slider>("sound-slider");
 
+        musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
+        soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
+
         // CREDITS SCREEN UI ELEMENTS
         closeBtn = creditsScreen.Q<Button>("close-button");
         closeBtn.clicked += () => switchScreen(mainScreen);
@@ -131,5 +136,22 @@ public class TitleScreenUI : MonoBehaviour
     {
         switchScreen(optionsScreen);
         // more implementation here
+    }
+
+    private void musicValueChanged(ChangeEvent<float> evt)
+    {
+        Debug.Log("Slider value changed: " + evt.newValue);
+        GameObject musicSource = SoundManager.Instance.transform.GetChild(0).gameObject;
+        Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
+        AudioSource audioSource = musicSource.GetComponent<AudioSource>();
+        audioSource.volume = evt.newValue/100;
+    }
+    private void soundValueChanged(ChangeEvent<float> evt)
+    {
+        Debug.Log("Slider value changed: " + evt.newValue);
+        GameObject soundSource = SoundManager.Instance.transform.GetChild(1).gameObject;
+        Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
+        AudioSource audioSource = soundSource.GetComponent<AudioSource>();
+        audioSource.volume = evt.newValue/100;
     }
 }

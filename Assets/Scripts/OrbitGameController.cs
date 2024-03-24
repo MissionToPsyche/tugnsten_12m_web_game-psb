@@ -7,6 +7,7 @@ public class OrbitGameController : GameController
     public Orbiter spacecraft;
     public Orbit targetOrbit;
     public OrbitDataGenerator generator;
+    public OrbitUIController ui;
 
     public const float altitudeTolerance = 0.1f;
     public const float rotationTolerance = 4f;
@@ -27,12 +28,36 @@ public class OrbitGameController : GameController
         gameRunning = true;
     }
 
+    void Update()
+    {
+        if (gameRunning)
+        {
+            if (CheckWin()) {
+                ui.EnterWinState();
+            };
+        }
+        else
+        {
+            FinishGame();
+        }
+    }
+
+    public override void StartGame()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void StopGame()
+    {
+        throw new System.NotImplementedException();
+    }
+
     override public void FinishGame()
     {
         spacecraft.active = false;
     }
 
-    override public int GetScore()
+    override public void CalcScore()
     {
         float fuelRatio = idealFuelUsage / spacecraft.fuelUsed;
 
@@ -40,10 +65,10 @@ public class OrbitGameController : GameController
 
         int score = Mathf.RoundToInt(maxScore * fuelRatio);
 
-        return score;
+        this.score = score;
     }
 
-    override public bool CheckWin()
+    public bool CheckWin()
     {
         // Checks if the current orbit's rotation and apsis distances are
         // within tolerance of the target orbit.

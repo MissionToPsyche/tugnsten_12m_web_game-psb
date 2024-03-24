@@ -9,7 +9,7 @@ public class OrbitUIController : UIController
     public GameObject skipButton;
     public GameObject restartButton;
 
-    override public void ShowMsg(string msg)
+    public void ShowMsg(string msg)
     {
         headerText.text = msg;
     }
@@ -21,15 +21,20 @@ public class OrbitUIController : UIController
         continueButton.SetActive(false);
     }
 
-    override public void EnterFailState()
+    public void EnterFailState()
     {
         restartButton.SetActive(true);
     }
 
-    override public void EnterWinState()
+    public void EnterWinState()
     {
         ShowMsg("Orbit Reached");
         restartButton.SetActive(true);
         continueButton.SetActive(true);
+    }
+
+    public override void ShowScore(int score)
+    {
+        throw new System.NotImplementedException();
     }
 }

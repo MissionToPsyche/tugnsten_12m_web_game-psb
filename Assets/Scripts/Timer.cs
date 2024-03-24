@@ -22,6 +22,7 @@ public class Timer : MonoBehaviour
         {
             currentTime += Time.deltaTime;
         }
+        // TODO: move to UIController ShowTime()
         // TimeSpan time = TimeSpan.FromSeconds(currentTime);
         // text.text = time.Minutes.ToString("D2") + ":" + time.Seconds.ToString("D2") + ":" + time.Milliseconds.ToString("D3");
     }
@@ -36,7 +37,7 @@ public class Timer : MonoBehaviour
         timerActive = false;
     }
 
-    public void clearTimer()
+    public void resetTimer()
     {
         currentTime = 0f;
     }

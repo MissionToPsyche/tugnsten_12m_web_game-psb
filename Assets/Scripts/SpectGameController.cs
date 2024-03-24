@@ -53,22 +53,30 @@ public class SpectGameController : GameController
         gameRunning = true;
     }
 
+    private void Update()
+    {
+        UpdateUserGraph();
+    }
+
+    public override void StartGame()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void StopGame()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void FinishGame()
     {
         Debug.Log("Game finished.");
         return;
     }
 
-    public override int GetScore()
+    public override void CalcScore()
     {
         throw new System.NotImplementedException();
-    }
-
-    // Called by super's Update()
-    public override bool CheckWin()
-    {
-        UpdateUserGraph();
-        return false;
     }
 
     public void UpdateUserGraph()

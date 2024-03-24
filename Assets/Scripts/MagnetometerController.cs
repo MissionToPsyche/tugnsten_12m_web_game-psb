@@ -31,7 +31,7 @@ public class MagnetometerController : GameController
 
         // temporary
         Button button = buttonObj.GetComponent<Button>();
-        button.onClick.AddListener(CalcScore);
+        button.onClick.AddListener(FinishGame);
 
         StartGame();
     }
@@ -68,6 +68,7 @@ public class MagnetometerController : GameController
     {
         gameRunning = false;
         timer.stopTimer();
+        CalcScore();
     }
 
     override public void CalcScore()

@@ -4,32 +4,43 @@ using UnityEngine;
 
 abstract public class GameController : MonoBehaviour
 {
+    // public Timer timer;
     protected bool gameRunning = false;
-    public UIController ui;
 
     public int maxScore = 10000;
+    public int score = -1;
 
     void Start()
     {
         InitializeGame();
     }
 
-    void Update()
-    {
-        if (gameRunning)
-        {
-            if (CheckWin()) {
-                ui.EnterWinState();
-            };
-        }
-        else
-        {
-            FinishGame();
-        }
-    }
-
     abstract public void InitializeGame();
+    abstract public void StartGame();
+    abstract public void StopGame();
     abstract public void FinishGame();
-    abstract public int GetScore();
-    abstract public bool CheckWin();
+    abstract public void CalcScore();
+    
+    public int GetScore()
+    {
+        if (score < 0)
+        {
+            CalcScore();
+        }
+
+        return score;
+    }
+    
+    public char GetGrade()
+    {
+        if (score < 0)
+        {
+            CalcScore();
+        }
+
+        // TODO: grade logic
+        // TODO: enum for letters
+
+        return 'F';
+    }
 }

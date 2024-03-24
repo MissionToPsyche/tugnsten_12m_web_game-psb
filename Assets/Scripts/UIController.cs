@@ -6,16 +6,31 @@ abstract public class UIController : MonoBehaviour
 {
     public GameObject continueButton;
     // TODO: Menu button
+    // TODO: Help button
+    // TODO: Minigame name text
+    // TODO: Timer display
 
     private void Start()
     {
         ResetUI();
     }
 
-    // Used to announce win/fail/etc.
-    abstract public void ShowMsg(string msg);
+    public void ShowTime(float time)
+    {
+        // TODO: update time display
+    }
 
-    abstract public void EnterFailState();
-    abstract public void EnterWinState();
+    public void ShowInformation()
+    {
+        // TODO: show context and tutorial window, called by controller on scene change
+    }
+
+    public void ShowMenu()
+    {
+        // TODO: show settings menu
+    }
+    
+    abstract public void ShowScore(int score);
+
     abstract public void ResetUI();
 }

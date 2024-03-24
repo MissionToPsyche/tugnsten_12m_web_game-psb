@@ -8,7 +8,7 @@ public class Timer : MonoBehaviour
 {
     private bool timerActive = false;
     private float currentTime = 0f;
-    [SerializeField] private TMP_Text text;
+    // [SerializeField] private TMP_Text text;
 
     public float getTime()
     {
@@ -22,8 +22,9 @@ public class Timer : MonoBehaviour
         {
             currentTime += Time.deltaTime;
         }
-        TimeSpan time = TimeSpan.FromSeconds(currentTime);
-        text.text = time.Minutes.ToString("D2") + ":" + time.Seconds.ToString("D2") + ":" + time.Milliseconds.ToString("D3");
+        // TODO: move to UIController ShowTime()
+        // TimeSpan time = TimeSpan.FromSeconds(currentTime);
+        // text.text = time.Minutes.ToString("D2") + ":" + time.Seconds.ToString("D2") + ":" + time.Milliseconds.ToString("D3");
     }
 
     public void startTimer()
@@ -35,7 +36,7 @@ public class Timer : MonoBehaviour
         timerActive = false;
     }
 
-    public void clearTimer()
+    public void resetTimer()
     {
         currentTime = 0f;
     }

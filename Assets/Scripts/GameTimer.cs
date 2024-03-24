@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using TMPro;
 
-public class Timer : MonoBehaviour
+public class GameTimer : MonoBehaviour
 {
     private bool timerActive = false;
     private float currentTime = 0f;
@@ -31,6 +31,7 @@ public class Timer : MonoBehaviour
     {
         timerActive = true;
     }
+    
     public void stopTimer()
     {
         timerActive = false;

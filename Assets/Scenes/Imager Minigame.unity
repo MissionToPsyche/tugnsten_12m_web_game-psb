@@ -974,10 +974,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 222786265}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ChangeScene, Scripts
-        m_MethodName: NextScene
-        m_Mode: 5
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1320,7 +1320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5ecd19f7b32cb34190734efaf0b2dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 1548693479}
 --- !u!4 &1608924474
 Transform:
   m_ObjectHideFlags: 0
@@ -1346,6 +1345,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1639061777}
   - component: {fileID: 1639061776}
+  - component: {fileID: 1639061778}
   m_Layer: 0
   m_Name: ImagerController
   m_TagString: Untagged
@@ -1365,6 +1365,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36dc3e7ecf69d334aaa65258c7797ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: {fileID: 0}
+  maxScore: 10000
+  score: -1
+  text: {fileID: 1548693479}
+  buttonObj: {fileID: 1453628010}
 --- !u!4 &1639061777
 Transform:
   m_ObjectHideFlags: 0
@@ -1380,6 +1385,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1639061778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639061775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cba3f1fb7ec7194d8af089114566043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  continueButton: {fileID: 0}
+  text: {fileID: 1548693479}
 --- !u!1 &1688281055
 GameObject:
   m_ObjectHideFlags: 0

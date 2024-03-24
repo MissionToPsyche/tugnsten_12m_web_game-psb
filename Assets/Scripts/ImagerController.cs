@@ -1,32 +1,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
+using System;
+using TMPro;
+using UnityEngine.UI;
 
-public class ImagerController : MonoBehaviour
+public class ImagerController : GameController
 {
+    private ImagerUIController uiController;
     private List<GameObject> images;
-    private Timer timer;
 
-    void Start()
+    // temporary
+    [SerializeField] private GameObject buttonObj;
+
+    override public void InitializeGame()
     {
+        uiController = GetComponent<ImagerUIController>();
+        timer = GameObject.Find("GameTimer").GetComponent<GameTimer>();
+
         SliceImage sliceImage = GameObject.Find("GenImgSlices").GetComponent<SliceImage>();
         sliceImage.slice(); // generate and display images
         images = sliceImage.getImages();
 
-        timer = GameObject.Find("Timer").GetComponent<Timer>();
-        timer.startTimer();
-        // StartCoroutine(ExampleCoroutine());
+        // temporary
+        Button button = buttonObj.GetComponent<Button>();
+        button.onClick.AddListener(FinishGame);
+
+        StartGame();
     }
 
-    IEnumerator ExampleCoroutine()
+    void Update()
     {
-        timer.startTimer();
-        yield return new WaitForSeconds(5);
-        timer.stopTimer();
-        yield return new WaitForSeconds(5);
-        timer.startTimer();
-        yield return new WaitForSeconds(5);
-        timer.clearTimer();
+        uiController.ShowTime(timer.getTime());
+        if(gameRunning)
+        {
+            
+        }
     }
 
     // TODO: maybe move out of the controller class
@@ -41,14 +50,29 @@ public class ImagerController : MonoBehaviour
         }
     }
 
-    private void grade()
+    override public void StartGame()
     {
-        // TODO: consolodate maxScore to a single file
-        float maxScore = 10000;
+        gameRunning = true;
+        timer.startTimer();
+    }
+
+    override public void StopGame()
+    {
+        gameRunning = false;
+        timer.stopTimer();
+    }
+
+    override public void FinishGame()
+    {
+        gameRunning = false;
+        timer.stopTimer();
+    }
+
+    override public void CalcScore()
+    {
         float excellentTime = 4.0f;
-        float lowTime = 40f;
+        float lowTime = 100f;
         float diff = lowTime - excellentTime;
-        float score;
 
         float time = timer.getTime();
 

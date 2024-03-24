@@ -4,22 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class MagnetometerController : MonoBehaviour
+public class MagnetometerController : GameController
 {
+    private MagnetometerUIController uiController;
     private int numArrows = 3;
     private int numEllipses = 5;
     private int numPoints = 200;
     private Torus torus;
     [SerializeField] private GameObject buttonObj;
-    [SerializeField] private GameObject noFieldMsg;
     private Vector3 magneticMoment;
     private Vector3 noFieldScale = new Vector3(0.25f, 0.25f, 0.25f);
-    private bool gameRunning = false;
 
-    // Start is called before the first frame update
-    void Start()
+    override public void InitializeGame()
     {
-        noFieldMsg.SetActive(false);
+        uiController = GetComponent<MagnetometerUIController>();
+        timer = GameObject.Find("GameTimer").GetComponent<GameTimer>();
 
         TorusGenerator torusGenerator = GameObject.Find("TorusGenerator").GetComponent<TorusGenerator>();
         this.torus = torusGenerator.drawTorus(numEllipses, numPoints);
@@ -32,33 +31,47 @@ public class MagnetometerController : MonoBehaviour
 
         // temporary
         Button button = buttonObj.GetComponent<Button>();
-        button.onClick.AddListener(grade);
+        button.onClick.AddListener(CalcScore);
 
-        gameRunning = true;
-        StartCoroutine(msgControl());
+        StartGame();
     }
 
-    private IEnumerator msgControl()
+    void Update()
     {
-        while(gameRunning)
+        uiController.ShowTime(timer.getTime());
+        if(gameRunning)
         {
             if (torus.torusObject.transform.localScale.magnitude <= noFieldScale.magnitude)
             {
-                noFieldMsg.SetActive(true);
+                uiController.ShowNoFieldMsg();
             }
             if (torus.torusObject.transform.localScale.magnitude > noFieldScale.magnitude)
             {
-                noFieldMsg.SetActive(false);
+                uiController.HideNoFieldMsg();
             }
-
-            yield return null; // Wait for the next frame (makes like Update)
         }
     }
 
-    private void grade()
+    override public void StartGame()
     {
-        float maxScore = 10000f;
-        float score;
+        gameRunning = true;
+        timer.startTimer();
+    }
+
+    override public void StopGame()
+    {
+        gameRunning = false;
+        timer.stopTimer();
+    }
+
+    override public void FinishGame()
+    {
+        gameRunning = false;
+        timer.stopTimer();
+    }
+
+    override public void CalcScore()
+    {
         float rotationWeight = 0.7f;
         float scaleWeight = 1 - rotationWeight;
 
@@ -109,32 +122,6 @@ public class MagnetometerController : MonoBehaviour
 
         score = Mathf.RoundToInt(avgPercentage * maxScore);
         Debug.Log("score: " + score);
-
-        if (score > 9000)
-        {
-            // A
-            Debug.Log("A");
-        }
-        else if (score > 8000)
-        {
-            // B
-            Debug.Log("B");
-        }
-        else if (score > 6500)
-        {
-            // C
-            Debug.Log("C");
-        }
-        else if (score > 4000)
-        {
-            // D
-            Debug.Log("D");
-        }
-        else
-        {
-            // F
-            Debug.Log("F");
-        }
     }
 
     private float calc(float maxDeviation, float diff)

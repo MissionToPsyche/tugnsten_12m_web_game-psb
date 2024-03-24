@@ -7,37 +7,34 @@ using UnityEngine.UI;
 
 public class ImagerController : GameController
 {
+    private ImagerUIController uiController;
     private List<GameObject> images;
-    private Timer timer;
-    [SerializeField] private TMP_Text text;
-    // private bool gameRunning = false;
+
+    // temporary
     [SerializeField] private GameObject buttonObj;
 
     override public void InitializeGame()
     {
+        uiController = GetComponent<ImagerUIController>();
+        timer = GameObject.Find("GameTimer").GetComponent<GameTimer>();
+
         SliceImage sliceImage = GameObject.Find("GenImgSlices").GetComponent<SliceImage>();
         sliceImage.slice(); // generate and display images
         images = sliceImage.getImages();
-
-        timer = GameObject.Find("Timer").GetComponent<Timer>();
 
         // temporary
         Button button = buttonObj.GetComponent<Button>();
         button.onClick.AddListener(FinishGame);
 
-        gameRunning = true;
-        timer.startTimer();
-        StartCoroutine(updateTimer());
+        StartGame();
     }
 
-    private IEnumerator updateTimer()
+    void Update()
     {
-        while(gameRunning)
+        uiController.ShowTime(timer.getTime());
+        if(gameRunning)
         {
-            TimeSpan time = TimeSpan.FromSeconds(timer.getTime());
-            text.text = time.Minutes.ToString("D2") + ":" + time.Seconds.ToString("D2") + ":" + time.Milliseconds.ToString("D3");
             
-            yield return null; // Wait for the next frame (makes like Update)
         }
     }
 
@@ -53,24 +50,29 @@ public class ImagerController : GameController
         }
     }
 
-    override public bool CheckWin()
+    override public void StartGame()
     {
+        gameRunning = true;
+        timer.startTimer();
+    }
 
-        return false;
+    override public void StopGame()
+    {
+        gameRunning = false;
+        timer.stopTimer();
     }
 
     override public void FinishGame()
     {
-        timer.stopTimer();
         gameRunning = false;
+        timer.stopTimer();
     }
 
-    override public int GetScore()
+    override public void CalcScore()
     {
         float excellentTime = 4.0f;
         float lowTime = 100f;
         float diff = lowTime - excellentTime;
-        float score;
 
         float time = timer.getTime();
 
@@ -87,35 +89,6 @@ public class ImagerController : GameController
             score = Mathf.RoundToInt(maxScore - (normalizedTime * maxScore));
         }
         Debug.Log("score: " + score);
-
-        return (int)score;
-
-        // TODO: move this to a single file
-        if (score > 9000)
-        {
-            // A
-            Debug.Log("A");
-        }
-        else if (score > 8000)
-        {
-            // B
-            Debug.Log("B");
-        }
-        else if (score > 6500)
-        {
-            // C
-            Debug.Log("C");
-        }
-        else if (score > 4000)
-        {
-            // D
-            Debug.Log("D");
-        }
-        else
-        {
-            // F
-            Debug.Log("F");
-        }
     }
 
 }

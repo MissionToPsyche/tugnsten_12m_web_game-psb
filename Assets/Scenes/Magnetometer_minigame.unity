@@ -1873,7 +1873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85e260587b7ad748b2ede3a152124bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowImg: {fileID: 21300000, guid: 65a7b477e4408e746aa50dc7344f361f, type: 3}
+  arrowImg: {fileID: 21300000, guid: 9694006e1b28b564fb09f7efe6dbc142, type: 3}
 --- !u!4 &1312068406
 Transform:
   m_ObjectHideFlags: 0

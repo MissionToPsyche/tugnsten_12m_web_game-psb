@@ -34,7 +34,10 @@ public class ImagerController : GameController
         uiController.ShowTime(timer.getTime());
         if(gameRunning)
         {
-            
+            if(checkIsDone())
+            {
+                FinishGame();
+            }
         }
     }
 
@@ -48,6 +51,39 @@ public class ImagerController : GameController
                 img.GetComponent<ImageController>().updateSnapPoint(imageMoved.name, imageMoved.GetComponent<RectTransform>().anchoredPosition);
             }
         }
+    }
+
+    public bool checkIsDone()
+    {
+        foreach (GameObject img in images)
+        {
+            if(!isAllSnapPointsEqual(img))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool isAllSnapPointsEqual(GameObject img)
+    {
+        const float tolerance = 0.001f;
+        Vector2 minPoint = Vector2.positiveInfinity;
+        Vector2 maxPoint = Vector2.negativeInfinity;
+
+        // Assuming getSnapPoints() is modified to return all snapPoints across all images
+        Dictionary<string, Vector2>.ValueCollection snapPoints = img.GetComponent<ImageController>().getSnapPoints();
+
+        foreach (Vector2 snapPoint in snapPoints)
+        {
+            minPoint = Vector2.Min(minPoint, snapPoint);
+            maxPoint = Vector2.Max(maxPoint, snapPoint);
+        }
+
+        // Check if the bounding box defined by minPoint and maxPoint is within the tolerance
+        bool isWithinTolerance = (maxPoint - minPoint).magnitude <= tolerance;
+
+        return isWithinTolerance;
     }
 
     override public void StartGame()
@@ -66,6 +102,7 @@ public class ImagerController : GameController
     {
         gameRunning = false;
         timer.stopTimer();
+        CalcScore();
     }
 
     override public void CalcScore()

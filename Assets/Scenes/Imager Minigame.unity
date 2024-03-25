@@ -1302,7 +1302,7 @@ GameObject:
   - component: {fileID: 1608924474}
   - component: {fileID: 1608924473}
   m_Layer: 0
-  m_Name: Timer
+  m_Name: GameTimer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1368,7 +1368,6 @@ MonoBehaviour:
   timer: {fileID: 0}
   maxScore: 10000
   score: -1
-  text: {fileID: 1548693479}
   buttonObj: {fileID: 1453628010}
 --- !u!4 &1639061777
 Transform:

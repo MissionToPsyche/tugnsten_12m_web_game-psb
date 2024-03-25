@@ -4,7 +4,7 @@ using UnityEngine;
 
 abstract public class GameController : MonoBehaviour
 {
-    // public Timer timer;
+    public GameTimer timer;
     protected bool gameRunning = false;
 
     public int maxScore = 10000;

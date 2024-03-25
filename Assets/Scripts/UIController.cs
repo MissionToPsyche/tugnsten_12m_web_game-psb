@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using TMPro;
 
 abstract public class UIController : MonoBehaviour
 {
@@ -10,6 +12,9 @@ abstract public class UIController : MonoBehaviour
     // TODO: Minigame name text
     // TODO: Timer display
 
+    // temporary
+    [SerializeField] private TMP_Text text;
+
     private void Start()
     {
         ResetUI();
@@ -18,6 +23,8 @@ abstract public class UIController : MonoBehaviour
     public void ShowTime(float time)
     {
         // TODO: update time display
+        TimeSpan formatTime = TimeSpan.FromSeconds(time);
+        text.text = formatTime.Minutes.ToString("D2") + ":" + formatTime.Seconds.ToString("D2") + ":" + (formatTime.Milliseconds/100).ToString("D1");
     }
 
     public void ShowInformation()

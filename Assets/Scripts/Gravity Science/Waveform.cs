@@ -7,11 +7,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(RectTransform))]
 public class Waveform : MonoBehaviour
 {
-    public bool disableOffset = false;
-
     public LineRenderer lr;
     public RectTransform rt;
-    public Slider slider = null;
 
     public const int lowerWavelength = 100;
     public const int upperWavelength = 500;
@@ -54,14 +51,8 @@ public class Waveform : MonoBehaviour
         phase = 0f;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // TODO: move to controller
-        if(slider != null){
-            wavelength = slider.value * (upperWavelength - lowerWavelength) + lowerWavelength;
-        }
-
         DrawGraph();
 
         // Quick way to slow the animation as wavelength grows. Without this
@@ -75,6 +66,11 @@ public class Waveform : MonoBehaviour
         // Resets phase invisibly after the graph reaches its start position to
         // prevent overflows.
         phase %= Mathf.PI * 2;
+    }
+
+    public void SetWavelength(float percent)
+    {
+        wavelength = percent * (upperWavelength - lowerWavelength) + lowerWavelength;
     }
 
     public void CalculatePoints()
@@ -155,72 +151,6 @@ public class Waveform : MonoBehaviour
         }
 
         return new Color(Mathf.Clamp01(r), Mathf.Clamp01(g), Mathf.Clamp01(b));
-
-
-
-        // Converts a wavelength of visible light to an RGB color.
-        // Logic adapted from https://www.physics.sfasu.edu/astro/color/spectra.html
-
-        // float r;
-        // float g;
-        // float b;
-
-        // float gamma = 0.8f;
-
-        // if (colorWavelength >= 380 & colorWavelength <= 440)
-        // {
-        //     float attenuation = 0.3f + 0.7f * (colorWavelength - 380) / (440 - 380);
-        //     r = Mathf.Pow(-(wavelength - 440) / (440 - 380) * attenuation, gamma);
-        //     g = 0.0f;
-        //     b = Mathf.Pow(1.0f * attenuation, gamma);
-        // }
-        // else if (colorWavelength >= 440 & colorWavelength <= 490)
-        // {
-        //     r = 0.0f;
-        //     g = Mathf.Pow((colorWavelength - 440) / (490 - 440), gamma);
-        //     b = 1.0f;
-        // }
-        // else if (colorWavelength >= 490 & colorWavelength <= 510)
-        // {
-        //     r = 0.0f;
-        //     g = 1.0f;
-        //     b = Mathf.Pow(-(colorWavelength - 510) / (510 - 490), gamma);
-        // }
-        // else if (colorWavelength >= 510 & colorWavelength <= 580)
-        // {
-        //     r = Mathf.Pow((colorWavelength - 510) / (580 - 510), gamma);
-        //     g = 1.0f;
-        //     b = 0.0f;
-        // }
-        // else if (colorWavelength >= 580 & colorWavelength <= 645)
-        // {
-        //     r = 1.0f;
-        //     g = Mathf.Pow(-(colorWavelength - 645) / (645 - 580), gamma);
-        //     b = 0.0f;
-        // }
-        // else if (colorWavelength >= 645 & colorWavelength <= 750)
-        // {
-        //     float attenuation = 0.3f + 0.7f * (750 - colorWavelength) / (750 - 645);
-        //     r = Mathf.Pow(1.0f * attenuation, gamma);
-        //     g = 0.04f;
-        //     b = 0.0f;
-        // }
-        // else
-        // {
-        //     r = 0;
-        //     g = 0;
-        //     b = 0;
-        // }
-
-        // r *= 255;
-        // g *= 255;
-        // b *= 255;
-
-        // Debug.Log("r" + Mathf.FloorToInt(r));
-        // Debug.Log("g" + Mathf.FloorToInt(g));
-        // Debug.Log("b" + Mathf.FloorToInt(b));
-
-        // return new Color(Mathf.FloorToInt(r), Mathf.FloorToInt(g), Mathf.FloorToInt(b));
     }
 
     public void DrawGraph()

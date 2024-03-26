@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class RaycastController : MonoBehaviour
 {
+    private GameObject draggedObject;
+    private Vector3 mouseOffset;
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -19,7 +22,24 @@ public class RaycastController : MonoBehaviour
             {
                 // Interact with the hit game object
                 Debug.Log("Hit: " + hit.collider.gameObject.name);
+
+                // Start dragging the object
+                draggedObject = hit.collider.gameObject;
+                mouseOffset = draggedObject.transform.position - Camera.main.ScreenPointToRay(Input.mousePosition).origin;
             }
+        }
+
+        if (Input.GetMouseButton(0) && draggedObject != null)
+        {
+            // Drag the object
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            draggedObject.transform.position = ray.origin + mouseOffset;
+        }
+
+        if (Input.GetMouseButtonUp(0) && draggedObject != null)
+        {
+            // Stop dragging the object
+            draggedObject = null;
         }
     }
 }

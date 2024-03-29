@@ -77,12 +77,12 @@ public class MagnetometerController : GameController
         float scaleWeight = 1 - rotationWeight;
 
         Vector3 targetScale;
+        Vector3 maxScale = new Vector3(3, 3, 3);
         float scaleMaxDeviation;
         Vector3 scale;
         float scaleDiff;
         float scalePercentage;
 
-        float targetRotation;
         float rotationMaxDeviation;
         float rotation;
         float rotationDiff;
@@ -93,13 +93,14 @@ public class MagnetometerController : GameController
         if (magneticMoment == Vector3.zero)
         {
             targetScale = noFieldScale;
-            scaleMaxDeviation = 3.0f - targetScale.x;
+            scaleMaxDeviation = Mathf.Abs(Vector3.Distance(maxScale, targetScale));
             scale = torus.torusObject.transform.localScale;
             if (scale.magnitude < targetScale.magnitude)
             {
                 scale = targetScale;
             }
             scaleDiff = Mathf.Abs(Vector3.Distance(scale, targetScale));
+            Debug.Log("zero");
             scalePercentage = calc(scaleMaxDeviation, scaleDiff);
 
             avgPercentage = Mathf.Clamp(scalePercentage, 0, 1);
@@ -107,15 +108,15 @@ public class MagnetometerController : GameController
         else
         {
             targetScale = new(1, 1, 1);
-            scaleMaxDeviation = 3.0f - targetScale.x;
+            scaleMaxDeviation = Mathf.Abs(Vector3.Distance(maxScale, targetScale));
             scale = torus.torusObject.transform.localScale;
             scaleDiff = Mathf.Abs(Vector3.Distance(scale, targetScale));
             scalePercentage = calc(scaleMaxDeviation, scaleDiff);
 
-            targetRotation = 0f;
             rotationMaxDeviation = 180f;
             rotation = torus.torusObject.transform.localRotation.eulerAngles.z;
-            rotationDiff = Mathf.Abs(rotation - targetRotation);
+            rotationDiff = Mathf.Abs(rotation - rotationMaxDeviation);
+            rotationDiff = rotationMaxDeviation - rotationDiff;
             rotationPercentage = calc(rotationMaxDeviation, rotationDiff);
 
             avgPercentage = (scalePercentage * scaleWeight) + (rotationPercentage * rotationWeight);

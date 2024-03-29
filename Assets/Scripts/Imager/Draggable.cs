@@ -21,6 +21,17 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
         // move image with mouse (as a child of a canvas)
         Vector3 newPosition = Vector3.zero;
         RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, eventData.pressEventCamera, out newPosition);
+        
+        // Define drag boundaries 
+        float minX = -80f; // Minimum X position
+        float maxX = 80f;  // Maximum X position
+        float minY = -5f; // Minimum Y position
+        float maxY = 55f;  // Maximum Y position
+
+        // Clamp newPosition to stay within the defined boundaries
+        newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
+        newPosition.y = Mathf.Clamp(newPosition.y, minY, maxY);
+        
         rectTransform.position = newPosition;
     }
 

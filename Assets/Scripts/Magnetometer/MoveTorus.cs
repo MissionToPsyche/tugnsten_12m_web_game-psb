@@ -11,16 +11,21 @@ public class MoveTorus : MonoBehaviour
     private Quaternion initialTorusRotation;
     // private GameScreenUI gui;
     // private bool uiFlag = false;
+    private GameObject northObject;
+    private GameObject southObject;
 
-    // void Start()
-    // {
+    void Start()
+    {
     //     // TODO: don't detect mouse click over UI
     //     gui = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
     //     gui.getBottomStrip().RegisterCallback<MouseDownEvent>(OnElementClicked);
     //     gui.getTopStrip().RegisterCallback<MouseDownEvent>(OnElementClicked);
     //     gui.getBottomStrip().RegisterCallback<MouseUpEvent>(OnElementClicked);
     //     gui.getTopStrip().RegisterCallback<MouseUpEvent>(OnElementClicked);
-    // }
+
+        northObject = GameObject.Find("North");
+        southObject = GameObject.Find("South");
+    }
 
     void Update()
     {
@@ -67,6 +72,9 @@ public class MoveTorus : MonoBehaviour
 
             // Apply rotation around the z-axis
             transform.Rotate(Vector3.forward, angle * Mathf.Rad2Deg, Space.Self);
+
+            southObject.transform.rotation = Quaternion.identity;
+            northObject.transform.rotation = Quaternion.identity;
 
             // Update initial mouse position for next frame
             initialMousePosition = Input.mousePosition;

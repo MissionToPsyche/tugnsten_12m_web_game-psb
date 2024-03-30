@@ -2017,6 +2017,7 @@ MonoBehaviour:
   text: {fileID: 0}
   referenceWave: {fileID: 1132711039}
   userWave: {fileID: 1494029534}
+  referenceWavelengths: []
   sliderPrefab: {fileID: 985932853}
   sliders: []
   activeSlider: 0

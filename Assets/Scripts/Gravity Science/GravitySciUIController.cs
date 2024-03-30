@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GravitySciUIController : UIController
 {
     public Waveform referenceWave;
     public Waveform userWave;
+    public List<float> referenceWavelengths;
+
     public Slider sliderPrefab;
     public List<Slider> sliders;
     private List<float> lastValues;
@@ -47,6 +50,23 @@ public class GravitySciUIController : UIController
 
             // `transform` makes it a child of this script's object, the main UI canvas
             sliders.Add(Instantiate(sliderPrefab, transform));
+            sliders[i].gameObject.name = "Slider " + i;
+            
+            // Adds an onClick event to change the active slider
+            EventTrigger evTrig = sliders[i].gameObject.AddComponent<EventTrigger>();
+            
+            EventTrigger.Entry clickEvent = new()
+            {
+                eventID = EventTriggerType.PointerDown
+            };
+
+            int sliderIndex = i; // This is necessary for the closure to capture i's value
+            
+            clickEvent.callback.AddListener((_) => {
+                SetActiveSlider(sliderIndex);
+            });
+            
+            evTrig.triggers.Add(clickEvent);
 
             // Positions slider at center of the distortion, rotated so that top
             // is facing radial direction. The orbit's position is added to
@@ -58,22 +78,18 @@ public class GravitySciUIController : UIController
         }
     }
 
-    public void UpdateUserGraph()
+    public void SetActiveSlider(int sliderNum)
     {
-        // TODO: replace this with valueChanged listeners, or onClick if that's a thing
-        for (int i = 0; i < sliders.Count; i++)
-        {
-            if (lastValues[i] != sliders[i].value)
-            {
-                activeSlider = i;
-            }
+        activeSlider = sliderNum;
 
-            lastValues[i] = sliders[i].value;
-        }
-
-        userWave.SetWavelength(sliders[activeSlider].value);
+        referenceWave.SetWavelength(referenceWavelengths[activeSlider]);
 
         // TODO: Highlight active slider
+    }
+
+    public void UpdateGraphs()
+    {
+        userWave.SetWavelength(sliders[activeSlider].value);
     }
 
     public List<float> GetSliderValues()

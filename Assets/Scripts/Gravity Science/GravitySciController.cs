@@ -13,6 +13,14 @@ public class GravitySciController : GameController
     {
         orbit.distortions = generator.GetDistortions(orbit.numOrbitPoints);
         ui.CreateSliders(orbit.distortions, orbit.orbitLine, orbit.transform.position);
+        
+        List<float> referenceWavelengths = new();
+        foreach (Distortion distortion in orbit.distortions)
+        {
+            referenceWavelengths.Add(distortion.trueIntensity);
+        }
+        ui.referenceWavelengths = referenceWavelengths;
+
         StartGame();
     }
 
@@ -25,7 +33,7 @@ public class GravitySciController : GameController
     {
         if (gameRunning)
         {
-            ui.UpdateUserGraph();
+            ui.UpdateGraphs();
             List<float> userDistortionIntensities = ui.GetSliderValues();
 
             for (int i = 0; i < userDistortionIntensities.Count; i++)

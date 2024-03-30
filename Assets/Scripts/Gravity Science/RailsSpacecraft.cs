@@ -10,7 +10,7 @@ public class RailsSpacecraft : MonoBehaviour
     private float currentIndex = 0;
 
     void OnValidate()
-    {   
+    {
         // Adding the orbit's position makes the spacecraft's origin the same as the orbit's origin.
         transform.position = orbit.orbitLine[0] + orbit.transform.position;
     }
@@ -21,14 +21,13 @@ public class RailsSpacecraft : MonoBehaviour
         transform.position = orbit.orbitLine[0] + orbit.transform.position;
     }
 
-    // Animates the spacecraft by moving it between points on the orbit in sequence.
-    void Update()
+    public void UpdatePosition()
     {
         currentIndex += speed * Time.deltaTime;
-        currentIndex = Mathf.Repeat(currentIndex, orbit.ellipsePoints); // Wrap around after reaching the end
+        currentIndex = Mathf.Repeat(currentIndex, orbit.numOrbitPoints); // Wrap around after reaching the end
 
         int prevIndex = Mathf.FloorToInt(currentIndex);
-        int nextIndex = (prevIndex + 1) % orbit.ellipsePoints;
+        int nextIndex = (prevIndex + 1) % orbit.numOrbitPoints;
 
         float lerp = currentIndex - prevIndex;
 

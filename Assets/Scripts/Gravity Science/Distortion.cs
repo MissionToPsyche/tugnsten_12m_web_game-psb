@@ -18,9 +18,27 @@ public class Distortion
     // Intended for variable size fluctuations, but never worked right so don't touch. 
     public float size = 0.5f;
 
-    public Distortion(float position, float trueIntensity)
+    public int numPointsAffected;
+    public int centerPoint;
+    public int firstPoint;
+    public int lastPoint;
+
+    public Distortion(float position, float trueIntensity, int orbitPoints)
     {
         this.position = position;
         this.trueIntensity = trueIntensity;
+
+        // Bitwise OR ensures that the number of points is odd so it can be centered properly.
+        numPointsAffected = Mathf.RoundToInt(orbitPoints * size) | 1;
+        int halfPointsAffected = numPointsAffected / 2;
+
+        centerPoint = Mathf.RoundToInt(orbitPoints * position);
+
+        firstPoint = centerPoint - halfPointsAffected;
+        lastPoint = centerPoint + halfPointsAffected;
+
+        // Wraps the values if they fall off either end of the array
+        firstPoint = (firstPoint + orbitPoints) % orbitPoints;
+        lastPoint = (lastPoint + orbitPoints) % orbitPoints;
     }
 }

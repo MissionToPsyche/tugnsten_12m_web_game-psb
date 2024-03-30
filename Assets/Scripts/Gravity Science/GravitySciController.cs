@@ -5,30 +5,51 @@ using UnityEngine;
 public class GravitySciController : GameController
 {
     public GravitySciUIController ui;
-
-    private void Update()
-    {
-        
-    }
+    public GravitySciGenerator generator;
+    public DistortedOrbit orbit;
+    public RailsSpacecraft spacecraft;
 
     public override void InitializeGame()
     {
-        throw new System.NotImplementedException();
+        orbit.distortions = generator.GetDistortions(orbit.numOrbitPoints);
+        ui.CreateSliders(orbit.distortions, orbit.orbitLine, orbit.transform.position);
+        StartGame();
     }
 
     public override void StartGame()
     {
-        throw new System.NotImplementedException();
+        gameRunning = true;
+    }
+
+    void Update()
+    {
+        if (gameRunning)
+        {
+            ui.UpdateUserGraph();
+            List<float> userDistortionIntensities = ui.GetSliderValues();
+
+            for (int i = 0; i < userDistortionIntensities.Count; i++)
+            {
+                orbit.distortions[i].intensity = userDistortionIntensities[i];
+            }
+
+            ui.AnimateGraphs();
+
+            orbit.ApplyDistortions();
+
+            spacecraft.UpdatePosition();
+        }
     }
 
     public override void StopGame()
     {
-        throw new System.NotImplementedException();
+        gameRunning = false;
     }
 
     public override void FinishGame()
     {
-        throw new System.NotImplementedException();
+        gameRunning = false;
+        CalcScore();
     }
 
     public override void CalcScore()

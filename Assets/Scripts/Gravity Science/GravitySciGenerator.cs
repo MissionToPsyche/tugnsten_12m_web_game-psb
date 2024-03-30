@@ -10,10 +10,10 @@ public class GravitySciGenerator : MonoBehaviour
     // Minimum distance between distortions, represented as percent progress
     // along orbit. minSeparation * numPositions must be less than 1, and for
     // performance reasons should be less than 0.75;
-    public float minSeparation = 0.15f;
+    public float minSeparation = 0.20f;
 
     // Gets a list of distortions represented as (progress along orbit, distortion strength).
-    public List<Distortion> GetDistortions()
+    public List<Distortion> GetDistortions(int orbitPoints)
     {
         if (numPositions * minSeparation > 1)
         {
@@ -24,7 +24,7 @@ public class GravitySciGenerator : MonoBehaviour
             Debug.LogWarning("GravitySciGenerator: performance impact due to minSeparation being too high.");
         }
 
-        List<float> positions = new(numPositions);
+        List<float> positions = new();
 
         // Generates positions
         for (int i = 0; i < numPositions; i++)
@@ -32,7 +32,7 @@ public class GravitySciGenerator : MonoBehaviour
             float newPos = Random.Range(0f, 1.0f);
 
             // Checks that the new position is far enough away from all existing positions.
-            for (int j = 0; i < numPositions; j++)
+            for (int j = 0; i < positions.Count; j++)
             {
                 // If too close...
                 if (Mathf.Abs(positions[j] - newPos) < minSeparation)
@@ -44,17 +44,17 @@ public class GravitySciGenerator : MonoBehaviour
                 }
             }
 
-            positions[i] = newPos;
+            positions.Add(newPos);
         }
 
-        List<Distortion> distortions = new(numPositions);
-        
+        List<Distortion> distortions = new();
+
         // Generates distortion for each position
         for (int i = 0; i < numPositions; i++)
         {
-            float distortion = Random.Range(-1.0f, 1.0f);
+            float intensity = Random.Range(-1.0f, 1.0f);
 
-            distortions[i] = new(positions[i], distortion);
+            distortions.Add(new(positions[i], intensity, orbitPoints));
         }
 
         return distortions;

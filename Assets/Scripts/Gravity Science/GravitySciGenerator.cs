@@ -10,7 +10,7 @@ public class GravitySciGenerator : MonoBehaviour
     // Minimum distance between distortions, represented as percent progress
     // along orbit. minSeparation * numPositions must be less than 1, and for
     // performance reasons should be less than 0.75;
-    public float minSeparation = 0.20f;
+    public float minSeparation = 0.15f;
 
     // Gets a list of distortions represented as (progress along orbit, distortion strength).
     public List<Distortion> GetDistortions(int orbitPoints)
@@ -32,7 +32,7 @@ public class GravitySciGenerator : MonoBehaviour
             float newPos = Random.Range(0f, 1.0f);
 
             // Checks that the new position is far enough away from all existing positions.
-            for (int j = 0; i < positions.Count; j++)
+            for (int j = 0; j < positions.Count; j++)
             {
                 // If too close...
                 if (Mathf.Abs(positions[j] - newPos) < minSeparation)
@@ -40,7 +40,7 @@ public class GravitySciGenerator : MonoBehaviour
                     // ...regenerate...
                     newPos = Random.Range(0f, 1.0f);
                     // ...and check again from the first. 
-                    j = 0;
+                    j = -1;
                 }
             }
 

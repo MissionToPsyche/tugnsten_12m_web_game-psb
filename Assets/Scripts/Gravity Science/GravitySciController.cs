@@ -1,38 +1,85 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GravitySciController : GameController
 {
     public GravitySciUIController ui;
+    public GravitySciGenerator generator;
+    public DistortedOrbit orbit;
+    public RailsSpacecraft spacecraft;
 
-    private void Update()
-    {
-        
-    }
+    // Difference between user and reference distortions treated as perfect.
+    float idealDiff = 0.05f;
 
     public override void InitializeGame()
     {
-        throw new System.NotImplementedException();
+        orbit.distortions = generator.GetDistortions(orbit.numOrbitPoints);
+        ui.CreateSliders(orbit.distortions, orbit.orbitLine, orbit.transform.position);
+        
+        List<float> referenceWavelengths = new();
+        foreach (Distortion distortion in orbit.distortions)
+        {
+            referenceWavelengths.Add(distortion.trueIntensity);
+        }
+        ui.referenceWavelengths = referenceWavelengths;
+
+        StartGame();
     }
 
     public override void StartGame()
     {
-        throw new System.NotImplementedException();
+        gameRunning = true;
+    }
+
+    void Update()
+    {
+        if (gameRunning)
+        {
+            ui.UpdateGraphs();
+            List<float> userDistortionIntensities = ui.GetSliderValues();
+
+            for (int i = 0; i < userDistortionIntensities.Count; i++)
+            {
+                orbit.distortions[i].intensity = userDistortionIntensities[i];
+            }
+
+            ui.AnimateGraphs();
+
+            orbit.ApplyDistortions();
+
+            spacecraft.UpdatePosition();
+        }
     }
 
     public override void StopGame()
     {
-        throw new System.NotImplementedException();
+        gameRunning = false;
     }
 
     public override void FinishGame()
     {
-        throw new System.NotImplementedException();
+        StopGame();
+        CalcScore();
     }
 
     public override void CalcScore()
     {
-        throw new System.NotImplementedException();
+        // Scores each distortion individually, then averages. 
+
+        List<int> scores = new();
+
+        foreach (Distortion distortion in orbit.distortions)
+        {
+            float distortionDiff = Mathf.Abs(distortion.intensity - distortion.trueIntensity);
+            float diffRatio = idealDiff / distortionDiff;
+            diffRatio = Mathf.Max(diffRatio, 1.0f);
+
+            scores.Add(Mathf.RoundToInt(diffRatio * maxScore));
+        }
+
+        score = Mathf.RoundToInt((float)scores.Average());
     }
 }

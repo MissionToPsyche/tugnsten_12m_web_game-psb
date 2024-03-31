@@ -51,25 +51,11 @@ public class Waveform : MonoBehaviour
         phase = 0f;
     }
 
-    void Update()
+    public void SetWavelength(float sliderValue)
     {
-        DrawGraph();
+        // Maps (-1, 1) to (0, 1);
+        float percent = Mathf.Lerp(0, 1, Mathf.InverseLerp(-1, 1, sliderValue));
 
-        // Quick way to slow the animation as wavelength grows. Without this
-        // adjustment, small wavelengths appear slow and long wavelengths appear
-        // fast, which communicates their relative energies opposite to reality. 
-        float phaseOffset = 100f / wavelength;
-
-        // Changes the phase over time to animate the wave
-        phase += animationRate * phaseOffset * Time.deltaTime;
-
-        // Resets phase invisibly after the graph reaches its start position to
-        // prevent overflows.
-        phase %= Mathf.PI * 2;
-    }
-
-    public void SetWavelength(float percent)
-    {
         wavelength = percent * (upperWavelength - lowerWavelength) + lowerWavelength;
     }
 
@@ -163,5 +149,22 @@ public class Waveform : MonoBehaviour
 
         lr.positionCount = graphPoints.Length;
         lr.SetPositions(graphPoints);
+
+        AnimatePhase();
+    }
+
+    public void AnimatePhase()
+    {
+        // Quick way to slow the animation as wavelength grows. Without this
+        // adjustment, small wavelengths appear slow and long wavelengths appear
+        // fast, which communicates their relative energies opposite to reality. 
+        float phaseOffset = 100f / wavelength;
+
+        // Changes the phase over time to animate the wave
+        phase += animationRate * phaseOffset * Time.deltaTime;
+
+        // Resets phase invisibly after the graph reaches its start position to
+        // prevent overflows.
+        phase %= Mathf.PI * 2;
     }
 }

@@ -8,7 +8,10 @@ public class DistortedOrbit : MonoBehaviour
     public LineRenderer lr;
     public float lineWidth = 0.06f;
 
-    public int ellipsePoints = 400;
+    // Factor that decreases the intensity of distortions
+    public float intensityReduction = 6;
+
+    public int numOrbitPoints = 400;
     public Vector3[] orbitLine;
     public Vector3[] distortedOrbitLine;
 
@@ -17,13 +20,7 @@ public class DistortedOrbit : MonoBehaviour
     [Range(0, 360)]
     public float rotation;
 
-    private List<Distortion> distortions;
-
-    // TEMP
-    [Range(-1f, 1f)]
-    public float amp = 1;
-    [Range(0, 1f)]
-    public float pos = 0;
+    public List<Distortion> distortions;
 
     void Reset()
     {
@@ -51,33 +48,18 @@ public class DistortedOrbit : MonoBehaviour
     void Start()
     {
         DrawOrbit();
-
-        // TEMP
-        distortions = new()
-        {
-            new(0, 1)
-        };
-
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        distortions[0].intensity = amp;
-        distortions[0].position = pos;
-        ApplyDistortions();
-    }
-
-    void ApplyDistortions()
+    public void ApplyDistortions()
     {
         Vector3[] tempPositions = (Vector3[])orbitLine.Clone();
-        
+
         foreach (Distortion distortion in distortions)
         {
-            int centerPoint = Mathf.RoundToInt(ellipsePoints * distortion.position);
+            int centerPoint = Mathf.RoundToInt(numOrbitPoints * distortion.position);
 
             // Bitwise OR ensures that the number of points is odd so it can be centered properly.
-            int numPointsAffected = Mathf.RoundToInt(ellipsePoints * distortion.size) | 1;
+            int numPointsAffected = Mathf.RoundToInt(numOrbitPoints * distortion.size) | 1;
 
             int halfPointsAffected = numPointsAffected / 2;
 
@@ -85,15 +67,15 @@ public class DistortedOrbit : MonoBehaviour
             for (int x = -halfPointsAffected; x <= halfPointsAffected; x++)
             {
                 // Implements Gaussian function Ae^(-x^2/2c^2) where A is the
-                // intensity and c is the width. Intensity is reduced by an
-                // order of magnitude to make the distortions a reasonable size.
-                float y = distortion.intensity / 8 * Mathf.Exp(-Mathf.Pow(x, 2) / Mathf.Pow(2 * 10, 2));
+                // intensity and c is the width. Intensity is reduced to make
+                // the distortions a reasonable size.
+                float y = distortion.intensity / intensityReduction * Mathf.Exp(-Mathf.Pow(x, 2) / Mathf.Pow(2 * 10, 2));
 
                 // The point being operated on in terms of the actual orbit.
                 int currentOrbitPoint = centerPoint + x;
-                
+
                 // Wraps the point if it falls off the beginning or end of the array.
-                currentOrbitPoint = (currentOrbitPoint + ellipsePoints) % ellipsePoints;
+                currentOrbitPoint = (currentOrbitPoint + numOrbitPoints) % numOrbitPoints;
 
                 // Direction vector pointing away from Psyche through the current point.
                 Vector3 radialDirection = tempPositions[currentOrbitPoint].normalized;
@@ -101,7 +83,6 @@ public class DistortedOrbit : MonoBehaviour
                 // Shifts the point outward by y.
                 tempPositions[currentOrbitPoint] += y * radialDirection;
             }
-
         }
 
         lr.positionCount = tempPositions.Length;
@@ -118,11 +99,11 @@ public class DistortedOrbit : MonoBehaviour
         float eccentricity = focus / semiMajorAxis;
         float semiMinorAxis = semiMajorAxis * Mathf.Sqrt(1 - eccentricity * eccentricity);
 
-        Vector3[] points = new Vector3[ellipsePoints];
-        float angleStep = 360f / (ellipsePoints - 1);
+        Vector3[] points = new Vector3[numOrbitPoints];
+        float angleStep = 360f / (numOrbitPoints - 1);
 
         // Calculates the points along the ellipse
-        for (int i = 0; i < ellipsePoints - 1; i++)
+        for (int i = 0; i < numOrbitPoints - 1; i++)
         {
             float angle = i * angleStep;
             float x = semiMajorAxis * Mathf.Cos(angle * Mathf.Deg2Rad);
@@ -137,7 +118,7 @@ public class DistortedOrbit : MonoBehaviour
         }
 
         // Make the last point identical to the first point to close the shape. 
-        points[ellipsePoints - 1] = points[0];
+        points[numOrbitPoints - 1] = points[0];
 
         orbitLine = points;
     }

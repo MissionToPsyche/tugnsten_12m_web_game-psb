@@ -73,8 +73,9 @@ public class MagnetometerGameController : GameController
 
     override public void CalcScore()
     {
-        float rotationWeight = 0.7f;
-        float scaleWeight = 1 - rotationWeight;
+        float rotationWeight = 0.65f;
+        float timeWeight = 0.1f;
+        float scaleWeight = 1 - rotationWeight - timeWeight;
 
         Vector3 targetScale;
         Vector3 maxScale = new Vector3(3, 3, 3);
@@ -90,8 +91,13 @@ public class MagnetometerGameController : GameController
 
         float avgPercentage;
 
+        float timePercentage = getTimePercent();
+
         if (magneticMoment == Vector3.zero)
         {
+            rotationWeight = 0f;
+            scaleWeight = 1 - rotationWeight - timeWeight;
+
             targetScale = noFieldScale;
             scaleMaxDeviation = Mathf.Abs(Vector3.Distance(maxScale, targetScale));
             scale = torus.torusObject.transform.localScale;
@@ -103,11 +109,11 @@ public class MagnetometerGameController : GameController
             Debug.Log("zero");
             scalePercentage = calc(scaleMaxDeviation, scaleDiff);
 
-            avgPercentage = Mathf.Clamp(scalePercentage, 0, 1);
+            avgPercentage = (scalePercentage * scaleWeight) + (timePercentage * timeWeight);
         }
         else
         {
-            targetScale = new(1, 1, 1);
+            targetScale = new Vector3(1, 1, 1);
             scaleMaxDeviation = Mathf.Abs(Vector3.Distance(maxScale, targetScale));
             scale = torus.torusObject.transform.localScale;
             scaleDiff = Mathf.Abs(Vector3.Distance(scale, targetScale));
@@ -119,11 +125,34 @@ public class MagnetometerGameController : GameController
             rotationDiff = rotationMaxDeviation - rotationDiff;
             rotationPercentage = calc(rotationMaxDeviation, rotationDiff);
 
-            avgPercentage = (scalePercentage * scaleWeight) + (rotationPercentage * rotationWeight);
+            if(scale.magnitude < noFieldScale.magnitude) {
+                rotationWeight = 0f;
+                scaleWeight = 1 - rotationWeight - timeWeight;
+            }
+
+            avgPercentage = (scalePercentage * scaleWeight) + (rotationPercentage * rotationWeight) + (timePercentage * timeWeight);
         }
 
         score = Mathf.RoundToInt(avgPercentage * maxScore);
         Debug.Log("score: " + score);
+    }
+
+    private float getTimePercent(){
+        float excellentTime = 3.0f;
+        float lowTime = 90f;
+        float diff = lowTime - excellentTime;
+        float normalizedTime;
+        float time = timer.getTime();
+
+        if(time < excellentTime)
+        {
+            time = excellentTime;
+        }
+
+        // Calculate the normalized time (0 to 1)
+        normalizedTime = 1 - Mathf.Clamp01((time - excellentTime) / diff);
+    
+        return normalizedTime;
     }
 
     private float calc(float maxDeviation, float diff)

@@ -4,10 +4,11 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class Orbit : MonoBehaviour
 {
-    public const int maxCalcSteps = 10000;
-    public const int ellipsePoints = 200;
-    public const float crashThreshold = 0.5f;
-    public const float escapeThreshold = 10;
+    public int maxCalcSteps = 10000;
+    public int ellipsePoints = 200;
+    public float lineWidth = 0.06f;
+    public float crashThreshold = 0.75f;
+    public float escapeThreshold = 10;
     public Vector3[] orbitLinePositions;
     public LineRenderer lr;
     public PointMass parent;
@@ -27,13 +28,20 @@ public class Orbit : MonoBehaviour
     public bool hasCrashed = false;
     public bool hasEscaped = false;
 
+    void Reset()
+    {
+        lr = GetComponent<LineRenderer>();
+
+        // TODO: fix this resource path
+        lr.material = new(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
+        lr.useWorldSpace = false;
+        lr.startWidth = lineWidth;
+
+        DrawOrbit();
+    }
+
     private void OnValidate()
     {
-        // Skips the setup if the parent is not set
-        if (parent == null) {
-            return;
-        }
-
         lr = GetComponent<LineRenderer>();
 
         // Constrains the apoapsis to be greater than the periapsis
@@ -43,6 +51,11 @@ public class Orbit : MonoBehaviour
         if (apoapsisDistance == periapsisDistance)
         {
             apoapsisDistance += 0.01f;
+        }
+
+        // Skips the setup if the parent is not set
+        if (parent == null) {
+            return;
         }
 
         if (isTargetOrbit)

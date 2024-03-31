@@ -37,7 +37,7 @@ abstract public class UIController : MonoBehaviour
         // TODO: show settings menu
     }
     
-    abstract public void ShowScore(int score);
+    abstract public void ShowScore(int score, string grade);
 
     abstract public void ResetUI();
 }

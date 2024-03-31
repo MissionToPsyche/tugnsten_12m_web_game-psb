@@ -19,6 +19,8 @@ public class ImagerGameController : GameController
         sliceImage.slice(); // generate and display images
         images = sliceImage.getImages();
 
+        score = -1;
+
         StartGame();
     }
 

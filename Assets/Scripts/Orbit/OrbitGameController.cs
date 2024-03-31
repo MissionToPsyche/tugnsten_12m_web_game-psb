@@ -16,6 +16,9 @@ public class OrbitGameController : GameController
     // TODO: tune this
     public float idealFuelUsage = 0.5f; // fuel use value for maximum possible score
 
+    // Tracks whether the game has been won
+    private bool won = false;
+
     override public void InitializeGame()
     {
         ui.ResetUI();
@@ -23,38 +26,47 @@ public class OrbitGameController : GameController
 
         (spacecraft.transform.position, spacecraft.initialVelocity) = generator.GetInitialState();
 
+        won = false;
         winTimer = 0f;
+        score = -1;
 
+        StartGame();
+    }
+
+    public override void StartGame()
+    {
         gameRunning = true;
+        spacecraft.active = true;
     }
 
     void Update()
     {
         if (gameRunning)
         {
-            if (CheckWin()) {
-                ui.EnterWinState();
-            };
+            CheckWin();
         }
-        else
-        {
-            FinishGame();
-        }
-    }
-
-    public override void StartGame()
-    {
-        throw new System.NotImplementedException();
     }
 
     public override void StopGame()
     {
-        throw new System.NotImplementedException();
+        gameRunning = false;
+        spacecraft.active = false;
     }
 
     override public void FinishGame()
     {
-        spacecraft.active = false;
+        StopGame();
+
+        if (won)
+        {
+            ui.EnterWinState();
+        }
+        else
+        {
+            ui.EnterFailState();
+        }
+
+        ui.ShowScore(GetScore(), GetGrade());
     }
 
     override public void CalcScore()
@@ -68,7 +80,7 @@ public class OrbitGameController : GameController
         this.score = score;
     }
 
-    public bool CheckWin()
+    public void CheckWin()
     {
         // Checks if the current orbit's rotation and apsis distances are
         // within tolerance of the target orbit.
@@ -94,27 +106,21 @@ public class OrbitGameController : GameController
 
         if (spacecraft.orbit.hasCrashed)
         {
-            gameRunning = false;
             ui.ShowMsg("Spacecraft Deorbited!");
-            ui.EnterFailState();
+            FinishGame();
         }
         else if (spacecraft.orbit.hasEscaped)
         {
-            gameRunning = false;
             ui.ShowMsg("Spacecraft Escaped Orbit!");
-            ui.EnterFailState();
+            FinishGame();
         }
 
         // If the game has remained in the win state for winTimeRequired,
         // the player has actually won.
         if (winTimer >= winTimeRequired)
         {
-            gameRunning = false;
-            return true;
-        }
-        else
-        {
-            return false;
+            won = true;
+            FinishGame();
         }
     }
 

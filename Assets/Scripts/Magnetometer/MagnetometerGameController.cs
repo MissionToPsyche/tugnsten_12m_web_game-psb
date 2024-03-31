@@ -33,6 +33,8 @@ public class MagnetometerGameController : GameController
         Button button = buttonObj.GetComponent<Button>();
         button.onClick.AddListener(FinishGame);
 
+        score = -1;
+
         StartGame();
     }
 

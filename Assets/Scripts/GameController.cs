@@ -20,7 +20,7 @@ abstract public class GameController : MonoBehaviour
     abstract public void StopGame();
     abstract public void FinishGame();
     abstract public void CalcScore();
-    
+
     public int GetScore()
     {
         if (score < 0)
@@ -30,17 +30,39 @@ abstract public class GameController : MonoBehaviour
 
         return score;
     }
-    
-    public char GetGrade()
+
+    public string GetGrade()
     {
         if (score < 0)
         {
             CalcScore();
         }
 
-        // TODO: grade logic
-        // TODO: enum for letters
-
-        return 'F';
+        if (score >= 9600)
+            return "A+";
+        else if (score >= 9200)
+            return "A";
+        else if (score >= 8800)
+            return "A-";
+        else if (score >= 8400)
+            return "B+";
+        else if (score >= 8000)
+            return "B";
+        else if (score >= 7600)
+            return "B-";
+        else if (score >= 7200)
+            return "C+";
+        else if (score >= 6800)
+            return "C";
+        else if (score >= 6200)
+            return "C-";
+        else if (score >= 5500)
+            return "D+";
+        else if (score >= 4000)
+            return "D";
+        else if (score >= 2500)
+            return "D-";
+        else
+            return "F";
     }
 }

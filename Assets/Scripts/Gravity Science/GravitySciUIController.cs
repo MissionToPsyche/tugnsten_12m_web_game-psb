@@ -125,8 +125,8 @@ public class GravitySciUIController : UIController
         userWave.SetWavelength(0);
     }
 
-    public override void ShowScore(int score)
+    public override void ShowScore(int score, string grade)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Grade: " + grade + " (" + score + ")");
     }
 }

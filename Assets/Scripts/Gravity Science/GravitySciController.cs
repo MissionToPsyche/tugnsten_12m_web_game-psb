@@ -12,7 +12,7 @@ public class GravitySciController : GameController
     public RailsSpacecraft spacecraft;
 
     // Difference between user and reference distortions treated as perfect.
-    float idealDiff = 0.05f;
+    public float idealDiff = 0.05f;
 
     public override void InitializeGame()
     {
@@ -27,6 +27,8 @@ public class GravitySciController : GameController
         ui.referenceWavelengths = referenceWavelengths;
 
         ui.submitButton.onClick.AddListener(FinishGame);
+
+        score = -1;
 
         StartGame();
     }
@@ -64,8 +66,7 @@ public class GravitySciController : GameController
     public override void FinishGame()
     {
         StopGame();
-        CalcScore();
-        Debug.Log("Score: " + score);
+        ui.ShowScore(GetScore(), GetGrade());
     }
 
     public override void CalcScore()

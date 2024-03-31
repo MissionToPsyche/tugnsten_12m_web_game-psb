@@ -6,7 +6,7 @@ public class MagnetometerUIController : UIController
 {
     [SerializeField] private GameObject noFieldMsg;
 
-    override public void ShowScore(int score)
+    override public void ShowScore(int score, string grade)
     {
 
     }

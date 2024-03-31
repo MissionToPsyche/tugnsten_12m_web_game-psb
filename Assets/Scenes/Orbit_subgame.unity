@@ -1092,6 +1092,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b57bca6cdf53974898fa422023385d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxCalcSteps: 10000
+  ellipsePoints: 200
+  lineWidth: 0.06
+  crashThreshold: 0.75
+  escapeThreshold: 10
   orbitLinePositions:
   - {x: 0.00000030755996, y: 5.1599994, z: 0}
   - {x: -0.08290266, y: 5.158393, z: 0}
@@ -1559,7 +1564,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.035087585
+        value: 0.05962372
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -2364,6 +2369,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b57bca6cdf53974898fa422023385d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxCalcSteps: 10000
+  ellipsePoints: 200
+  lineWidth: 0.06
+  crashThreshold: 0.75
+  escapeThreshold: 10
   orbitLinePositions:
   - {x: -0, y: -2.38, z: 0}
   - {x: 0.015, y: -2.3724117, z: 0}
@@ -6295,7 +6305,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.040401723
+        value: 0.058803823
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -6869,6 +6879,6 @@ SceneRoots:
   - {fileID: 1723582566}
   - {fileID: 343803935}
   - {fileID: 1619926809}
+  - {fileID: 484453898}
   - {fileID: 543450652254639083}
   - {fileID: 454798050}
-  - {fileID: 484453898}

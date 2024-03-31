@@ -139,6 +139,8 @@ public class ArrowGenerator : MonoBehaviour
 
     public void drawArrows(List<(Vector3, Vector3, Vector3)> fieldPoints)
     {
+        GameObject arrowsObj = new GameObject("Arrows");
+
         int i = 0;
         foreach ((Vector3, Vector3, Vector3) point in fieldPoints)
         {
@@ -155,6 +157,7 @@ public class ArrowGenerator : MonoBehaviour
             // Debug.Log("fadeValue: " + fadeValue);
 
             GameObject arrow = new("arrow" + i);
+            arrow.transform.SetParent(arrowsObj.transform, false);
             arrow.AddComponent<SpriteRenderer>();
             arrow.GetComponent<SpriteRenderer>().sprite = arrowImg;
             arrow.GetComponent<SpriteRenderer>().color = new Color(fadeValue, fadeValue, fadeValue, 1);

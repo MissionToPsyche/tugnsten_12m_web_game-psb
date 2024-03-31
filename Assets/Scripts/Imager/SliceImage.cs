@@ -52,6 +52,11 @@ public class SliceImage : MonoBehaviour
 
     public void slice()
     {
+        path = "Assets/Psyche_Mission_RubinAsteroid_171203.png";
+        bytes = File.ReadAllBytes(path);
+        originalImage = new Texture2D(1, 1); // size will be replaced by image size
+        originalImage.LoadImage(bytes); // create a texture2d asset from the image
+
         // Debug.Log("slice");
         // can probably take out (just here to reset for testing)
         foreach (GameObject obj in images)
@@ -291,10 +296,10 @@ public class SliceImage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        path = "Assets/Psyche_Mission_RubinAsteroid_171203.png";
-        bytes = File.ReadAllBytes(path);
-        originalImage = new Texture2D(1, 1); // size will be replaced by image size
-        originalImage.LoadImage(bytes); // create a texture2d asset from the image
+        // path = "Assets/Psyche_Mission_RubinAsteroid_171203.png";
+        // bytes = File.ReadAllBytes(path);
+        // originalImage = new Texture2D(1, 1); // size will be replaced by image size
+        // originalImage.LoadImage(bytes); // create a texture2d asset from the image
     }
 
     // Update is called once per frame

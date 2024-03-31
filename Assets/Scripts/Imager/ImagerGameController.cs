@@ -5,26 +5,19 @@ using System;
 using TMPro;
 using UnityEngine.UI;
 
-public class ImagerController : GameController
+public class ImagerGameController : GameController
 {
     private ImagerUIController uiController;
     private List<GameObject> images;
 
-    // temporary
-    [SerializeField] private GameObject buttonObj;
-
     override public void InitializeGame()
     {
-        uiController = GetComponent<ImagerUIController>();
+        uiController = GameObject.Find("Main UI Canvas").GetComponent<ImagerUIController>();
         timer = GameObject.Find("GameTimer").GetComponent<GameTimer>();
 
-        SliceImage sliceImage = GameObject.Find("GenImgSlices").GetComponent<SliceImage>();
+        SliceImage sliceImage = GameObject.Find("Data Generator").GetComponent<SliceImage>();
         sliceImage.slice(); // generate and display images
         images = sliceImage.getImages();
-
-        // temporary
-        Button button = buttonObj.GetComponent<Button>();
-        button.onClick.AddListener(FinishGame);
 
         StartGame();
     }

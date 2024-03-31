@@ -18,7 +18,7 @@ public class GravitySciController : GameController
     {
         orbit.distortions = generator.GetDistortions(orbit.numOrbitPoints);
         ui.CreateSliders(orbit.distortions, orbit.orbitLine, orbit.transform.position);
-        
+
         List<float> referenceWavelengths = new();
         foreach (Distortion distortion in orbit.distortions)
         {
@@ -26,7 +26,11 @@ public class GravitySciController : GameController
         }
         ui.referenceWavelengths = referenceWavelengths;
 
-        ui.submitButton.onClick.AddListener(FinishGame);
+        // Prevents multiple listeners being added on reset. 
+        if(score < 0)
+        {
+            ui.submitButton.onClick.AddListener(FinishGame);
+        }
 
         // TODO: start timer
 

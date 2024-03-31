@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class SnapToTarget : MonoBehaviour
 {
-    private float snapRadius = 100.0f;
+    private float snapRadius = 50.0f;
 
     public void SnapIfInRange()
     {

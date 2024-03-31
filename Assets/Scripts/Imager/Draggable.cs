@@ -7,7 +7,7 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
 {
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    public ImagerController imagerController;
+    public ImagerGameController imagerGameController;
     private SnapToTarget snapToTarget;
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -23,10 +23,10 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
         RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, eventData.pressEventCamera, out newPosition);
         
         // Define drag boundaries 
-        float minX = -80f; // Minimum X position
-        float maxX = 80f;  // Maximum X position
-        float minY = -5f; // Minimum Y position
-        float maxY = 55f;  // Maximum Y position
+        float minX = -7.5f; 
+        float maxX = 7.5f;  
+        float minY = -2f; 
+        float maxY = 3f;  
 
         // Clamp newPosition to stay within the defined boundaries
         newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);
@@ -39,7 +39,7 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
     {
         canvasGroup.blocksRaycasts = true;
         snapToTarget.SnapIfInRange(); // snap to position if close enough
-        imagerController.updateSnapPositions(gameObject); // update snap positions
+        imagerGameController.updateSnapPositions(gameObject); // update snap positions
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -57,7 +57,7 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         snapToTarget = GetComponent<SnapToTarget>();
-        imagerController = GameObject.Find("ImagerController").GetComponent<ImagerController>();
+        imagerGameController = GameObject.Find("Game Controller").GetComponent<ImagerGameController>();
     }
 
 }

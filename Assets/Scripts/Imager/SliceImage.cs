@@ -52,6 +52,11 @@ public class SliceImage : MonoBehaviour
 
     public void slice()
     {
+        path = "Assets/Psyche_Mission_RubinAsteroid_171203.png";
+        bytes = File.ReadAllBytes(path);
+        originalImage = new Texture2D(1, 1); // size will be replaced by image size
+        originalImage.LoadImage(bytes); // create a texture2d asset from the image
+
         // Debug.Log("slice");
         // can probably take out (just here to reset for testing)
         foreach (GameObject obj in images)
@@ -137,7 +142,7 @@ public class SliceImage : MonoBehaviour
                 imgYStart = cellY * cellHeight + randY;
                 start = new Vector2(imgXStart, imgYStart);
 
-                // TO DO: write code to use most different image
+                // TODO: write code to use most different image
                 if (ctr > tries)
                 {
                     break;
@@ -188,11 +193,11 @@ public class SliceImage : MonoBehaviour
         float originalHeight = originalImage.height;
 
         float sectionSize = 0.5f;
-        // TO DO: separate x vs y edgeAdjustment for left side ?? 
+        // TODO: separate x vs y edgeAdjustment for left side ?? 
         float edgeAdjustment = 1 / 3f; // left side
         float sectionWidth = originalWidth * sectionSize;
         float sectionHeight = originalHeight * sectionSize;
-        // TO DO: multiple section width/height by a right edge adjustment ?? V
+        // TODO: multiple section width/height by a right edge adjustment ?? V
         float sectionXStart = Random.Range(originalWidth * edgeAdjustment, originalWidth - sectionWidth);
         float sectionYStart = Random.Range(originalHeight * edgeAdjustment, originalHeight - sectionHeight);
 
@@ -215,10 +220,9 @@ public class SliceImage : MonoBehaviour
         {
             for (int j = 0; j < 4; j++)
             {
-                initialPositions.Add(new Vector2(300f + (displaySize + separation) * j, 900f - (displaySize + separation) * i));
+                initialPositions.Add(new Vector2(-600f + ((displaySize + separation) * j), 253f - ((displaySize + separation) * i)));
             }
         }
-
 
         GameObject imgObject = new GameObject();
         imgObject.name = "img" + imgNum;
@@ -270,7 +274,7 @@ public class SliceImage : MonoBehaviour
                 {
                     float widthOffset = starts[i].x - starts[j].x;
                     float heightOffset = starts[i].y - starts[j].y;
-                    if (Mathf.Abs(widthOffset) < imgWidth || Mathf.Abs(heightOffset) < imgHeight)
+                    if (Mathf.Abs(widthOffset) < imgWidth && Mathf.Abs(heightOffset) < imgHeight)
                     {
                         Vector2 offset = new Vector2(widthOffset, heightOffset);
                         snapOffsets.Add(images[j].name, offset);
@@ -292,10 +296,10 @@ public class SliceImage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        path = "Assets/Psyche_Mission_RubinAsteroid_171203.png";
-        bytes = File.ReadAllBytes(path);
-        originalImage = new Texture2D(1, 1); // size will be replaced by image size
-        originalImage.LoadImage(bytes); // create a texture2d asset from the image
+        // path = "Assets/Psyche_Mission_RubinAsteroid_171203.png";
+        // bytes = File.ReadAllBytes(path);
+        // originalImage = new Texture2D(1, 1); // size will be replaced by image size
+        // originalImage.LoadImage(bytes); // create a texture2d asset from the image
     }
 
     // Update is called once per frame

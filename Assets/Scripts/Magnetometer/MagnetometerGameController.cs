@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class MagnetometerController : GameController
+public class MagnetometerGameController : GameController
 {
     private MagnetometerUIController uiController;
     private int numArrows = 3;
@@ -17,15 +17,15 @@ public class MagnetometerController : GameController
 
     override public void InitializeGame()
     {
-        uiController = GetComponent<MagnetometerUIController>();
+        uiController = GameObject.Find("Main UI Canvas").GetComponent<MagnetometerUIController>();
         timer = GameObject.Find("GameTimer").GetComponent<GameTimer>();
 
-        TorusGenerator torusGenerator = GameObject.Find("TorusGenerator").GetComponent<TorusGenerator>();
+        TorusGenerator torusGenerator = GameObject.Find("Data Generator").GetComponent<TorusGenerator>();
         this.torus = torusGenerator.drawTorus(numEllipses, numPoints);
         torus.torusObject.AddComponent<MoveTorus>();
         this.magneticMoment = torus.magneticMoment;
 
-        ArrowGenerator arrowGenerator = GameObject.Find("ArrowGenerator").GetComponent<ArrowGenerator>();
+        ArrowGenerator arrowGenerator = GameObject.Find("Data Generator").GetComponent<ArrowGenerator>();
         List<(Vector3, Vector3, Vector3)> fieldPoints = arrowGenerator.getFieldPoints(torus, numPoints, numArrows);
         arrowGenerator.drawArrows(fieldPoints);
 

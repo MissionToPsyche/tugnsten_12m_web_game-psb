@@ -30,6 +30,7 @@ public class GravitySciController : GameController
 
         score = -1;
 
+        ui.ResetUI();
         StartGame();
     }
 

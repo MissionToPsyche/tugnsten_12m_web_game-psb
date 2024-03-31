@@ -15,11 +15,6 @@ abstract public class UIController : MonoBehaviour
     // temporary
     [SerializeField] private TMP_Text text;
 
-    private void Start()
-    {
-        ResetUI();
-    }
-
     public void ShowTime(float time)
     {
         // TODO: update time display

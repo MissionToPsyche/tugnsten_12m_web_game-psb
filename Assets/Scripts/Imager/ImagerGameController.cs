@@ -21,6 +21,7 @@ public class ImagerGameController : GameController
 
         score = -1;
 
+        uiController.ResetUI();
         StartGame();
     }
 

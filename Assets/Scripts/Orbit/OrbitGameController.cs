@@ -30,6 +30,7 @@ public class OrbitGameController : GameController
         winTimer = 0f;
         score = -1;
 
+        ui.ResetUI();
         StartGame();
     }
 

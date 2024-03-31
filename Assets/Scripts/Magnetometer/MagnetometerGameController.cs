@@ -35,6 +35,7 @@ public class MagnetometerGameController : GameController
 
         score = -1;
 
+        uiController.ResetUI();
         StartGame();
     }
 

@@ -21,7 +21,6 @@ public class OrbitGameController : GameController
 
     override public void InitializeGame()
     {
-        ui.ResetUI();
         spacecraft.ResetSpacecraft();
 
         (spacecraft.transform.position, spacecraft.initialVelocity) = generator.GetInitialState();

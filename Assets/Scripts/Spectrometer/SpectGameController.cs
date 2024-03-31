@@ -8,15 +8,22 @@ public class SpectGameController : GameController
     public SpectUIController ui;
     public SpectDataGenerator generator;
 
+    // Difference between user and reference quantities treated as perfect.
+    public float idealDiff = 0.05f;
+
     public override void InitializeGame()
     {
         // Gets true and false elements from generator
-        (SortedDictionary<string, Element> trueElements, SortedDictionary<string, Element> falseElements) = generator.GetData();
-        
-        // Gives UI all elements
-        ui.InitializeGraphs(trueElements, falseElements);
+        SortedDictionary<string, Element> selectedElements = generator.GetData();
 
-        ui.submitButton.onClick.AddListener(FinishGame);
+        // Gives UI all elements
+        ui.InitializeGraphs(selectedElements);
+
+        // Prevents multiple listeners being added on reset. 
+        if(score < 0)
+        {
+            ui.submitButton.onClick.AddListener(FinishGame);
+        }
 
         // TODO: start timer
 
@@ -49,6 +56,19 @@ public class SpectGameController : GameController
 
     public override void CalcScore()
     {
-        throw new System.NotImplementedException();
+        // Scores each element individually, then averages. 
+
+        List<int> scores = new();
+
+        foreach (Element element in ui.userGraph.elements.Values)
+        {
+            float quantityDiff = Mathf.Abs(element.quantity - ui.referenceGraph.elements[element.name].quantity);
+            float diffRatio = idealDiff / quantityDiff;
+            diffRatio = Mathf.Min(diffRatio, 1.0f);
+
+            scores.Add(Mathf.RoundToInt(diffRatio * maxScore));
+        }
+
+        score = Mathf.RoundToInt((float)scores.Average());
     }
 }

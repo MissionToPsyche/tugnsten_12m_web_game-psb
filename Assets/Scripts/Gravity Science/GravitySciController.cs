@@ -13,6 +13,12 @@ public class GravitySciController : GameController
 
     // Difference between user and reference distortions treated as perfect.
     public float idealDiff = 0.05f;
+    // Time treated as perfect.
+    public float idealTime = 5f;
+
+    [Range(0, 1)]
+    public float accuracyWeight = 0.5f;
+    private float timeWeight;
 
     public override void InitializeGame()
     {
@@ -32,10 +38,9 @@ public class GravitySciController : GameController
             ui.submitButton.onClick.AddListener(FinishGame);
         }
 
-        // TODO: start timer
-
         score = -1;
-
+        
+        timer.resetTimer();
         ui.ResetUI();
         StartGame();
     }
@@ -43,6 +48,7 @@ public class GravitySciController : GameController
     public override void StartGame()
     {
         gameRunning = true;
+        timer.startTimer();
     }
 
     void Update()
@@ -68,6 +74,7 @@ public class GravitySciController : GameController
     public override void StopGame()
     {
         gameRunning = false;
+        timer.stopTimer();
     }
 
     public override void FinishGame()

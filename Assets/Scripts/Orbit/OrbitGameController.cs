@@ -72,8 +72,7 @@ public class OrbitGameController : GameController
     override public void CalcScore()
     {
         float fuelRatio = idealFuelUsage / spacecraft.fuelUsed;
-
-        fuelRatio = Mathf.Max(fuelRatio, 1.0f);
+        fuelRatio = Mathf.Min(fuelRatio, 1.0f);
 
         int score = Mathf.RoundToInt(maxScore * fuelRatio);
 

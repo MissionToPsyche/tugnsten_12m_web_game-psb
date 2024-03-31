@@ -9,7 +9,18 @@ public class SpectGameController : GameController
     public SpectDataGenerator generator;
 
     // Difference between user and reference quantities treated as perfect.
-    public float idealDiff = 0.01f;
+    public float idealDiff = 0.05f;
+    // Time treated as perfect.
+    public float idealTime = 5f;
+
+    [Range(0, 1)]
+    public float accuracyWeight = 0.5f;
+    private float timeWeight;
+
+    private void OnValidate()
+    {
+        timeWeight = 1 - accuracyWeight;
+    }
 
     public override void InitializeGame()
     {
@@ -25,10 +36,9 @@ public class SpectGameController : GameController
             ui.submitButton.onClick.AddListener(FinishGame);
         }
 
-        // TODO: start timer
-
         score = -1;
 
+        timer.resetTimer();
         ui.ResetUI();
         StartGame();
     }
@@ -41,11 +51,13 @@ public class SpectGameController : GameController
     public override void StartGame()
     {
         gameRunning = true;
+        timer.startTimer();
     }
 
     public override void StopGame()
     {
         gameRunning = false;
+        timer.stopTimer();
     }
 
     public override void FinishGame()
@@ -56,9 +68,9 @@ public class SpectGameController : GameController
 
     public override void CalcScore()
     {
-        // Scores each element individually, then averages. 
+        // Scores each element individually, then averages
 
-        List<int> scores = new();
+        List<float> accuracyRatios = new();
 
         foreach (Element element in ui.userGraph.elements.Values)
         {
@@ -68,15 +80,18 @@ public class SpectGameController : GameController
             diffRatio = Mathf.Min(diffRatio, 1.0f);
 
             // If this is not the false element and the user said it was the
-            // false element, no points;
-            if (trueQuantity != 0)
+            // false element, no points.
+            if (trueQuantity != 0 && element.quantity == 0)
             {
                 diffRatio = 0;
             }
 
-            scores.Add(Mathf.RoundToInt(diffRatio * maxScore));
+            accuracyRatios.Add(diffRatio);
         }
+        
+        // Percent of perfect due to accuracy
+        float accuracyRatio = (float)accuracyRatios.Average();
 
-        score = Mathf.RoundToInt((float)scores.Average());
+        score = Mathf.RoundToInt(maxScore * accuracyRatio);
     }
 }

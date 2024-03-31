@@ -26,6 +26,8 @@ public class GravitySciController : GameController
         }
         ui.referenceWavelengths = referenceWavelengths;
 
+        ui.submitButton.onClick.AddListener(FinishGame);
+
         StartGame();
     }
 
@@ -63,6 +65,7 @@ public class GravitySciController : GameController
     {
         StopGame();
         CalcScore();
+        Debug.Log("Score: " + score);
     }
 
     public override void CalcScore()
@@ -75,7 +78,7 @@ public class GravitySciController : GameController
         {
             float distortionDiff = Mathf.Abs(distortion.intensity - distortion.trueIntensity);
             float diffRatio = idealDiff / distortionDiff;
-            diffRatio = Mathf.Max(diffRatio, 1.0f);
+            diffRatio = Mathf.Min(diffRatio, 1.0f);
 
             scores.Add(Mathf.RoundToInt(diffRatio * maxScore));
         }

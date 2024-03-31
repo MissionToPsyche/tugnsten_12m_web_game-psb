@@ -10,6 +10,8 @@ public class GravitySciUIController : UIController
     public Waveform userWave;
     public List<float> referenceWavelengths;
 
+    public Button submitButton;
+
     public Slider sliderPrefab;
     public List<Slider> sliders;
     private List<float> lastValues;

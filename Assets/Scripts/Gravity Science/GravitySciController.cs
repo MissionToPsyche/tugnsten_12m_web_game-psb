@@ -28,6 +28,8 @@ public class GravitySciController : GameController
 
         ui.submitButton.onClick.AddListener(FinishGame);
 
+        // TODO: start timer
+
         score = -1;
 
         ui.ResetUI();

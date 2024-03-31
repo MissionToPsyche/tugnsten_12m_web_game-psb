@@ -63,7 +63,7 @@ public class TorusGenerator : MonoBehaviour
             createEllipse(ellipseNum, reflection, ellipse);
 
             // flips across x axis and resets to generate second half of ellipses
-            if (i == 5 && reflection == 1)
+            if (i == numEllipses && reflection == 1)
             {
                 i = 0;
                 reflection = -1;

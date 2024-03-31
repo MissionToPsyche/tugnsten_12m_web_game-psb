@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class MagnetometerGameController : GameController
 {
     private MagnetometerUIController uiController;
-    private int numArrows = 3;
-    private int numEllipses = 5;
+    private int numArrows = 5;
+    private int numEllipses = 5; // symmetric on both sides so 5 on each side for 10 total
     private int numPoints = 200;
     private Torus torus;
     [SerializeField] private GameObject buttonObj;

@@ -9,7 +9,7 @@ public class SpectGameController : GameController
     public SpectDataGenerator generator;
 
     // Difference between user and reference quantities treated as perfect.
-    public float idealDiff = 0.05f;
+    public float idealDiff = 0.01f;
 
     public override void InitializeGame()
     {
@@ -20,7 +20,7 @@ public class SpectGameController : GameController
         ui.InitializeGraphs(selectedElements);
 
         // Prevents multiple listeners being added on reset. 
-        if(score < 0)
+        if (score < 0)
         {
             ui.submitButton.onClick.AddListener(FinishGame);
         }
@@ -62,9 +62,17 @@ public class SpectGameController : GameController
 
         foreach (Element element in ui.userGraph.elements.Values)
         {
-            float quantityDiff = Mathf.Abs(element.quantity - ui.referenceGraph.elements[element.name].quantity);
+            float trueQuantity = ui.referenceGraph.elements[element.name].quantity;
+            float quantityDiff = Mathf.Abs(element.quantity - trueQuantity);
             float diffRatio = idealDiff / quantityDiff;
             diffRatio = Mathf.Min(diffRatio, 1.0f);
+
+            // If this is not the false element and the user said it was the
+            // false element, no points;
+            if (trueQuantity != 0)
+            {
+                diffRatio = 0;
+            }
 
             scores.Add(Mathf.RoundToInt(diffRatio * maxScore));
         }

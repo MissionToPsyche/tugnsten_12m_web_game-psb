@@ -33,7 +33,7 @@ public class OrbitUIController : UIController
         continueButton.SetActive(true);
     }
 
-    public override void ShowScore(int score)
+    public override void ShowScore(int score, string grade)
     {
         throw new System.NotImplementedException();
     }

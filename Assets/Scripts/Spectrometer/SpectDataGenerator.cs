@@ -12,16 +12,15 @@ public class SpectDataGenerator : MonoBehaviour
 
     public const float minQuantity = 0.1f;
 
-    public (SortedDictionary<string, Element>, SortedDictionary<string, Element>) GetData()
+    public SortedDictionary<string, Element> GetData()
     {
         // Deep copies the element dictionary
         SortedDictionary<string, Element> allElements = new(EmissionSpectra.elements.ToDictionary(p => p.Key, p => p.Value.Clone()));
-        
+
         // Converts the dictionary keys to a list for ease of use
         List<Element> allElementsList = allElements.Values.ToList();
-        
-        SortedDictionary<string, Element> trueSelected = new();
-        SortedDictionary<string, Element> falseSelected = new();
+
+        SortedDictionary<string, Element> selected = new();
 
         // Randomly gets unique elements 
         for (int i = 0; i < numTrueElements + numFalseElements; i++)
@@ -29,23 +28,23 @@ public class SpectDataGenerator : MonoBehaviour
             // Selects a random index
             int selectedIndex = Random.Range(0, allElementsList.Count);
 
-            // Adds the first numTrueElements to trueSelected, then
-            // numFalseElements to falseElements.
             if (i < numTrueElements)
             {
                 // Quantity randomization is only needed for true elements
                 allElementsList[selectedIndex].quantity = Random.Range(minQuantity, 1.0f);
-                trueSelected.Add(allElementsList[selectedIndex].name, allElementsList[selectedIndex]);
+                selected.Add(allElementsList[selectedIndex].name, allElementsList[selectedIndex]);
             }
             else
             {
-                falseSelected.Add(allElementsList[selectedIndex].name, allElementsList[selectedIndex]);
+                // Zeroes the quantity of the false element
+                allElementsList[selectedIndex].quantity = 0;
+                selected.Add(allElementsList[selectedIndex].name, allElementsList[selectedIndex]);
             }
 
             // Removes the selected element so it can't be selected twice
             allElementsList.RemoveAt(selectedIndex);
         }
 
-        return (trueSelected, falseSelected);
+        return selected;
     }
 }

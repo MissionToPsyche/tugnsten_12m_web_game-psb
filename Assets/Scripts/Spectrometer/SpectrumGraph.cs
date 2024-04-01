@@ -121,8 +121,8 @@ public class SpectrumGraph : MonoBehaviour
 
                 for (int i = 0; i < numPoints; i++)
                 {
-                    // Implements Gaussian function Ae^(-(x - μ)^2/2σ^2) where A
-                    // is the intensity, μ is the location, and σ is the width.
+                    // Implements Gaussian function Ae^(-(x - b)^2/2c^2) where A
+                    // is the intensity, b is the location, and c is the width.
                     float y = peak.intensity * Mathf.Exp(-Mathf.Pow(x - peak.location, 2) / Mathf.Pow(2 * peak.width, 2));
 
                     // Scales according to quantity present

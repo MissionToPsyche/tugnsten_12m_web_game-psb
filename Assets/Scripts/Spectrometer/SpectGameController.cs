@@ -5,86 +5,93 @@ using UnityEngine;
 
 public class SpectGameController : GameController
 {
+    public SpectUIController ui;
     public SpectDataGenerator generator;
-    public SpectrumGraph referenceGraph;
-    public SpectrumGraph userGraph;
-    public SpectrumGraph[] controls = new SpectrumGraph[4];
-    private SortedDictionary<string, SpectrumGraph> controlsDict;
-    private SortedDictionary<string, Element> allElements;
+
+    // Difference between user and reference quantities treated as perfect.
+    public float idealDiff = 0.05f;
+    // Time treated as perfect.
+    public float idealTime = 5f;
+
+    [Range(0, 1)]
+    public float accuracyWeight = 0.5f;
+    private float timeWeight;
+
+    private void OnValidate()
+    {
+        timeWeight = 1 - accuracyWeight;
+    }
 
     public override void InitializeGame()
     {
-        (SortedDictionary<string, Element> trueElements, SortedDictionary<string, Element> falseElements) = generator.GetData();
-        
-        // This gross code seems to be the best way to merge two dicts
-        SortedDictionary<string, Element>[] dictionaries = { trueElements, falseElements };
-        allElements = new(dictionaries.SelectMany(d => d).ToDictionary(p => p.Key, p => p.Value.Clone()));
+        // Gets true and false elements from generator
+        SortedDictionary<string, Element> selectedElements = generator.GetData();
 
-        // Deep copy
-        referenceGraph.elements = new(trueElements.ToDictionary(p => p.Key, p => p.Value.Clone()));
+        // Gives UI all elements
+        ui.InitializeGraphs(selectedElements);
 
-        // Deep copy
-        userGraph.elements = new(allElements.ToDictionary(p => p.Key, p => p.Value.Clone()));
-
-        // Sets the element quantities in the user graph to 0
-        foreach (Element element in userGraph.elements.Values)
+        // Prevents multiple listeners being added on reset. 
+        if (score < 0)
         {
-            element.quantity = 0f;
-        }
-        
-        // Initializes control graphs
-        controlsDict = new();
-        for (int i = 0; i < controls.Length; i++)
-        {   
-            controls[i].elements = new()
-            {
-                { allElements.ElementAt(i).Key, allElements.ElementAt(i).Value.Clone() }
-            };
-
-            controls[i].elements.ElementAt(0).Value.quantity = 1f;
-            
-            // Converts the array of control graphs into a dict with element
-            // names as keys.
-            controlsDict.Add(controls[i].elements.ElementAt(0).Value.name, controls[i]);
+            ui.submitButton.onClick.AddListener(FinishGame);
         }
 
-        // TODO: start timer
+        score = -1;
 
-        gameRunning = true;
+        timer.resetTimer();
+        ui.ResetUI();
+        StartGame();
     }
 
     private void Update()
     {
-        UpdateUserGraph();
+        ui.UpdateUserGraph();
     }
 
     public override void StartGame()
     {
-        throw new System.NotImplementedException();
+        gameRunning = true;
+        timer.startTimer();
     }
 
     public override void StopGame()
     {
-        throw new System.NotImplementedException();
+        gameRunning = false;
+        timer.stopTimer();
     }
 
     public override void FinishGame()
     {
-        Debug.Log("Game finished.");
-        return;
+        StopGame();
+        ui.ShowScore(GetScore(), GetGrade());
     }
 
     public override void CalcScore()
     {
-        throw new System.NotImplementedException();
-    }
+        // Scores each element individually, then averages
 
-    public void UpdateUserGraph()
-    {
-        foreach (Element element in allElements.Values)
+        List<float> accuracyRatios = new();
+
+        foreach (Element element in ui.userGraph.elements.Values)
         {
-            float sliderValue = controlsDict[element.name].slider.value;
-            userGraph.elements[element.name].quantity = sliderValue;
+            float trueQuantity = ui.referenceGraph.elements[element.name].quantity;
+            float quantityDiff = Mathf.Abs(element.quantity - trueQuantity);
+            float diffRatio = idealDiff / quantityDiff;
+            diffRatio = Mathf.Min(diffRatio, 1.0f);
+
+            // If this is not the false element and the user said it was the
+            // false element, no points.
+            if (trueQuantity != 0 && element.quantity == 0)
+            {
+                diffRatio = 0;
+            }
+
+            accuracyRatios.Add(diffRatio);
         }
+        
+        // Percent of perfect due to accuracy
+        float accuracyRatio = (float)accuracyRatios.Average();
+
+        score = Mathf.RoundToInt(maxScore * accuracyRatio);
     }
 }

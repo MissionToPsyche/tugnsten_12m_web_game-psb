@@ -5,6 +5,10 @@ public class RaycastController : MonoBehaviour
     private GameObject draggedObject;
     private Vector3 mouseOffset;
 
+    void Start()
+    {
+        draggedObject = GetComponent<GameObject>();
+    }
     void Update()
     {
         if (Input.GetMouseButtonDown(0))

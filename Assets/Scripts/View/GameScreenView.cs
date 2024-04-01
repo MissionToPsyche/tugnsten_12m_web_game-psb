@@ -1,24 +1,17 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using PlasticGui.WorkspaceWindow;
 
 public class GameScreenUI : MonoBehaviour
 {
     private int minigameIndex;
     private string currentSceneName;
     public TitleController titleController;
+    public Canvas canvas;
     private Button optionsBtn, continueBtn, cancelBtn, mainMenuBtn;
-    private VisualElement root, gameScreen, optionsScreen, gameBottomContainer, gameTopContainer, gameButtonContainer, optionsContainer, optionsContainerBottom;
-    
-    public VisualElement getBottomStrip()
-    {
-        return gameBottomContainer;
-    }
-    public VisualElement getTopStrip()
-    {
-        return gameTopContainer;
-    }
-    
+    private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, gameButtonContainer, optionsPopup, optionsContainerBottom;
+
     private void OnEnable()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -33,9 +26,8 @@ public class GameScreenUI : MonoBehaviour
         gameBottomContainer = gameScreen.Q<VisualElement>("game-bottom-container");
         gameButtonContainer = gameBottomContainer.Q<VisualElement>("button-container");
         // options screen
-        optionsScreen = root.Q<VisualElement>("options-screen");
-        optionsContainer = optionsScreen.Q<VisualElement>("options-container");
-        optionsContainerBottom = optionsContainer.Q<VisualElement>("bottom-container");
+        optionsPopup = root.Q<VisualElement>("options-popup");
+        optionsContainerBottom = optionsPopup.Q<VisualElement>("bottom-container");
         // 
         optionsBtn = gameButtonContainer.Q<Button>("options-button");
         optionsBtn.clicked += () => optionsButtonClicked();
@@ -47,12 +39,15 @@ public class GameScreenUI : MonoBehaviour
         continueBtn = gameButtonContainer.Q<Button>("continue-button");
         continueBtn.clicked += () => continueButtonClicked();
 
-
+        root.pickingMode = PickingMode.Ignore;
     }
     private void optionsButtonClicked()
     {
-        optionsScreen.visible = true;
+        // optionsScreen.visible = true;
         gameScreen.visible = false;
+        // gameTopContainer.visible = false;
+        // gameBottomContainer.visible = false;
+        optionsPopup.visible = true;
     }
 
     private void continueButtonClicked()
@@ -60,14 +55,18 @@ public class GameScreenUI : MonoBehaviour
         minigameIndex += 1;
         // titleController.setMinigame(minigameIndex);
 
-        if (minigameIndex <= 3)
+        if (minigameIndex < 4)
         {
             SceneManager.LoadScene(titleController.getSceneName(minigameIndex));
         }
     }
     private void cancel()
     {
-        optionsScreen.visible = false;
+        // optionsScreen.visible = false;
         gameScreen.visible = true;
+        // gameTopContainer.visible = true;
+        // gameBottomContainer.visible = true;
+        optionsPopup.visible = false;
     }
+
 }

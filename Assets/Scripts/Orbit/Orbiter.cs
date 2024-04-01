@@ -7,6 +7,7 @@ public class Orbiter : PointMass
 {
     public PointMass parent;
     public Orbit orbit;
+    public ParticleSystem engine;
     public Vector3 initialVelocity;
     public Vector3 currentVelocity;
 
@@ -50,6 +51,7 @@ public class Orbiter : PointMass
     {
         if (active)
         {
+            /* ----------------------- Rotation logic ----------------------- */
             if (Input.GetKey(KeyCode.W))
             {
                 AlignPrograde();
@@ -91,38 +93,37 @@ public class Orbiter : PointMass
                 }
             }
 
+            /* ------------------------ Thrust logic ------------------------ */
+            // If toggle mode on
             if (toggleThrustAmount)
             {
-                if (Input.GetKey(KeyCode.Space))
+                // Toggles reduced thrust with shift
+                if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
                 {
-                    if (reducedThrustEnabled)
-                    {
-                        ApplyThrustForward(reducedThrust);
-                    }
-                    else
-                    {
-                        ApplyThrustForward(maxThrust);
-                    }
+                    reducedThrustEnabled = !reducedThrustEnabled;
                 }
             }
-            else
+            
+            if (Input.GetKey(KeyCode.Space))
             {
-                if (Input.GetKey(KeyCode.Space) && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
+                // Do reduced thrust if toggled on or shift held, otherwise do full thrust
+                if (reducedThrustEnabled || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                 {
                     ApplyThrustForward(reducedThrust);
                 }
-                else if (Input.GetKey(KeyCode.Space))
+                else
                 {
                     ApplyThrustForward(maxThrust);
                 }
+
+                // Turn engine particles on
+                var emission = engine.emission;
+                emission.enabled = true;
+            } else {
+                // Turn engine particles off
+                var emission = engine.emission;
+                emission.enabled = false;
             }
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
-        {
-            // Toggles reduced thrust
-            reducedThrustEnabled = !reducedThrustEnabled;
         }
     }
 

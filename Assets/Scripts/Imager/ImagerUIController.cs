@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ImagerUIController : UIController
 {
-    override public void ShowScore(int score)
+    override public void ShowScore(int score, string grade)
     {
 
     }

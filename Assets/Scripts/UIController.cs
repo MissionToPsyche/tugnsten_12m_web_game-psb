@@ -15,11 +15,6 @@ abstract public class UIController : MonoBehaviour
     // temporary
     [SerializeField] private TMP_Text text;
 
-    private void Start()
-    {
-        ResetUI();
-    }
-
     public void ShowTime(float time)
     {
         // TODO: update time display
@@ -37,7 +32,7 @@ abstract public class UIController : MonoBehaviour
         // TODO: show settings menu
     }
     
-    abstract public void ShowScore(int score);
+    abstract public void ShowScore(int score, string grade);
 
     abstract public void ResetUI();
 }

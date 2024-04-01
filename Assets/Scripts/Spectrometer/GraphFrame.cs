@@ -8,7 +8,7 @@ public class GraphFrame : MonoBehaviour
     public LineRenderer lr;
     public float lineWidth = 0.04f;
 
-    private void OnValidate() {
+    private void Reset() {
         lr = GetComponent<LineRenderer>();
 
         // TODO: fix this resource path

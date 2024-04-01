@@ -317,7 +317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1036440981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +342,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036440980}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -362,6 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titleController: {fileID: 1395872381}
+  canvas: {fileID: 1138258519}
 --- !u!1 &1060080058
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,8 +488,9 @@ GameObject:
   - component: {fileID: 1138258519}
   - component: {fileID: 1138258518}
   - component: {fileID: 1138258517}
-  - component: {fileID: 1138258521}
   - component: {fileID: 1138258522}
+  - component: {fileID: 1138258521}
+  - component: {fileID: 1138258523}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -589,7 +591,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138258516}
-  m_Enabled: 1
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24745b7b92e51c3499c5b280418adcae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  titleController: {fileID: 1395872381}
+  canvas: {fileID: 0}
+--- !u!114 &1138258522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138258516}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
@@ -598,7 +614,7 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 236048a056d06424a8192d4e6ea67681, type: 3}
   m_SortingOrder: 0
---- !u!114 &1138258522
+--- !u!114 &1138258523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -607,10 +623,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1138258516}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24745b7b92e51c3499c5b280418adcae, type: 3}
+  m_Script: {fileID: 11500000, guid: 279de976ff280a943b0fbda6c061980a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleController: {fileID: 1395872381}
 --- !u!1 &1285569710
 GameObject:
   m_ObjectHideFlags: 0
@@ -1800,5 +1815,5 @@ SceneRoots:
   - {fileID: 1639061777}
   - {fileID: 222786266}
   - {fileID: 1395872382}
-  - {fileID: 1036440982}
   - {fileID: 1608924474}
+  - {fileID: 1036440982}

@@ -251,7 +251,8 @@ public class SliceImage : MonoBehaviour
 
 
         imgObject.AddComponent<ImageController>();
-        imgObject.AddComponent<Draggable>(); // adding script to drag image
+         imgObject.AddComponent<Draggable>(); // adding script to drag image
+        //imgObject.AddComponent<RaycastController>();
 
         // adding script to snap image
         imgObject.AddComponent<SnapToTarget>(); // need to take this snapToTarget and setTargetPosition in imageGameHelper

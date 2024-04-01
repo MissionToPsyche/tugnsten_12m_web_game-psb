@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 
 public class TorusGenerator : MonoBehaviour
@@ -11,6 +12,8 @@ public class TorusGenerator : MonoBehaviour
     private float rotationAngle = 0f;
     private float minScale = 2.5f;
     private float maxScale = 4.5f;
+    private GameObject northObject;
+    private GameObject southObject;
 
     public Torus drawTorus(int numEllipses, int numPoints)
     {
@@ -60,7 +63,7 @@ public class TorusGenerator : MonoBehaviour
             createEllipse(ellipseNum, reflection, ellipse);
 
             // flips across x axis and resets to generate second half of ellipses
-            if (i == 5 && reflection == 1)
+            if (i == numEllipses && reflection == 1)
             {
                 i = 0;
                 reflection = -1;
@@ -70,6 +73,7 @@ public class TorusGenerator : MonoBehaviour
             ellipseNum++;
         }
 
+        NorthSouthIndicator();
         setScaleAndRotation(ellipseFactor);
         return torus;
     }
@@ -244,6 +248,40 @@ public class TorusGenerator : MonoBehaviour
         return magMoments;
     }
 
+    private void NorthSouthIndicator()
+    {
+        northObject = new GameObject("North");
+        // Set RectTransform properties (optional)
+        RectTransform northRectTransform = northObject.AddComponent<RectTransform>();
+        northRectTransform.localPosition = new Vector3(2 * Mathf.Cos(rotationAngle), 2 * Mathf.Sin(rotationAngle), -2);
+        // Set parent object for textObject
+        northObject.transform.SetParent(torusObject.transform, false);
+
+        TextMeshPro northText = northObject.AddComponent<TextMeshPro>();
+        northText.text = "N";
+        northText.fontSize = 10;
+        northText.color = Color.white;
+        // Set alignment to center both horizontally and vertically
+        northText.alignment = TextAlignmentOptions.Center;
+        northText.verticalAlignment = VerticalAlignmentOptions.Middle;
+
+
+        southObject = new GameObject("South");
+        // Set RectTransform properties (optional)
+        RectTransform southRectTransform = southObject.AddComponent<RectTransform>();
+        southRectTransform.localPosition = new Vector3(-2 * Mathf.Cos(rotationAngle), -2 * Mathf.Sin(rotationAngle), -2);
+        // Set parent object for textObject
+        southObject.transform.SetParent(torusObject.transform, false);
+
+        TextMeshPro southText = southObject.AddComponent<TextMeshPro>();
+        southText.text = "S";
+        southText.fontSize = 10;
+        southText.color = Color.white;
+        // Set alignment to center both horizontally and vertically
+        southText.alignment = TextAlignmentOptions.Center;
+        southText.verticalAlignment = VerticalAlignmentOptions.Middle;
+    }
+
     private void setScaleAndRotation(float ellipseFactor)
     {
         Transform t = torusObject.transform;
@@ -256,5 +294,8 @@ public class TorusGenerator : MonoBehaviour
 
         t.eulerAngles = new Vector3(0, 0, (float)zRotation);
         t.localScale = scale;
+
+        southObject.transform.rotation = Quaternion.identity;
+        northObject.transform.rotation = Quaternion.identity;
     }
 }

@@ -11,7 +11,7 @@ public class GameScreenUI : MonoBehaviour
     public Canvas canvas;
     private Button optionsBtn, continueBtn, cancelBtn, mainMenuBtn;
     private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPopup, optionsContainerBottom;
-    private Label timer;
+    private Label minigameTitle, timer;
     private void OnEnable()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -30,6 +30,8 @@ public class GameScreenUI : MonoBehaviour
 
         timer.text = "00:00";
 
+        minigameTitle = gameBottomContainer.Q<Label>("minigame-title");
+        minigameTitle.text = titleController.getMinigameText(minigameIndex);
         // options screen
         optionsPopup = root.Q<VisualElement>("options-popup");
         optionsContainerBottom = optionsPopup.Q<VisualElement>("bottom-container");

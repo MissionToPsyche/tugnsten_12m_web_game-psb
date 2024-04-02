@@ -10,8 +10,8 @@ public class GameScreenUI : MonoBehaviour
     public TitleController titleController;
     public Canvas canvas;
     private Button optionsBtn, continueBtn, cancelBtn, mainMenuBtn;
-    private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, gameButtonContainer, optionsPopup, optionsContainerBottom;
-
+    private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPopup, optionsContainerBottom;
+    private Label timer;
     private void OnEnable()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -25,6 +25,11 @@ public class GameScreenUI : MonoBehaviour
         gameTopContainer = gameScreen.Q<VisualElement>("game-top-container");
         gameBottomContainer = gameScreen.Q<VisualElement>("game-bottom-container");
         gameButtonContainer = gameBottomContainer.Q<VisualElement>("button-container");
+        topBorder = gameTopContainer.Q<VisualElement>("top-border");
+        timer = topBorder.Q<Label>("timer-label");
+
+        timer.text = "00:00";
+
         // options screen
         optionsPopup = root.Q<VisualElement>("options-popup");
         optionsContainerBottom = optionsPopup.Q<VisualElement>("bottom-container");
@@ -39,9 +44,8 @@ public class GameScreenUI : MonoBehaviour
         continueBtn = gameButtonContainer.Q<Button>("continue-button");
         continueBtn.clicked += () => continueButtonClicked();
 
-        root.pickingMode = PickingMode.Ignore;
     }
-    private void optionsButtonClicked()
+    public void optionsButtonClicked()
     {
         // optionsScreen.visible = true;
         gameScreen.visible = false;
@@ -50,7 +54,7 @@ public class GameScreenUI : MonoBehaviour
         optionsPopup.visible = true;
     }
 
-    private void continueButtonClicked()
+    public void continueButtonClicked()
     {
         minigameIndex += 1;
         // titleController.setMinigame(minigameIndex);
@@ -60,7 +64,7 @@ public class GameScreenUI : MonoBehaviour
             SceneManager.LoadScene(titleController.getSceneName(minigameIndex));
         }
     }
-    private void cancel()
+    public void cancel()
     {
         // optionsScreen.visible = false;
         gameScreen.visible = true;
@@ -69,4 +73,12 @@ public class GameScreenUI : MonoBehaviour
         optionsPopup.visible = false;
     }
 
+    public Label GetTimer()
+    {
+        return timer;
+    }
+    public void SetTimer(string time)
+    {
+        timer.text = time;
+    }
 }

@@ -10,6 +10,7 @@ public class GravitySciUIController : UIController
     public Waveform userWave;
     public List<float> referenceWavelengths;
 
+    public Slider preciseSlider;
     public Button submitButton;
 
     public Slider sliderPrefab;
@@ -53,22 +54,31 @@ public class GravitySciUIController : UIController
             // `transform` makes it a child of this script's object, the main UI canvas
             sliders.Add(Instantiate(sliderPrefab, transform));
             sliders[i].gameObject.name = "Slider " + i;
-            
+
             // Adds an onClick event to change the active slider
             EventTrigger evTrig = sliders[i].gameObject.AddComponent<EventTrigger>();
-            
+
             EventTrigger.Entry clickEvent = new()
             {
                 eventID = EventTriggerType.PointerDown
             };
 
             int sliderIndex = i; // This is necessary for the closure to capture i's value
-            
-            clickEvent.callback.AddListener((_) => {
+
+            // Changes the active slider and syncs the precise slider to it
+            // whenever one of the normal ones is clicked
+            clickEvent.callback.AddListener((_) =>
+            {
                 SetActiveSlider(sliderIndex);
+                SyncSliders(false);
             });
-            
+
             evTrig.triggers.Add(clickEvent);
+
+            // Updates the precise slider whenever one of the normal ones is changed
+            sliders[i].onValueChanged.AddListener((_) => {
+                SyncSliders(false);
+            });
 
             // Positions slider at center of the distortion, rotated so that top
             // is facing radial direction. The orbit's position is added to
@@ -78,15 +88,34 @@ public class GravitySciUIController : UIController
                 Quaternion.AngleAxis(angle, Vector3.forward)
             );
         }
+
+        // Allows the precise slider to preempt whichever normal slider is active. 
+        preciseSlider.onValueChanged.AddListener((_) =>
+        {
+            SyncSliders(true);
+        });
     }
 
     public void SetActiveSlider(int sliderNum)
     {
         activeSlider = sliderNum;
-
+        // Changes the reference wave to the one for this slider's distortion
         referenceWave.SetWavelength(referenceWavelengths[activeSlider]);
-
+        
         // TODO: Highlight active slider
+    }
+
+    public void SyncSliders(bool preciseChanged)
+    {
+        // Changes the sync direction
+        if (preciseChanged)
+        {
+            sliders[activeSlider].value = preciseSlider.value;
+        }
+        else
+        {
+            preciseSlider.value = sliders[activeSlider].value;
+        }
     }
 
     public void UpdateGraphs()
@@ -121,6 +150,8 @@ public class GravitySciUIController : UIController
         }
 
         activeSlider = 0;
+
+        preciseSlider.value = 0;
 
         userWave.SetWavelength(0);
     }

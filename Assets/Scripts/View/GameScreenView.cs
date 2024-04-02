@@ -79,8 +79,18 @@ public class GameScreenUI : MonoBehaviour
     {
         return timer;
     }
-    public void SetTimer(string time)
+    public void setTimerText(string time)
     {
         timer.text = time;
+    }
+
+    public VisualElement getBottomContainer()
+    {
+        return gameBottomContainer;
+    }
+
+    public VisualElement getTopContainer()
+    {
+        return gameTopContainer;
     }
 }

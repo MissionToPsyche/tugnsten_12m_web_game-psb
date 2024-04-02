@@ -27,7 +27,7 @@ public class ImagerGameController : GameController
 
     void Update()
     {
-        uiController.ShowTime(timer.getTime());
+        uiController.ShowTime(timer.getTime(), screenUI);
         if(gameRunning)
         {
             if(checkIsDone())

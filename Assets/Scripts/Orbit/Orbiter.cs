@@ -8,11 +8,11 @@ public class Orbiter : PointMass
     public PointMass parent;
     public Orbit orbit;
     public ParticleSystem engine;
-    public Vector3 initialVelocity;
-    public Vector3 currentVelocity;
+    // public Vector3 initialVelocity;
+    public Vector3 velocity;
 
     public const float maxThrust = 0.15f;
-    public const float reducedThrustPercent = 0.25f;
+    public const float reducedThrustPercent = 0.15f;
     private const float reducedThrust = maxThrust * reducedThrustPercent;
     public const float rotationRate = 200f;
 
@@ -26,7 +26,7 @@ public class Orbiter : PointMass
 
     private void OnValidate()
     {
-        currentVelocity = initialVelocity;
+        // currentVelocity = initialVelocity;
         Time.fixedDeltaTime = physicsTimeStep;
 
         // Exit early if parent is not set
@@ -38,13 +38,13 @@ public class Orbiter : PointMass
         orbit.parent = parent;
         orbit.isTargetOrbit = false;
 
-        orbit.CalcOrbitFromOrbiter(transform.position, currentVelocity);
+        orbit.CalcOrbitFromOrbiter(transform.position, velocity);
         orbit.DrawOrbit();
     }
 
     private void Start()
     {
-        currentVelocity = initialVelocity;
+        // currentVelocity = initialVelocity;
     }
 
     private void Update()
@@ -133,7 +133,7 @@ public class Orbiter : PointMass
         {
             UpdateVelocity();
             UpdatePosition();
-            orbit.CalcOrbitFromOrbiter(transform.position, currentVelocity);
+            orbit.CalcOrbitFromOrbiter(transform.position, velocity);
             orbit.DrawOrbit();
         }
     }
@@ -156,12 +156,12 @@ public class Orbiter : PointMass
 
     public void UpdateVelocity()
     {
-        currentVelocity += GetNewVelocity();
+        velocity += GetNewVelocity();
     }
 
     private Vector3 GetNewPosition()
     {
-        return currentVelocity * physicsTimeStep;
+        return velocity * physicsTimeStep;
     }
 
     public void UpdatePosition()
@@ -171,7 +171,7 @@ public class Orbiter : PointMass
 
     public void AlignPrograde()
     {
-        float angle = Vector3.SignedAngle(Vector3.up, currentVelocity, Vector3.forward);
+        float angle = Vector3.SignedAngle(Vector3.up, velocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
 
         // Prevents going the long way around when rotating
@@ -185,7 +185,7 @@ public class Orbiter : PointMass
 
     public void AlignRetrograde()
     {
-        float angle = Vector3.SignedAngle(Vector3.up, -currentVelocity, Vector3.forward);
+        float angle = Vector3.SignedAngle(Vector3.up, -velocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
 
         if (Quaternion.Angle(transform.rotation, target) > 180)
@@ -198,7 +198,7 @@ public class Orbiter : PointMass
 
     public void AlignRadialIn()
     {
-        float angle = Vector3.SignedAngle(Vector3.right, currentVelocity, Vector3.forward);
+        float angle = Vector3.SignedAngle(Vector3.right, velocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
 
         if (Quaternion.Angle(transform.rotation, target) > 180)
@@ -211,7 +211,7 @@ public class Orbiter : PointMass
 
     public void AlignRadialOut()
     {
-        float angle = Vector3.SignedAngle(Vector3.right, -currentVelocity, Vector3.forward);
+        float angle = Vector3.SignedAngle(Vector3.right, -velocity, Vector3.forward);
         Quaternion target = Quaternion.Euler(0, 0, angle);
 
         if (Quaternion.Angle(transform.rotation, target) > 180)
@@ -224,16 +224,16 @@ public class Orbiter : PointMass
 
     public void ApplyThrustForward(float thrustRate)
     {
-        currentVelocity += thrustRate * Time.deltaTime * transform.up;
+        velocity += thrustRate * Time.deltaTime * transform.up;
         fuelUsed += thrustRate * Time.deltaTime;
     }
 
-    public void ResetSpacecraft()
+    public void ResetSpacecraft(Vector3 position, Vector3 velocity)
     {
         orbit.ResetOrbit();
-        // UpdateVelocity();
-        // UpdatePosition();
-        currentVelocity = initialVelocity;
+        transform.position = position;
+        this.velocity = velocity;
+
         active = true;
     }
 }

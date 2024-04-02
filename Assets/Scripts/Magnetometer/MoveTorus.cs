@@ -9,19 +9,19 @@ public class MoveTorus : MonoBehaviour
     private Vector3 startScale;
     private Vector3 initialMousePosition;
     private Quaternion initialTorusRotation;
-    // private GameScreenUI gui;
-    // private bool uiFlag = false;
+    private GameScreenUI gui;
+    private bool uiFlag = false;
     private GameObject northObject;
     private GameObject southObject;
 
     void Start()
     {
-    //     // TODO: don't detect mouse click over UI
-    //     gui = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
-    //     gui.getBottomStrip().RegisterCallback<MouseDownEvent>(OnElementClicked);
-    //     gui.getTopStrip().RegisterCallback<MouseDownEvent>(OnElementClicked);
-    //     gui.getBottomStrip().RegisterCallback<MouseUpEvent>(OnElementClicked);
-    //     gui.getTopStrip().RegisterCallback<MouseUpEvent>(OnElementClicked);
+        // TODO: don't detect mouse click over UI
+        gui = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
+        gui.getBottomContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
+        gui.getTopContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
+        // gui.getBottomContainer().RegisterCallback<MouseUpEvent>(OnElementClicked);
+        // gui.getTopContainer().RegisterCallback<MouseUpEvent>(OnElementClicked);
 
         northObject = GameObject.Find("North");
         southObject = GameObject.Find("South");
@@ -30,25 +30,27 @@ public class MoveTorus : MonoBehaviour
     void Update()
     {
         // detect when left mouse button initially pressed down
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !uiFlag)
         {
-            // if(!uiFlag)
-            // {
-                // initialize variables for scaling
-                startDistance = Vector2.Distance(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                startScale = transform.localScale;
+            // initialize variables for scaling
+            startDistance = Vector2.Distance(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            startScale = transform.localScale;
 
-                // record initial mouse position and torus rotation for rotation
-                initialMousePosition = Input.mousePosition;
-                initialTorusRotation = transform.rotation;
-            // }
+            // record initial mouse position and torus rotation for rotation
+            initialMousePosition = Input.mousePosition;
+            initialTorusRotation = transform.rotation;
         }
 
         // detect left mouse button down
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !uiFlag)
         {
             RotateTorus();
             ScaleTorus();
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            uiFlag = false;
         }
     }
 
@@ -100,9 +102,8 @@ public class MoveTorus : MonoBehaviour
         transform.localScale = newScale;
     }
 
-//     void OnElementClicked(EventBase evt)
-//     {
-//         uiFlag = !uiFlag;
-//         Debug.Log("flag flipped");
-//     }
+    void OnElementClicked(EventBase evt)
+    {
+        uiFlag = true;
+    }
 }

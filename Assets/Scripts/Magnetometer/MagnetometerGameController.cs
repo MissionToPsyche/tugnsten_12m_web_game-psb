@@ -41,7 +41,7 @@ public class MagnetometerGameController : GameController
 
     void Update()
     {
-        uiController.ShowTime(timer.getTime());
+        uiController.ShowTime(timer.getTime(), screenUI);
         if(gameRunning)
         {
             if (torus.torusObject.transform.localScale.magnitude <= noFieldScale.magnitude)

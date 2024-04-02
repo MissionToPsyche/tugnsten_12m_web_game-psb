@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class OrbitGameController : GameController
 {
-    public Orbiter spacecraft;
-    public Orbit targetOrbit;
     public OrbitDataGenerator generator;
     public OrbitUIController ui;
+
+    public Orbiter spacecraft;
 
     public const float altitudeTolerance = 0.1f;
     public const float rotationTolerance = 4f;
@@ -19,11 +19,15 @@ public class OrbitGameController : GameController
     // Tracks whether the game has been won
     private bool won = false;
 
+    public int missionOrbit = 0;
+
     override public void InitializeGame()
     {
-        spacecraft.ResetSpacecraft();
+        (Vector2 position, Vector2 velocity) = generator.GetInitialState(missionOrbit);
+        spacecraft.ResetSpacecraft(position, velocity);
 
-        (spacecraft.transform.position, spacecraft.initialVelocity) = generator.GetInitialState();
+        (float periapsisDistance, float apoapsisDistance, float rotation) = generator.GetTargetOrbit(missionOrbit);
+        ui.SetTargetOrbit(periapsisDistance, apoapsisDistance, rotation);
 
         won = false;
         winTimer = 0f;
@@ -83,9 +87,9 @@ public class OrbitGameController : GameController
     {
         // Checks if the current orbit's rotation and apsis distances are
         // within tolerance of the target orbit.
-        bool winState = Mathf.Abs(spacecraft.orbit.rotation - targetOrbit.rotation) < rotationTolerance
-                        && Mathf.Abs(spacecraft.orbit.periapsisDistance - targetOrbit.periapsisDistance) < altitudeTolerance
-                        && Mathf.Abs(spacecraft.orbit.apoapsisDistance - targetOrbit.apoapsisDistance) < altitudeTolerance;
+        bool winState = Mathf.Abs(spacecraft.orbit.rotation - ui.targetOrbit.rotation) < rotationTolerance
+                        && Mathf.Abs(spacecraft.orbit.periapsisDistance - ui.targetOrbit.periapsisDistance) < altitudeTolerance
+                        && Mathf.Abs(spacecraft.orbit.apoapsisDistance - ui.targetOrbit.apoapsisDistance) < altitudeTolerance;
 
         // If the game is in the win state, starts counting up to
         // winTimeRequired. If the game leaves the win state, the timer is
@@ -121,12 +125,5 @@ public class OrbitGameController : GameController
             won = true;
             FinishGame();
         }
-    }
-
-    public void SetTargetOrbit(float periapsisDistance, float apoapsisDistance, float rotation)
-    {
-        targetOrbit.periapsisDistance = periapsisDistance;
-        targetOrbit.apoapsisDistance = apoapsisDistance;
-        targetOrbit.rotation = rotation;
     }
 }

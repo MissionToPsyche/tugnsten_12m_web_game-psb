@@ -186,7 +186,7 @@ public class OrbitTests
     public IEnumerator VelocityCalc()
     {
         GameObject dummyOrbiter = GetDummyOrbiter();
-        dummyOrbiter.GetComponent<Orbiter>().currentVelocity = new(1.5f, 0);
+        dummyOrbiter.GetComponent<Orbiter>().velocity = new(1.5f, 0);
         dummyOrbiter.GetComponent<Orbiter>().transform.position = new(0, -2);
 
         for (int i = 0; i < 50; i++)
@@ -195,7 +195,7 @@ public class OrbitTests
             yield return null; // Skips a frame
         }
 
-        Assert.True(Vector3.Distance(dummyOrbiter.GetComponent<Orbiter>().currentVelocity, new Vector3(1.5f, 0.62f)) < 0.01);
+        Assert.True(Vector3.Distance(dummyOrbiter.GetComponent<Orbiter>().velocity, new Vector3(1.5f, 0.62f)) < 0.01);
         Assert.True(Vector3.Distance(dummyOrbiter.GetComponent<Orbiter>().transform.position, new Vector3(0, -2)) < 0.01);
     }
 
@@ -203,7 +203,7 @@ public class OrbitTests
     public IEnumerator PositionCalc()
     {
         GameObject dummyOrbiter = GetDummyOrbiter();
-        dummyOrbiter.GetComponent<Orbiter>().currentVelocity = new(1.5f, 0);
+        dummyOrbiter.GetComponent<Orbiter>().velocity = new(1.5f, 0);
         dummyOrbiter.GetComponent<Orbiter>().transform.position = new(0, -2);
 
         for (int i = 0; i < 50; i++)
@@ -212,7 +212,7 @@ public class OrbitTests
             yield return null; // Skips a frame
         }
 
-        Assert.True(Vector3.Distance(dummyOrbiter.GetComponent<Orbiter>().currentVelocity, new Vector3(1.5f, 0)) < 0.01);
+        Assert.True(Vector3.Distance(dummyOrbiter.GetComponent<Orbiter>().velocity, new Vector3(1.5f, 0)) < 0.01);
         Assert.True(Vector3.Distance(dummyOrbiter.GetComponent<Orbiter>().transform.position, new Vector3(0.75f, -2)) < 0.01);
     }
 
@@ -220,7 +220,7 @@ public class OrbitTests
     public IEnumerator MovementCalc()
     {
         GameObject dummyOrbiter = GetDummyOrbiter();
-        dummyOrbiter.GetComponent<Orbiter>().currentVelocity = new(1.5f, 0);
+        dummyOrbiter.GetComponent<Orbiter>().velocity = new(1.5f, 0);
         dummyOrbiter.GetComponent<Orbiter>().transform.position = new(0, -2);
 
         for (int i = 0; i < 50; i++)
@@ -230,7 +230,7 @@ public class OrbitTests
             yield return null; // Skips a frame
         }
 
-        Assert.True(Vector3.Distance(dummyOrbiter.GetComponent<Orbiter>().currentVelocity, new Vector3(1.38f, 0.61f)) < 0.01);
+        Assert.True(Vector3.Distance(dummyOrbiter.GetComponent<Orbiter>().velocity, new Vector3(1.38f, 0.61f)) < 0.01);
         Assert.True(Vector3.Distance(dummyOrbiter.GetComponent<Orbiter>().transform.position, new Vector3(0.73f, -1.84f)) < 0.01);
     }
 
@@ -310,7 +310,7 @@ public class OrbitTests
         );
 
         GameObject dummyOrbiter = GetDummyOrbiter();
-        dummyOrbiter.GetComponent<Orbiter>().currentVelocity = new(1.5f, 0);
+        dummyOrbiter.GetComponent<Orbiter>().velocity = new(1.5f, 0);
         dummyOrbiter.GetComponent<Orbiter>().transform.position = new(0, -2);
 
         for (int i = 0; i < 50; i++)
@@ -320,7 +320,7 @@ public class OrbitTests
             yield return null; // Skips a frame
         }
 
-        Assert.True(Vector3.Distance(virtualOrbiter.velocity, dummyOrbiter.GetComponent<Orbiter>().currentVelocity) < 0.001);
+        Assert.True(Vector3.Distance(virtualOrbiter.velocity, dummyOrbiter.GetComponent<Orbiter>().velocity) < 0.001);
         Assert.True(Vector3.Distance(virtualOrbiter.position, dummyOrbiter.GetComponent<Orbiter>().transform.position) < 0.001);
     }
 
@@ -336,7 +336,7 @@ public class OrbitTests
         );
 
         GameObject dummyOrbiter = GetDummyOrbiter();
-        dummyOrbiter.GetComponent<Orbiter>().currentVelocity = new(1.5f, 0);
+        dummyOrbiter.GetComponent<Orbiter>().velocity = new(1.5f, 0);
         dummyOrbiter.GetComponent<Orbiter>().transform.position = new(0, -2);
 
         for (int i = 0; i < 50; i++)
@@ -346,7 +346,7 @@ public class OrbitTests
             yield return null; // Skips a frame
         }
 
-        Assert.True(Vector3.Distance(virtualOrbiter.velocity, dummyOrbiter.GetComponent<Orbiter>().currentVelocity) < 0.001);
+        Assert.True(Vector3.Distance(virtualOrbiter.velocity, dummyOrbiter.GetComponent<Orbiter>().velocity) < 0.001);
         Assert.True(Vector3.Distance(virtualOrbiter.position, dummyOrbiter.GetComponent<Orbiter>().transform.position) < 0.001);
     }
 
@@ -362,7 +362,7 @@ public class OrbitTests
         );
 
         GameObject dummyOrbiter = GetDummyOrbiter();
-        dummyOrbiter.GetComponent<Orbiter>().currentVelocity = new(1.5f, 0);
+        dummyOrbiter.GetComponent<Orbiter>().velocity = new(1.5f, 0);
         dummyOrbiter.GetComponent<Orbiter>().transform.position = new(0, -2);
 
         for (int i = 0; i < 50; i++)
@@ -374,7 +374,7 @@ public class OrbitTests
             yield return null; // Skips a frame
         }
 
-        Assert.True(Vector3.Distance(virtualOrbiter.velocity, dummyOrbiter.GetComponent<Orbiter>().currentVelocity) < 0.001);
+        Assert.True(Vector3.Distance(virtualOrbiter.velocity, dummyOrbiter.GetComponent<Orbiter>().velocity) < 0.001);
         Assert.True(Vector3.Distance(virtualOrbiter.position, dummyOrbiter.GetComponent<Orbiter>().transform.position) < 0.001);
     }
 

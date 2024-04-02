@@ -763,7 +763,6 @@ MonoBehaviour:
   titleController: {fileID: 1804368382}
   clip: {fileID: 8300000, guid: 5c94beb16bb587bd9a011be115be06f9, type: 3}
   MinigameSelectMenu: {fileID: 1686762463}
-  Canvas: {fileID: 478342363}
   Console: {fileID: 1777323401}
 --- !u!1 &478342363
 GameObject:

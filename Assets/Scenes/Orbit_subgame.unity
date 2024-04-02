@@ -541,7 +541,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &182338161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -976,6 +976,7 @@ MonoBehaviour:
   timer: {fileID: 0}
   maxScore: 10000
   score: -1
+  screenUI: {fileID: 0}
   generator: {fileID: 274471425}
   ui: {fileID: 1292352344}
   spacecraft: {fileID: 454798049}
@@ -2384,7 +2385,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   continueButton: {fileID: 264630223}
-  text: {fileID: 0}
   headerText: {fileID: 145810902}
   skipButton: {fileID: 1197573655}
   restartButton: {fileID: 1030723356}

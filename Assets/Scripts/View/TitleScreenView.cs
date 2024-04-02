@@ -5,16 +5,16 @@ using Codice.Client.Common.GameUI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class TitleScreenUI : MonoBehaviour 
+public class TitleScreenView : MonoBehaviour 
 {
     public ChangeScene SceneChanger;
     public TitleController titleController;
     public AudioClip clip;
-    public GameObject MinigameSelectMenu, Canvas, Console;
+    public GameObject MinigameSelectMenu, Console;
     private Label minigameText;
     private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, minigameBackBtn, playMinigameBtn, easyBtn, mediumBtn, hardBtn, cancelBtn, closeBtn;
     private Slider musicSlider, soundSlider;
-    private VisualElement root, mainScreen, gameSelectScreen, gameSelectTop, gameSelectBottom, optionsScreen,  optionsContainer, soundbar, difficultyContainer, bottomContainer, creditsScreen;
+    private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectBottom, optionsScreen,  optionsContainer, soundbar, bottomContainer, creditsScreen;
     private List<VisualElement> screens = new List<VisualElement>();
     private void OnEnable()
     {
@@ -29,10 +29,11 @@ public class TitleScreenUI : MonoBehaviour
         screens.Add(optionsScreen);
         screens.Add(creditsScreen);
 
-        playBtn = mainScreen.Q<Button>("play-button");
-        gameSelectBtn = mainScreen.Q<Button>("game-select-button");
-        OptionsBtn = mainScreen.Q<Button>("options-button");
-        CreditsBtn = mainScreen.Q<Button>("credits-button");
+        buttonContainer = mainScreen.Q<VisualElement>("button-container");
+        playBtn = buttonContainer.Q<Button>("play-button");
+        gameSelectBtn = buttonContainer.Q<Button>("game-select-button");
+        OptionsBtn = buttonContainer.Q<Button>("options-button");
+        CreditsBtn = buttonContainer.Q<Button>("credits-button");
 
         playBtn.clicked += () => {
             playMinigameClicked();
@@ -60,7 +61,6 @@ public class TitleScreenUI : MonoBehaviour
             switchScreen(mainScreen);
             minigameText.visible = false;
             MinigameSelectMenu.SetActive(false);
-            Canvas.SetActive(false);
             Console.SetActive(false);
         };
         minigameText = gameSelectBottom.Q<Label>("minigame-text");
@@ -70,7 +70,6 @@ public class TitleScreenUI : MonoBehaviour
         // OPTIONS SCREEN UI ELEMENTS
         optionsContainer = optionsScreen.Q<VisualElement>("options-container");
         soundbar = optionsContainer.Q<VisualElement>("sound-bar");
-        difficultyContainer = optionsContainer.Q<VisualElement>("difficulty-container");
         bottomContainer = optionsContainer.Q<VisualElement>("bottom-container");
         
         cancelBtn = bottomContainer.Q<Button>("cancel-button");
@@ -121,7 +120,6 @@ public class TitleScreenUI : MonoBehaviour
     {
         // show the minigame select menu
         MinigameSelectMenu.SetActive(true);
-        Canvas.SetActive(true);
         Console.SetActive(true);
 
         // hide the screens

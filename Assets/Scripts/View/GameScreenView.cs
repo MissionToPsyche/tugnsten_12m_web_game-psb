@@ -12,7 +12,6 @@ public class GameScreenUI : MonoBehaviour
     private Button optionsBtn, continueBtn, cancelBtn, mainMenuBtn;
     private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPopup, optionsContainerBottom;
     private Label minigameTitle, timer;
-    private UIController uiController;
     private void OnEnable()
     {
         Scene scene = SceneManager.GetActiveScene();

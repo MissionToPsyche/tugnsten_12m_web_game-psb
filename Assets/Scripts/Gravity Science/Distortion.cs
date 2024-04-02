@@ -16,7 +16,7 @@ public class Distortion
     public float intensity = 0;
 
     // Intended for variable size fluctuations, but never worked right so don't touch. 
-    public float size = 0.5f;
+    public float size = 0.2f;
 
     public int numPointsAffected;
     public int centerPoint;

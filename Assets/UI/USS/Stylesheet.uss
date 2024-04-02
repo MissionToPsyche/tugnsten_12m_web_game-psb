@@ -59,7 +59,7 @@
     flex-wrap: nowrap;
     align-items: auto;
     justify-content: flex-start;
-    font-size: 54px;
+    font-size: 60px;
 }
 
 .button:hover {
@@ -70,7 +70,7 @@
     border-bottom-color: rgb(249, 160, 0);
     color: rgb(249, 160, 0);
     -unity-background-image-tint-color: rgb(255, 255, 255);
-    font-size: 54px;
+    font-size: 60px;
     border-top-width: 8px;
     border-right-width: 8px;
     border-bottom-width: 8px;
@@ -92,7 +92,7 @@
     border-right-width: 8px;
     border-bottom-width: 8px;
     border-left-width: 8px;
-    font-size: 54px;
+    font-size: 60px;
 }
 
 .back-button {
@@ -181,7 +181,7 @@
     flex-wrap: nowrap;
     align-items: auto;
     justify-content: flex-start;
-    font-size: 54px;
+    font-size: 60px;
 }
 
 .emphasis-button:hover {
@@ -224,7 +224,7 @@
     flex-wrap: nowrap;
     align-items: auto;
     justify-content: flex-start;
-    font-size: 54px;
+    font-size: 60px;
 }
 
 .emphasis-button:focus {
@@ -267,5 +267,14 @@
     flex-wrap: nowrap;
     align-items: auto;
     justify-content: flex-start;
-    font-size: 54px;
+    font-size: 60px;
+}
+
+.timer-text {
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Medium.ttf?fileID=12800000&guid=dbbb85c07e7a87443badc5cd8c1a97b1&type=3#Orbitron-Medium');
+    font-size: 70px;
+    -unity-text-align: upper-center;
+    width: 100%;
+    height: 100%;
+    -unity-font-definition: initial;
 }

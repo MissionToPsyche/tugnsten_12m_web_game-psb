@@ -9,6 +9,8 @@ public class OrbitUIController : UIController
     public GameObject skipButton;
     public GameObject restartButton;
 
+    public Orbit targetOrbit;
+
     public void ShowMsg(string msg)
     {
         headerText.text = msg;
@@ -36,5 +38,14 @@ public class OrbitUIController : UIController
     public override void ShowScore(int score, string grade)
     {
         throw new System.NotImplementedException();
+    }
+
+    public void SetTargetOrbit(float periapsisDistance, float apoapsisDistance, float rotation)
+    {
+        targetOrbit.periapsisDistance = periapsisDistance;
+        targetOrbit.apoapsisDistance = apoapsisDistance;
+        targetOrbit.rotation = rotation;
+        targetOrbit.CalcOrbitFixed();
+        targetOrbit.DrawOrbit();
     }
 }

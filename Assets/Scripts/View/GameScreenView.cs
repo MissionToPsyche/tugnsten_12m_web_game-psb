@@ -80,4 +80,14 @@ public class GameScreenUI : MonoBehaviour
     {
         timer.text = time;
     }
+
+    public VisualElement getBottomContainer()
+    {
+        return gameBottomContainer;
+    }
+
+    public VisualElement getTopContainer()
+    {
+        return gameTopContainer;
+    }
 }

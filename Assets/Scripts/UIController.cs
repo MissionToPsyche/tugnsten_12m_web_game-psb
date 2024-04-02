@@ -13,13 +13,15 @@ abstract public class UIController : MonoBehaviour
     // TODO: Timer display
 
     // temporary
-    [SerializeField] private TMP_Text text;
+    // [SerializeField] private TMP_Text text;
+    private string text;
 
-    public void ShowTime(float time)
+    public void ShowTime(float time, GameScreenUI screenUI)
     {
         // TODO: update time display
         TimeSpan formatTime = TimeSpan.FromSeconds(time);
-        text.text = formatTime.Minutes.ToString("D2") + ":" + formatTime.Seconds.ToString("D2") + ":" + (formatTime.Milliseconds/100).ToString("D1");
+        text = formatTime.Minutes.ToString("D2") + ":" + formatTime.Seconds.ToString("D2") + ":" + (formatTime.Milliseconds/100).ToString("D1");
+        screenUI.setTimerText(text);
     }
 
     public void ShowInformation()

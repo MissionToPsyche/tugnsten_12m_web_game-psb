@@ -6,12 +6,13 @@ abstract public class GameController : MonoBehaviour
 {
     public GameTimer timer;
     protected bool gameRunning = false;
-
     public int maxScore = 10000;
     public int score = -1;
+    public GameScreenUI screenUI;
 
     void Start()
     {
+        screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
         InitializeGame();
     }
 

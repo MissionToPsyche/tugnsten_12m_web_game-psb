@@ -19,17 +19,17 @@ public class MagnetometerGameController : GameController
 
     override public void InitializeGame()
     {
-        uiController = GameObject.Find("Main UI Canvas").GetComponent<MagnetometerUIController>();
+        // uiController = GameObject.Find("Main UI Canvas").GetComponent<MagnetometerUIController>();
         uiController.SetController(this);
-        uiController.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
+        // uiController.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
         SetRightBtn();
 
-        torusGenerator = GameObject.Find("Data Generator").GetComponent<TorusGenerator>();
+        // torusGenerator = GameObject.Find("Data Generator").GetComponent<TorusGenerator>();
         this.torus = torusGenerator.drawTorus(numEllipses, numPoints);
         torus.torusObject.AddComponent<MoveTorus>();
         this.magneticMoment = torus.magneticMoment;
 
-        arrowGenerator = GameObject.Find("Data Generator").GetComponent<ArrowGenerator>();
+        // arrowGenerator = GameObject.Find("Data Generator").GetComponent<ArrowGenerator>();
         List<(Vector3, Vector3, Vector3)> fieldPoints = arrowGenerator.getFieldPoints(torus, numPoints, numArrows);
         arrowGenerator.drawArrows(fieldPoints);
 

@@ -13,12 +13,12 @@ public class ImagerGameController : GameController
 
     override public void InitializeGame()
     {
-        uiController = GameObject.Find("Main UI Canvas").GetComponent<ImagerUIController>();
+        // uiController = GameObject.Find("Main UI Canvas").GetComponent<ImagerUIController>();
         uiController.SetController(this);
-        uiController.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
+        // uiController.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
         SetRightBtn();
 
-        sliceImage = GameObject.Find("Data Generator").GetComponent<SliceImage>();
+        // sliceImage = GameObject.Find("Data Generator").GetComponent<SliceImage>();
         sliceImage.slice(); // generate and display images
         images = sliceImage.getImages();
 

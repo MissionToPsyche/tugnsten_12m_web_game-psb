@@ -24,7 +24,7 @@ public class OrbitGameController : GameController
     override public void InitializeGame()
     {
         ui.SetController(this);
-        ui.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
+        // ui.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
         SetRightBtn();
         (Vector2 position, Vector2 velocity) = generator.GetInitialState(missionOrbit);
         spacecraft.ResetSpacecraft(position, velocity);

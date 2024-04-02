@@ -989,7 +989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c49abe36b745c243b63733090b32ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: {fileID: 0}
+  timer: {fileID: 2092010746}
   maxScore: 10000
   score: -1
   generator: {fileID: 274471425}
@@ -2400,8 +2400,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   continueButton: {fileID: 264630223}
-  screenUI: {fileID: 0}
-  controller: {fileID: 0}
+  screenUI: {fileID: 182338163}
+  controller: {fileID: 343803936}
   headerText: {fileID: 145810902}
   skipButton: {fileID: 1197573655}
   restartButton: {fileID: 1030723356}

@@ -25,7 +25,7 @@ public class SpectGameController : GameController
     public override void InitializeGame()
     {
         ui.SetController(this);
-        ui.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
+        // ui.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
         SetRightBtn();
         // Gets true and false elements from generator
         SortedDictionary<string, Element> selectedElements = generator.GetData();

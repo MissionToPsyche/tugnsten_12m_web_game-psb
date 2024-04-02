@@ -290,6 +290,8 @@ MonoBehaviour:
   timer: {fileID: 1608924473}
   maxScore: 10000
   score: -1
+  uiController: {fileID: 1138258521}
+  sliceImage: {fileID: 1060080059}
 --- !u!1 &638166973
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,7 +731,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   continueButton: {fileID: 1453628010}
-  text: {fileID: 1548693479}
+  screenUI: {fileID: 1036440983}
+  controller: {fileID: 540352666}
 --- !u!1 &1285569710
 GameObject:
   m_ObjectHideFlags: 0

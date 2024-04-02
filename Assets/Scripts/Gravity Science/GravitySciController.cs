@@ -23,7 +23,7 @@ public class GravitySciController : GameController
     public override void InitializeGame()
     {
         ui.SetController(this);
-        ui.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
+        // ui.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
         SetRightBtn();
         orbit.distortions = generator.GetDistortions(orbit.numOrbitPoints);
         ui.CreateSliders(orbit.distortions, orbit.orbitLine, orbit.transform.position);

@@ -8,11 +8,14 @@ abstract public class GameController : MonoBehaviour
     protected bool gameRunning = false;
     public int maxScore = 10000;
     public int score = -1;
-    public GameScreenUI screenUI;
+    // public GameScreenUI screenUI;
+    // private UIController uiController;
 
     void Start()
     {
-        screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
+        // screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
+
+        timer = GameObject.Find("GameTimer").GetComponent<GameTimer>();
         InitializeGame();
     }
 
@@ -21,6 +24,8 @@ abstract public class GameController : MonoBehaviour
     abstract public void StopGame();
     abstract public void FinishGame();
     abstract public void CalcScore();
+
+    abstract public void SetRightBtn();
 
     public int GetScore()
     {

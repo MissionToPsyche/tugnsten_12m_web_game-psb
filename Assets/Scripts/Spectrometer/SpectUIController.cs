@@ -68,4 +68,10 @@ public class SpectUIController : UIController
     {
         Debug.Log("Grade: " + grade + " (" + score + ")");
     }
+
+    override public void SubmitClicked()
+    {
+        screenUI.getContinueButton().text = "Continue";
+        controller.FinishGame();
+    }
 }

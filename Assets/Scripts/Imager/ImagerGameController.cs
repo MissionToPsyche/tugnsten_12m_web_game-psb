@@ -7,15 +7,18 @@ using UnityEngine.UI;
 
 public class ImagerGameController : GameController
 {
-    private ImagerUIController uiController;
+    public ImagerUIController uiController;
+    public SliceImage sliceImage;
     private List<GameObject> images;
 
     override public void InitializeGame()
     {
         uiController = GameObject.Find("Main UI Canvas").GetComponent<ImagerUIController>();
-        timer = GameObject.Find("GameTimer").GetComponent<GameTimer>();
+        uiController.SetController(this);
+        uiController.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
+        SetRightBtn();
 
-        SliceImage sliceImage = GameObject.Find("Data Generator").GetComponent<SliceImage>();
+        sliceImage = GameObject.Find("Data Generator").GetComponent<SliceImage>();
         sliceImage.slice(); // generate and display images
         images = sliceImage.getImages();
 
@@ -27,7 +30,7 @@ public class ImagerGameController : GameController
 
     void Update()
     {
-        uiController.ShowTime(timer.getTime(), screenUI);
+        uiController.ShowTime(timer.getTime());
         if(gameRunning)
         {
             if(checkIsDone())
@@ -122,6 +125,13 @@ public class ImagerGameController : GameController
             score = Mathf.RoundToInt(maxScore - (normalizedTime * maxScore));
         }
         Debug.Log("score: " + score);
+    }
+
+    override public void SetRightBtn()
+    {
+        uiController.screenUI.getContinueButton().text = "Continue";
+        uiController.screenUI.getContinueButton().SetEnabled(false);
+        uiController.screenUI.getContinueButton().clicked += uiController.RightBtnListener;
     }
 
 }

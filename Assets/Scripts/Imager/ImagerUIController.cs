@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class ImagerUIController : UIController
 {
+
+    override public void SubmitClicked()
+    {
+        screenUI.getContinueButton().SetEnabled(true);
+    }
+
     override public void ShowScore(int score, string grade)
     {
 

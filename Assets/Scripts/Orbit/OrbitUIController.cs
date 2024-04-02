@@ -16,6 +16,12 @@ public class OrbitUIController : UIController
         headerText.text = msg;
     }
 
+    override public void SubmitClicked()
+    {
+        screenUI.getContinueButton().text = "Continue";
+        screenUI.getContinueButton().SetEnabled(true);
+    }
+
     override public void ResetUI()
     {
         ShowMsg("");

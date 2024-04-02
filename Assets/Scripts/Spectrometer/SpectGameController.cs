@@ -24,6 +24,9 @@ public class SpectGameController : GameController
 
     public override void InitializeGame()
     {
+        ui.SetController(this);
+        ui.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
+        SetRightBtn();
         // Gets true and false elements from generator
         SortedDictionary<string, Element> selectedElements = generator.GetData();
 
@@ -93,5 +96,11 @@ public class SpectGameController : GameController
         float accuracyRatio = (float)accuracyRatios.Average();
 
         score = Mathf.RoundToInt(maxScore * accuracyRatio);
+    }
+
+    override public void SetRightBtn()
+    {
+        ui.screenUI.getContinueButton().text = "Submit";
+        ui.screenUI.getContinueButton().clicked += ui.RightBtnListener;
     }
 }

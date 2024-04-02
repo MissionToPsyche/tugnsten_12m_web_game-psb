@@ -11,6 +11,12 @@ public class MagnetometerUIController : UIController
 
     }
 
+    override public void SubmitClicked()
+    {
+        screenUI.getContinueButton().text = "Continue";
+        controller.FinishGame();
+    }
+
     override public void ResetUI()
     {
         HideNoFieldMsg();

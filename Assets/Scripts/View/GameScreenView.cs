@@ -12,6 +12,7 @@ public class GameScreenUI : MonoBehaviour
     private Button optionsBtn, continueBtn, cancelBtn, mainMenuBtn;
     private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPopup, optionsContainerBottom;
     private Label timer;
+    private UIController uiController;
 
     private void OnEnable()
     {
@@ -41,9 +42,16 @@ public class GameScreenUI : MonoBehaviour
         mainMenuBtn.clicked += () => SceneManager.LoadScene("Title");
 
         continueBtn = gameButtonContainer.Q<Button>("continue-button");
-        continueBtn.clicked += () => continueButtonClicked();
+        // continueBtn.clicked += () => continueButtonClicked();
+        // continueBtn.clicked += () => rightButtonClicked(string action);
 
     }
+
+    public Button getContinueButton()
+    {
+        return continueBtn;
+    }
+
     public void optionsButtonClicked()
     {
         // optionsScreen.visible = true;

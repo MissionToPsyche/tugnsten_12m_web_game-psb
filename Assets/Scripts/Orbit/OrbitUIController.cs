@@ -8,7 +8,6 @@ public class OrbitUIController : UIController
     public TextMeshProUGUI headerText;
     public GameObject skipButton;
     public GameObject restartButton;
-
     public Orbit targetOrbit;
 
     public void ShowMsg(string msg)
@@ -47,5 +46,10 @@ public class OrbitUIController : UIController
         targetOrbit.rotation = rotation;
         targetOrbit.CalcOrbitFixed();
         targetOrbit.DrawOrbit();
+    }
+
+    override public void SubmitClicked()
+    {
+        return;
     }
 }

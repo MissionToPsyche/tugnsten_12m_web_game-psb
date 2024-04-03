@@ -44,9 +44,16 @@ public class GameScreenUI : MonoBehaviour
         mainMenuBtn.clicked += () => SceneManager.LoadScene("Title");
 
         continueBtn = gameButtonContainer.Q<Button>("continue-button");
-        continueBtn.clicked += () => continueButtonClicked();
+        // continueBtn.clicked += () => continueButtonClicked();
+        // continueBtn.clicked += () => rightButtonClicked(string action);
 
     }
+
+    public Button getContinueButton()
+    {
+        return continueBtn;
+    }
+
     public void optionsButtonClicked()
     {
         // optionsScreen.visible = true;

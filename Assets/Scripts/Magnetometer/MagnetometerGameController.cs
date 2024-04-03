@@ -6,51 +6,48 @@ using UnityEngine.UI;
 
 public class MagnetometerGameController : GameController
 {
-    private MagnetometerUIController uiController;
+    public MagnetometerUIController ui;
+    public TorusGenerator torusGenerator;
+    public ArrowGenerator arrowGenerator;
     private int numArrows = 5;
     private int numEllipses = 5; // symmetric on both sides so 5 on each side for 10 total
     private int numPoints = 200;
     private Torus torus;
-    [SerializeField] private GameObject buttonObj;
     private Vector3 magneticMoment;
     private Vector3 noFieldScale = new Vector3(0.25f, 0.25f, 0.25f);
 
     override public void InitializeGame()
     {
-        uiController = GameObject.Find("Main UI Canvas").GetComponent<MagnetometerUIController>();
-        timer = GameObject.Find("GameTimer").GetComponent<GameTimer>();
+        ui.SetController(this);
 
-        TorusGenerator torusGenerator = GameObject.Find("Data Generator").GetComponent<TorusGenerator>();
+        SetRightBtn();
+
         this.torus = torusGenerator.drawTorus(numEllipses, numPoints);
         torus.torusObject.AddComponent<MoveTorus>();
         this.magneticMoment = torus.magneticMoment;
 
-        ArrowGenerator arrowGenerator = GameObject.Find("Data Generator").GetComponent<ArrowGenerator>();
         List<(Vector3, Vector3, Vector3)> fieldPoints = arrowGenerator.getFieldPoints(torus, numPoints, numArrows);
         arrowGenerator.drawArrows(fieldPoints);
 
-        // temporary
-        Button button = buttonObj.GetComponent<Button>();
-        button.onClick.AddListener(FinishGame);
-
         score = -1;
 
-        uiController.ResetUI();
+        timer.resetTimer();
+        ui.ResetUI();
         StartGame();
     }
 
     void Update()
     {
-        uiController.ShowTime(timer.getTime(), screenUI);
+        ui.ShowTime(timer.getTime());
         if(gameRunning)
         {
             if (torus.torusObject.transform.localScale.magnitude <= noFieldScale.magnitude)
             {
-                uiController.ShowNoFieldMsg();
+                ui.ShowNoFieldMsg();
             }
             if (torus.torusObject.transform.localScale.magnitude > noFieldScale.magnitude)
             {
-                uiController.HideNoFieldMsg();
+                ui.HideNoFieldMsg();
             }
         }
     }
@@ -69,9 +66,8 @@ public class MagnetometerGameController : GameController
 
     override public void FinishGame()
     {
-        gameRunning = false;
-        timer.stopTimer();
-        CalcScore();
+        StopGame();
+        ui.ShowScore(GetScore(), GetGrade());
     }
 
     override public void CalcScore()
@@ -137,7 +133,6 @@ public class MagnetometerGameController : GameController
         }
 
         score = Mathf.RoundToInt(avgPercentage * maxScore);
-        Debug.Log("score: " + score);
     }
 
     private float getTimePercent(){
@@ -163,4 +158,12 @@ public class MagnetometerGameController : GameController
         float percentage = (maxDeviation - diff) / maxDeviation;
         return percentage;
     }
+
+    override public void SetRightBtn()
+    {
+        ui.screenUI.getContinueButton().text = "Submit";
+        ui.screenUI.getContinueButton().clicked -= ui.RightBtnListener; // Prevents multiple listeners
+        ui.screenUI.getContinueButton().clicked += ui.RightBtnListener;
+    }
+
 }

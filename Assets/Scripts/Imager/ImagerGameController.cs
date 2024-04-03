@@ -7,27 +7,27 @@ using UnityEngine.UI;
 
 public class ImagerGameController : GameController
 {
-    private ImagerUIController uiController;
+    public ImagerUIController ui;
+    public SliceImage sliceImage;
     private List<GameObject> images;
 
     override public void InitializeGame()
     {
-        uiController = GameObject.Find("Main UI Canvas").GetComponent<ImagerUIController>();
-        timer = GameObject.Find("GameTimer").GetComponent<GameTimer>();
+        ui.SetController(this);
+        SetRightBtn();
 
-        SliceImage sliceImage = GameObject.Find("Data Generator").GetComponent<SliceImage>();
         sliceImage.slice(); // generate and display images
         images = sliceImage.getImages();
 
         score = -1;
 
-        uiController.ResetUI();
+        ui.ResetUI();
         StartGame();
     }
 
     void Update()
     {
-        uiController.ShowTime(timer.getTime(), screenUI);
+        ui.ShowTime(timer.getTime());
         if(gameRunning)
         {
             if(checkIsDone())
@@ -96,9 +96,9 @@ public class ImagerGameController : GameController
 
     override public void FinishGame()
     {
-        gameRunning = false;
-        timer.stopTimer();
-        CalcScore();
+        StopGame();
+        ui.ShowScore(GetScore(), GetGrade());
+        ui.screenUI.getContinueButton().SetEnabled(true);
     }
 
     override public void CalcScore()
@@ -121,7 +121,14 @@ public class ImagerGameController : GameController
             // Map the normalized time to a score between 10000 and 0
             score = Mathf.RoundToInt(maxScore - (normalizedTime * maxScore));
         }
-        Debug.Log("score: " + score);
+    }
+
+    override public void SetRightBtn()
+    {
+        ui.screenUI.getContinueButton().text = "Continue";
+        ui.screenUI.getContinueButton().SetEnabled(false);
+        ui.screenUI.getContinueButton().clicked -= ui.RightBtnListener; // Prevents multiple listeners
+        ui.screenUI.getContinueButton().clicked += ui.RightBtnListener;
     }
 
 }

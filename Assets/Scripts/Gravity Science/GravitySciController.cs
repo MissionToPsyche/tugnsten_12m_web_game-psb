@@ -22,6 +22,9 @@ public class GravitySciController : GameController
 
     public override void InitializeGame()
     {
+        ui.SetController(this);
+        SetRightBtn();
+
         orbit.distortions = generator.GetDistortions(orbit.numOrbitPoints);
         ui.CreateSliders(orbit.distortions, orbit.orbitLine, orbit.transform.position);
 
@@ -53,6 +56,7 @@ public class GravitySciController : GameController
 
     void Update()
     {
+        ui.ShowTime(timer.getTime());
         if (gameRunning)
         {
             ui.UpdateGraphs();
@@ -99,5 +103,12 @@ public class GravitySciController : GameController
         }
 
         score = Mathf.RoundToInt((float)scores.Average());
+    }
+
+    override public void SetRightBtn()
+    {
+        ui.screenUI.getContinueButton().text = "Submit";
+        ui.screenUI.getContinueButton().clicked -= ui.RightBtnListener; // Prevents multiple listeners
+        ui.screenUI.getContinueButton().clicked += ui.RightBtnListener;
     }
 }

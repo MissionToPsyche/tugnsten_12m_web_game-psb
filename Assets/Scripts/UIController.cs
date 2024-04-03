@@ -11,12 +11,41 @@ abstract public class UIController : MonoBehaviour
     // TODO: Help button
     // TODO: Minigame name text
     // TODO: Timer display
-
-    // temporary
-    // [SerializeField] private TMP_Text text;
+    public GameScreenUI screenUI;
+    private bool isSubmitted = false;
     private string text;
 
-    public void ShowTime(float time, GameScreenUI screenUI)
+    public GameController controller;
+    public void SetController(GameController gameController)
+    {
+        controller = gameController;
+    }
+
+    public void RightBtnListener()
+    {
+        if(!isSubmitted)
+        {
+            SubmitHandler();
+        }
+        else{
+            ContinueHandler();
+        }
+    }
+
+    private void SubmitHandler()
+    {
+        isSubmitted = true;
+        SubmitClicked();
+    }
+
+    abstract public void SubmitClicked();
+
+    private void ContinueHandler()
+    {
+        screenUI.continueButtonClicked();
+    }
+
+    public void ShowTime(float time)
     {
         // TODO: update time display
         TimeSpan formatTime = TimeSpan.FromSeconds(time);

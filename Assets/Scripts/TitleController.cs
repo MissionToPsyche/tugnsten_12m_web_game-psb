@@ -20,6 +20,7 @@ public class TitleController : MonoBehaviour
         "Multispectral Imager",
         "Gravity Science",
         "Spectrometer",
+        "Orbit",
     };
 
     private string[] scenes = new string[] {
@@ -27,6 +28,7 @@ public class TitleController : MonoBehaviour
         "Imager Minigame",
         "Science_minigame",
         "Spectrometer_minigame",
+        "Orbit_subgame",
     };
     private string nextScene = "Magnetometer_minigame";
     private int index;

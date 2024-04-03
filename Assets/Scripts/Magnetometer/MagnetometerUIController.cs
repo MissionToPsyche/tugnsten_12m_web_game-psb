@@ -8,7 +8,13 @@ public class MagnetometerUIController : UIController
 
     override public void ShowScore(int score, string grade)
     {
+        Debug.Log("Grade: " + grade + " (" + score + ")");
+    }
 
+    override public void SubmitClicked()
+    {
+        screenUI.getContinueButton().text = "Continue";
+        controller.FinishGame();
     }
 
     override public void ResetUI()

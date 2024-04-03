@@ -21,6 +21,11 @@ abstract public class UIController : MonoBehaviour
         controller = gameController;
     }
 
+    public void setIsSubmitted(bool sub)
+    {
+        isSubmitted = sub;
+    }
+
     public void RightBtnListener()
     {
         if(!isSubmitted)

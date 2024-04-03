@@ -75,6 +75,7 @@ public class OrbitGameController : GameController
         }
 
         ui.ShowScore(GetScore(), GetGrade());
+        ui.setIsSubmitted(true);
         ui.screenUI.getContinueButton().SetEnabled(true);
     }
 

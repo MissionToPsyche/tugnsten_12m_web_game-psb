@@ -98,6 +98,7 @@ public class ImagerGameController : GameController
     {
         StopGame();
         ui.ShowScore(GetScore(), GetGrade());
+        ui.setIsSubmitted(true);
         ui.screenUI.getContinueButton().SetEnabled(true);
     }
 

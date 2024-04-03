@@ -8,7 +8,7 @@ public class MagnetometerUIController : UIController
 
     override public void ShowScore(int score, string grade)
     {
-
+        Debug.Log("Grade: " + grade + " (" + score + ")");
     }
 
     override public void SubmitClicked()

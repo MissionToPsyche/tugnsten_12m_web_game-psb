@@ -13,9 +13,6 @@ abstract public class UIController : MonoBehaviour
     // TODO: Timer display
     public GameScreenUI screenUI;
     private bool isSubmitted = false;
-
-    // temporary
-    // [SerializeField] private TMP_Text text;
     private string text;
 
     public GameController controller;

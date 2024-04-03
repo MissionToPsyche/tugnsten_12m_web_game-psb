@@ -24,8 +24,8 @@ public class OrbitGameController : GameController
     override public void InitializeGame()
     {
         ui.SetController(this);
-        // ui.screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
         SetRightBtn();
+
         (Vector2 position, Vector2 velocity) = generator.GetInitialState(missionOrbit);
         spacecraft.ResetSpacecraft(position, velocity);
 
@@ -48,6 +48,7 @@ public class OrbitGameController : GameController
 
     void Update()
     {
+        ui.ShowTime(timer.getTime());
         if (gameRunning)
         {
             CheckWin();
@@ -74,6 +75,7 @@ public class OrbitGameController : GameController
         }
 
         ui.ShowScore(GetScore(), GetGrade());
+        ui.screenUI.getContinueButton().SetEnabled(true);
     }
 
     override public void CalcScore()
@@ -134,6 +136,7 @@ public class OrbitGameController : GameController
     {
         ui.screenUI.getContinueButton().text = "Continue";
         ui.screenUI.getContinueButton().SetEnabled(false);
+        ui.screenUI.getContinueButton().clicked -= ui.RightBtnListener; // Prevents multiple listeners
         ui.screenUI.getContinueButton().clicked += ui.RightBtnListener;
     }
 }

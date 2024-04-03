@@ -8,18 +8,11 @@ public class OrbitUIController : UIController
     public TextMeshProUGUI headerText;
     public GameObject skipButton;
     public GameObject restartButton;
-
     public Orbit targetOrbit;
 
     public void ShowMsg(string msg)
     {
         headerText.text = msg;
-    }
-
-    override public void SubmitClicked()
-    {
-        screenUI.getContinueButton().text = "Continue";
-        screenUI.getContinueButton().SetEnabled(true);
     }
 
     override public void ResetUI()
@@ -53,5 +46,10 @@ public class OrbitUIController : UIController
         targetOrbit.rotation = rotation;
         targetOrbit.CalcOrbitFixed();
         targetOrbit.DrawOrbit();
+    }
+
+    override public void SubmitClicked()
+    {
+        return;
     }
 }

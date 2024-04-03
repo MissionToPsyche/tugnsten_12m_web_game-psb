@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titleController: {fileID: 2145827017}
-  canvas: {fileID: 1292352339}
+  canvas: {fileID: 0}
 --- !u!4 &258721671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 45f36b8a9aaedd64486e7c1c9f446b49, type: 3}

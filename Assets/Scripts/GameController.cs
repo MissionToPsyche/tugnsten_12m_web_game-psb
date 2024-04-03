@@ -8,13 +8,9 @@ abstract public class GameController : MonoBehaviour
     protected bool gameRunning = false;
     public int maxScore = 10000;
     public int score = -1;
-    // public GameScreenUI screenUI;
-    // private UIController uiController;
 
     void Start()
     {
-        // screenUI = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
-
         timer = GameObject.Find("GameTimer").GetComponent<GameTimer>();
         InitializeGame();
     }

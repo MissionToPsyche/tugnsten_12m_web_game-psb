@@ -90,7 +90,7 @@ public class MagnetometerGameController : GameController
 
         float avgPercentage;
 
-        float timePercentage = getTimePercent();
+        float timePercentage = CalcTimePercent(timer.getTime(), 90, 3);
 
         if (magneticMoment == Vector3.zero)
         {
@@ -133,24 +133,6 @@ public class MagnetometerGameController : GameController
         }
 
         score = Mathf.RoundToInt(avgPercentage * maxScore);
-    }
-
-    private float getTimePercent(){
-        float excellentTime = 3.0f;
-        float lowTime = 90f;
-        float diff = lowTime - excellentTime;
-        float normalizedTime;
-        float time = timer.getTime();
-
-        if(time < excellentTime)
-        {
-            time = excellentTime;
-        }
-
-        // Calculate the normalized time (0 to 1)
-        normalizedTime = 1 - Mathf.Clamp01((time - excellentTime) / diff);
-    
-        return normalizedTime;
     }
 
     private float calc(float maxDeviation, float diff)

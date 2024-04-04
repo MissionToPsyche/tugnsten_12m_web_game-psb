@@ -8,9 +8,8 @@ public class GameScreenUI : MonoBehaviour
     private int minigameIndex;
     private string currentSceneName;
     public TitleController titleController;
-    public Canvas canvas;
     private Button optionsBtn, continueBtn, cancelBtn, mainMenuBtn;
-    private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPopup, optionsContainerBottom;
+    private VisualElement root, gameScreen, gameBottomContainer, infoPanel, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, optionsContainerBottom;
     private Label minigameTitle, timer;
     private void OnEnable()
     {
@@ -28,14 +27,11 @@ public class GameScreenUI : MonoBehaviour
         topBorder = gameTopContainer.Q<VisualElement>("top-border");
         timer = topBorder.Q<Label>("timer-label");
 
-        timer.text = "00:00";
-
         minigameTitle = gameBottomContainer.Q<Label>("minigame-title");
         minigameTitle.text = titleController.getMinigameText(minigameIndex);
         // options screen
-        optionsPopup = root.Q<VisualElement>("options-popup");
-        optionsContainerBottom = optionsPopup.Q<VisualElement>("bottom-container");
-        // 
+        optionsPanel = root.Q<VisualElement>("options-panel");
+        optionsContainerBottom = optionsPanel.Q<VisualElement>("bottom-container");
         optionsBtn = gameButtonContainer.Q<Button>("options-button");
         optionsBtn.clicked += () => optionsButtonClicked();
         cancelBtn = optionsContainerBottom.Q<Button>("cancel-button");
@@ -47,6 +43,8 @@ public class GameScreenUI : MonoBehaviour
         // continueBtn.clicked += () => continueButtonClicked();
         // continueBtn.clicked += () => rightButtonClicked(string action);
 
+        infoPanel = root.Q<VisualElement>("info-panel");
+        
     }
 
     public Button getContinueButton()
@@ -56,11 +54,8 @@ public class GameScreenUI : MonoBehaviour
 
     public void optionsButtonClicked()
     {
-        // optionsScreen.visible = true;
         gameScreen.visible = false;
-        // gameTopContainer.visible = false;
-        // gameBottomContainer.visible = false;
-        optionsPopup.visible = true;
+        optionsPanel.visible = true;
     }
 
     public void continueButtonClicked()
@@ -79,7 +74,7 @@ public class GameScreenUI : MonoBehaviour
         gameScreen.visible = true;
         // gameTopContainer.visible = true;
         // gameBottomContainer.visible = true;
-        optionsPopup.visible = false;
+        optionsPanel.visible = false;
     }
 
     public Label GetTimer()

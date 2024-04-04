@@ -1,5 +1,5 @@
 .title {
-    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&guid=5e45cd4bb34bec24eb2fe66c08f4067a&type=3#AndromedaTV');
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Regular.ttf?fileID=12800000&guid=94a376486c1f5524c9ab48d0ca2432dc&type=3#Orbitron-Regular');
     color: rgb(255, 255, 255);
     -unity-font-definition: initial;
     -unity-font-style: bold;
@@ -129,10 +129,6 @@
     border-right-width: 5px;
     border-bottom-width: 5px;
     border-left-width: 5px;
-}
-
-.unity-slider {
-    -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
 .text-style {
@@ -276,4 +272,88 @@
 .minigame-title {
     font-size: 100%;
     -unity-text-align: upper-center;
+}
+
+.help-button {
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&guid=5e45cd4bb34bec24eb2fe66c08f4067a&type=3#AndromedaTV');
+    -unity-font-style: bold;
+    -unity-font-definition: initial;
+    font-size: 100%;
+    -unity-background-image-tint-color: rgb(140, 140, 140);
+    border-top-left-radius: 100%;
+    border-top-right-radius: 100%;
+    border-bottom-right-radius: 100%;
+    border-bottom-left-radius: 100%;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-left-color: rgb(225, 143, 97);
+    border-right-color: rgb(225, 143, 97);
+    border-top-color: rgb(225, 143, 97);
+    border-bottom-color: rgb(225, 143, 97);
+}
+
+.panel {
+    position: absolute;
+    background-color: rgb(214, 214, 214);
+    border-left-color: rgb(244, 124, 51);
+    border-right-color: rgb(244, 124, 51);
+    border-top-color: rgb(244, 124, 51);
+    border-bottom-color: rgb(244, 124, 51);
+    border-top-width: 7px;
+    border-right-width: 7px;
+    border-bottom-width: 7px;
+    border-left-width: 7px;
+    border-top-left-radius: 7%;
+    border-top-right-radius: 7%;
+    border-bottom-right-radius: 7%;
+    border-bottom-left-radius: 7%;
+}
+
+.audio-slider {
+}
+
+.audio-slider Label {
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-SemiBold.ttf?fileID=12800000&guid=e38a91edc271c6e49849cf2512cf6f66&type=3#Orbitron-SemiBold');
+    font-size: 120%;
+}
+
+.audio-slider VisualElement#unity-drag-container {
+}
+
+.audio-slider VisualElement#unity-tracker {
+    background-color: rgb(255, 255, 255);
+    border-left-color: rgb(89, 38, 81);
+    border-right-color: rgb(89, 38, 81);
+    border-top-color: rgb(89, 38, 81);
+    border-bottom-color: rgb(89, 38, 81);
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    height: 25%;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+
+.audio-slider VisualElement#unity-dragger {
+    width: 4%;
+    height: 60%;
+    background-color: rgb(89, 38, 81);
+    border-left-color: rgb(249, 160, 0);
+    border-right-color: rgb(249, 160, 0);
+    border-top-color: rgb(249, 160, 0);
+    border-bottom-color: rgb(249, 160, 0);
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
 }

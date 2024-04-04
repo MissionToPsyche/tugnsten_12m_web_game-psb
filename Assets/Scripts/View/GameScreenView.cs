@@ -8,6 +8,7 @@ public class GameScreenUI : MonoBehaviour
     private int minigameIndex;
     private string currentSceneName;
     public TitleController titleController;
+    public AudioClip clip;
     private Button optionsBtn, continueBtn, cancelBtn, mainMenuBtn;
     private VisualElement root, gameScreen, gameBottomContainer, infoPanel, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, optionsContainerBottom;
     private Label minigameTitle, timer;
@@ -33,11 +34,11 @@ public class GameScreenUI : MonoBehaviour
         optionsPanel = root.Q<VisualElement>("options-panel");
         optionsContainerBottom = optionsPanel.Q<VisualElement>("bottom-container");
         optionsBtn = gameButtonContainer.Q<Button>("options-button");
-        optionsBtn.clicked += () => optionsButtonClicked();
+        optionsBtn.clicked += () => { optionsButtonClicked(); playSound(); };
         cancelBtn = optionsContainerBottom.Q<Button>("cancel-button");
-        cancelBtn.clicked += () => cancel();
+        cancelBtn.clicked += () => { cancel(); playSound(); };
         mainMenuBtn = optionsContainerBottom.Q<Button>("main-menu-button");
-        mainMenuBtn.clicked += () => SceneManager.LoadScene("Title");
+        mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); };
 
         continueBtn = gameButtonContainer.Q<Button>("continue-button");
         // continueBtn.clicked += () => continueButtonClicked();
@@ -76,7 +77,10 @@ public class GameScreenUI : MonoBehaviour
         // gameBottomContainer.visible = true;
         optionsPanel.visible = false;
     }
-
+    private void playSound()
+    {
+        SoundManager.Instance.PlaySound(clip);
+    }
     public Label GetTimer()
     {
         return timer;

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using Codice.Client.Common.GameUI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -78,12 +76,9 @@ public class TitleScreenView : MonoBehaviour
         musicSlider = soundbar.Q<Slider>("music-slider");
         soundSlider = soundbar.Q<Slider>("sound-slider");
 
-        closeBtn = creditsScreen.Q<Button>("close-button");
-
-
         ////////////////////////////////////////////////////////////////////////////////
         // CREDITS SCREEN UI ELEMENTS
-
+         closeBtn = creditsScreen.Q<Button>("close-button");
         // optionsScreenView.hideOptionsScreen();
     }
 

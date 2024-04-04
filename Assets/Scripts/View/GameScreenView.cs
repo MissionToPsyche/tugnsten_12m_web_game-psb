@@ -8,7 +8,7 @@ public class GameScreenUI : MonoBehaviour
     private int minigameIndex;
     private string currentSceneName;
     public TitleController titleController;
-    private Button optionsBtn, continueBtn, cancelBtn, mainMenuBtn, infoBtn, closeBtn;
+    private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn;
     private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel;
     private Label minigameTitle, timer;
     private void OnEnable()
@@ -45,12 +45,20 @@ public class GameScreenUI : MonoBehaviour
 
         ////////////////////////////////////////////////////////////////////////////////
         // OPTIONS SCREEN UI ELEMENTS
+        // // loading the options panel UXML file
+        // VisualTreeAsset optionsPanelTree = Resources.Load<VisualTreeAsset>("Assets/UI/UXML/OptionsPanel.uxml");
+        // // cloning the UXML content and add it to root element
+        // Debug.Log(optionsPanelTree == null ? "Failed to load OptionsPanel.uxml" : "OptionsPanel.uxml loaded successfully");
+        // optionsPanel = optionsPanelTree.CloneTree();
+        // root.Add(optionsPanel);
+
         optionsPanel = root.Q<VisualElement>("options-panel");
         soundBar = optionsPanel.Q<VisualElement>("sound-bar");
         optionsButtonContainer = optionsPanel.Q<VisualElement>("options-button-container");
 
         // buttons on the options screen
-        cancelBtn = optionsButtonContainer.Q<Button>("cancel-button");
+        xBtn = optionsPanel.Q<Button>("x-button");
+        resetBtn = optionsButtonContainer.Q<Button>("reset-button");
         mainMenuBtn = optionsButtonContainer.Q<Button>("main-menu-button");
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +70,8 @@ public class GameScreenUI : MonoBehaviour
     private void BindUIEvents()
     {
         optionsBtn.clicked += () => optionsButtonClicked();
-        cancelBtn.clicked += () => cancel();
+        // cancelBtn.clicked += () => cancel();
+        xBtn.clicked += () => cancel();
         mainMenuBtn.clicked += () => SceneManager.LoadScene("Title"); // return to title screen
         infoBtn.clicked += () => infoPanel.visible = true;
         closeBtn.clicked += () => infoPanel.visible = false;

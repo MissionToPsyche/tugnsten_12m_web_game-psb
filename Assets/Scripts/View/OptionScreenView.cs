@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 
 public class OptionsScreenView : MonoBehaviour
 {
+    public AudioClip clip;
     private VisualElement root, optionsPanel, soundBar, buttonContainer;
     private Slider musicSlider, soundSlider;
     private Button cancelBtn, applyBtn;
@@ -29,7 +30,7 @@ public class OptionsScreenView : MonoBehaviour
     {
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
-        cancelBtn.clicked += () => hideOptionsScreen();
+        cancelBtn.clicked += () => { hideOptionsScreen(); playSound(); };
         
     }
     public void hideOptionsScreen()
@@ -56,5 +57,9 @@ public class OptionsScreenView : MonoBehaviour
         Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
         AudioSource audioSource = soundSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue/100;
+    }
+    private void playSound()
+    {
+        SoundManager.Instance.PlaySound(clip);
     }
 }

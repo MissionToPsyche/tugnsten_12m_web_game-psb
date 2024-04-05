@@ -67,4 +67,16 @@ abstract public class GameController : MonoBehaviour
         else
             return "F";
     }
+
+    public float CalcTimePercent(float time, float worstTime, float bestTime)
+    {
+        if (time < bestTime)
+        {
+            time = bestTime;
+        }
+        
+        float timeRange = worstTime - bestTime;
+
+        return Mathf.Clamp01((time - bestTime) / timeRange);
+    }
 }

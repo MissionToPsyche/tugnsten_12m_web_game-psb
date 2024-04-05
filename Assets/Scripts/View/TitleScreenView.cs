@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using Codice.Client.Common.GameUI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -78,12 +76,9 @@ public class TitleScreenView : MonoBehaviour
         musicSlider = soundbar.Q<Slider>("music-slider");
         soundSlider = soundbar.Q<Slider>("sound-slider");
 
-        closeBtn = creditsScreen.Q<Button>("close-button");
-
-
         ////////////////////////////////////////////////////////////////////////////////
         // CREDITS SCREEN UI ELEMENTS
-
+        closeBtn = creditsScreen.Q<Button>("close-button");
         // optionsScreenView.hideOptionsScreen();
     }
 
@@ -102,18 +97,19 @@ public class TitleScreenView : MonoBehaviour
             minigameText.visible = false;
             MinigameSelectMenu.SetActive(false);
             Console.SetActive(false);
+            playSound();
         };
 
-        playMinigameBtn.clicked += () => playMinigameClicked();
+        playMinigameBtn.clicked += () => { playMinigameClicked(); playSound(); };
 
         // Options Screen
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
-        cancelBtn.clicked += () => switchScreen(mainScreen);
+        cancelBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
         
 
         // Credits Screen
-        closeBtn.clicked += () => switchScreen(mainScreen);
+        closeBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
     }
 
     public void setMinigameText(string text)

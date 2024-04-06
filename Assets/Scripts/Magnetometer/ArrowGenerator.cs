@@ -74,7 +74,7 @@ public class ArrowGenerator : MonoBehaviour
         return fieldPoints;
     }
 
-    private bool proximity(Vector3 r, List<(Vector3, Vector3, Vector3)> fieldPoints)
+    public bool proximity(Vector3 r, List<(Vector3, Vector3, Vector3)> fieldPoints)
     {
         foreach ((Vector3, Vector3, Vector3) point in fieldPoints)
         {
@@ -87,7 +87,7 @@ public class ArrowGenerator : MonoBehaviour
         return false;
     }
 
-    private Vector3 calcMagField(Vector3 r, Vector3 magneticMoment)
+    public Vector3 calcMagField(Vector3 r, Vector3 magneticMoment)
     {
         float vacuumPermeability = 4f * Mathf.PI * Mathf.Pow(10f, -7f);
 
@@ -96,6 +96,8 @@ public class ArrowGenerator : MonoBehaviour
         // r = new(6371 * Mathf.Pow(10, 3), 0, 0);
         // r = new(0, 6371 * Mathf.Pow(10, 3), 0);
         // r = new(0, 2, 0);
+        // float minMagnitude = 2 * Mathf.Pow(10f, 13f);
+        // magneticMoment = new Vector3(minMagnitude, 0, 0);
         // r = new(2, 0, 0);
 
         // Calculate the angle between the magnetic moment and the position vector
@@ -132,7 +134,7 @@ public class ArrowGenerator : MonoBehaviour
 
         // combine component vectors
         Vector3 magField = radialVector + tangentialVector;
-        // Debug.Log("magField3: " + magField3);
+        // Debug.Log("magField: " + magField);
 
         return magField;
     }
@@ -193,7 +195,7 @@ public class ArrowGenerator : MonoBehaviour
         }
     }
 
-    private float mapRange(float magStrength)
+    public float mapRange(float magStrength)
     {
         // Debug.Log("mag: " + magStrength);
         // Define the input range
@@ -212,4 +214,5 @@ public class ArrowGenerator : MonoBehaviour
         // Debug.Log("modified Magnitude: " + modifiedMagnitude);
         return modifiedMagnitude;
     }
+    
 }

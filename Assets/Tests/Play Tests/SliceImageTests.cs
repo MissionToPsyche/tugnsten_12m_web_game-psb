@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.EventSystems;
 
 public class sliceImageTests
 {
@@ -156,6 +157,69 @@ public class sliceImageTests
         // Assert that the Image component is attached
         Image image = imgObject.GetComponent<Image>();
         Assert.NotNull(image);
+
+        yield return null;
+    }
+
+    // SnapIfInRange snaps RectTransform to nearest snap point within snapRadius
+    [Test]
+    public void test_snap_if_in_range_snaps_rect_transform()
+    {
+        // Arrange
+        GameObject gameObject = new GameObject("img1");
+        SnapToTarget snapToTarget = gameObject.AddComponent<SnapToTarget>();
+        RectTransform rectTransform = gameObject.AddComponent<RectTransform>();
+        rectTransform.anchoredPosition = new Vector2(100f, 100f);
+        ImageController imageController = gameObject.AddComponent<ImageController>();
+        GameObject gameObject2 = new GameObject("img2");
+        RectTransform rectTransform2 = gameObject2.AddComponent<RectTransform>();
+        rectTransform2.anchoredPosition = new Vector2(125f, 125f);
+        Dictionary<string, Vector2> offsets = new Dictionary<string, Vector2>();
+        offsets.Add("img1", new Vector2(-10f, -10f));
+        offsets.Add("img2", new Vector2(10f, 10f));
+        imageController.setSnapOffsets(offsets);
+        List<GameObject> snapPoints = new List<GameObject>();
+        snapPoints.Add(gameObject);
+        snapPoints.Add(gameObject2);
+        imageController.setSnapPoints(snapPoints);
+
+        // Act
+        snapToTarget.SnapIfInRange();
+
+        // Assert
+        Assert.AreEqual(new Vector2(135, 135), snapToTarget.GetComponent<RectTransform>().anchoredPosition);
+    }
+
+    // Draggable image can be dragged within defined boundaries
+    [UnityTest]
+    public IEnumerator DraggableImageCanBeDraggedWithinBoundaries()
+    {
+        // Arrange
+        GameObject draggableObject = new GameObject();
+        draggableObject.SetActive(false);
+        Draggable draggable = draggableObject.AddComponent<Draggable>();
+        RectTransform rectTransform = draggableObject.AddComponent<RectTransform>();
+        CanvasGroup canvasGroup = draggableObject.AddComponent<CanvasGroup>();
+        // ImagerGameController imagerGameController = new GameObject().AddComponent<ImagerGameController>();
+        SnapToTarget snapToTarget = draggableObject.AddComponent<SnapToTarget>();
+        draggableObject.SetActive(true);
+
+        // draggable.rectTransform = rectTransform;
+        // draggable.canvasGroup = canvasGroup;
+        // draggable.imagerGameController = imagerGameController;
+        // draggable.snapToTarget = snapToTarget;
+
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = new Vector2(1, 1);
+
+        // Act
+        draggable.OnBeginDrag(eventData);
+        draggable.OnDrag(eventData);
+        Vector3 newPosition = rectTransform.position;
+
+        // Assert
+        Assert.AreEqual(newPosition.x, 1);
+        Assert.AreEqual(newPosition.y, 1);
 
         yield return null;
     }

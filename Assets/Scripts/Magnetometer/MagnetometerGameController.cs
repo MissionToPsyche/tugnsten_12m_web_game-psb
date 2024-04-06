@@ -148,7 +148,8 @@ public class MagnetometerGameController : GameController
         }
 
         // Calculate the normalized time (0 to 1)
-        normalizedTime = 1 - Mathf.Clamp01((time - excellentTime) / diff);
+        // normalizedTime = 1 - Mathf.Clamp01((time - excellentTime) / diff);
+        normalizedTime = Mathf.Clamp01((time - excellentTime) / diff);
     
         return normalizedTime;
     }

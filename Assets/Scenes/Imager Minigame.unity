@@ -354,7 +354,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titleController: {fileID: 1395872381}
-  canvas: {fileID: 0}
 --- !u!1 &1060080058
 GameObject:
   m_ObjectHideFlags: 0

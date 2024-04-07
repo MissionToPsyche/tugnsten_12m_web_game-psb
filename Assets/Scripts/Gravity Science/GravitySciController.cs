@@ -26,7 +26,7 @@ public class GravitySciController : GameController
         SetRightBtn();
 
         orbit.distortions = generator.GetDistortions(orbit.numOrbitPoints);
-        ui.CreateSliders(orbit.distortions, orbit.orbitLine, orbit.transform.position);
+        ui.CreateSliders(orbit.distortions, orbit.undistortedOrbitLine, orbit.transform.position);
 
         List<float> referenceWavelengths = new();
         foreach (Distortion distortion in orbit.distortions)

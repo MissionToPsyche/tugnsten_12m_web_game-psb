@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RailsSpacecraft : MonoBehaviour
 {
-    public DistortedOrbit orbit;
+    public RailsOrbit orbit;
 
     public float speed = 35.0f;
     private float currentIndex = 0;
@@ -31,8 +31,8 @@ public class RailsSpacecraft : MonoBehaviour
 
         float lerp = currentIndex - prevIndex;
 
-        Vector3 prevPosition = orbit.distortedOrbitLine[prevIndex] + orbit.transform.position;
-        Vector3 nextPosition = orbit.distortedOrbitLine[nextIndex] + orbit.transform.position;
+        Vector3 prevPosition = orbit.orbitLine[prevIndex] + orbit.transform.position;
+        Vector3 nextPosition = orbit.orbitLine[nextIndex] + orbit.transform.position;
 
         transform.position = Vector3.Lerp(prevPosition, nextPosition, lerp);
     }

@@ -84,11 +84,7 @@ public class TitleScreenView : MonoBehaviour
 
         ////////////////////////////////////////////////////////////////////////////////
         // CREDITS SCREEN UI ELEMENTS
-<<<<<<< Updated upstream
          closeBtn = creditsScreen.Q<Button>("close-button");
-=======
-        closeBtn = creditsScreen.Q<Button>("close-button");
->>>>>>> Stashed changes
         // optionsScreenView.hideOptionsScreen();
     }
 

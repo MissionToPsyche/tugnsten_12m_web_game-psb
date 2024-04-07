@@ -8,10 +8,7 @@ public class GameScreenUI : MonoBehaviour
     private int minigameIndex;
     private string currentSceneName;
     public TitleController titleController;
-<<<<<<< Updated upstream
-=======
     public AudioClip clip;
->>>>>>> Stashed changes
     private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn;
     private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel;
     private Label minigameTitle, timer;
@@ -39,13 +36,10 @@ public class GameScreenUI : MonoBehaviour
         timer = topBorder.Q<Label>("timer-label");
         minigameTitle = gameBottomContainer.Q<Label>("minigame-title");
         minigameTitle.text = titleController.getMinigameText(minigameIndex); // setting the minigame title
-<<<<<<< Updated upstream
-=======
 
         //buttons on the game screen
         infoBtn = gameTopContainer.Q<Button>("help-button");
         optionsBtn = gameButtonContainer.Q<Button>("options-button");
->>>>>>> Stashed changes
 
         //buttons on the game screen
         infoBtn = gameTopContainer.Q<Button>("help-button");
@@ -80,21 +74,12 @@ public class GameScreenUI : MonoBehaviour
 
     private void BindUIEvents()
     {
-<<<<<<< Updated upstream
-        optionsBtn.clicked += () => optionsButtonClicked();
-        // cancelBtn.clicked += () => cancel();
-        xBtn.clicked += () => cancel();
-        mainMenuBtn.clicked += () => SceneManager.LoadScene("Title"); // return to title screen
-        infoBtn.clicked += () => infoPanel.visible = true;
-        closeBtn.clicked += () => infoPanel.visible = false;
-=======
         optionsBtn.clicked += () => { optionsButtonClicked(); playSound(); };
         // cancelBtn.clicked += () => cancel();
         xBtn.clicked += () => { cancel(); playSound(); };
         mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); }; // return to title screen
         infoBtn.clicked += () => { infoPanel.visible = true; playSound(); };
         closeBtn.clicked += () => { infoPanel.visible = false; playSound(); };
->>>>>>> Stashed changes
     }
 
     public Button getContinueButton()

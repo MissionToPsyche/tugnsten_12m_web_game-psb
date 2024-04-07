@@ -10,6 +10,13 @@ public class OrbitDataGenerator : MonoBehaviour
         public Vector2 velocity;
     }
 
+    private struct SpacecraftStateRange
+    {
+        public Vector2 position;
+        public Vector2 minVelocity;
+        public Vector2 maxVelocity;
+    }
+
     private struct Orbit
     {
         public float periapsisDistance;
@@ -33,11 +40,70 @@ public class OrbitDataGenerator : MonoBehaviour
         new() {position = new Vector2(0, 2.1f), velocity = new Vector2(-1.23f, 0)},  // Orbit D 
     };
 
-    private readonly SpacecraftState[] randomStates = {
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.55f, 0)},
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.1f, 0)},
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.1f, 1.1f)},
-        new() {position = new Vector2(0, -2.2f), velocity = new Vector2(1.5f, 0.75f)},
+    private readonly SpacecraftStateRange[] randomStates = {
+        // Low start
+        new() {
+            position = new Vector2(1.5f, 0),
+            minVelocity = new Vector2(0, 1.6f),
+            maxVelocity = new Vector2(0, 2.31f)
+        },
+        new() {
+            position = new Vector2(-1.5f, 0),
+            minVelocity = new Vector2(0, -1.6f),
+            maxVelocity = new Vector2(0, -2.31f)
+        },
+        new() {
+            position = new Vector2(0, 1.5f),
+            minVelocity = new Vector2(1.6f, 0),
+            maxVelocity = new Vector2(2.31f, 0)
+        },
+        new() {
+            position = new Vector2(0, -1.5f),
+            minVelocity = new Vector2(-1.6f, 0),
+            maxVelocity = new Vector2(-2.31f, 0)
+        },
+        // Medium start
+        new() {
+            position = new Vector2(3f, 0),
+            minVelocity = new Vector2(0, 0.9f),
+            maxVelocity = new Vector2(0, 1.5f)
+        },
+        new() {
+            position = new Vector2(-3f, 0),
+            minVelocity = new Vector2(0, -0.9f),
+            maxVelocity = new Vector2(0, -1.5f)
+        },
+        new() {
+            position = new Vector2(0, 3f),
+            minVelocity = new Vector2(0.9f, 0),
+            maxVelocity = new Vector2(1.5f, 0)
+        },
+        new() {
+            position = new Vector2(0, -3f),
+            minVelocity = new Vector2(-0.9f, 0),
+            maxVelocity = new Vector2(-1.5f, 0)
+        },
+        // High start
+        new() {
+            position = new Vector2(5f, 0),
+            minVelocity = new Vector2(0, 0.6f),
+            maxVelocity = new Vector2(0, 1.05f)
+        },
+        new() {
+            position = new Vector2(-5f, 0),
+            minVelocity = new Vector2(0, -0.6f),
+            maxVelocity = new Vector2(0, -1.05f)
+        },
+        new() {
+            position = new Vector2(0, 5f),
+            minVelocity = new Vector2(0.6f, 0),
+            maxVelocity = new Vector2(1.05f, 0)
+        },
+        new() {
+            position = new Vector2(0, -5f),
+            minVelocity = new Vector2(-0.6f, 0),
+            maxVelocity = new Vector2(-1.05f, 0)
+        },
     };
 
     // 0 for capture state, 1 - 4 for mission orbits, -1 for random
@@ -51,7 +117,16 @@ public class OrbitDataGenerator : MonoBehaviour
         }
         else
         {
-            state = randomStates[Random.Range(0, randomStates.Length)];
+            SpacecraftStateRange parameters = randomStates[Random.Range(0, randomStates.Length)];
+            
+            float xVel = Random.Range(parameters.minVelocity.x, parameters.maxVelocity.x);
+            float yVel = Random.Range(parameters.minVelocity.y, parameters.maxVelocity.y);
+
+            state = new()
+            {
+                position = parameters.position,
+                velocity = new(xVel, yVel)
+            };
         }
 
         return(state.position, state.velocity);

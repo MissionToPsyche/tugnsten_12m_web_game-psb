@@ -764,6 +764,7 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: 5c94beb16bb587bd9a011be115be06f9, type: 3}
   MinigameSelectMenu: {fileID: 1686762463}
   Console: {fileID: 1777323401}
+  optionsScreenView: {fileID: 0}
 --- !u!1 &478342363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,7 +1221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fbc2cd7223f3fb429dbd47fbbd31e3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
+  cam: {fileID: 801770614}
 --- !u!1 &931304058
 GameObject:
   m_ObjectHideFlags: 0
@@ -2230,7 +2231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1777323402
 Transform:
   m_ObjectHideFlags: 0

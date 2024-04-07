@@ -10,7 +10,7 @@ public class CameraZoom : MonoBehaviour
     // private float finalZoom = 25.0f; // how far to zoom (smaller = closer)
     private float finalZoom = 4.0f; // how far to zoom (smaller = closer)
     // private float zoomSpeed = 30.5f;
-    private float zoomSpeed = 5f;
+    private float zoomSpeed = 2f;
     private bool move;
     // private float moveSpeed = 25.0f;
     private float moveSpeed = 20.0f;
@@ -30,11 +30,16 @@ public class CameraZoom : MonoBehaviour
         return cam.transform.position;
     }
 
+    public void setTitleController(TitleController titleController)
+    {
+        this.titleController = titleController;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
-        titleController = GameObject.Find("TitleController").GetComponent<TitleController>();
+        //titleController = GameObject.Find("TitleController").GetComponent<TitleController>();
         // want y to reach 12 but set y dest to 30 b/c camera stops before reaching it
         // destPosition = new Vector3(cam.transform.position.x, 30f, cam.transform.position.z); 
         // destPosition = new Vector3(cam.transform.position.x, 45.0f, cam.transform.position.z); 

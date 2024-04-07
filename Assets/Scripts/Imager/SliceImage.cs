@@ -255,7 +255,7 @@ public class SliceImage : MonoBehaviour
 
 
         imgObject.AddComponent<ImageController>();
-         imgObject.AddComponent<Draggable>(); // adding script to drag image
+        imgObject.AddComponent<Draggable>(); // adding script to drag image
         //imgObject.AddComponent<RaycastController>();
 
         // adding script to snap image

@@ -8,6 +8,7 @@ public class GameScreenUI : MonoBehaviour
     private int minigameIndex;
     private string currentSceneName;
     public TitleController titleController;
+    public AudioClip clip;
     private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn;
     private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel;
     private Label minigameTitle, timer;
@@ -39,6 +40,7 @@ public class GameScreenUI : MonoBehaviour
         //buttons on the game screen
         infoBtn = gameTopContainer.Q<Button>("help-button");
         optionsBtn = gameButtonContainer.Q<Button>("options-button");
+
         continueBtn = gameButtonContainer.Q<Button>("continue-button");
         // continueBtn.clicked += () => continueButtonClicked();
         // continueBtn.clicked += () => rightButtonClicked(string action);
@@ -69,12 +71,12 @@ public class GameScreenUI : MonoBehaviour
 
     private void BindUIEvents()
     {
-        optionsBtn.clicked += () => optionsButtonClicked();
+        optionsBtn.clicked += () => { optionsButtonClicked(); playSound(); };
         // cancelBtn.clicked += () => cancel();
-        xBtn.clicked += () => cancel();
-        mainMenuBtn.clicked += () => SceneManager.LoadScene("Title"); // return to title screen
-        infoBtn.clicked += () => infoPanel.visible = true;
-        closeBtn.clicked += () => infoPanel.visible = false;
+        xBtn.clicked += () => { cancel(); playSound(); };
+        mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); }; // return to title screen
+        infoBtn.clicked += () => { infoPanel.visible = true; playSound(); };
+        closeBtn.clicked += () => { infoPanel.visible = false; playSound(); };
     }
 
     public Button getContinueButton()
@@ -103,7 +105,10 @@ public class GameScreenUI : MonoBehaviour
         gameScreen.visible = true;
         optionsPanel.visible = false;
     }
-
+    private void playSound()
+    {
+        SoundManager.Instance.PlaySound(clip);
+    }
     public Label GetTimer()
     {
         return timer;

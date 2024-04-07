@@ -84,7 +84,7 @@ public class TitleScreenView : MonoBehaviour
 
         ////////////////////////////////////////////////////////////////////////////////
         // CREDITS SCREEN UI ELEMENTS
-         closeBtn = creditsScreen.Q<Button>("close-button");
+        closeBtn = creditsScreen.Q<Button>("close-button");
         // optionsScreenView.hideOptionsScreen();
     }
 
@@ -103,18 +103,19 @@ public class TitleScreenView : MonoBehaviour
             minigameText.visible = false;
             MinigameSelectMenu.SetActive(false);
             Console.SetActive(false);
+            playSound();
         };
 
-        playMinigameBtn.clicked += () => playMinigame();
+        playMinigameBtn.clicked += () => { playMinigame(); playSound(); };
 
         // Options Screen
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
-        cancelBtn.clicked += () => switchScreen(mainScreen);
+        cancelBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
         
 
         // Credits Screen
-        closeBtn.clicked += () => switchScreen(mainScreen);
+        closeBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
     }
 
     public void setMinigameText(string text)

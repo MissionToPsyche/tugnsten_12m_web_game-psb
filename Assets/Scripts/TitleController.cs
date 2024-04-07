@@ -30,7 +30,7 @@ public class TitleController : MonoBehaviour
         "Spectrometer_minigame",
         "Orbit_subgame",
     };
-    private string nextScene = "Magnetometer_minigame";
+    private string currentScene = "Magnetometer_minigame";
     private int index;
 
     public Vector3[] getAllPositions()
@@ -43,20 +43,15 @@ public class TitleController : MonoBehaviour
         return positions[index];
     }
 
-    public int getIndex()
+    public string getScene()
     {
-        return index;
-    }
-
-    public string getNextScene()
-    {
-        return nextScene;
+        return currentScene;
     }
 
     public void setMinigame(int index)
     {
         this.index = index;
-        nextScene = scenes[index];
+        currentScene = scenes[index];
     }
 
     public string getMinigameText(int index)
@@ -64,7 +59,6 @@ public class TitleController : MonoBehaviour
         return minigames[index];
     }
 
-    // Start is called before the first frame update
     public void minigameSelect(Label minigameText)
     {
         setMinigame(0);
@@ -78,7 +72,7 @@ public class TitleController : MonoBehaviour
         if(minigameText != null && index >= 0 && index < minigames.Length)
         {
             minigameText.text = minigames[index];
-            nextScene = scenes[index];
+            currentScene = scenes[index];
         }
         setMinigame(index);
     }

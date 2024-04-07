@@ -14,8 +14,8 @@ public class ButtonController : MonoBehaviour
 
     public void changeScene()
     {
-        Debug.Log("change to: " + titleController.getNextScene());
-        cameraZoom.startCameraMove(titleController.getNextScene());
+        Debug.Log("change to: " + titleController.getScene());
+        cameraZoom.startCameraMove(titleController.getScene());
         // sceneChanger.NextScene(titleController.getNextScene());
     }
 

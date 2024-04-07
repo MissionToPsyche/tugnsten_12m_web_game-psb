@@ -104,24 +104,8 @@ public class ImagerGameController : GameController
 
     override public void CalcScore()
     {
-        float excellentTime = 4.0f;
-        float lowTime = 100f;
-        float diff = lowTime - excellentTime;
-
-        float time = timer.getTime();
-
-        if(time < excellentTime)
-        {
-            score = maxScore;
-        }
-        else
-        {
-            // Calculate the normalized time (0 to 1)
-            float normalizedTime = Mathf.Clamp01((time - excellentTime) / diff);
-
-            // Map the normalized time to a score between 10000 and 0
-            score = Mathf.RoundToInt(maxScore - (normalizedTime * maxScore));
-        }
+        float timePercent = CalcTimePercent(timer.getTime(), 100, 4);    
+        score = Mathf.RoundToInt(maxScore - (timePercent * maxScore));
     }
 
     override public void SetRightBtn()

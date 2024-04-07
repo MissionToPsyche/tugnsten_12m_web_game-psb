@@ -10455,6 +10455,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543450652254639083}
   - component: {fileID: 1105785295}
+  - component: {fileID: 919132148318325074}
   m_Layer: 0
   m_Name: Psyche
   m_TagString: Untagged
@@ -10462,6 +10463,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &919132148318325074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148318325073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b33016108baa24b9a21c30443b4fb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xRotationRate: 1
+  yRotationRate: -2
+  zRotationRate: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

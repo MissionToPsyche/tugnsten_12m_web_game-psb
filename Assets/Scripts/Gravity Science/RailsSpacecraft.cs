@@ -23,17 +23,23 @@ public class RailsSpacecraft : MonoBehaviour
 
     public void UpdatePosition()
     {
-        currentIndex += speed * Time.deltaTime;
-        currentIndex = Mathf.Repeat(currentIndex, orbit.numOrbitPoints); // Wrap around after reaching the end
-
         int prevIndex = Mathf.FloorToInt(currentIndex);
         int nextIndex = (prevIndex + 1) % orbit.numOrbitPoints;
-
-        float lerp = currentIndex - prevIndex;
-
+        float t = currentIndex - prevIndex;
+        
         Vector3 prevPosition = orbit.orbitLine[prevIndex] + orbit.transform.position;
         Vector3 nextPosition = orbit.orbitLine[nextIndex] + orbit.transform.position;
+        Vector3 position = Vector3.Lerp(prevPosition, nextPosition, t);
 
-        transform.position = Vector3.Lerp(prevPosition, nextPosition, lerp);
+        // Approximates Kepler's law using the altitude to vary speed based on
+        // position in orbit.
+        Vector3 radiusVector = position - orbit.parent.transform.position;
+        float radius = radiusVector.magnitude;
+        float speedMultiplier = 1.0f / Mathf.Sqrt(radius);
+
+        currentIndex += speed * speedMultiplier * Time.deltaTime;
+        currentIndex = Mathf.Repeat(currentIndex, orbit.numOrbitPoints); // Wrap around after reaching the end
+
+        transform.position = position;
     }
 }

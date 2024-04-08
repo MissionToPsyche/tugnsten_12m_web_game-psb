@@ -10,7 +10,7 @@ public class CameraZoom : MonoBehaviour
     // private float finalZoom = 25.0f; // how far to zoom (smaller = closer)
     private float finalZoom = 4.0f; // how far to zoom (smaller = closer)
     // private float zoomSpeed = 30.5f;
-    private float zoomSpeed = 2f;
+    private float zoomSpeed = 6f;
     private bool move;
     // private float moveSpeed = 25.0f;
     private float moveSpeed = 20.0f;
@@ -46,7 +46,7 @@ public class CameraZoom : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         // if(cam.orthographicSize <= finalZoom && zoom) 
         // {

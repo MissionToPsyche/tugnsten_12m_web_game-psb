@@ -396,8 +396,6 @@
     padding-left: 0;
     -unity-background-image-tint-color: rgb(168, 168, 168);
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 .img-button:focus {
     background-color: rgba(0, 0, 0, 0);
@@ -410,7 +408,3 @@
     padding-bottom: 0;
     padding-left: 0;
 }
-=======
->>>>>>> 8d9c88ec218c0f3db5ae6d2a3c5653b39ac5a2fb
-=======
->>>>>>> parent of 87a2110 (Added orbit in minigame menu and arrows buttons for moving. Plus other UI things)

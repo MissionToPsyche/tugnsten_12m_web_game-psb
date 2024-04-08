@@ -14,7 +14,7 @@ public class SlideCamera : MonoBehaviour
     private Vector3[] positions;
 
     private int currentIndex = 0;
-    private float speed = 2.0f;
+    private float speed = 8.0f;
 
     private TitleController titleController;
 
@@ -36,14 +36,14 @@ public class SlideCamera : MonoBehaviour
     {
         Vector3 currentPos = positions[currentIndex];
         
-        if(Input.GetKeyUp(KeyCode.RightArrow)) {
+        if(Input.GetKeyDown(KeyCode.RightArrow)) {
             if(currentIndex < positions.Length - 1)
             {
                 currentIndex++;
                 titleController.setMinigame(currentIndex);
             }
         }
-        if(Input.GetKeyUp(KeyCode.LeftArrow))
+        if(Input.GetKeyDown(KeyCode.LeftArrow))
         {
             if(currentIndex > 0) 
             {

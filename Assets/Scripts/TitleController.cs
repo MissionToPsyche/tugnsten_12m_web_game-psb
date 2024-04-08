@@ -13,7 +13,6 @@ public class TitleController : MonoBehaviour
         new Vector3(145f, 0f, -10f),
         new Vector3(293f, 0f, -10f),
         new Vector3(438f, 0f, -10f),
-        new Vector3(583f, 0f, -10f),
     };
 
     private string[] minigames = new string[] {
@@ -47,39 +46,6 @@ public class TitleController : MonoBehaviour
     public string getScene()
     {
         return currentScene;
-<<<<<<< HEAD
-    }
-
-    public bool isFirstScene()
-    {
-        return index == 0;
-    }
-
-    public bool isLastScene()
-    {
-        return index == scenes.Length - 1;
-    }
-    public void getNextScene()
-    {
-        // avoid re-traversing through the array
-        if (index < positions.Length - 1)
-        {
-            index = (index + 1) % positions.Length; // making sure its in bound
-            currentScene = scenes[index];
-        }
-
-    }
-
-    public void getPrevScene()
-    {
-        // avoid re-traversing through the array
-        if (index > 0)
-        {
-            index = (index - 1 + scenes.Length) % scenes.Length; // making sure its in bound
-
-        }
-=======
->>>>>>> 8d9c88ec218c0f3db5ae6d2a3c5653b39ac5a2fb
     }
 
     public void setMinigame(int index)
@@ -97,11 +63,13 @@ public class TitleController : MonoBehaviour
     {
         setMinigame(0);
         minigameText.text = minigames[index];
+
     }
+
 
     public void updateMinigame(Label minigameText)
     {
-        if (minigameText != null && index >= 0 && index < minigames.Length)
+        if(minigameText != null && index >= 0 && index < minigames.Length)
         {
             minigameText.text = minigames[index];
             currentScene = scenes[index];
@@ -110,19 +78,15 @@ public class TitleController : MonoBehaviour
     }
     public int getSceneIndex(string name)
     {
-        for (int i = 0; i < scenes.Length; i++)
+        for(int i = 0; i < scenes.Length; i++)
         {
-            if (scenes[i] == name)
+            if(scenes[i] == name)
             {
                 return i;
             }
         }
         Debug.Log("Scene not found");
         return -1;
-    }
-    public void setSceneIndex(int index)
-    {
-        this.index = index;
     }
     public string getSceneName(int index)
     {

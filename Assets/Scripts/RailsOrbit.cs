@@ -10,15 +10,10 @@ public class RailsOrbit : MonoBehaviour
     public int numOrbitPoints = 400;
     public Vector3[] orbitLine;
 
-    public GameObject parent;
-
     public float apoapsisDistance = 2;
     public float periapsisDistance = 1;
     [Range(0, 360)]
     public float rotation;
-
-    [Range(0, 360)]
-    public float tilt;
 
     void Reset()
     {
@@ -38,8 +33,6 @@ public class RailsOrbit : MonoBehaviour
 
         // Constrains the apoapsis to be greater than the periapsis
         apoapsisDistance = Mathf.Max(apoapsisDistance, periapsisDistance);
-
-        transform.position = parent.transform.position;
 
         DrawOrbit();
     }
@@ -73,7 +66,7 @@ public class RailsOrbit : MonoBehaviour
             points[i] = new Vector3(x + focus, y, 0);
 
             // Rotates each point around origin, which rotates the whole ellipse.
-            points[i] = Quaternion.Euler(tilt, 0, rotation) * points[i];
+            points[i] = Quaternion.Euler(0, 0, rotation) * points[i];
         }
 
         // Make the last point identical to the first point to close the shape. 

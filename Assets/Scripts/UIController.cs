@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using TMPro;
 
 abstract public class UIController : MonoBehaviour
 {

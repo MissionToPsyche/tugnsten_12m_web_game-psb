@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/TransitionController.cs.meta
+guid: 502176eb110781140a95cca5e367ca1e
+========
+guid: a879c78e51cb61844bb190885d271488
+>>>>>>>> 8d9c88ec218c0f3db5ae6d2a3c5653b39ac5a2fb:Assets/Scripts/RailsOrbit.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

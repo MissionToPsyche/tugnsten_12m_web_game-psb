@@ -16,6 +16,9 @@ public class SnapToTarget : MonoBehaviour
             if(Mathf.Abs(Vector2.Distance(GetComponent<RectTransform>().anchoredPosition, snapPoint)) < snapRadius)
             {
                 GetComponent<RectTransform>().anchoredPosition = snapPoint;
+                AudioClip audioClip = (AudioClip)Resources.Load("Sounds/setting-pencil-down-87055");
+                SoundManager.Instance.PlaySound(audioClip);
+                break;
             }
         }
     }

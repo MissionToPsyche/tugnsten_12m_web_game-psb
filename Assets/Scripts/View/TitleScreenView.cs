@@ -32,7 +32,10 @@ public class TitleScreenView : MonoBehaviour
 
     void Update()
     {
-        updateMinigameScreen();
+        if (gameSelectScreen.visible)
+        {
+            updateMinigameScreen();
+        }
 
     }
 

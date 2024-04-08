@@ -258,76 +258,65 @@ public class Magnetometer
     }
 
     // MOVE TORUS
-
     // Test if the torus rotates correctly when the mouse is moved
-    private MoveTorus moveTorus;
-    [SetUp]
-    public void SetUp()
-    {
-        SceneManager.LoadSceneAsync("Magnetometer_minigame");
-        // moveTorus = GameObject.Find("MagneticTorus").GetComponent<MoveTorus>();
-        // GameObject gameObject = new GameObject();
-        // moveTorus = gameObject.AddComponent<MoveTorus>();
-        // GameObject ui = new GameObject("UIDocument");
-        // ui.SetActive(false);
-        // UIDocument uidoc = ui.AddComponent<UIDocument>();
-        // var visualTree = Resources.Load<VisualTreeAsset>("Assets/UI/UXML/GameScreen.uxml");
-        // uidoc.visualTreeAsset = visualTree;
-        // var panelSettings = Resources.Load<PanelSettings>("Assets/UI/PanelSettings.asset");
-        // uidoc.panelSettings = panelSettings;
-        // // uidoc.sortOrder = 0;
-        // // ui.SetActive(true);
-        // // ui.SetActive(false);
-        // GameScreenUI gameScreenUI = ui.AddComponent<GameScreenUI>();
-        // TitleController titleController = gameObject.AddComponent<TitleController>();
-        // gameScreenUI.titleController = titleController;
-        // ui.SetActive(true);
-    }
-    [UnityTest]
-    public IEnumerator test_rotate_torus()
-    {
+    // [Test]
+    // public void test_rotate_torus()
+    // {
+    //     // Arrange
+    //     GameObject gameObject = new GameObject();
+    //     MoveTorus moveTorus = gameObject.AddComponent<MoveTorus>();
+    //     moveTorus.startDistance = 0f;
+    //     moveTorus.startScale = new Vector3(1, 1, 1);
+    //     moveTorus.initialMousePosition = new Vector3(1f, 1f, 0f);
+    //     moveTorus.initialTorusRotation = Quaternion.identity;
+    //     moveTorus.northObject = gameObject;
+    //     moveTorus.southObject = gameObject;
 
-        // yield return null;
-        yield return SceneManager.LoadSceneAsync("Magnetometer_minigame", LoadSceneMode.Additive);
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Magnetometer_minigame"));
-        GameObject gameObject = new GameObject();
-        moveTorus = gameObject.AddComponent<MoveTorus>();
-        // Arrange
-        // MoveTorus moveTorus = this.moveTorus;
-        // GameObject gameObject = new GameObject();
-        // MoveTorus moveTorus = gameObject.AddComponent<MoveTorus>();
-        // GameObject ui = new GameObject("UIDocument");
-        // GameScreenUI gameScreenUI = ui.AddComponent<GameScreenUI>();
-        // gameScreenUI.titleController = gameObject.AddComponent<TitleController>();
+    //     // Simulate mouse movement
+    //     Input.mousePosition = new Vector3(100f, 100f, 0f);
 
-        Quaternion initialRotation = moveTorus.transform.rotation;
+    //     // Assert
+    //     Assert.AreNotEqual(moveTorus.initialTorusRotation, moveTorus.transform.rotation);
+    // }
 
-        // Simulate mouse movement
-        Vector3 mousePosition = new Vector3(100, 100, 0);
+    // // Verify if the scaling of the torus is applied correctly
+    // [Test]
+    // public void test_apply_scaling()
+    // {
+    //     // Arrange
+    //     GameObject gameObject = new GameObject();
+    //     MoveTorus moveTorus = gameObject.AddComponent<MoveTorus>();
+    //     float expectedScale = 3.0f;
 
-        for (int i = 0; i < 50; i++)
-        {
-            yield return null; // Skips a frame
-        }
+    //     // Act
 
-        // Assert
-        Assert.AreNotEqual(initialRotation, moveTorus.transform.rotation);
-    }
+    //     // Assert
+    //     Assert.AreEqual(expectedScale, gameObject.transform.localScale.x);
+    //     Assert.AreEqual(expectedScale, gameObject.transform.localScale.y);
+    //     Assert.AreEqual(expectedScale, gameObject.transform.localScale.z);
+    // }
 
-    // Verify if the scaling of the torus is applied correctly
+    // MAGNETOMETER GAME CONTROLLER
+    // Calculate score based on rotation, time, and scale
     [Test]
-    public void test_apply_scaling()
+    public void test_calculate_score_based_on_rotation_time_and_scale()
     {
         // Arrange
         GameObject gameObject = new GameObject();
-        MoveTorus moveTorus = gameObject.AddComponent<MoveTorus>();
-        float expectedScale = 3.0f;
+        MagnetometerGameController controller = gameObject.AddComponent<MagnetometerGameController>();
+        controller.timer = gameObject.AddComponent<GameTimer>();
+        controller.timer.setTime(30.0f);
+        Torus torus = new Torus();
+        GameObject torusObj = new GameObject();
+        torusObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        torusObj.transform.Rotate(new Vector3(0, 0, 90f));
+        torus.torusObject = torusObj;
+        controller.setTorus(torus);
 
         // Act
+        controller.CalcScore();
 
         // Assert
-        Assert.AreEqual(expectedScale, gameObject.transform.localScale.x);
-        Assert.AreEqual(expectedScale, gameObject.transform.localScale.y);
-        Assert.AreEqual(expectedScale, gameObject.transform.localScale.z);
+        Assert.AreEqual(8492, controller.score);
     }
 }

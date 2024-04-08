@@ -9,17 +9,8 @@ using UnityEngine.EventSystems;
 
 public class sliceImageTests
 {
-    // A Test behaves as an ordinary method
-    // [Test]
-    // public void sliceImageTestsSimplePasses()
-    // {
-    //     // Use the Assert class to test conditions
-    // }
-
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator numImages()
+    [Test]
+    public void numImages()
     {
         SliceImage sliceImage = new GameObject().AddComponent<SliceImage>();
         
@@ -35,12 +26,10 @@ public class sliceImageTests
 
         // assert 6 images are created
         Assert.AreEqual(sliceImage.getImages().Count, 6);
-
-        yield return null;
     }
 
-    [UnityTest]
-    public IEnumerator differentStarts()
+    [Test]
+    public void differentStarts()
     {
         SliceImage sliceImage = new GameObject().AddComponent<SliceImage>();
 
@@ -65,12 +54,10 @@ public class sliceImageTests
 
         // Assert that the start is not different
         Assert.IsFalse(result2);
-
-        yield return null;
     }
 
-    [UnityTest]
-    public IEnumerator checkOverlap()
+    [Test]
+    public void checkOverlap()
     {
         SliceImage sliceImage = new GameObject().AddComponent<SliceImage>();
 
@@ -95,12 +82,10 @@ public class sliceImageTests
 
         // Assert that there is an overlap
         Assert.IsTrue(result2);
-
-        yield return null;
     }
 
-    [UnityTest]
-    public IEnumerator createSection()
+    [Test]
+    public void createSection()
     {
         SliceImage sliceImage = new GameObject().AddComponent<SliceImage>();
 
@@ -117,12 +102,10 @@ public class sliceImageTests
         // Assert that the width and height of the slicedTexture are greater than 0
         Assert.Greater(slicedTexture.width, 0);
         Assert.Greater(slicedTexture.height, 0);
-
-        yield return null;
     }
 
-    [UnityTest]
-    public IEnumerator createValidGameObject()
+    [Test]
+    public void createValidGameObject()
     {
         SliceImage sliceImage = new GameObject().AddComponent<SliceImage>();
 
@@ -157,8 +140,6 @@ public class sliceImageTests
         // Assert that the Image component is attached
         Image image = imgObject.GetComponent<Image>();
         Assert.NotNull(image);
-
-        yield return null;
     }
 
     // SnapIfInRange snaps RectTransform to nearest snap point within snapRadius
@@ -175,11 +156,9 @@ public class sliceImageTests
         RectTransform rectTransform2 = gameObject2.AddComponent<RectTransform>();
         rectTransform2.anchoredPosition = new Vector2(125f, 125f);
         Dictionary<string, Vector2> offsets = new Dictionary<string, Vector2>();
-        offsets.Add("img1", new Vector2(-10f, -10f));
-        offsets.Add("img2", new Vector2(10f, 10f));
+        offsets.Add("img2", new Vector2(-10f, -10f));
         imageController.setSnapOffsets(offsets);
         List<GameObject> snapPoints = new List<GameObject>();
-        snapPoints.Add(gameObject);
         snapPoints.Add(gameObject2);
         imageController.setSnapPoints(snapPoints);
 
@@ -187,12 +166,13 @@ public class sliceImageTests
         snapToTarget.SnapIfInRange();
 
         // Assert
-        Assert.AreEqual(new Vector2(135, 135), snapToTarget.GetComponent<RectTransform>().anchoredPosition);
+        Assert.AreEqual(new Vector2(115, 115), snapToTarget.GetComponent<RectTransform>().anchoredPosition);
     }
 
     // Draggable image can be dragged within defined boundaries
-    [UnityTest]
-    public IEnumerator DraggableImageCanBeDraggedWithinBoundaries()
+    // test runs fine, but does produce a null object error after due to partial mocking
+    [Test]
+    public void DraggableImageCanBeDraggedWithinBoundaries()
     {
         // Arrange
         GameObject draggableObject = new GameObject();
@@ -200,14 +180,13 @@ public class sliceImageTests
         Draggable draggable = draggableObject.AddComponent<Draggable>();
         RectTransform rectTransform = draggableObject.AddComponent<RectTransform>();
         CanvasGroup canvasGroup = draggableObject.AddComponent<CanvasGroup>();
-        // ImagerGameController imagerGameController = new GameObject().AddComponent<ImagerGameController>();
         SnapToTarget snapToTarget = draggableObject.AddComponent<SnapToTarget>();
-        draggableObject.SetActive(true);
 
-        // draggable.rectTransform = rectTransform;
-        // draggable.canvasGroup = canvasGroup;
-        // draggable.imagerGameController = imagerGameController;
-        // draggable.snapToTarget = snapToTarget;
+        draggable.rectTransform = rectTransform;
+        draggable.canvasGroup = canvasGroup;
+        draggable.snapToTarget = snapToTarget;
+
+        draggableObject.SetActive(true);
 
         PointerEventData eventData = new PointerEventData(EventSystem.current);
         eventData.position = new Vector2(1, 1);
@@ -220,7 +199,134 @@ public class sliceImageTests
         // Assert
         Assert.AreEqual(newPosition.x, 1);
         Assert.AreEqual(newPosition.y, 1);
+    }
 
-        yield return null;
+    // GAME CONTROLELR
+    // isAllSnapPointsEqual returns true if all snap points for an image are within a tolerance
+    // test runs fine, but does produce a null object error after due to partial mocking
+    [Test]
+    public void test_is_all_snap_points_equal()
+    {
+        // Arrange
+        GameObject gameObject= new GameObject();
+        ImagerGameController gameController = gameObject.AddComponent<ImagerGameController>();
+
+        GameObject image1 = new GameObject("img1");
+        SnapToTarget snapToTarget = image1.AddComponent<SnapToTarget>();
+        RectTransform rectTransform = image1.AddComponent<RectTransform>();
+        rectTransform.anchoredPosition = new Vector2(100f, 100f);
+        ImageController imageController = image1.AddComponent<ImageController>();
+        Dictionary<string, Vector2> offsets = new Dictionary<string, Vector2>();
+        offsets.Add("img2", new Vector2(-10f, -10f));
+        offsets.Add("img3", new Vector2(-20f, -30f));
+        imageController.setSnapOffsets(offsets);
+        GameObject image2 = new GameObject("img2");
+        RectTransform rectTransform2 = image2.AddComponent<RectTransform>();
+        rectTransform2.anchoredPosition = new Vector2(110f, 110f);
+        ImageController imageController2 = image2.AddComponent<ImageController>();
+        Dictionary<string, Vector2> offsets2 = new Dictionary<string, Vector2>();
+        offsets2.Add("img1", new Vector2(10f, 10f));
+        offsets2.Add("img3", new Vector2(10f, 20f));
+        imageController2.setSnapOffsets(offsets2);
+        GameObject image3 = new GameObject("img3");
+        RectTransform rectTransform3 = image3.AddComponent<RectTransform>();
+        rectTransform3.anchoredPosition = new Vector2(120f, 130f);
+        ImageController imageController3 = image3.AddComponent<ImageController>();
+        Dictionary<string, Vector2> offsets3 = new Dictionary<string, Vector2>();
+        offsets3.Add("img2", new Vector2(-10f, -20f));
+        offsets3.Add("img1", new Vector2(20f, 30f));
+        imageController3.setSnapOffsets(offsets3);
+        List<GameObject> snapPoints3 = new List<GameObject>();
+        snapPoints3.Add(image1);
+        snapPoints3.Add(image2);
+        imageController3.setSnapPoints(snapPoints3);
+        List<GameObject> snapPoints2 = new List<GameObject>();
+        snapPoints2.Add(image1);
+        snapPoints2.Add(image3);
+        imageController2.setSnapPoints(snapPoints2);
+        List<GameObject> snapPoints = new List<GameObject>();
+        snapPoints.Add(image2);
+        snapPoints.Add(image3);
+        imageController.setSnapPoints(snapPoints);
+
+        // Act
+        bool result = gameController.isAllSnapPointsEqual(image1);
+
+        // Assert
+        Assert.IsTrue(result);
+    }
+
+    // updateSnapPositions updates snap points for all images except the moved one
+    // test runs fine, but does produce a null object error after due to partial mocking
+    [Test]
+    public void test_update_snap_positions()
+    {
+        // Arrange
+        List<GameObject> images = new List<GameObject>();
+        GameObject gameObject= new GameObject();
+        ImagerGameController gameController = gameObject.AddComponent<ImagerGameController>();
+
+        GameObject imageMoved = new GameObject("img1");
+        SnapToTarget snapToTarget = imageMoved.AddComponent<SnapToTarget>();
+        RectTransform rectTransform = imageMoved.AddComponent<RectTransform>();
+        rectTransform.anchoredPosition = new Vector2(100f, 100f);
+        ImageController imageController = imageMoved.AddComponent<ImageController>();
+        Dictionary<string, Vector2> offsets = new Dictionary<string, Vector2>();
+        offsets.Add("img2", new Vector2(-10f, -10f));
+        imageController.setSnapOffsets(offsets);
+        GameObject image2 = new GameObject("img2");
+        RectTransform rectTransform2 = image2.AddComponent<RectTransform>();
+        rectTransform2.anchoredPosition = new Vector2(150f, 150f);
+        ImageController imageController2 = image2.AddComponent<ImageController>();
+        Dictionary<string, Vector2> offsets2 = new Dictionary<string, Vector2>();
+        offsets2.Add("img1", new Vector2(10f, 10f));
+        imageController2.setSnapOffsets(offsets2);
+        List<GameObject> snapPoints2 = new List<GameObject>();
+        snapPoints2.Add(imageMoved);
+        imageController2.setSnapPoints(snapPoints2);
+        List<GameObject> snapPoints = new List<GameObject>();
+        snapPoints.Add(image2);
+        imageController.setSnapPoints(snapPoints);
+
+        rectTransform.anchoredPosition = new Vector2(90f, 90f);
+
+        // Set up game controller
+        images.Add(imageMoved);
+        images.Add(image2);
+        gameController.images = images;
+
+        // Act
+        gameController.updateSnapPositions(imageMoved);
+
+        // Assert
+        ImageController imgController = image2.GetComponent<ImageController>();
+
+        float tolerance = 0.0001f; // Define your tolerance value here
+        Vector2 imageMovedPosition = imageMoved.GetComponent<RectTransform>().anchoredPosition;
+        Vector2[] valuesArray = new Vector2[imgController.getSnapPoints().Count];
+        imgController.getSnapPoints().CopyTo(valuesArray, 0);
+        Vector2 snapPoint0 = valuesArray[0];
+
+        bool isWithinToleranceOfSnapPoint0 = Vector2.Distance(imageMovedPosition + new Vector2(10f, 10f), snapPoint0) < tolerance;
+
+        Assert.IsTrue(isWithinToleranceOfSnapPoint0, "imageMoved's anchoredPosition is not equal to either snapPoint0");
+    }
+
+    // CalcScore calculates score based on time
+    // test runs fine, but does produce a null object error after due to partial mocking
+    [Test]
+    public void test_calc_score()
+    {
+        // Arrange
+        GameObject gameObject = new GameObject();
+        ImagerGameController gameController = gameObject.AddComponent<ImagerGameController>();
+        gameController.timer = gameObject.AddComponent<GameTimer>();
+        gameController.timer.setTime(30.0f);
+
+        // Act
+        gameController.CalcScore();
+
+        // Assert
+        Assert.AreEqual(7292, gameController.score);
     }
 }

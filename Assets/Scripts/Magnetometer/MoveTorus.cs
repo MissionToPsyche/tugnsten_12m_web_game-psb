@@ -5,14 +5,14 @@ using UnityEngine.UIElements;
 
 public class MoveTorus : MonoBehaviour
 {
-    private float startDistance;
-    private Vector3 startScale;
-    private Vector3 initialMousePosition;
-    private Quaternion initialTorusRotation;
+    public float startDistance {get;set;}
+    public Vector3 startScale {get;set;}
+    public Vector3 initialMousePosition {get;set;}
+    public Quaternion initialTorusRotation {get;set;}
     private GameScreenUI gui;
     private bool uiFlag = false;
-    private GameObject northObject;
-    private GameObject southObject;
+    public GameObject northObject {get;set;}
+    public GameObject southObject {get;set;}
 
     void Start()
     {

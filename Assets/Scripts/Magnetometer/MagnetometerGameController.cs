@@ -16,6 +16,11 @@ public class MagnetometerGameController : GameController
     private Vector3 magneticMoment;
     private Vector3 noFieldScale = new Vector3(0.25f, 0.25f, 0.25f);
 
+    public void setTorus(Torus torus)
+    {
+        this.torus = torus;
+    }
+
     override public void InitializeGame()
     {
         ui.SetController(this);

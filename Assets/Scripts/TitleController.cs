@@ -47,7 +47,6 @@ public class TitleController : MonoBehaviour
     public string getScene()
     {
         return currentScene;
-<<<<<<< HEAD
     }
 
     public bool isFirstScene()
@@ -78,8 +77,6 @@ public class TitleController : MonoBehaviour
             index = (index - 1 + scenes.Length) % scenes.Length; // making sure its in bound
 
         }
-=======
->>>>>>> 8d9c88ec218c0f3db5ae6d2a3c5653b39ac5a2fb
     }
 
     public void setMinigame(int index)

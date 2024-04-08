@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlideCamera : MonoBehaviour
 {
-    
+
     // private Vector3[] positions = new Vector3[] {
     //     new Vector3(0f, 0f, -10f),
     //     new Vector3(145f, 0f, -10f),
@@ -36,20 +36,13 @@ public class SlideCamera : MonoBehaviour
     {
         Vector3 currentPos = positions[currentIndex];
         
-        if(Input.GetKeyDown(KeyCode.RightArrow)) {
-            if(currentIndex < positions.Length - 1)
-            {
-                currentIndex++;
-                titleController.setMinigame(currentIndex);
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyUp(KeyCode.RightArrow))
         {
-            if(currentIndex > 0) 
-            {
-                currentIndex--;
-                titleController.setMinigame(currentIndex);
-            }
+            moveNextPos();
+        }
+        if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            movePrevPos();
         }
 
         // Check the distance between the current position and the target position
@@ -62,11 +55,28 @@ public class SlideCamera : MonoBehaviour
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, currentPos, speed*Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, currentPos, speed * Time.deltaTime);
         }
-        
+
         // transform.position = Vector3.Lerp(transform.position, currentPos, speed*Time.deltaTime);
-        
+
+    }
+    public void movePrevPos()
+    {
+        if (currentIndex > 0)
+        {
+            currentIndex--;
+            titleController.setMinigame(currentIndex);
+        }
+    }
+
+    public void moveNextPos()
+    {
+        if (currentIndex < positions.Length - 1)
+        {
+            currentIndex++;
+            titleController.setMinigame(currentIndex);
+        }
     }
 
     // for testing

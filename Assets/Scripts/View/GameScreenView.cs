@@ -10,7 +10,7 @@ public class GameScreenUI : MonoBehaviour
     public TitleController titleController;
     public AudioClip clip;
     private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn;
-    private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel;
+    private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen;
     private Label minigameTitle, timer;
     private void OnEnable()
     {
@@ -27,6 +27,7 @@ public class GameScreenUI : MonoBehaviour
         ////////////////////////////////////////////////////////////////////////////////
         // MINIGAME SCREEN UI ELEMENTS
         root = GetComponent<UIDocument>().rootVisualElement;
+        blackScreen = root.Q<VisualElement>("black-screen");
         // game screen
         gameScreen = root.Q<VisualElement>("game-screen");
         gameTopContainer = gameScreen.Q<VisualElement>("game-top-container");
@@ -72,11 +73,10 @@ public class GameScreenUI : MonoBehaviour
     private void BindUIEvents()
     {
         optionsBtn.clicked += () => { optionsButtonClicked(); playSound(); };
-        // cancelBtn.clicked += () => cancel();
-        xBtn.clicked += () => { cancel(); playSound(); };
+        xBtn.clicked += () => { closePanel(); playSound(); };
         mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); }; // return to title screen
-        infoBtn.clicked += () => { infoPanel.visible = true; playSound(); };
-        closeBtn.clicked += () => { infoPanel.visible = false; playSound(); };
+        infoBtn.clicked += () => { infoClicked(); playSound(); };
+        closeBtn.clicked += () => { closePanel(); playSound(); };
     }
 
     public Button getContinueButton()
@@ -86,7 +86,7 @@ public class GameScreenUI : MonoBehaviour
 
     public void optionsButtonClicked()
     {
-        gameScreen.visible = false;
+        blackScreen.visible = true;
         optionsPanel.visible = true;
     }
 
@@ -100,10 +100,19 @@ public class GameScreenUI : MonoBehaviour
             SceneManager.LoadScene(titleController.getSceneName(minigameIndex));
         }
     }
-    public void cancel()
+
+    public void infoClicked()
+    {
+        infoPanel.visible = true;
+        blackScreen.visible = true;
+
+    }
+    public void closePanel()
     {
         gameScreen.visible = true;
         optionsPanel.visible = false;
+        infoPanel.visible = false;
+        blackScreen.visible = false;
     }
     private void playSound()
     {

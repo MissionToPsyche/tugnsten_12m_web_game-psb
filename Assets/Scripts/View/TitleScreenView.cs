@@ -9,17 +9,17 @@ public class TitleScreenView : MonoBehaviour
     public TitleController titleController;
     public AudioClip clip;
     public GameObject MinigameSelectMenu, Console;
-    // public OptionsScreenView optionsScreenView;
+    public OptionsScreenView optionsScreenView;
 
     // Private UI elements grouped by their functionality/screen
     private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectCenter, gameSelectBottom, optionsScreen, optionsPanel, soundbar, optionsButtonContainer, creditsScreen;
 
-    private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, minigameBackBtn, playMinigameBtn, closeOptionsBtn, closeCreditsBtn, nextBtn, prevBtn;
+    private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, minigameBackBtn, playMinigameBtn, cancelBtn, closeBtn, nextBtn, prevBtn;
 
     private Slider musicSlider, soundSlider;
     private Label minigameText;
     private CameraZoom cameraZoom;
-    private SlideCamera slideCamera;
+
 
     // Collections for easier management
     private List<VisualElement> screens = new List<VisualElement>();
@@ -32,8 +32,7 @@ public class TitleScreenView : MonoBehaviour
 
     void Update()
     {
-        updateMinigameScreen();
-
+        titleController.updateMinigame(minigameText);
     }
 
     private void InitializeUI()
@@ -42,7 +41,6 @@ public class TitleScreenView : MonoBehaviour
         // MAIN SCREEN UI ELEMENTS
         cameraZoom = Camera.main.GetComponent<CameraZoom>();
         cameraZoom.setTitleController(titleController);
-        slideCamera = Camera.main.GetComponent<SlideCamera>();
 
         root = GetComponent<UIDocument>().rootVisualElement;
         mainScreen = root.Q<VisualElement>("main-menu-screen");
@@ -77,14 +75,16 @@ public class TitleScreenView : MonoBehaviour
         // OPTIONS SCREEN UI ELEMENTS
         optionsPanel = optionsScreen.Q<VisualElement>("options-panel");
         soundbar = optionsPanel.Q<VisualElement>("sound-bar");
-        optionsButtonContainer = optionsPanel.Q<VisualElement>("button-container");
+        optionsButtonContainer = optionsPanel.Q<VisualElement>("options-button-container");
+        
+        cancelBtn = optionsButtonContainer.Q<Button>("cancel-button");
+
         musicSlider = soundbar.Q<Slider>("music-slider");
         soundSlider = soundbar.Q<Slider>("sound-slider");
-        closeOptionsBtn = optionsButtonContainer.Q<Button>("close-button");
-        
+
         ////////////////////////////////////////////////////////////////////////////////
         // CREDITS SCREEN UI ELEMENTS
-         closeCreditsBtn = creditsScreen.Q<Button>("close-button");
+         closeBtn = creditsScreen.Q<Button>("close-button");
         // optionsScreenView.hideOptionsScreen();
     }
 
@@ -106,17 +106,16 @@ public class TitleScreenView : MonoBehaviour
             playSound();
         };
 
-        prevBtn.clicked += () => {prevMinigame(); playSound();};
-        nextBtn.clicked += () => { nextMinigame(); playSound();};
         playMinigameBtn.clicked += () => { playMinigame(); playSound(); };
 
         // Options Screen
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
-        closeOptionsBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
+        cancelBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
         
+
         // Credits Screen
-        closeCreditsBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
+        closeBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
     }
 
     public void setMinigameText(string text)
@@ -145,31 +144,6 @@ public class TitleScreenView : MonoBehaviour
         SceneChanger.NextScene(minigameText.text);
     }
 
-    private void updateMinigameScreen()
-    {
-        // update the minigame text
-        titleController.updateMinigame(minigameText);
-
-        // if the minigame is the first minigame, disable the previous button
-        if (titleController.isFirstScene())
-        {
-            prevBtn.visible = false;
-        }
-        else
-        {
-            prevBtn.visible = true;
-        }
-
-        // if the minigame is the last minigame, disable the next button
-        if (titleController.isLastScene())
-        {
-            nextBtn.visible = false;
-        }
-        else
-        {
-            nextBtn.visible = true;
-        }
-    }
     private void minigameSelectClicked()
     {
         // show the minigame select menu
@@ -185,19 +159,10 @@ public class TitleScreenView : MonoBehaviour
         titleController.minigameSelect(minigameText);
     }
 
-    private void prevMinigame()
-    {
-        titleController.getPrevScene();
-        slideCamera.movePrevPos();
-    }
-    private void nextMinigame()
-    {
-        titleController.getNextScene();
-        slideCamera.moveNextPos();
-    }
-
       private void playMinigame()
     {   
+        // minigameText.text = titleController.getScene();
+        
         Debug.Log("change to: " + titleController.getScene());
         cameraZoom.startCameraMove(titleController.getScene());
     }
@@ -205,6 +170,7 @@ public class TitleScreenView : MonoBehaviour
     private void optionsClicked()
     {
         switchScreen(optionsScreen);
+        // optionsScreenView.ShowOptionsScreen();
     }
 
     private void musicValueChanged(ChangeEvent<float> evt)

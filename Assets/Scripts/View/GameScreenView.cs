@@ -42,9 +42,12 @@ public class GameScreenUI : MonoBehaviour
         infoBtn = gameTopContainer.Q<Button>("help-button");
         optionsBtn = gameButtonContainer.Q<Button>("options-button");
 
+<<<<<<< HEAD
         //buttons on the game screen
         infoBtn = gameTopContainer.Q<Button>("help-button");
         optionsBtn = gameButtonContainer.Q<Button>("options-button");
+=======
+>>>>>>> 8d9c88ec218c0f3db5ae6d2a3c5653b39ac5a2fb
         continueBtn = gameButtonContainer.Q<Button>("continue-button");
         // continueBtn.clicked += () => continueButtonClicked();
         // continueBtn.clicked += () => rightButtonClicked(string action);
@@ -76,10 +79,18 @@ public class GameScreenUI : MonoBehaviour
     private void BindUIEvents()
     {
         optionsBtn.clicked += () => { optionsButtonClicked(); playSound(); };
+<<<<<<< HEAD
         xBtn.clicked += () => { closePanel(); playSound(); };
         mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); }; // return to title screen
         infoBtn.clicked += () => { infoClicked(); playSound(); };
         closeBtn.clicked += () => { closePanel(); playSound(); };
+=======
+        // cancelBtn.clicked += () => cancel();
+        xBtn.clicked += () => { cancel(); playSound(); };
+        mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); }; // return to title screen
+        infoBtn.clicked += () => { infoPanel.visible = true; playSound(); };
+        closeBtn.clicked += () => { infoPanel.visible = false; playSound(); };
+>>>>>>> 8d9c88ec218c0f3db5ae6d2a3c5653b39ac5a2fb
     }
 
     public Button getContinueButton()
@@ -121,6 +132,13 @@ public class GameScreenUI : MonoBehaviour
     {
         SoundManager.Instance.PlaySound(clip);
     }
+<<<<<<< HEAD
+=======
+    private void playSound()
+    {
+        SoundManager.Instance.PlaySound(clip);
+    }
+>>>>>>> 8d9c88ec218c0f3db5ae6d2a3c5653b39ac5a2fb
     public Label GetTimer()
     {
         return timer;

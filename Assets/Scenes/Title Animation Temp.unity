@@ -1386,7 +1386,7 @@ Transform:
   m_GameObject: {fileID: 1711404593}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.9799986, y: -0.00000011920929, z: -0.00000059604645}
+  m_LocalPosition: {x: -2.2607641, y: 1.3685161, z: 6.438364}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1407,16 +1407,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbit: {fileID: 753961322}
   speed: 2
-  startPosition: 0.11
+  startPosition: 0.12
   endPosition: 0.7
-  delay: 0
-  maxSize: 30
   maxPosition: 0.63
+  delay: 7
+  maxSize: 30
   positionRotation: 0.3
-  positionOffset: 120
-  startPoint: 44
-  maxPoint: 252
-  endPoint: 280
 --- !u!1001 &1839243994
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1505,15 +1501,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 461afc1e484c111499ac5484b535bb0b, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.03
+      value: 0.049999997
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 461afc1e484c111499ac5484b535bb0b, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.03
+      value: 0.049999997
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 461afc1e484c111499ac5484b535bb0b, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.03
+      value: 0.049999997
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 461afc1e484c111499ac5484b535bb0b, type: 3}
       propertyPath: m_LocalPosition.x

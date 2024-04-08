@@ -14,7 +14,7 @@ public class SlideCamera : MonoBehaviour
     private Vector3[] positions;
 
     private int currentIndex = 0;
-    private float speed = 2.0f;
+    private float speed = 8.0f;
 
     private TitleController titleController;
 
@@ -35,7 +35,7 @@ public class SlideCamera : MonoBehaviour
     void Update()
     {
         Vector3 currentPos = positions[currentIndex];
-
+        
         if (Input.GetKeyUp(KeyCode.RightArrow))
         {
             moveNextPos();

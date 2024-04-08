@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Scripts/TransitionController.cs.meta
-guid: 1ef2c8fb02bd98c49b376ef3285b8593
-========
 guid: a879c78e51cb61844bb190885d271488
->>>>>>>> 8d9c88ec218c0f3db5ae6d2a3c5653b39ac5a2fb:Assets/Scripts/RailsOrbit.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

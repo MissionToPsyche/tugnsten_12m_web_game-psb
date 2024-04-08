@@ -9,7 +9,7 @@ public class ImagerGameController : GameController
 {
     public ImagerUIController ui;
     public SliceImage sliceImage;
-    private List<GameObject> images;
+    public List<GameObject> images {get; set; }
 
     override public void InitializeGame()
     {
@@ -51,6 +51,7 @@ public class ImagerGameController : GameController
 
     public bool checkIsDone()
     {
+        // TODO: maybe don't need the foreach loop
         foreach (GameObject img in images)
         {
             if(!isAllSnapPointsEqual(img))
@@ -61,7 +62,7 @@ public class ImagerGameController : GameController
         return true;
     }
 
-    private bool isAllSnapPointsEqual(GameObject img)
+    public bool isAllSnapPointsEqual(GameObject img)
     {
         const float tolerance = 0.001f;
         Vector2 minPoint = Vector2.positiveInfinity;

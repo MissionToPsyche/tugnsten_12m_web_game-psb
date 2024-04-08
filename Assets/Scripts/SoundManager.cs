@@ -7,6 +7,10 @@ public class SoundManager : MonoBehaviour
     public static SoundManager Instance;
 
     [SerializeField] private AudioSource musicSource, effectSource;
+    public void setEffectSource(AudioSource audioSource)
+    {
+        effectSource = audioSource;
+    }
 
     void Awake() {
         if (Instance == null) {
@@ -19,6 +23,9 @@ public class SoundManager : MonoBehaviour
     }
 
     public void PlaySound(AudioClip clip) {
-        effectSource.PlayOneShot(clip);
+        if(effectSource != null && clip != null) 
+        {
+            effectSource.PlayOneShot(clip);
+        }
     }
 }

@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    private RectTransform rectTransform;
-    private CanvasGroup canvasGroup;
-    public ImagerGameController imagerGameController;
-    private SnapToTarget snapToTarget;
+    public RectTransform rectTransform {get; set; }
+    public CanvasGroup canvasGroup {get; set; }
+    public ImagerGameController imagerGameController {get; set; }
+    public SnapToTarget snapToTarget {get; set; }
 
     public void OnBeginDrag(PointerEventData eventData)
     {

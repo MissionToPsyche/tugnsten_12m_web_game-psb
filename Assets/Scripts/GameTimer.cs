@@ -10,6 +10,10 @@ public class GameTimer : MonoBehaviour
     private float currentTime = 0f;
     // [SerializeField] private TMP_Text text;
 
+    public void setTime(float time)
+    {
+        currentTime = time;
+    }
     public float getTime()
     {
         return currentTime;

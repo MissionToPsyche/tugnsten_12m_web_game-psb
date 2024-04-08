@@ -435,6 +435,10 @@
     padding-left: 0;
     -unity-background-image-tint-color: rgb(168, 168, 168);
 }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 394b45422c8a7e53960bf410ba60821466101bdc
 
 .img-button:focus {
     background-color: rgba(0, 0, 0, 0);
@@ -447,3 +451,8 @@
     padding-bottom: 0;
     padding-left: 0;
 }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 8d9c88ec218c0f3db5ae6d2a3c5653b39ac5a2fb
+>>>>>>> 394b45422c8a7e53960bf410ba60821466101bdc

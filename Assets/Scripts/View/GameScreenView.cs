@@ -41,9 +41,6 @@ public class GameScreenUI : MonoBehaviour
         infoBtn = gameTopContainer.Q<Button>("help-button");
         optionsBtn = gameButtonContainer.Q<Button>("options-button");
 
-        //buttons on the game screen
-        infoBtn = gameTopContainer.Q<Button>("help-button");
-        optionsBtn = gameButtonContainer.Q<Button>("options-button");
         continueBtn = gameButtonContainer.Q<Button>("continue-button");
         // continueBtn.clicked += () => continueButtonClicked();
         // continueBtn.clicked += () => rightButtonClicked(string action);

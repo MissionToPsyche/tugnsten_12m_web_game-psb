@@ -38,11 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-<<<<<<< HEAD
-  m_IndirectSpecularColor: {r: 0.00013143057, g: 0.00012164495, b: 0.00013107073, a: 1}
-=======
   m_IndirectSpecularColor: {r: 0.00013056796, g: 0.00012234834, b: 0.00013140666, a: 1}
->>>>>>> 8d9c88ec218c0f3db5ae6d2a3c5653b39ac5a2fb
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -159,7 +155,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lr: {fileID: 269140322}
   lineWidth: 0.06
-  intensityReduction: 6
   numOrbitPoints: 400
   orbitLine:
   - {x: 3.94, y: 0, z: 0}
@@ -562,10 +557,13 @@ MonoBehaviour:
   - {x: 3.9386759, y: -0.07395615, z: 0}
   - {x: 3.9396691, y: -0.036983013, z: 0}
   - {x: 3.94, y: 0, z: 0}
-  distortedOrbitLine: []
+  parent: {fileID: 852637064}
   apoapsisDistance: 3.94
   periapsisDistance: 1.4
   rotation: 0
+  tilt: 0
+  intensityReduction: 6
+  undistortedOrbitLine: []
 --- !u!120 &269140322
 LineRenderer:
   serializedVersion: 2
@@ -1077,7 +1075,7 @@ Transform:
   m_GameObject: {fileID: 269140320}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.64, z: 0}
+  m_LocalPosition: {x: 0, y: 1.61, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4246,7 +4244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbit: {fileID: 269140321}
-  speed: 35
+  speed: 45
 --- !u!21 &1846112295
 Material:
   serializedVersion: 8

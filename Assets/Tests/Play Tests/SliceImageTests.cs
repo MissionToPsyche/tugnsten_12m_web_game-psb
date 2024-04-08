@@ -147,6 +147,8 @@ public class sliceImageTests
     public void test_snap_if_in_range_snaps_rect_transform()
     {
         // Arrange
+        GameObject smObj = new GameObject();
+        SoundManager sm = smObj.AddComponent<SoundManager>();
         GameObject gameObject = new GameObject("img1");
         SnapToTarget snapToTarget = gameObject.AddComponent<SnapToTarget>();
         RectTransform rectTransform = gameObject.AddComponent<RectTransform>();

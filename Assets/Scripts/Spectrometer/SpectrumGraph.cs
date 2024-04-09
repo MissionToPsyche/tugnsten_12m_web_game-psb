@@ -11,7 +11,6 @@ public class SpectrumGraph : MonoBehaviour
     public SortedDictionary<string, Element> elements;
     public LineRenderer lr;
     public RectTransform rt;
-    public GraphFrame frame;
     public Slider slider = null;
 
     public bool showPeaks = false;
@@ -51,7 +50,6 @@ public class SpectrumGraph : MonoBehaviour
     {
         lr = GetComponent<LineRenderer>();
         rt = GetComponent<RectTransform>();
-        RectTransform frameRt = frame.GetComponent<RectTransform>();
 
         // TODO: fix this resource path
         lr.material = new(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
@@ -76,20 +74,16 @@ public class SpectrumGraph : MonoBehaviour
         Vector2 newTransform = new(-xCenter, -yCenter);
 
         rt.anchoredPosition = newTransform;
-        frameRt.anchoredPosition = newTransform;
-
-        DrawFrame();
 
         if (isControl)
         {
             slider.direction = Slider.Direction.BottomToTop;
-            slider.GetComponent<RectTransform>().anchoredPosition = new(-(xCenter / 2f + graphStart + sliderMargin), 0);
+            slider.GetComponent<RectTransform>().anchoredPosition = new(-(xCenter / 2f + graphStart + sliderMargin), 30);
         }
     }
 
     private void Update()
     {
-        DrawFrame();
         DrawGraph();
     }
 
@@ -153,76 +147,5 @@ public class SpectrumGraph : MonoBehaviour
 
         lr.positionCount = graphPoints.Length;
         lr.SetPositions(graphPoints);
-    }
-
-    public void DrawFrame()
-    {
-        // Pixel width of the graph's line
-        int graphWidth = graphEnd - graphStart;
-
-        int tickSeparation = graphWidth / numXTicks;
-        
-        // Bottom right of the graph
-        Vector3 currentPoint = new(graphEnd, -graphMargin);
-        
-        // Points for the LineRenderer
-        List<Vector3> points = new() {currentPoint};
-        
-        // Draws the x axis, ends with currentPoint at graph origin
-        for (int i = 0; i < numXTicks; i++)
-        {
-            // Move down to point of tick
-            currentPoint.y -= tickSize;
-            points.Add(currentPoint);
-
-            // TODO: Draw label
-
-            // Move back to tick base
-            currentPoint.y += tickSize;
-            points.Add(currentPoint);
-
-            // Move left one tick
-            currentPoint.x -= tickSeparation;
-            points.Add(currentPoint);
-        }
-        
-        // Move from origin up to first tick base
-        currentPoint.y += tickSeparation;
-        points.Add(currentPoint);
-
-        // Draws the y axis, ends with currentPoint at top left tick base
-        for (int i = 0; i < numYTicks; i++)
-        {
-            // Move left to point of tick
-            currentPoint.x -= tickSize;
-            points.Add(currentPoint);
-
-            // TODO: Draw label
-
-            // Move back to tick base
-            currentPoint.x += tickSize;
-            points.Add(currentPoint);
-
-            // Move up one tick
-            currentPoint.y += tickSeparation;
-            points.Add(currentPoint);
-        }
-
-        // Draws the point of the last y-axis tick
-        currentPoint.x -= tickSize;
-        points.Add(currentPoint);
-
-        frame.lr.positionCount = points.Count;
-        frame.lr.SetPositions(points.ToArray());
-
-        // frame = new();
-
-        // LineRenderer frameLine = frame.AddComponent<LineRenderer>();
-        // TODO: fix this resource path
-        // frameLine.material = new(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
-        // frameLine.useWorldSpace = false;
-        // frameLine.startWidth = lineWidth;
-        
-        // frameLine.SetPositions(points.ToArray());   
     }
 }

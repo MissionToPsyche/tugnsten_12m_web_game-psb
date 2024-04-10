@@ -12,15 +12,15 @@ public static class EmissionSpectra
     static EmissionSpectra()
     {
         elements = new SortedDictionary<string, Element>(){
-            {"h", new("h")},   // hydrogen
-            {"c", new("c")},   // carbon
-            {"o", new("o")},   // oxygen
-            {"mg", new("mg")}, // magnesium
-            {"si", new("si")}, // silicon
-            {"s", new("s")},   // sulfur
-            {"ca", new("ca")}, // calcium
-            {"fe", new("fe")}, // iron
-            {"ni", new("ni")}, // nickel
+            {"h", new("Hydrogen (H)")},
+            {"c", new("Carbon (C)")},
+            {"o", new("Oxygen (O)")},
+            {"mg", new("Magnesium (Mg)")},
+            {"si", new("Silicon (Si)")},
+            {"s", new("Sulfur (S)")},
+            {"ca", new("Calcium (C)")},
+            {"fe", new("Iron (Fe)")},
+            {"ni", new("Nickel (Ni)")},
         };
 
         // Peaks fudged from data at

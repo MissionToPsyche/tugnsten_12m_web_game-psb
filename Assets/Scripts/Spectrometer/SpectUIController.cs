@@ -33,6 +33,7 @@ public class SpectUIController : UIController
             };
 
             controls[i].elements.ElementAt(0).Value.quantity = 1f;
+            controls[i].title.text = controls[i].elements.ElementAt(0).Value.name;
 
             // Converts the array of control graphs into a dict with element
             // names as keys.

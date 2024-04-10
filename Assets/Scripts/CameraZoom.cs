@@ -8,12 +8,12 @@ public class CameraZoom : MonoBehaviour
     private string sceneName;
     private bool zoom;
     // private float finalZoom = 25.0f; // how far to zoom (smaller = closer)
-    private float finalZoom = 4.0f; // how far to zoom (smaller = closer)
+    private float finalZoom = 1.35f; // how far to zoom (smaller = closer)
     // private float zoomSpeed = 30.5f;
     private float zoomSpeed = 6f;
     private bool move;
     // private float moveSpeed = 25.0f;
-    private float moveSpeed = 20.0f;
+    private float moveSpeed = 1f;
     private Vector3 destPosition;
     private TitleController titleController;
     private Vector3 slidePosition;
@@ -52,15 +52,15 @@ public class CameraZoom : MonoBehaviour
         // {
         //     zoom = false;
         // }
-        if(cam.fieldOfView <= finalZoom && zoom) 
-        {
-            zoom = false;
-        }
+        // if(cam.fieldOfView <= finalZoom && zoom) 
+        // {
+        //     zoom = false;
+        // }
         // never reached b/c camera stops moving toward the destination I don't know why
-        if(Vector3.Distance(cam.transform.position, destPosition) <= 0.1f && move)
-        {
-            move = false;
-        }
+        // if(Vector3.Distance(cam.transform.position, destPosition) <= 0.01f && move)
+        // {
+        //     move = false;
+        // }
         // if(cam.transform.position.y > 12.0f && cam.orthographicSize == finalZoom)
         // {
         //     SceneManager.LoadScene(sceneName);
@@ -72,11 +72,11 @@ public class CameraZoom : MonoBehaviour
         //     cam.transform.position = new Vector3(slidePosition.x, 9.0f, slidePosition.z);
         //     SceneManager.LoadScene(sceneName);
         // }
-        if(cam.fieldOfView <= finalZoom)
+        if(cam.orthographicSize <= finalZoom && Vector3.Distance(cam.transform.position, destPosition) <= 0.02f)
         {
             move = false;
             zoom = false;
-            cam.transform.position = new Vector3(slidePosition.x, 9.0f, slidePosition.z);
+            // cam.transform.position = new Vector3(slidePosition.x, 9.0f, slidePosition.z);
             SceneManager.LoadScene(sceneName);
         }
 
@@ -84,8 +84,8 @@ public class CameraZoom : MonoBehaviour
 
     void ZoomCamera()
     {
-        // cam.orthographicSize = Mathf.MoveTowards(cam.orthographicSize, finalZoom, Time.deltaTime * zoomSpeed);
-        cam.fieldOfView = Mathf.MoveTowards(cam.fieldOfView, finalZoom, Time.fixedDeltaTime * zoomSpeed);
+        cam.orthographicSize = Mathf.MoveTowards(cam.orthographicSize, finalZoom, Time.deltaTime * zoomSpeed);
+        // cam.fieldOfView = Mathf.MoveTowards(cam.fieldOfView, finalZoom, Time.fixedDeltaTime * zoomSpeed);
     }
 
     void MoveCamera()
@@ -114,12 +114,13 @@ public class CameraZoom : MonoBehaviour
     {
         Debug.Log("start zoom");
         slidePosition = titleController.getPosition();
-        destPosition = new Vector3(slidePosition.x, 45.0f, slidePosition.z);
+        destPosition = new Vector3(slidePosition.x, 0.45f, slidePosition.z);
         Debug.Log("dest: " + destPosition);
         this.sceneName = sceneName;
         Debug.Log("name: " + this.sceneName);
         zoom = true;
         move = true;
+        titleController.cameraZooming = true;
         StartCoroutine(MoveAndZoom());
     }
 

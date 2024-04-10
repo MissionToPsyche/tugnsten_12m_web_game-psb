@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/Stylesheet.uss?fileID=7433441132597879392&amp;guid=30fb6192f07eb614bb3c2983da32c6ec&amp;type=3#Stylesheet" />
+    <ui:VisualElement name="info-content" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Objective:&#10;Adjust the magnetic field&apos;s size and rotation to correspond with the provided magnetic field measurements indicated by arrows. &#10;&#10;Controls:&#10;Click and hold the left mouse button, then move the mouse to drag the magnetic field.&#10;Click &quot;submit&quot; to evaluate your field&apos;s accuracy once done.&#10;&#10;Scoring:&#10;The closer you are to matching the indicated field and the faster you get there, the higher your score will be. &#10;&#10;Tips:&#10;If the arrows appear to not line up with the magnetic field lines, consider that Psyche lacks a magnetic field and make the torus small until the “not field” message appears.&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text-content" class="info-text-content" />
+        <ui:VisualElement name="image-content1" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/magnetometer.png?fileID=21300000&amp;guid=5f7c88e2528f6684796c3b6d466f8fef&amp;type=3#magnetometer&apos;); -unity-background-scale-mode: scale-to-fit;" />
+        <ui:VisualElement name="image-content2" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/magnetometer2.png?fileID=21300000&amp;guid=397bf8c1701c022419b0b2b4653ea10e&amp;type=3#magnetometer2&apos;); -unity-background-scale-mode: scale-to-fit;" />
+    </ui:VisualElement>
+</ui:UXML>

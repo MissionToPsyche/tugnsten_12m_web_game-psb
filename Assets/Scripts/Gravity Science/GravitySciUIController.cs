@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -75,7 +76,8 @@ public class GravitySciUIController : UIController
             evTrig.triggers.Add(clickEvent);
 
             // Updates the precise slider whenever one of the normal ones is changed
-            sliders[i].onValueChanged.AddListener((_) => {
+            sliders[i].onValueChanged.AddListener((_) =>
+            {
                 SyncSliders(false);
             });
 
@@ -95,13 +97,32 @@ public class GravitySciUIController : UIController
         });
     }
 
-    public void SetActiveSlider(int sliderNum)
+    public void SetActiveSlider(int activeSlider)
     {
-        activeSlider = sliderNum;
+        this.activeSlider = activeSlider;
         // Changes the reference wave to the one for this slider's distortion
-        referenceWave.SetWavelength(referenceWavelengths[activeSlider]);
-        
+        referenceWave.SetWavelength(referenceWavelengths[this.activeSlider]);
+
         // TODO: Highlight active slider
+        // for (int i = 0; i < sliders.Count; i++)
+        // {
+        //     ColorBlock colors = sliders[i].colors;
+            
+        //     if (i == this.activeSlider)
+        //     {
+        //         colors.normalColor = new Color(162, 55, 212);
+        //         colors.selectedColor = new Color(162, 55, 212);
+        //         colors.pressedColor = new Color(210, 126, 250);
+        //     }
+        //     else
+        //     {
+        //         colors.normalColor = Color.white;
+        //         colors.selectedColor = new Color(245, 245, 245);
+        //         colors.pressedColor = new Color(200, 200, 200);
+        //     }
+
+        //     sliders[i].colors = colors;
+        // }
     }
 
     public void SyncSliders(bool preciseChanged)

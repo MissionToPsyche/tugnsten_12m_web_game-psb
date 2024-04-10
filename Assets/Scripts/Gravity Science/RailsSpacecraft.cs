@@ -7,15 +7,16 @@ public class RailsSpacecraft : MonoBehaviour
     public RailsOrbit orbit;
 
     public float speed = 35.0f;
-    private float currentIndex = 0;
 
-    void OnValidate()
+    protected float currentIndex = 0;
+
+    protected void OnValidate()
     {
         // Adding the orbit's position makes the spacecraft's origin the same as the orbit's origin.
         transform.position = orbit.orbitLine[0] + orbit.transform.position;
     }
 
-    void Start()
+    protected void Start()
     {
         currentIndex = 0;
         transform.position = orbit.orbitLine[0] + orbit.transform.position;

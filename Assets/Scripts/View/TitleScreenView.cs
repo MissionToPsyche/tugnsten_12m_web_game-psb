@@ -8,7 +8,7 @@ public class TitleScreenView : MonoBehaviour
     public ChangeScene SceneChanger;
     public TitleController titleController;
     public AudioClip clip;
-    public GameObject MinigameSelectMenu, Console;
+    public GameObject MinigameSelectMenu, Console, Animation;
     // public OptionsScreenView optionsScreenView;
 
     // Private UI elements grouped by their functionality/screen
@@ -108,6 +108,7 @@ public class TitleScreenView : MonoBehaviour
             minigameText.visible = false;
             MinigameSelectMenu.SetActive(false);
             Console.SetActive(false);
+            Animation.SetActive(true);
             prevBtn.style.display = DisplayStyle.None;
             nextBtn.style.display = DisplayStyle.None;
             playSound();
@@ -181,6 +182,9 @@ public class TitleScreenView : MonoBehaviour
     }
     private void minigameSelectClicked()
     {
+        // Hides the animation
+        Animation.SetActive(false);
+        
         // show the minigame select menu
         MinigameSelectMenu.SetActive(true);
         Console.SetActive(true);

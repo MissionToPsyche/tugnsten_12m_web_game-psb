@@ -10,7 +10,7 @@ public class GameScreenUI : MonoBehaviour
     public TitleController titleController;
     public AudioClip clip;
     private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn;
-    private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen, tabs;
+    private VisualElement root, gameScreen, gameBottomContainer, gameOptionsContainer, gameContinueContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen, tabs;
     private ScrollView infoScrollView;
     private Label minigameTitle, timer, instructionsTab, contextTab;
     private void OnEnable()
@@ -33,7 +33,9 @@ public class GameScreenUI : MonoBehaviour
         gameScreen = root.Q<VisualElement>("game-screen");
         gameTopContainer = gameScreen.Q<VisualElement>("game-top-container");
         gameBottomContainer = gameScreen.Q<VisualElement>("game-bottom-container");
-        gameButtonContainer = gameBottomContainer.Q<VisualElement>("game-button-container");
+        // gameButtonContainer = gameBottomContainer.Q<VisualElement>("game-button-container");
+        gameOptionsContainer = gameBottomContainer.Q<VisualElement>("options-button-container");
+        gameContinueContainer = gameBottomContainer.Q<VisualElement>("continue-button-container");
         topBorder = gameTopContainer.Q<VisualElement>("top-border");
         timer = topBorder.Q<Label>("timer-label");
         minigameTitle = gameBottomContainer.Q<Label>("minigame-title");
@@ -41,9 +43,9 @@ public class GameScreenUI : MonoBehaviour
 
         //buttons on the game screen
         infoBtn = gameTopContainer.Q<Button>("help-button");
-        optionsBtn = gameButtonContainer.Q<Button>("options-button");
+        optionsBtn = gameOptionsContainer.Q<Button>("options-button");
 
-        continueBtn = gameButtonContainer.Q<Button>("continue-button");
+        continueBtn = gameContinueContainer.Q<Button>("continue-button");
         // continueBtn.clicked += () => continueButtonClicked();
         // continueBtn.clicked += () => rightButtonClicked(string action);
 
@@ -72,7 +74,7 @@ public class GameScreenUI : MonoBehaviour
         instructionsTab = tabs.Q<Label>("instructions");
         contextTab = tabs.Q<Label>("science-context");
         infoScrollView = infoPanel.Q<ScrollView>("game-info");
-        showInfo(minigameTitle.text);
+        showInfo();
         closeBtn = infoPanel.Q<Button>("close-button");
     }
 
@@ -142,11 +144,11 @@ public class GameScreenUI : MonoBehaviour
         tab.AddToClassList("selectedTab");
         if(tab.name == "Instructions")
         {
-            showInfo(minigameTitle.text);
+            showInfo();
         }
         else if(tab.name == "science-context")
         {
-            ShowContext(minigameTitle.text);
+            ShowContext();
         }
     }
 
@@ -162,9 +164,9 @@ public class GameScreenUI : MonoBehaviour
         // tab.AddToClassList("unselectedTab");
     }
 
-    public void showInfo(string gameName)
+    public void showInfo()
     {
-        string infoUxmlPath = $"UI/UXML/{gameName}Info";
+        string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Info";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
 
 
@@ -176,13 +178,13 @@ public class GameScreenUI : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{gameName}Info.uxml file not found.");
+            Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
         }
     }
 
-    public void ShowContext(string gameName)
+    public void ShowContext()
     {
-        string infoUxmlPath = $"UI/UXML/{gameName}Context";
+        string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Context";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
 
 
@@ -194,7 +196,7 @@ public class GameScreenUI : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{gameName}Context.uxml file not found.");
+            Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
         }
     }
 

@@ -120,6 +120,7 @@ public class CameraZoom : MonoBehaviour
         Debug.Log("name: " + this.sceneName);
         zoom = true;
         move = true;
+        titleController.cameraZooming = true;
         StartCoroutine(MoveAndZoom());
     }
 

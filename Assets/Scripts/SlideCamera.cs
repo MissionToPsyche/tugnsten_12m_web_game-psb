@@ -16,8 +16,6 @@ public class SlideCamera : MonoBehaviour
     private int currentIndex = 0;
     private float speed = 6.0f;
 
-    private bool moving = false;
-
     private TitleController titleController;
 
     public int getCurrentIndex()
@@ -36,27 +34,27 @@ public class SlideCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 currentPos = positions[currentIndex];
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) && !titleController.cameraZooming)
         {
             moveNextPos();
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) && !titleController.cameraZooming)
         {
             movePrevPos();
         }
 
+        Vector3 currentPos = positions[currentIndex];
+
         // Check the distance between the current position and the target position
         float distance = Vector3.Distance(transform.position, currentPos);
 
-        if (moving)
+        if (titleController.cameraMoving)
         {
             // If the distance is below a certain threshold, snap to the target position
-            if (distance < 0.01f)
+            if (distance < 0.01f || titleController.cameraZooming)
             {
                 transform.position = currentPos;
-                moving = false;
+                titleController.cameraMoving = false;
             }
             else
             {
@@ -73,7 +71,7 @@ public class SlideCamera : MonoBehaviour
         {
             currentIndex--;
             titleController.setMinigame(currentIndex);
-            moving = true;
+            titleController.cameraMoving = true;
         }
     }
 
@@ -83,7 +81,7 @@ public class SlideCamera : MonoBehaviour
         {
             currentIndex++;
             titleController.setMinigame(currentIndex);
-            moving = true;
+            titleController.cameraMoving = true;
         }
     }
 

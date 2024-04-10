@@ -34,6 +34,11 @@ public class TitleController : MonoBehaviour
     private string currentScene = "Magnetometer_minigame";
     private int index;
 
+    // Used to prevent camera zooming while moving or moving while zooming,
+    // which softlocks the screen.
+    public bool cameraMoving = false;
+    public bool cameraZooming = false;
+
     public Vector3[] getAllPositions()
     {
         return positions;

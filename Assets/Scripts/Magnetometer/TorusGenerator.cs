@@ -15,6 +15,15 @@ public class TorusGenerator : MonoBehaviour
     private GameObject northObject;
     private GameObject southObject;
 
+    public float GetMinScale()
+    {
+        return minScale;
+    }
+    public float GetMaxScale()
+    {
+        return maxScale;
+    }
+
     public Torus drawTorus(int numEllipses, int numPoints)
     {
         this.numPoints = numPoints;
@@ -45,6 +54,7 @@ public class TorusGenerator : MonoBehaviour
         // Debug.Log("angle: " + rotationAngle * Mathf.Rad2Deg);
 
         float ellipseFactor = mapEllipseScale(minMagnitude, maxMagnitude, magneticMoment.magnitude);
+        // Debug.Log("ellipseFactor: " + ellipseFactor);
         float ellipseRatio = 2f;
         int reflection = 1;
         int ellipseNum = 1;
@@ -78,7 +88,7 @@ public class TorusGenerator : MonoBehaviour
         return torus;
     }
 
-    private void createEllipse(int ellipseNum, int reflection, Ellipse ellipse)
+    public void createEllipse(int ellipseNum, int reflection, Ellipse ellipse)
     {
         Vector3[] points = new Vector3[numPoints];
         float angleStep = 360f / numPoints;
@@ -111,7 +121,7 @@ public class TorusGenerator : MonoBehaviour
         drawEllipse(ellipseNum, points, ellipse);
     }
 
-    private void drawEllipse(int ellipseNum, Vector3[] points, Ellipse ellipse)
+    public void drawEllipse(int ellipseNum, Vector3[] points, Ellipse ellipse)
     {
         // Create a new GameObject
         GameObject lineObject = new GameObject("Ellipse" + (ellipseNum - 1));
@@ -146,7 +156,7 @@ public class TorusGenerator : MonoBehaviour
         ellipse.lineObject = lineObject;
     }
 
-    private void applyGradient(LineRenderer lineRenderer, int ellipseNum)
+    public void applyGradient(LineRenderer lineRenderer, int ellipseNum)
     {
         // Create a static gradient
         Gradient staticGradient = new Gradient();
@@ -179,7 +189,7 @@ public class TorusGenerator : MonoBehaviour
         lineRenderer.colorGradient = staticGradient;
     }
 
-    private float mapEllipseScale(float magStrengthMin, float magStrengthMax, float magStrength)
+    public float mapEllipseScale(float magStrengthMin, float magStrengthMax, float magStrength)
     {
         // Calculate the input scale
         float inputScale = magStrengthMax - magStrengthMin;
@@ -192,12 +202,13 @@ public class TorusGenerator : MonoBehaviour
         
         // Apply the inverted proportion to the output range
         float ellipseScale = invertedProportion * outputScale + minScale;
+        ellipseScale = Mathf.Clamp(ellipseScale, minScale, maxScale);
         // Debug.Log("scale: " + ellipseScale);
 
         return ellipseScale;
     }
 
-    private (float, float) mapTorusScaleRange(float ellipseScale)
+    public (float, float) mapTorusScaleRange(float ellipseScale)
     {
         // Define the output ranges for specific values
         float minScaleMin = 0.3f;
@@ -217,7 +228,7 @@ public class TorusGenerator : MonoBehaviour
         return (mappedScaleMin, mappedScaleMax);
     }
 
-    private List<Vector3> generateMagneticMoments(float minMagnitude, float maxMagnitude)
+    public List<Vector3> generateMagneticMoments(float minMagnitude, float maxMagnitude)
     {
         List<Vector3> magMoments = new List<Vector3>();
         // Adding moments with max magnitude
@@ -248,7 +259,7 @@ public class TorusGenerator : MonoBehaviour
         return magMoments;
     }
 
-    private void NorthSouthIndicator()
+    public void NorthSouthIndicator()
     {
         northObject = new GameObject("North");
         // Set RectTransform properties (optional)
@@ -282,7 +293,7 @@ public class TorusGenerator : MonoBehaviour
         southText.verticalAlignment = VerticalAlignmentOptions.Middle;
     }
 
-    private void setScaleAndRotation(float ellipseFactor)
+    public void setScaleAndRotation(float ellipseFactor)
     {
         Transform t = torusObject.transform;
         (float, float) scaleRange = mapTorusScaleRange(ellipseFactor);

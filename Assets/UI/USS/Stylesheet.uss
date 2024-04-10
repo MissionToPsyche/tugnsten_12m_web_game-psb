@@ -48,8 +48,6 @@
     padding-bottom: 1%;
     padding-left: 1%;
     opacity: 1;
-    max-width: none;
-    max-height: none;
     flex-wrap: nowrap;
     align-items: auto;
     justify-content: flex-start;
@@ -309,6 +307,47 @@
     border-bottom-color: rgb(225, 143, 97);
 }
 
+.help-button:hover {
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&guid=5e45cd4bb34bec24eb2fe66c08f4067a&type=3#AndromedaTV');
+    -unity-font-style: bold;
+    -unity-font-definition: initial;
+    font-size: 100%;
+    -unity-background-image-tint-color: rgb(140, 140, 140);
+    border-top-left-radius: 100%;
+    border-top-right-radius: 100%;
+    border-bottom-right-radius: 100%;
+    border-bottom-left-radius: 100%;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-left-color: rgb(225, 143, 97);
+    border-right-color: rgb(225, 143, 97);
+    border-top-color: rgb(225, 143, 97);
+    border-bottom-color: rgb(225, 143, 97);
+    background-color: rgb(107, 107, 107);
+}
+
+.help-button:focus {
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&guid=5e45cd4bb34bec24eb2fe66c08f4067a&type=3#AndromedaTV');
+    -unity-font-style: bold;
+    -unity-font-definition: initial;
+    font-size: 100%;
+    -unity-background-image-tint-color: rgb(140, 140, 140);
+    border-top-left-radius: 100%;
+    border-top-right-radius: 100%;
+    border-bottom-right-radius: 100%;
+    border-bottom-left-radius: 100%;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 5px;
+    border-left-width: 5px;
+    border-left-color: rgb(225, 143, 97);
+    border-right-color: rgb(225, 143, 97);
+    border-top-color: rgb(225, 143, 97);
+    border-bottom-color: rgb(225, 143, 97);
+}
+
 .panel {
     position: absolute;
     background-color: rgb(214, 214, 214);
@@ -396,3 +435,16 @@
     padding-left: 0;
     -unity-background-image-tint-color: rgb(168, 168, 168);
 }
+
+.img-button:focus {
+    background-color: rgba(0, 0, 0, 0);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+

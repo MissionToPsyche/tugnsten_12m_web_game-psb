@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SlideCamera : MonoBehaviour
 {
-    
+
     // private Vector3[] positions = new Vector3[] {
     //     new Vector3(0f, 0f, -10f),
     //     new Vector3(145f, 0f, -10f),
@@ -14,7 +14,7 @@ public class SlideCamera : MonoBehaviour
     private Vector3[] positions;
 
     private int currentIndex = 0;
-    private float speed = 2.0f;
+    private float speed = 6.0f;
 
     private TitleController titleController;
 
@@ -36,37 +36,47 @@ public class SlideCamera : MonoBehaviour
     {
         Vector3 currentPos = positions[currentIndex];
         
-        if(Input.GetKeyUp(KeyCode.RightArrow)) {
-            if(currentIndex < positions.Length - 1)
-            {
-                currentIndex++;
-                titleController.setMinigame(currentIndex);
-            }
-        }
-        if(Input.GetKeyUp(KeyCode.LeftArrow))
+        if (Input.GetKeyUp(KeyCode.RightArrow))
         {
-            if(currentIndex > 0) 
-            {
-                currentIndex--;
-                titleController.setMinigame(currentIndex);
-            }
+            moveNextPos();
+        }
+        if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            movePrevPos();
         }
 
         // Check the distance between the current position and the target position
         float distance = Vector3.Distance(transform.position, currentPos);
 
         // If the distance is below a certain threshold, snap to the target position
-        if (distance < 3.0f)
+        if (distance < 1.0f)
         {
             transform.position = currentPos;
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, currentPos, speed*Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, currentPos, speed * Time.deltaTime);
         }
-        
+
         // transform.position = Vector3.Lerp(transform.position, currentPos, speed*Time.deltaTime);
-        
+
+    }
+    public void movePrevPos()
+    {
+        if (currentIndex > 0)
+        {
+            currentIndex--;
+            titleController.setMinigame(currentIndex);
+        }
+    }
+
+    public void moveNextPos()
+    {
+        if (currentIndex < positions.Length - 1)
+        {
+            currentIndex++;
+            titleController.setMinigame(currentIndex);
+        }
     }
 
     // for testing

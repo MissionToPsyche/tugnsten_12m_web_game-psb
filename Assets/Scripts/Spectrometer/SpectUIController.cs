@@ -11,8 +11,6 @@ public class SpectUIController : UIController
     public SpectrumGraph[] controls = new SpectrumGraph[4];
     private SortedDictionary<string, SpectrumGraph> controlsDict;
 
-    public Button submitButton;
-
     public SortedDictionary<string, Element> allElements;
 
     public override void ResetUI()
@@ -33,6 +31,7 @@ public class SpectUIController : UIController
             };
 
             controls[i].elements.ElementAt(0).Value.quantity = 1f;
+            controls[i].title.text = controls[i].elements.ElementAt(0).Value.name;
 
             // Converts the array of control graphs into a dict with element
             // names as keys.

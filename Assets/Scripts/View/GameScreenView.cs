@@ -11,6 +11,7 @@ public class GameScreenUI : MonoBehaviour
     public AudioClip clip;
     private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn;
     private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen;
+    private ScrollView gameInfo;
     private Label minigameTitle, timer;
     private void OnEnable()
     {
@@ -67,6 +68,8 @@ public class GameScreenUI : MonoBehaviour
         ////////////////////////////////////////////////////////////////////////////////
         // INFO PANEL UI ELEMENTS
         infoPanel = root.Q<VisualElement>("info-panel");
+        // showInfo(minigameTitle.text);
+        gameInfo = infoPanel.Q<ScrollView>("game-info");
         closeBtn = infoPanel.Q<Button>("close-button");
     }
 
@@ -105,8 +108,28 @@ public class GameScreenUI : MonoBehaviour
     {
         infoPanel.visible = true;
         blackScreen.visible = true;
-
     }
+
+    public void showInfo(string gameName)
+    {
+        string infoUxmlPath = $"UI/UXML/{gameName}Info";
+        string infoFile = $"{gameName}Info";
+        Debug.Log($"file path: {infoUxmlPath}");
+
+        var gameInfoTree = Resources.Load<VisualTreeAsset>(infoFile);
+        VisualElement gameInfoContent = gameInfoTree.Instantiate();
+        
+        // Check if ScrollView is found
+        if (gameInfo != null)
+        {
+           gameInfo.Add(gameInfoContent);
+        }
+        else
+        {
+            Debug.Log($"{gameName} file not found.");
+        }
+    }
+
     public void closePanel()
     {
         gameScreen.visible = true;

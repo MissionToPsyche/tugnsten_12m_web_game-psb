@@ -33,12 +33,6 @@ public class SpectGameController : GameController
         // Gives UI all elements
         ui.InitializeGraphs(selectedElements);
 
-        // Prevents multiple listeners being added on reset. 
-        if (score < 0)
-        {
-            ui.submitButton.onClick.AddListener(FinishGame);
-        }
-
         score = -1;
 
         timer.resetTimer();

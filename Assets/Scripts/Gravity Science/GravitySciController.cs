@@ -35,12 +35,6 @@ public class GravitySciController : GameController
         }
         ui.referenceWavelengths = referenceWavelengths;
 
-        // Prevents multiple listeners being added on reset. 
-        if(score < 0)
-        {
-            ui.submitButton.onClick.AddListener(FinishGame);
-        }
-
         score = -1;
         
         timer.resetTimer();

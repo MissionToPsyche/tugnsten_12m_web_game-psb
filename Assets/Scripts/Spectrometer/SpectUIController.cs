@@ -11,8 +11,6 @@ public class SpectUIController : UIController
     public SpectrumGraph[] controls = new SpectrumGraph[4];
     private SortedDictionary<string, SpectrumGraph> controlsDict;
 
-    public Button submitButton;
-
     public SortedDictionary<string, Element> allElements;
 
     public override void ResetUI()

@@ -16,6 +16,8 @@ public class SlideCamera : MonoBehaviour
     private int currentIndex = 0;
     private float speed = 6.0f;
 
+    private bool moving = false;
+
     private TitleController titleController;
 
     public int getCurrentIndex()
@@ -35,12 +37,12 @@ public class SlideCamera : MonoBehaviour
     void Update()
     {
         Vector3 currentPos = positions[currentIndex];
-        
-        if (Input.GetKeyUp(KeyCode.RightArrow))
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             moveNextPos();
         }
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             movePrevPos();
         }
@@ -48,14 +50,18 @@ public class SlideCamera : MonoBehaviour
         // Check the distance between the current position and the target position
         float distance = Vector3.Distance(transform.position, currentPos);
 
-        // If the distance is below a certain threshold, snap to the target position
-        if (distance < 1.0f)
+        if (moving)
         {
-            transform.position = currentPos;
-        }
-        else
-        {
-            transform.position = Vector3.Lerp(transform.position, currentPos, speed * Time.deltaTime);
+            // If the distance is below a certain threshold, snap to the target position
+            if (distance < 0.01f)
+            {
+                transform.position = currentPos;
+                moving = false;
+            }
+            else
+            {
+                transform.position = Vector3.Lerp(transform.position, currentPos, speed * Time.deltaTime);
+            }
         }
 
         // transform.position = Vector3.Lerp(transform.position, currentPos, speed*Time.deltaTime);
@@ -67,6 +73,7 @@ public class SlideCamera : MonoBehaviour
         {
             currentIndex--;
             titleController.setMinigame(currentIndex);
+            moving = true;
         }
     }
 
@@ -76,6 +83,7 @@ public class SlideCamera : MonoBehaviour
         {
             currentIndex++;
             titleController.setMinigame(currentIndex);
+            moving = true;
         }
     }
 

@@ -10,10 +10,10 @@ public class TitleController : MonoBehaviour
 {
     private Vector3[] positions = new Vector3[] {
         new Vector3(0f, 0f, -10f),
-        new Vector3(145f, 0f, -10f),
-        new Vector3(293f, 0f, -10f),
-        new Vector3(438f, 0f, -10f),
-        new Vector3(583f, 0f, -10f),
+        new Vector3(6.05f, 0f, -10f),
+        new Vector3(12.1f, 0f, -10f),
+        new Vector3(18.15f, 0f, -10f),
+        new Vector3(24.2f, 0f, -10f),
     };
 
     private string[] minigames = new string[] {

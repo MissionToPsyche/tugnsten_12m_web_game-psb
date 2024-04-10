@@ -10,9 +10,9 @@ public class GameScreenUI : MonoBehaviour
     public TitleController titleController;
     public AudioClip clip;
     private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn;
-    private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen;
+    private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen, tabs;
     private ScrollView infoScrollView;
-    private Label minigameTitle, timer;
+    private Label minigameTitle, timer, instructionsTab, contextTab;
     private void OnEnable()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -68,6 +68,9 @@ public class GameScreenUI : MonoBehaviour
         ////////////////////////////////////////////////////////////////////////////////
         // INFO PANEL UI ELEMENTS
         infoPanel = root.Q<VisualElement>("info-panel");
+        tabs = infoPanel.Q<VisualElement>("tabs");
+        instructionsTab = tabs.Q<Label>("instructions");
+        contextTab = tabs.Q<Label>("science-context");
         infoScrollView = infoPanel.Q<ScrollView>("game-info");
         showInfo(minigameTitle.text);
         closeBtn = infoPanel.Q<Button>("close-button");
@@ -80,6 +83,7 @@ public class GameScreenUI : MonoBehaviour
         mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); }; // return to title screen
         infoBtn.clicked += () => { infoClicked(); playSound(); };
         closeBtn.clicked += () => { closePanel(); playSound(); };
+        RegisterTabCallbacks();
     }
 
     public Button getContinueButton()
@@ -110,6 +114,54 @@ public class GameScreenUI : MonoBehaviour
         blackScreen.visible = true;
     }
 
+    public void RegisterTabCallbacks()
+    {
+        UQueryBuilder<Label> tabs = GetAllTabs();
+        tabs.ForEach((Label tab) => {
+            tab.RegisterCallback<ClickEvent>(TabOnClick);
+        });
+    }
+    private void TabOnClick(ClickEvent evt)
+    {
+        Label clickedTab = evt.currentTarget as Label;
+        if (!TabIsCurrentlySelected(clickedTab))
+        {
+            GetAllTabs().Where(
+                (tab) => tab != clickedTab && TabIsCurrentlySelected(tab)
+            ).ForEach(UnselectTab);
+            SelectTab(clickedTab);
+        }
+    }
+     private static bool TabIsCurrentlySelected(Label tab)
+    {
+        return tab.ClassListContains("selectedTab");
+    }
+
+    private void SelectTab(Label tab)
+    {
+        tab.AddToClassList("selectedTab");
+        if(tab.name == "Instructions")
+        {
+            showInfo(minigameTitle.text);
+        }
+        else if(tab.name == "science-context")
+        {
+            ShowContext(minigameTitle.text);
+        }
+    }
+
+    private UQueryBuilder<Label> GetAllTabs()
+    {
+        return root.Query<Label>(className: "tab");
+    }
+
+    private void UnselectTab(Label tab)
+    {
+        tab.RemoveFromClassList("selectedTab");
+        Debug.Log("Unselected tab");
+        // tab.AddToClassList("unselectedTab");
+    }
+
     public void showInfo(string gameName)
     {
         string infoUxmlPath = $"UI/UXML/{gameName}Info";
@@ -124,9 +176,29 @@ public class GameScreenUI : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{gameName} file not found.");
+            Debug.Log($"{gameName}Info.uxml file not found.");
         }
     }
+
+    public void ShowContext(string gameName)
+    {
+        string infoUxmlPath = $"UI/UXML/{gameName}Context";
+        VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
+
+
+        if (gameInfoTree != null)
+        {
+            infoScrollView.contentContainer.Clear();
+            VisualElement gameInfoContent = gameInfoTree.Instantiate();
+            infoScrollView.contentContainer.Add(gameInfoContent);
+        }
+        else
+        {
+            Debug.Log($"{gameName}Context.uxml file not found.");
+        }
+    }
+
+    
 
     public void closePanel()
     {

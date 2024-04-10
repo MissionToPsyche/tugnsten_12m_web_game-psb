@@ -454,3 +454,20 @@
     -unity-font-definition: initial;
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Medium.ttf?fileID=12800000&guid=dbbb85c07e7a87443badc5cd8c1a97b1&type=3#Orbitron-Medium');
 }
+
+.tab {
+    -unity-font-style: normal;
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Medium.ttf?fileID=12800000&guid=dbbb85c07e7a87443badc5cd8c1a97b1&type=3#Orbitron-Medium');
+    font-size: 350%;
+    -unity-text-align: middle-center;
+    background-color: rgba(178, 178, 178, 0);
+}
+
+.selectedTab {
+    -unity-font-style: normal;
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-ExtraBold.ttf?fileID=12800000&guid=4ea3f77db28c19b448bdd77dd7dec530&type=3#Orbitron-ExtraBold');
+    font-size: 350%;
+    -unity-text-align: middle-center;
+}

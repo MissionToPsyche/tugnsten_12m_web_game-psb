@@ -66,7 +66,7 @@ public class SlideCamera : MonoBehaviour
         if (currentIndex > 0)
         {
             currentIndex--;
-            titleController.setMinigame(currentIndex);
+            titleController.setMinigameWithIndex(currentIndex);
         }
     }
 
@@ -75,7 +75,7 @@ public class SlideCamera : MonoBehaviour
         if (currentIndex < positions.Length - 1)
         {
             currentIndex++;
-            titleController.setMinigame(currentIndex);
+            titleController.setMinigameWithIndex(currentIndex);
         }
     }
 

@@ -14,7 +14,7 @@ public class SlideCamera : MonoBehaviour
     private Vector3[] positions;
 
     private int currentIndex = 0;
-    private float speed = 8.0f;
+    private float speed = 6.0f;
 
     private TitleController titleController;
 
@@ -49,7 +49,7 @@ public class SlideCamera : MonoBehaviour
         float distance = Vector3.Distance(transform.position, currentPos);
 
         // If the distance is below a certain threshold, snap to the target position
-        if (distance < 3.0f)
+        if (distance < 1.0f)
         {
             transform.position = currentPos;
         }

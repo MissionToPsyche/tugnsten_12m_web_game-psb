@@ -11,7 +11,6 @@ public class GravitySciUIController : UIController
     public List<float> referenceWavelengths;
 
     public Slider preciseSlider;
-    public Button submitButton;
 
     public Slider sliderPrefab;
     public List<Slider> sliders;

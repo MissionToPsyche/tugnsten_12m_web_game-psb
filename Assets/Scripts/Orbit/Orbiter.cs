@@ -21,6 +21,8 @@ public class Orbiter : PointMass
     public bool toggleThrustAmount = false;
     public bool reducedThrustEnabled = false;
     public bool active = false; // Enables player control
+    public bool maxThrustOn = false;
+    public bool lightThrustOn = false;
 
     public float fuelUsed = 0;
 
@@ -110,10 +112,24 @@ public class Orbiter : PointMass
                 if (reducedThrustEnabled || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                 {
                     ApplyThrustForward(reducedThrust);
+                    if (!maxThrustOn)
+                    {
+                        SoundManager.Instance.stopSound();
+                        SoundManager.Instance.playLightThrusterSound();
+                        maxThrustOn = true;
+                        lightThrustOn = false;
+                    }
                 }
                 else
                 {
                     ApplyThrustForward(maxThrust);
+                    if (!lightThrustOn)
+                    {
+                        SoundManager.Instance.stopSound();
+                        SoundManager.Instance.playThrusterSound();
+                        lightThrustOn = true;
+                        maxThrustOn = false;
+                    }
                 }
 
                 // Turn engine particles on
@@ -123,6 +139,9 @@ public class Orbiter : PointMass
                 // Turn engine particles off
                 var emission = engine.emission;
                 emission.enabled = false;
+                SoundManager.Instance.stopSound();
+                maxThrustOn = false;
+                lightThrustOn = false;
             }
         }
     }

@@ -38,12 +38,6 @@ public class SoundManager : MonoBehaviour
         effectSource.loop = true;
         PlaySound(thrusterClip);
     }
-
-    public void stopThrusterSound()
-    {
-        effectSource.loop = false;
-        effectSource.Stop();
-    }
     
     public void playLightThrusterSound()
     {
@@ -51,7 +45,7 @@ public class SoundManager : MonoBehaviour
         PlaySound(lightThrusterClip);
     }
 
-    public void stopLightThrusterSound()
+    public void stopSound()
     {
         effectSource.loop = false;
         effectSource.Stop();

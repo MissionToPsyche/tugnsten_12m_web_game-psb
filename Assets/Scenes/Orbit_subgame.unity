@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.00013056796, g: 0.00012234834, b: 0.00013140666, a: 1}
+  m_IndirectSpecularColor: {r: 0.00013143057, g: 0.00012164495, b: 0.00013107073, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -635,7 +635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titleController: {fileID: 2145827017}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 5c94beb16bb587bd9a011be115be06f9, type: 3}
 --- !u!4 &258721671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 45f36b8a9aaedd64486e7c1c9f446b49, type: 3}
@@ -1285,6 +1285,8 @@ MonoBehaviour:
   toggleThrustAmount: 0
   reducedThrustEnabled: 0
   active: 0
+  maxThrustOn: 0
+  lightThrustOn: 0
   fuelUsed: 0
 --- !u!4 &454798050
 Transform:
@@ -10414,6 +10416,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a3d018514b1d740931eec6648bb19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraMoving: 0
+  cameraZooming: 0
 --- !u!4 &2145827018
 Transform:
   m_ObjectHideFlags: 0

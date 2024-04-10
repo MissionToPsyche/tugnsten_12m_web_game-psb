@@ -11,7 +11,7 @@ public class GameScreenUI : MonoBehaviour
     public AudioClip clip;
     private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn;
     private VisualElement root, gameScreen, gameBottomContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen;
-    private ScrollView gameInfo;
+    private ScrollView infoScrollView;
     private Label minigameTitle, timer;
     private void OnEnable()
     {
@@ -68,12 +68,12 @@ public class GameScreenUI : MonoBehaviour
         ////////////////////////////////////////////////////////////////////////////////
         // INFO PANEL UI ELEMENTS
         infoPanel = root.Q<VisualElement>("info-panel");
-        // showInfo(minigameTitle.text);
-        gameInfo = infoPanel.Q<ScrollView>("game-info");
+        infoScrollView = infoPanel.Q<ScrollView>("game-info");
+        showInfo(minigameTitle.text);
         closeBtn = infoPanel.Q<Button>("close-button");
     }
 
-    private void BindUIEvents()
+    private void BindUIEvents()      
     {
         optionsBtn.clicked += () => { optionsButtonClicked(); playSound(); };
         xBtn.clicked += () => { closePanel(); playSound(); };
@@ -113,16 +113,14 @@ public class GameScreenUI : MonoBehaviour
     public void showInfo(string gameName)
     {
         string infoUxmlPath = $"UI/UXML/{gameName}Info";
-        string infoFile = $"{gameName}Info";
-        Debug.Log($"file path: {infoUxmlPath}");
+        VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
 
-        var gameInfoTree = Resources.Load<VisualTreeAsset>(infoFile);
-        VisualElement gameInfoContent = gameInfoTree.Instantiate();
-        
-        // Check if ScrollView is found
-        if (gameInfo != null)
+
+        if (gameInfoTree != null)
         {
-           gameInfo.Add(gameInfoContent);
+            infoScrollView.contentContainer.Clear();
+            VisualElement gameInfoContent = gameInfoTree.Instantiate();
+            infoScrollView.contentContainer.Add(gameInfoContent);
         }
         else
         {

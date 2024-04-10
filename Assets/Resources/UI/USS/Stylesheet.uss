@@ -450,7 +450,7 @@
 
 .info-text-content {
     white-space: normal;
-    font-size: 100%;
+    font-size: 150%;
     -unity-font-definition: initial;
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Medium.ttf?fileID=12800000&guid=dbbb85c07e7a87443badc5cd8c1a97b1&type=3#Orbitron-Medium');
 }

@@ -85,6 +85,13 @@ public class SlideCamera : MonoBehaviour
         }
     }
 
+    public void ResetPosition()
+    {
+        currentIndex = 0;
+        titleController.setMinigameWithIndex(currentIndex);
+        transform.position = positions[0];
+    }
+
     // for testing
     public void changeIndex(KeyCode key)
     {

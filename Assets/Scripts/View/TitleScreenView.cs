@@ -108,6 +108,7 @@ public class TitleScreenView : MonoBehaviour
             minigameText.visible = false;
             MinigameSelectMenu.SetActive(false);
             Console.SetActive(false);
+            slideCamera.ResetPosition();
             Animation.SetActive(true);
             prevBtn.style.display = DisplayStyle.None;
             nextBtn.style.display = DisplayStyle.None;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    private AudioClip thrusterClip;
+    private AudioClip lightThrusterClip;
     public static SoundManager Instance;
 
     [SerializeField] private AudioSource musicSource, effectSource;
@@ -20,6 +22,8 @@ public class SoundManager : MonoBehaviour
         else {
             Destroy(gameObject);
         }
+        thrusterClip = (AudioClip)Resources.Load("Sounds/rocketthrustmaxx-100019");
+        lightThrusterClip = (AudioClip)Resources.Load("Sounds/thrusters_loopwav-14699.mp3");
     }
 
     public void PlaySound(AudioClip clip) {
@@ -27,5 +31,29 @@ public class SoundManager : MonoBehaviour
         {
             effectSource.PlayOneShot(clip);
         }
+    }
+
+    public void playThrusterSound()
+    {
+        effectSource.loop = true;
+        PlaySound(thrusterClip);
+    }
+
+    public void stopThrusterSound()
+    {
+        effectSource.loop = false;
+        effectSource.Stop();
+    }
+    
+    public void playLightThrusterSound()
+    {
+        effectSource.loop = true;
+        PlaySound(lightThrusterClip);
+    }
+
+    public void stopLightThrusterSound()
+    {
+        effectSource.loop = false;
+        effectSource.Stop();
     }
 }

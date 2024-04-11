@@ -23,7 +23,7 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
         thrusterClip = (AudioClip)Resources.Load("Sounds/rocketthrustmaxx-100019");
-        lightThrusterClip = (AudioClip)Resources.Load("Sounds/thrusters_loopwav-14699.mp3");
+        lightThrusterClip = (AudioClip)Resources.Load("Sounds/thrusters_loopwav-14699");
     }
 
     public void PlaySound(AudioClip clip) {
@@ -51,7 +51,7 @@ public class SoundManager : MonoBehaviour
         {
             stopSound();
             effectSource.loop = true;
-            PlaySound(thrusterClip);
+            PlaySound(lightThrusterClip);
             lightThrustOn = true;
             maxThrustOn = false;
         }

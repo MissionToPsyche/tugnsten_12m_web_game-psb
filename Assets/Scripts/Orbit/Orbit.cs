@@ -247,7 +247,12 @@ public class Orbit : MonoBehaviour
         apoapsisPosition = BinarySearchMax(points);
         apoapsisDistance = Vector3.Distance(apoapsisPosition, parent.transform.position);
 
-        rotation = Vector3.Angle(periapsisPosition, Vector3.left);
+        rotation = Vector2.SignedAngle(Vector2.right, apoapsisPosition);
+        
+        // If negative, it's going clockwise under the axis. This flips it to
+        // count up from 180 counterclockwise instead, which makes the angles go
+        // 0-359 counterclockwise.
+        rotation = (rotation + 360) % 360;
     }
 
     public void DrawOrbit()

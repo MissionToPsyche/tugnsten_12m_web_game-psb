@@ -84,7 +84,7 @@ public class TitleController : MonoBehaviour
         }
     }
 
-    public void setMinigame(int index)
+    public void setMinigameWithIndex(int index)
     {
         this.index = index;
         currentScene = scenes[index];
@@ -97,7 +97,7 @@ public class TitleController : MonoBehaviour
 
     public void minigameSelect(Label minigameText)
     {
-        setMinigame(0);
+        setMinigameWithIndex(0);
         minigameText.text = minigames[index];
     }
 
@@ -108,7 +108,7 @@ public class TitleController : MonoBehaviour
             minigameText.text = minigames[index];
             currentScene = scenes[index];
         }
-        setMinigame(index);
+        setMinigameWithIndex(index);
     }
     public int getSceneIndex(string name)
     {

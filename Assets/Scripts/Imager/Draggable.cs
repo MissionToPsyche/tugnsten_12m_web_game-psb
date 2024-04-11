@@ -23,10 +23,10 @@ public class Draggable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, 
         RectTransformUtility.ScreenPointToWorldPointInRectangle(rectTransform, eventData.position, eventData.pressEventCamera, out newPosition);
         
         // Define drag boundaries 
-        float minX = -7.5f; 
-        float maxX = 7.5f;  
-        float minY = -2f; 
-        float maxY = 3f;  
+        float minX = -7.75f; 
+        float maxX = 7.75f;  
+        float minY = -4f; 
+        float maxY = 4f;  
 
         // Clamp newPosition to stay within the defined boundaries
         newPosition.x = Mathf.Clamp(newPosition.x, minX, maxX);

@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI/USS/Stylesheet.uss?fileID=7433441132597879392&amp;guid=30fb6192f07eb614bb3c2983da32c6ec&amp;type=3#Stylesheet" />
+    <ui:VisualElement name="info-content" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Objective:&#10;Adjust points along the orbit to modify the expected waveform until it aligns with the actual waveform signal.&#10;&#10;Controls:&#10;Left-click on the slider and move it to adjust the orbit and match the expected radio wave signal to the actual signal.&#10;&#10;Scoring:&#10;&#10;&#10;Tips:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="text-content" class="info-text-content" />
+        <ui:VisualElement name="image-content1" style="flex-grow: 1; background-image: none; -unity-background-scale-mode: scale-to-fit;" />
+        <ui:VisualElement name="image-content2" style="flex-grow: 1; background-image: none; -unity-background-scale-mode: scale-to-fit;" />
+    </ui:VisualElement>
+</ui:UXML>

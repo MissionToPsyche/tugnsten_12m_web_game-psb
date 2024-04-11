@@ -14,7 +14,7 @@ public class TitleScreenView : MonoBehaviour
     // Private UI elements grouped by their functionality/screen
     private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectCenter, gameSelectBottom, optionsScreen, optionsPanel, soundbar, optionsButtonContainer, creditsScreen;
 
-    private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, minigameBackBtn, playMinigameBtn, closeOptionsBtn, closeCreditsBtn, nextBtn, prevBtn;
+    private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, closeMinigameBtn, playMinigameBtn, closeOptionsBtn, closeCreditsBtn, nextBtn, prevBtn;
 
     private Slider musicSlider, soundSlider;
     private Label minigameText;
@@ -32,10 +32,10 @@ public class TitleScreenView : MonoBehaviour
 
     void Update()
     {
-        if (gameSelectScreen.visible)
-        {
+        // if (gameSelectScreen.visible)
+        // {
             updateMinigameScreen();
-        }
+        // }
 
     }
 
@@ -68,9 +68,11 @@ public class TitleScreenView : MonoBehaviour
         gameSelectBottom = gameSelectScreen.Q<VisualElement>("game-select-bottom");
 
         // buttons on the minigame select screen
-        minigameBackBtn = gameSelectTop.Q<Button>("minigame-back-button");
+        closeMinigameBtn = gameSelectTop.Q<Button>("minigame-back-button");
         prevBtn = gameSelectCenter.Q<Button>("previous-button");
+        prevBtn.style.display = DisplayStyle.None;
         nextBtn = gameSelectCenter.Q<Button>("next-button");
+        nextBtn.style.display = DisplayStyle.None;
         playMinigameBtn = gameSelectBottom.Q<Button>("play-minigame-button");
         
         // minigame title text
@@ -100,13 +102,16 @@ public class TitleScreenView : MonoBehaviour
         CreditsBtn.clicked += () => { switchScreen(creditsScreen); playSound(); };
 
         // Minigame Select Screen
-        minigameBackBtn.clicked += () =>
+        closeMinigameBtn.clicked += () =>
         {
             switchScreen(mainScreen);
             minigameText.visible = false;
             MinigameSelectMenu.SetActive(false);
             Console.SetActive(false);
+            slideCamera.ResetPosition();
             Animation.SetActive(true);
+            prevBtn.style.display = DisplayStyle.None;
+            nextBtn.style.display = DisplayStyle.None;
             playSound();
         };
 
@@ -157,6 +162,7 @@ public class TitleScreenView : MonoBehaviour
         // if the minigame is the first minigame, disable the previous button
         if (titleController.isFirstScene())
         {
+            // prevBtn.style.display = DisplayStyle.None;
             prevBtn.visible = false;
         }
         else
@@ -167,6 +173,7 @@ public class TitleScreenView : MonoBehaviour
         // if the minigame is the last minigame, disable the next button
         if (titleController.isLastScene())
         {
+            // nextBtn.style.display = DisplayStyle.None;
             nextBtn.visible = false;
         }
         else
@@ -189,6 +196,8 @@ public class TitleScreenView : MonoBehaviour
         // set minigame select menu to active
         gameSelectScreen.visible = true;
         minigameText.visible = true;
+        prevBtn.style.display = DisplayStyle.Flex;
+        nextBtn.style.display = DisplayStyle.Flex;
         titleController.minigameSelect(minigameText);
     }
 

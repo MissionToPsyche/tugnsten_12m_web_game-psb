@@ -70,7 +70,7 @@ public class SlideCamera : MonoBehaviour
         if (currentIndex > 0)
         {
             currentIndex--;
-            titleController.setMinigame(currentIndex);
+            titleController.setMinigameWithIndex(currentIndex);
             titleController.cameraMoving = true;
         }
     }
@@ -80,9 +80,16 @@ public class SlideCamera : MonoBehaviour
         if (currentIndex < positions.Length - 1)
         {
             currentIndex++;
-            titleController.setMinigame(currentIndex);
+            titleController.setMinigameWithIndex(currentIndex);
             titleController.cameraMoving = true;
         }
+    }
+
+    public void ResetPosition()
+    {
+        currentIndex = 0;
+        titleController.setMinigameWithIndex(currentIndex);
+        transform.position = positions[0];
     }
 
     // for testing

@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI/USS/Stylesheet.uss?fileID=7433441132597879392&amp;guid=30fb6192f07eb614bb3c2983da32c6ec&amp;type=3#Stylesheet" />
+    <ui:VisualElement name="info-content" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Psyche’s multispectral imager consists of a pair of identical cameras equipped with filters and telescopic lenses to photograph the surface of the asteroid in different wavelengths of light. The cameras can take pictures in the part of the spectrum visible to the human eye, as well as in near-infrared wavelengths of light beyond what humans can see. The images will help the science team learn about the mineral composition of Psyche; map the distribution of craters, valleys, cliffs, and other geologic features; and enable the creation of 3D topographic maps – all of which will provide clues to Psyche’s history. " parse-escape-sequences="true" display-tooltip-when-elided="true" name="text-content" class="info-text-content" />
+        <ui:VisualElement name="image-content1" style="flex-grow: 1; background-image: none; -unity-background-scale-mode: scale-to-fit;" />
+        <ui:VisualElement name="image-content2" style="flex-grow: 1; background-image: none; -unity-background-scale-mode: scale-to-fit;" />
+    </ui:VisualElement>
+</ui:UXML>

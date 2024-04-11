@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titleController: {fileID: 317379090}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 5c94beb16bb587bd9a011be115be06f9, type: 3}
 --- !u!1 &317379089
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a3d018514b1d740931eec6648bb19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraMoving: 0
+  cameraZooming: 0
 --- !u!4 &317379091
 Transform:
   m_ObjectHideFlags: 0

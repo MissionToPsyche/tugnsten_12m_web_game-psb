@@ -48,7 +48,8 @@ public class OrbitGameController : GameController
 
     void Update()
     {
-        ui.ShowTime(timer.getTime());
+        ui.ShowFuel(spacecraft.fuelUsed);
+
         if (gameRunning)
         {
             CheckWin();

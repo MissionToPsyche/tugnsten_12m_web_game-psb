@@ -117,7 +117,11 @@ public class TitleScreenView : MonoBehaviour
 
         prevBtn.clicked += () => {prevMinigame(); playSound();};
         nextBtn.clicked += () => { nextMinigame(); playSound();};
-        playMinigameBtn.clicked += () => { playMinigame(); playSound(); };
+        playMinigameBtn.clicked += () => { 
+            playMinigame();
+            playSound();
+            closeMinigameBtn.SetEnabled(false);
+        };
 
         // Options Screen
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);

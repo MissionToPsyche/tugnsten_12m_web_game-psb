@@ -461,6 +461,27 @@
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Medium.ttf?fileID=12800000&guid=dbbb85c07e7a87443badc5cd8c1a97b1&type=3#Orbitron-Medium');
     font-size: 350%;
     -unity-text-align: middle-center;
+    background-color: rgb(214, 214, 214);
+    color: rgb(55, 55, 55);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    -unity-text-outline-color: rgb(107, 107, 107);
+}
+
+.tab:hover {
+    -unity-font-style: normal;
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Medium.ttf?fileID=12800000&guid=dbbb85c07e7a87443badc5cd8c1a97b1&type=3#Orbitron-Medium');
+    font-size: 350%;
+    -unity-text-align: middle-center;
+    background-color: rgb(164, 164, 164);
+    color: rgb(27, 27, 27);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
 }
 
 .selectedTab {
@@ -469,4 +490,30 @@
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-ExtraBold.ttf?fileID=12800000&guid=4ea3f77db28c19b448bdd77dd7dec530&type=3#Orbitron-ExtraBold');
     font-size: 350%;
     -unity-text-align: middle-center;
+    background-color: rgb(225, 143, 97);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-left-color: rgb(62, 27, 57);
+    border-right-color: rgb(62, 27, 57);
+    border-top-color: rgb(62, 27, 57);
+    border-bottom-color: rgb(62, 27, 57);
+    color: rgb(27, 27, 27);
+}
+
+.selectedTab:hover {
+    -unity-font-style: normal;
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-ExtraBold.ttf?fileID=12800000&guid=4ea3f77db28c19b448bdd77dd7dec530&type=3#Orbitron-ExtraBold');
+    font-size: 350%;
+    -unity-text-align: middle-center;
+    background-color: rgb(225, 143, 97);
+    color: rgb(27, 27, 27);
+}
+
+.info-text-content {
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Regular.ttf?fileID=12800000&guid=94a376486c1f5524c9ab48d0ca2432dc&type=3#Orbitron-Regular');
+    font-size: 150%;
 }

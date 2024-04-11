@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    private AudioClip thrusterClip;
-    private AudioClip lightThrusterClip;
+    private AudioClip thrusterClip, lightThrusterClip;
+    private bool maxThrustOn, lightThrustOn;
     public static SoundManager Instance;
-
+    
     [SerializeField] private AudioSource musicSource, effectSource;
     public void setEffectSource(AudioSource audioSource)
     {
@@ -35,19 +35,31 @@ public class SoundManager : MonoBehaviour
 
     public void playThrusterSound()
     {
-        effectSource.loop = true;
-        PlaySound(thrusterClip);
+        if(!maxThrustOn)
+        {
+            effectSource.loop = true;
+            PlaySound(thrusterClip);
+            maxThrustOn = true;
+            lightThrustOn = false;
+        }
     }
     
     public void playLightThrusterSound()
     {
-        effectSource.loop = true;
-        PlaySound(lightThrusterClip);
+        if(!lightThrustOn)
+        {
+            effectSource.loop = true;
+            PlaySound(thrusterClip);
+            lightThrustOn = true;
+            maxThrustOn = false;
+        }
     }
 
     public void stopSound()
     {
         effectSource.loop = false;
         effectSource.Stop();
+        maxThrustOn = false;
+        lightThrustOn = false;
     }
 }

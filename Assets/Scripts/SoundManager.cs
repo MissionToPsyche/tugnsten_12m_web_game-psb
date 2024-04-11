@@ -37,6 +37,7 @@ public class SoundManager : MonoBehaviour
     {
         if(!maxThrustOn)
         {
+            stopSound();
             effectSource.loop = true;
             PlaySound(thrusterClip);
             maxThrustOn = true;
@@ -48,6 +49,7 @@ public class SoundManager : MonoBehaviour
     {
         if(!lightThrustOn)
         {
+            stopSound();
             effectSource.loop = true;
             PlaySound(thrusterClip);
             lightThrustOn = true;

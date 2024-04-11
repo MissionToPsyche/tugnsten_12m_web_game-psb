@@ -110,10 +110,12 @@ public class Orbiter : PointMass
                 if (reducedThrustEnabled || Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                 {
                     ApplyThrustForward(reducedThrust);
+                    SoundManager.Instance.playLightThrusterSound();
                 }
                 else
                 {
                     ApplyThrustForward(maxThrust);
+                    SoundManager.Instance.playThrusterSound();
                 }
 
                 // Turn engine particles on
@@ -123,6 +125,7 @@ public class Orbiter : PointMass
                 // Turn engine particles off
                 var emission = engine.emission;
                 emission.enabled = false;
+                SoundManager.Instance.stopSound();
             }
         }
     }

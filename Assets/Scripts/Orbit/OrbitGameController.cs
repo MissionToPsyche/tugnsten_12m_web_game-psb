@@ -9,6 +9,8 @@ public class OrbitGameController : GameController
 
     public Orbiter spacecraft;
 
+    public Scorecard scorecard;
+
     public const float altitudeTolerance = 0.1f;
     public const float rotationTolerance = 4f;
     public const float winTimeRequired = 3f;
@@ -25,6 +27,12 @@ public class OrbitGameController : GameController
     {
         ui.SetController(this);
         SetRightBtn();
+
+        // If mission orbit index is invalid, set it to -1 (random).
+        if (missionOrbit < -1 || missionOrbit > 3)
+        {
+            missionOrbit = -1;
+        }
 
         (Vector2 position, Vector2 velocity) = generator.GetInitialState(missionOrbit);
         spacecraft.ResetSpacecraft(position, velocity);
@@ -76,6 +84,17 @@ public class OrbitGameController : GameController
         }
 
         ui.ShowScore(GetScore(), GetGrade());
+        
+        // Puts the random orbit score into index 0.
+        if (missionOrbit > 0)
+        {
+            scorecard.OrbitScore[missionOrbit] = score;
+        }
+        else
+        {
+            scorecard.OrbitScore[0] = score;
+        }
+
         ui.setIsSubmitted(true);
         ui.screenUI.getContinueButton().SetEnabled(true);
     }

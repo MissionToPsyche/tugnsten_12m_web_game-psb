@@ -9,6 +9,7 @@ public class MagnetometerGameController : GameController
     public MagnetometerUIController ui;
     public TorusGenerator torusGenerator;
     public ArrowGenerator arrowGenerator;
+    public Scorecard scorecard;
     private int numArrows = 5;
     private int numEllipses = 5; // symmetric on both sides so 5 on each side for 10 total
     private int numPoints = 200;
@@ -73,6 +74,7 @@ public class MagnetometerGameController : GameController
     {
         StopGame();
         ui.ShowScore(GetScore(), GetGrade());
+        scorecard.MagnetometerScore = score;
     }
 
     override public void CalcScore()

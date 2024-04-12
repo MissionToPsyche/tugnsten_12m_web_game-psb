@@ -10,6 +10,7 @@ public class GravitySciController : GameController
     public GravitySciGenerator generator;
     public DistortedOrbit orbit;
     public RailsSpacecraft spacecraft;
+    public Scorecard scorecard;
 
     // Difference between user and reference distortions treated as perfect.
     public float idealDiff = 0.05f;
@@ -79,6 +80,7 @@ public class GravitySciController : GameController
     {
         StopGame();
         ui.ShowScore(GetScore(), GetGrade());
+        scorecard.GravityScore = score;
     }
 
     public override void CalcScore()

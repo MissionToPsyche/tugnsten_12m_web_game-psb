@@ -14,13 +14,18 @@ public class Scorecard : ScriptableObject
     [SerializeField]
     private int _spectrometerScore = 0;
     [SerializeField]
-    private int _orbitScore1 = 0;
-    [SerializeField]
-    private int _orbitScore2 = 0;
-    [SerializeField]
-    private int _orbitScore3 = 0;
-    [SerializeField]
-    private int _orbitScore4 = 0;
+    private int[] _orbitScore = {0, 0, 0, 0};
+
+    private void OnEnable() {
+        _magnetometerScore = 0;
+        _imagerScore = 0;
+        _gravityScore = 0;
+        _spectrometerScore = 0;
+        for (int i = 0; i < _orbitScore.Length; i++)
+        {
+            _orbitScore[i] = 0;
+        }
+    }
 
     public int MagnetometerScore
     {
@@ -46,27 +51,9 @@ public class Scorecard : ScriptableObject
         set { _spectrometerScore = value; }
     }
 
-    public int OrbitScore1
+    public int[] OrbitScore
     {
-        get { return _orbitScore1; }
-        set { _orbitScore1 = value; }
-    }
-
-    public int OrbitScore2
-    {
-        get { return _orbitScore2; }
-        set { _orbitScore2 = value; }
-    }
-
-    public int OrbitScore3
-    {
-        get { return _orbitScore3; }
-        set { _orbitScore3 = value; }
-    }
-
-    public int OrbitScore4
-    {
-        get { return _orbitScore4; }
-        set { _orbitScore4 = value; }
+        get { return _orbitScore; }
+        set { _orbitScore = value; }
     }
 }

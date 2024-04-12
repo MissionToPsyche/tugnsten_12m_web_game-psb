@@ -10,6 +10,7 @@ public class ImagerGameController : GameController
     public ImagerUIController ui;
     public SliceImage sliceImage;
     public List<GameObject> images {get; set; }
+    public Scorecard scorecard;
 
     override public void InitializeGame()
     {
@@ -99,6 +100,7 @@ public class ImagerGameController : GameController
     {
         StopGame();
         ui.ShowScore(GetScore(), GetGrade());
+        scorecard.ImagerScore = score;
         ui.setIsSubmitted(true);
         ui.screenUI.getContinueButton().SetEnabled(true);
     }

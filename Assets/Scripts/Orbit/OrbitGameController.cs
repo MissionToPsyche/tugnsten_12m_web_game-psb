@@ -9,8 +9,6 @@ public class OrbitGameController : GameController
 
     public Orbiter spacecraft;
 
-    public Scorecard scorecard;
-
     public const float altitudeTolerance = 0.1f;
     public const float rotationTolerance = 4f;
     public const float winTimeRequired = 3f;

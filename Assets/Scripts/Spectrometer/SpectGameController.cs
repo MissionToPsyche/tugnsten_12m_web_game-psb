@@ -7,7 +7,6 @@ public class SpectGameController : GameController
 {
     public SpectUIController ui;
     public SpectDataGenerator generator;
-    public Scorecard scorecard;
 
     // Difference between user and reference quantities treated as perfect.
     public float idealDiff = 0.05f;

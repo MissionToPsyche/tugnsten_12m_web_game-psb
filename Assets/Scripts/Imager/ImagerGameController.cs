@@ -10,7 +10,6 @@ public class ImagerGameController : GameController
     public ImagerUIController ui;
     public SliceImage sliceImage;
     public List<GameObject> images {get; set; }
-    public Scorecard scorecard;
 
     override public void InitializeGame()
     {

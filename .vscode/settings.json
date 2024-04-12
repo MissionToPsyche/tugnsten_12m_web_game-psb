@@ -58,6 +58,7 @@
     },
     "dotnet.defaultSolution": "tugnsten_12m_web_game-psb.sln",
     "cSpell.words": [
+        "imager",
         "Spect"
     ]
 }

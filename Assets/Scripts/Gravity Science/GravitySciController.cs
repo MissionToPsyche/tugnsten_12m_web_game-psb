@@ -36,6 +36,12 @@ public class GravitySciController : GameController
         ui.screenUI.getInfoCloseButton().clicked -= () => { StartGame(); }; 
         ui.screenUI.getInfoCloseButton().clicked += () => { StartGame(); }; 
 
+        GameObject[] gos = GameObject.FindGameObjectsWithTag("destroyOnReset");
+        foreach(GameObject go in gos)
+        {
+            Destroy(go);
+        }
+
         orbit.distortions = generator.GetDistortions(orbit.numOrbitPoints);
         ui.CreateSliders(orbit.distortions, orbit.undistortedOrbitLine, orbit.transform.position);
 

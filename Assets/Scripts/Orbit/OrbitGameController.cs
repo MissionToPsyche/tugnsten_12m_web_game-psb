@@ -26,6 +26,9 @@ public class OrbitGameController : GameController
         ui.SetController(this);
         SetRightBtn();
 
+        ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
+        ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
+
         // If mission orbit index is invalid, set it to -1 (random).
         if (missionOrbit < -1 || missionOrbit > 3)
         {

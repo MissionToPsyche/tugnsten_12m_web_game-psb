@@ -25,6 +25,9 @@ public class GravitySciController : GameController
         ui.SetController(this);
         SetRightBtn();
 
+        ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); }l
+        ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
+
         orbit.distortions = generator.GetDistortions(orbit.numOrbitPoints);
         ui.CreateSliders(orbit.distortions, orbit.undistortedOrbitLine, orbit.transform.position);
 

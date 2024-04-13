@@ -27,6 +27,9 @@ public class SpectGameController : GameController
         ui.SetController(this);
         SetRightBtn();
 
+        ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
+        ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
+
         // Gets true and false elements from generator
         SortedDictionary<string, Element> selectedElements = generator.GetData();
 

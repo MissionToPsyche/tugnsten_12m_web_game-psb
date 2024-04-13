@@ -24,8 +24,15 @@ public class MagnetometerGameController : GameController
     override public void InitializeGame()
     {
         ui.SetController(this);
-
         SetRightBtn();
+        ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
+        ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
+
+        GameObject[] gos = GameObject.FindGameObjectsWithTag("destroyOnReset");
+        foreach(GameObject go in gos)
+        {
+            Destroy(go);
+        }
 
         this.torus = torusGenerator.drawTorus(numEllipses, numPoints);
         torus.torusObject.AddComponent<MoveTorus>();

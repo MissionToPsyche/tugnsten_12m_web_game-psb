@@ -15,6 +15,14 @@ public class ImagerGameController : GameController
     {
         ui.SetController(this);
         SetRightBtn();
+        ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
+        ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
+
+        GameObject[] gos = GameObject.FindGameObjectsWithTag("destroyOnReset");
+        foreach(GameObject go in gos)
+        {
+            Destroy(go);
+        }
 
         sliceImage.slice(); // generate and display images
         images = sliceImage.getImages();
@@ -22,7 +30,9 @@ public class ImagerGameController : GameController
         score = -1;
 
         ui.ResetUI();
-        StartGame();
+        StopGame();
+        StartGame();  // TODO: MOVE OUT AND CONNECT TO UI BUTTONS
+        // TODO: delete images when resetting
     }
 
     void Update()

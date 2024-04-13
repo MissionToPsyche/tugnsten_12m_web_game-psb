@@ -231,4 +231,9 @@ public class GameScreenUI : MonoBehaviour
     {
         return gameTopContainer;
     }
+
+    public Button getResetButton()
+    {
+        return resetBtn;
+    }
 }

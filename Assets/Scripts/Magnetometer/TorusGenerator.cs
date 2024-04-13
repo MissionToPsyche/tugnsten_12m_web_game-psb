@@ -29,6 +29,7 @@ public class TorusGenerator : MonoBehaviour
         this.numPoints = numPoints;
         this.numEllipses = numEllipses;
         this.torusObject = new GameObject("MagneticTorus");
+        torusObject.tag = "destroyOnReset";
         Torus torus = new Torus();
         torus.torusObject = torusObject;
         float minMagnitude = 2 * Mathf.Pow(10f, 13f);

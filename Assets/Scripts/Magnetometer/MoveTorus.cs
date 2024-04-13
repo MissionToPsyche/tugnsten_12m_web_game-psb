@@ -10,21 +10,30 @@ public class MoveTorus : MonoBehaviour
     public Vector3 initialMousePosition {get;set;}
     public Quaternion initialTorusRotation {get;set;}
     private GameScreenUI gui;
-    private bool uiFlag = false;
+    private bool uiFlag = true;
     public GameObject northObject {get;set;}
     public GameObject southObject {get;set;}
 
-    void Start()
+    void OnEnable()
     {
         // TODO: don't detect mouse click over UI
         gui = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
         gui.getBottomContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
         gui.getTopContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
-        // gui.getBottomContainer().RegisterCallback<MouseUpEvent>(OnElementClicked);
-        // gui.getTopContainer().RegisterCallback<MouseUpEvent>(OnElementClicked);
+        gui.getOptionsButton().clicked -= () => { noMove(); };
+        gui.getOptionsButton().clicked += () => { noMove(); };
+        gui.getOptionsCloseButton().clicked -= () => { move(); }; 
+        gui.getOptionsCloseButton().clicked += () => { move(); };
+        gui.getInfoButton().clicked -= () => { noMove(); }; 
+        gui.getInfoButton().clicked += () => { noMove(); }; 
+        gui.getInfoCloseButton().clicked -= () => { move(); }; 
+        gui.getInfoCloseButton().clicked += () => { move(); }; 
+    }
 
-        northObject = GameObject.Find("North");
-        southObject = GameObject.Find("South");
+    void OnDestroy()
+    {
+        northObject = null;
+        southObject = null;
     }
 
     void Update()
@@ -48,7 +57,7 @@ public class MoveTorus : MonoBehaviour
             ScaleTorus();
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (uiFlag && Input.GetMouseButtonUp(0) && !gui.getInfoPanel().visible && !gui.getOptionsPanel().visible)
         {
             uiFlag = false;
         }
@@ -105,5 +114,15 @@ public class MoveTorus : MonoBehaviour
     void OnElementClicked(EventBase evt)
     {
         uiFlag = true;
+    }
+
+    void noMove()
+    {
+        uiFlag = true;
+    }
+
+    void move()
+    {
+        uiFlag = false;
     }
 }

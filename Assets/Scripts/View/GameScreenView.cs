@@ -231,4 +231,40 @@ public class GameScreenUI : MonoBehaviour
     {
         return gameTopContainer;
     }
+
+    public Button getResetButton()
+    {
+        return resetBtn;
+    }
+
+    public Button getOptionsButton()
+    {
+        return optionsBtn;
+    }
+
+    public Button getOptionsCloseButton()
+    {
+        return xBtn;
+    }
+
+    public Button getInfoButton()
+    {
+        return infoBtn;
+    }
+
+    public Button getInfoCloseButton()
+    {
+        return closeBtn;
+    }
+
+    public VisualElement getInfoPanel()
+    {
+        return infoPanel;
+    }
+
+    public VisualElement getOptionsPanel()
+    {
+        return optionsPanel;
+    }
+
 }

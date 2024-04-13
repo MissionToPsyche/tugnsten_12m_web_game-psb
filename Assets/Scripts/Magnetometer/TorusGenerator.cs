@@ -84,7 +84,8 @@ public class TorusGenerator : MonoBehaviour
             ellipseNum++;
         }
 
-        NorthSouthIndicator();
+        MoveTorus moveTorus = torusObject.AddComponent<MoveTorus>();
+        NorthSouthIndicator(moveTorus);
         setScaleAndRotation(ellipseFactor);
         return torus;
     }
@@ -260,7 +261,7 @@ public class TorusGenerator : MonoBehaviour
         return magMoments;
     }
 
-    public void NorthSouthIndicator()
+    public void NorthSouthIndicator(MoveTorus moveTorus)
     {
         northObject = new GameObject("North");
         // Set RectTransform properties (optional)
@@ -276,6 +277,7 @@ public class TorusGenerator : MonoBehaviour
         // Set alignment to center both horizontally and vertically
         northText.alignment = TextAlignmentOptions.Center;
         northText.verticalAlignment = VerticalAlignmentOptions.Middle;
+        moveTorus.northObject = northObject;
 
 
         southObject = new GameObject("South");
@@ -292,6 +294,7 @@ public class TorusGenerator : MonoBehaviour
         // Set alignment to center both horizontally and vertically
         southText.alignment = TextAlignmentOptions.Center;
         southText.verticalAlignment = VerticalAlignmentOptions.Middle;
+        moveTorus.southObject = southObject;
     }
 
     public void setScaleAndRotation(float ellipseFactor)

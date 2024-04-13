@@ -28,6 +28,14 @@ public class OrbitGameController : GameController
 
         ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
         ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
+        ui.screenUI.getOptionsButton().clicked -= () => { StopGame(); };
+        ui.screenUI.getOptionsButton().clicked += () => { StopGame(); };
+        ui.screenUI.getOptionsCloseButton().clicked -= () => { StartGame(); }; 
+        ui.screenUI.getOptionsCloseButton().clicked += () => { StartGame(); };
+        ui.screenUI.getInfoButton().clicked -= () => { StopGame(); }; 
+        ui.screenUI.getInfoButton().clicked += () => { StopGame(); }; 
+        ui.screenUI.getInfoCloseButton().clicked -= () => { StartGame(); }; 
+        ui.screenUI.getInfoCloseButton().clicked += () => { StartGame(); }; 
 
         // If mission orbit index is invalid, set it to -1 (random).
         if (missionOrbit < -1 || missionOrbit > 3)
@@ -46,7 +54,7 @@ public class OrbitGameController : GameController
         score = -1;
 
         ui.ResetUI();
-        StartGame();
+        StopGame();
     }
 
     public override void StartGame()

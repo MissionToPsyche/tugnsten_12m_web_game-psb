@@ -17,6 +17,14 @@ public class ImagerGameController : GameController
         SetRightBtn();
         ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
         ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
+        ui.screenUI.getOptionsButton().clicked -= () => { StopGame(); };
+        ui.screenUI.getOptionsButton().clicked += () => { StopGame(); };
+        ui.screenUI.getOptionsCloseButton().clicked -= () => { StartGame(); }; 
+        ui.screenUI.getOptionsCloseButton().clicked += () => { StartGame(); };
+        ui.screenUI.getInfoButton().clicked -= () => { StopGame(); }; 
+        ui.screenUI.getInfoButton().clicked += () => { StopGame(); }; 
+        ui.screenUI.getInfoCloseButton().clicked -= () => { StartGame(); }; 
+        ui.screenUI.getInfoCloseButton().clicked += () => { StartGame(); }; 
 
         GameObject[] gos = GameObject.FindGameObjectsWithTag("destroyOnReset");
         foreach(GameObject go in gos)
@@ -29,10 +37,9 @@ public class ImagerGameController : GameController
 
         score = -1;
 
+        timer.resetTimer();
         ui.ResetUI();
         StopGame();
-        StartGame();  // TODO: MOVE OUT AND CONNECT TO UI BUTTONS
-        // TODO: delete images when resetting
     }
 
     void Update()

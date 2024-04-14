@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
-using PlasticGui.WorkspaceWindow;
 
 public class GameScreenUI : MonoBehaviour
 {
@@ -13,9 +12,11 @@ public class GameScreenUI : MonoBehaviour
     private VisualElement root, gameScreen, gameBottomContainer, gameOptionsContainer, gameContinueContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen, tabs;
     private ScrollView infoScrollView;
     private Label minigameTitle, timer, instructionsTab, contextTab;
+    private OrbitGameController orbitGameController;
     private void OnEnable()
     {
         Scene scene = SceneManager.GetActiveScene();
+        orbitGameController = new OrbitGameController();
         currentSceneName = scene.name;
         minigameIndex = titleController.getSceneIndex(currentSceneName);
 
@@ -78,7 +79,7 @@ public class GameScreenUI : MonoBehaviour
         closeBtn = infoPanel.Q<Button>("close-button");
     }
 
-    private void BindUIEvents()      
+    private void BindUIEvents()
     {
         optionsBtn.clicked += () => { optionsButtonClicked(); playSound(); };
         xBtn.clicked += () => { closePanel(); playSound(); };
@@ -100,14 +101,25 @@ public class GameScreenUI : MonoBehaviour
     }
 
     public void continueButtonClicked()
-    {
-        minigameIndex += 1;
-        // titleController.setMinigame(minigameIndex);
-
-        if (minigameIndex < 4)
+    {   
+        if (minigameTitle.text != "Orbit")
         {
-            SceneManager.LoadScene(titleController.getSceneName(minigameIndex));
+            int missionOrbit = orbitGameController.missionOrbit;
+            Debug.Log($"mision Orbit: {missionOrbit}");
+            addOrbitGameTransiton();
+            
         }
+        else
+        {
+            
+            if (minigameIndex < 4)
+            {
+                Debug.Log($"Loading next minigame. Game index:  {minigameIndex}");
+                SceneManager.LoadScene(titleController.getSceneName(minigameIndex));
+                
+            }
+        }
+
     }
 
     public void infoClicked()
@@ -119,7 +131,8 @@ public class GameScreenUI : MonoBehaviour
     public void RegisterTabCallbacks()
     {
         UQueryBuilder<Label> tabs = GetAllTabs();
-        tabs.ForEach((Label tab) => {
+        tabs.ForEach((Label tab) =>
+        {
             tab.RegisterCallback<ClickEvent>(TabOnClick);
         });
     }
@@ -134,7 +147,7 @@ public class GameScreenUI : MonoBehaviour
             SelectTab(clickedTab);
         }
     }
-     private static bool TabIsCurrentlySelected(Label tab)
+    private static bool TabIsCurrentlySelected(Label tab)
     {
         return tab.ClassListContains("selectedTab");
     }
@@ -142,11 +155,11 @@ public class GameScreenUI : MonoBehaviour
     private void SelectTab(Label tab)
     {
         tab.AddToClassList("selectedTab");
-        if(tab.name == "Instructions")
+        if (tab.name == "Instructions")
         {
             showInfo();
         }
-        else if(tab.name == "science-context")
+        else if (tab.name == "science-context")
         {
             ShowContext();
         }
@@ -200,7 +213,7 @@ public class GameScreenUI : MonoBehaviour
         }
     }
 
-    
+
 
     public void closePanel()
     {
@@ -230,5 +243,12 @@ public class GameScreenUI : MonoBehaviour
     public VisualElement getTopContainer()
     {
         return gameTopContainer;
+    }
+
+    public void addOrbitGameTransiton()
+    {
+        orbitGameController.SetMissionOrbit(minigameIndex);
+        SceneManager.LoadScene("Orbit_subgame");
+        minigameIndex += 1;
     }
 }

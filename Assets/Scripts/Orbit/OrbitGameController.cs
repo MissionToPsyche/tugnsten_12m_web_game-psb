@@ -141,4 +141,9 @@ public class OrbitGameController : GameController
         ui.screenUI.getContinueButton().clicked -= ui.RightBtnListener; // Prevents multiple listeners
         ui.screenUI.getContinueButton().clicked += ui.RightBtnListener;
     }
+
+    public void SetMissionOrbit(int mission)
+    {
+        missionOrbit = mission;
+    }
 }

@@ -162,8 +162,8 @@ public class Orbit : MonoBehaviour
         // reaches maxSteps many increments.
         for (int step = 1; step < maxCalcSteps; step++)
         {
-            virtualOrbiter.UpdateVelocity();
             virtualOrbiter.UpdatePosition();
+            virtualOrbiter.UpdateVelocity();
 
             points[step] = virtualOrbiter.position;
 

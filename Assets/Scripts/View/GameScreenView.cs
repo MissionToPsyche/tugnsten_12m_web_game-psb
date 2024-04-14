@@ -102,23 +102,23 @@ public class GameScreenUI : MonoBehaviour
 
     public void continueButtonClicked()
     {   
-        if (minigameTitle.text != "Orbit")
-        {
-            int missionOrbit = orbitGameController.missionOrbit;
-            Debug.Log($"mision Orbit: {missionOrbit}");
-            addOrbitGameTransiton();
+        // if (minigameTitle.text != "Orbit")
+        // {
+        //     int missionOrbit = orbitGameController.missionOrbit;
+        //     Debug.Log($"mision Orbit: {missionOrbit}");
+        //     addOrbitGameTransiton();
             
-        }
-        else
-        {
-            
+        // }
+        // else
+        // {
+            minigameIndex += 1;
             if (minigameIndex < 4)
             {
-                Debug.Log($"Loading next minigame. Game index:  {minigameIndex}");
+                // Debug.Log($"Loading next minigame. Game index:  {minigameIndex}");
                 SceneManager.LoadScene(titleController.getSceneName(minigameIndex));
                 
             }
-        }
+        // }
 
     }
 
@@ -249,6 +249,5 @@ public class GameScreenUI : MonoBehaviour
     {
         orbitGameController.SetMissionOrbit(minigameIndex);
         SceneManager.LoadScene("Orbit_subgame");
-        minigameIndex += 1;
     }
 }

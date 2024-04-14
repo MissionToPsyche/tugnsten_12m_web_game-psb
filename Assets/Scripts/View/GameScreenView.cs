@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
-using PlasticGui.WorkspaceWindow;
 
 public class GameScreenUI : MonoBehaviour
 {

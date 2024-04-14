@@ -54,6 +54,7 @@ public class GravitySciUIController : UIController
             // `transform` makes it a child of this script's object, the main UI canvas
             sliders.Add(Instantiate(sliderPrefab, transform));
             sliders[i].gameObject.name = "Slider " + i;
+            sliders[i].gameObject.tag = "destroyOnReset";
 
             // Adds an onClick event to change the active slider
             EventTrigger evTrig = sliders[i].gameObject.AddComponent<EventTrigger>();

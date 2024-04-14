@@ -36,8 +36,6 @@ public class Orbit : MonoBehaviour
         lr.material = new(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
         lr.useWorldSpace = false;
         lr.startWidth = lineWidth;
-
-        DrawOrbit();
     }
 
     private void OnValidate()
@@ -164,8 +162,8 @@ public class Orbit : MonoBehaviour
         // reaches maxSteps many increments.
         for (int step = 1; step < maxCalcSteps; step++)
         {
-            virtualOrbiter.UpdateVelocity();
             virtualOrbiter.UpdatePosition();
+            virtualOrbiter.UpdateVelocity();
 
             points[step] = virtualOrbiter.position;
 

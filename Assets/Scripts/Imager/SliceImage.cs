@@ -226,6 +226,7 @@ public class SliceImage : MonoBehaviour
 
         GameObject imgObject = new GameObject();
         imgObject.name = "img" + imgNum;
+        imgObject.tag = "destroyOnReset";
 
         RectTransform trans = imgObject.AddComponent<RectTransform>();
         trans.transform.SetParent(canvas.transform); // setting parent

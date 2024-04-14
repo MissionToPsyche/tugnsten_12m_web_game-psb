@@ -36,8 +36,6 @@ public class Orbit : MonoBehaviour
         lr.material = new(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
         lr.useWorldSpace = false;
         lr.startWidth = lineWidth;
-
-        DrawOrbit();
     }
 
     private void OnValidate()

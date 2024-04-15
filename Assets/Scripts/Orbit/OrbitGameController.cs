@@ -17,7 +17,7 @@ public class OrbitGameController : GameController
     public float idealFuelUsage = 0.5f; // fuel use value for maximum possible score
 
     // Tracks whether the game has been won
-    private bool won = false;
+    public bool won = false;
 
     public int missionOrbit = 0;
 

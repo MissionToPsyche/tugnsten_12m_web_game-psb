@@ -25,23 +25,6 @@ public class GravitySciController : GameController
         ui.SetController(this);
         SetRightBtn();
 
-        ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
-        ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
-        ui.screenUI.getOptionsButton().clicked -= () => { StopGame(); };
-        ui.screenUI.getOptionsButton().clicked += () => { StopGame(); };
-        ui.screenUI.getOptionsCloseButton().clicked -= () => { StartGame(); }; 
-        ui.screenUI.getOptionsCloseButton().clicked += () => { StartGame(); };
-        ui.screenUI.getInfoButton().clicked -= () => { StopGame(); }; 
-        ui.screenUI.getInfoButton().clicked += () => { StopGame(); }; 
-        ui.screenUI.getInfoCloseButton().clicked -= () => { StartGame(); }; 
-        ui.screenUI.getInfoCloseButton().clicked += () => { StartGame(); }; 
-
-        GameObject[] gos = GameObject.FindGameObjectsWithTag("destroyOnReset");
-        foreach(GameObject go in gos)
-        {
-            Destroy(go);
-        }
-
         orbit.distortions = generator.GetDistortions(orbit.numOrbitPoints);
         ui.CreateSliders(orbit.distortions, orbit.undistortedOrbitLine, orbit.transform.position);
 
@@ -56,6 +39,7 @@ public class GravitySciController : GameController
         
         timer.resetTimer();
         ui.ResetUI();
+        StartGame();
     }
 
     public override void StartGame()
@@ -95,7 +79,6 @@ public class GravitySciController : GameController
     {
         StopGame();
         ui.ShowScore(GetScore(), GetGrade());
-        scorecard.GravityScore = score;
     }
 
     public override void CalcScore()

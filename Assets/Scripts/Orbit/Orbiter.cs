@@ -134,8 +134,8 @@ public class Orbiter : PointMass
     {
         if (!orbit.hasCrashed && !orbit.hasEscaped)
         {
-            UpdatePosition();
             UpdateVelocity();
+            UpdatePosition();
             orbit.CalcOrbitFromOrbiter(transform.position, velocity);
             orbit.DrawOrbit();
         }

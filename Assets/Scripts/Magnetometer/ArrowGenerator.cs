@@ -142,7 +142,6 @@ public class ArrowGenerator : MonoBehaviour
     public void drawArrows(List<(Vector3, Vector3, Vector3)> fieldPoints)
     {
         GameObject arrowsObj = new GameObject("Arrows");
-        arrowsObj.tag = "destroyOnReset";
 
         int i = 0;
         foreach ((Vector3, Vector3, Vector3) point in fieldPoints)

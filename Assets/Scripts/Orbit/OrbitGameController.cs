@@ -26,23 +26,6 @@ public class OrbitGameController : GameController
         ui.SetController(this);
         SetRightBtn();
 
-        ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
-        ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
-        ui.screenUI.getOptionsButton().clicked -= () => { StopGame(); };
-        ui.screenUI.getOptionsButton().clicked += () => { StopGame(); };
-        ui.screenUI.getOptionsCloseButton().clicked -= () => { StartGame(); }; 
-        ui.screenUI.getOptionsCloseButton().clicked += () => { StartGame(); };
-        ui.screenUI.getInfoButton().clicked -= () => { StopGame(); }; 
-        ui.screenUI.getInfoButton().clicked += () => { StopGame(); }; 
-        ui.screenUI.getInfoCloseButton().clicked -= () => { StartGame(); }; 
-        ui.screenUI.getInfoCloseButton().clicked += () => { StartGame(); }; 
-
-        // If mission orbit index is invalid, set it to -1 (random).
-        if (missionOrbit < -1 || missionOrbit > 3)
-        {
-            missionOrbit = -1;
-        }
-
         (Vector2 position, Vector2 velocity) = generator.GetInitialState(missionOrbit);
         spacecraft.ResetSpacecraft(position, velocity);
 
@@ -54,7 +37,7 @@ public class OrbitGameController : GameController
         score = -1;
 
         ui.ResetUI();
-        StopGame();
+        StartGame();
     }
 
     public override void StartGame()
@@ -93,17 +76,6 @@ public class OrbitGameController : GameController
         }
 
         ui.ShowScore(GetScore(), GetGrade());
-        
-        // Puts the random orbit score into index 0.
-        if (missionOrbit > 0)
-        {
-            scorecard.OrbitScore[missionOrbit] = score;
-        }
-        else
-        {
-            scorecard.OrbitScore[0] = score;
-        }
-
         ui.setIsSubmitted(true);
         ui.screenUI.getContinueButton().SetEnabled(true);
     }

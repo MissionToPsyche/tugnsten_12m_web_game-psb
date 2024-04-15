@@ -27,17 +27,6 @@ public class SpectGameController : GameController
         ui.SetController(this);
         SetRightBtn();
 
-        ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
-        ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
-        ui.screenUI.getOptionsButton().clicked -= () => { StopGame(); };
-        ui.screenUI.getOptionsButton().clicked += () => { StopGame(); };
-        ui.screenUI.getOptionsCloseButton().clicked -= () => { StartGame(); }; 
-        ui.screenUI.getOptionsCloseButton().clicked += () => { StartGame(); };
-        ui.screenUI.getInfoButton().clicked -= () => { StopGame(); }; 
-        ui.screenUI.getInfoButton().clicked += () => { StopGame(); }; 
-        ui.screenUI.getInfoCloseButton().clicked -= () => { StartGame(); }; 
-        ui.screenUI.getInfoCloseButton().clicked += () => { StartGame(); }; 
-
         // Gets true and false elements from generator
         SortedDictionary<string, Element> selectedElements = generator.GetData();
 
@@ -48,6 +37,7 @@ public class SpectGameController : GameController
 
         timer.resetTimer();
         ui.ResetUI();
+        StartGame();
     }
 
     private void Update()
@@ -72,7 +62,6 @@ public class SpectGameController : GameController
     {
         StopGame();
         ui.ShowScore(GetScore(), GetGrade());
-        scorecard.SpectrometerScore = score;
     }
 
     public override void CalcScore()

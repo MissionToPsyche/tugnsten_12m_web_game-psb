@@ -61,6 +61,7 @@ public class OrbitGameController : GameController
     public override void StartGame()
     {
         gameRunning = true;
+        spacecraft.controllable = true;
         spacecraft.active = true;
     }
 
@@ -77,6 +78,7 @@ public class OrbitGameController : GameController
     public override void StopGame()
     {
         gameRunning = false;
+        spacecraft.controllable = false;
         spacecraft.active = false;
     }
 

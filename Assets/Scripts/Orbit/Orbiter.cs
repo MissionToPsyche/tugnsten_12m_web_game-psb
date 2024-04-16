@@ -20,7 +20,8 @@ public class Orbiter : PointMass
     public int rotation = 1; // 1 = forward, 2 = backward, 3 = out, 4 = in
     public bool toggleThrustAmount = false;
     public bool reducedThrustEnabled = false;
-    public bool active = false; // Enables player control
+    public bool controllable = false; // Enables player control
+    public bool active = false; // Enables movement
 
     public float fuelUsed = 0;
 
@@ -49,7 +50,7 @@ public class Orbiter : PointMass
 
     private void Update()
     {
-        if (active)
+        if (controllable)
         {
             /* ----------------------- Rotation logic ----------------------- */
             if (Input.GetKey(KeyCode.W))
@@ -132,7 +133,7 @@ public class Orbiter : PointMass
 
     public void FixedUpdate()
     {
-        if (!orbit.hasCrashed && !orbit.hasEscaped)
+        if (!orbit.hasCrashed && !orbit.hasEscaped && active)
         {
             UpdatePosition();
             UpdateVelocity();
@@ -237,6 +238,6 @@ public class Orbiter : PointMass
         transform.position = position;
         this.velocity = velocity;
 
-        active = true;
+        controllable = true;
     }
 }

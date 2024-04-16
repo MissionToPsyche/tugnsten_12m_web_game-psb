@@ -34,6 +34,6 @@
                 <ui:Label tabindex="-1" text="F" parse-escape-sequences="true" display-tooltip-when-elided="true" name="total-letter-score" style="-unity-text-align: upper-center; width: 21%;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:Button text="Title Screen" parse-escape-sequences="true" display-tooltip-when-elided="true" name="title-screen-button" class="button" style="position: absolute; top: 79%; left: 40%; width: 15%; height: 8%; font-size: 40%;" />
+        <ui:Button text="Title Screen" parse-escape-sequences="true" display-tooltip-when-elided="true" name="title-screen-button" class="button" style="position: absolute; top: 79%; left: 38%; width: 18%; height: 10%; font-size: 45%;" />
     </ui:VisualElement>
 </ui:UXML>

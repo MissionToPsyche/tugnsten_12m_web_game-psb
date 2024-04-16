@@ -10,6 +10,7 @@ public class GameScreenUI : MonoBehaviour
     public AudioClip clip;
     private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn;
     private VisualElement root, gameScreen, gameBottomContainer, gameOptionsContainer, gameContinueContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen, tabs, scorePanel, scoreContainer;
+    private Slider musicSlider, soundSlider;
     private ScrollView infoScrollView;
     private Label minigameTitle, timer, instructionsTab, contextTab, numberScore, letterScore;
     private void OnEnable()
@@ -65,6 +66,8 @@ public class GameScreenUI : MonoBehaviour
         xBtn = optionsPanel.Q<Button>("x-button");
         resetBtn = optionsButtonContainer.Q<Button>("reset-button");
         mainMenuBtn = optionsButtonContainer.Q<Button>("main-menu-button");
+        musicSlider = soundBar.Q<Slider>("music-slider");
+        soundSlider = soundBar.Q<Slider>("sound-slider");
 
         ////////////////////////////////////////////////////////////////////////////////
         // INFO PANEL UI ELEMENTS
@@ -91,6 +94,9 @@ public class GameScreenUI : MonoBehaviour
         mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); }; // return to title screen
         infoBtn.clicked += () => { infoClicked(); playSound(); };
         closeBtn.clicked += () => { closePanel(); playSound(); };
+        resetBtn.clicked += () => playSound();
+        musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
+        soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
         RegisterTabCallbacks();
     }
 
@@ -278,4 +284,20 @@ public class GameScreenUI : MonoBehaviour
         return optionsPanel;
     }
 
+    private void musicValueChanged(ChangeEvent<float> evt)
+    {
+        Debug.Log("Slider value changed: " + evt.newValue);
+        GameObject musicSource = SoundManager.Instance.transform.GetChild(0).gameObject;
+        Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
+        AudioSource audioSource = musicSource.GetComponent<AudioSource>();
+        audioSource.volume = evt.newValue / 100;
+    }
+    private void soundValueChanged(ChangeEvent<float> evt)
+    {
+        Debug.Log("Slider value changed: " + evt.newValue);
+        GameObject soundSource = SoundManager.Instance.transform.GetChild(1).gameObject;
+        Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
+        AudioSource audioSource = soundSource.GetComponent<AudioSource>();
+        audioSource.volume = evt.newValue / 100;
+    }
 }

@@ -103,20 +103,40 @@ public class GravitySciController : GameController
 
     public override void CalcScore()
     {
+        // Must sum to 1
+        const float precisionWeight = 0.8f;
+        const float timeWeight = 0.2f;
+
+        /* ---------------------------- Precision --------------------------- */
+
+        const float bestDelta = 0.15f;
+        const float worstDelta = 0.6f;
+        const float deltaRange = worstDelta - bestDelta;
+        
         // Scores each distortion individually, then averages. 
 
-        List<int> scores = new();
+        List<float> precisions = new();
 
         foreach (Distortion distortion in orbit.distortions)
         {
-            float distortionDiff = Mathf.Abs(distortion.intensity - distortion.trueIntensity);
-            float diffRatio = idealDiff / distortionDiff;
-            diffRatio = Mathf.Min(diffRatio, 1.0f);
+            float delta = Mathf.Abs(distortion.intensity - distortion.trueIntensity);
+            delta = Mathf.Max(delta, bestDelta);
+            float deltaPercent = 1 - Mathf.Clamp01((delta - bestDelta) / deltaRange);
 
-            scores.Add(Mathf.RoundToInt(diffRatio * maxScore));
+            precisions.Add(deltaPercent);
         }
 
-        score = Mathf.RoundToInt((float)scores.Average());
+        float precision = (float)precisions.Average();
+
+        /* ------------------------------ Time ------------------------------ */
+
+        float timePercent = 1 - CalcTimePercent(timer.getTime(), 60, 8);
+
+        /* ------------------------------------------------------------------ */
+
+        float overallPercent = precision * precisionWeight + timePercent * timeWeight;
+
+        score = Mathf.RoundToInt(maxScore * overallPercent);
     }
 
     override public void SetRightBtn()

@@ -82,10 +82,7 @@ abstract public class GameController : MonoBehaviour
 
     public float CalcTimePercent(float time, float worstTime, float bestTime)
     {
-        if (time < bestTime)
-        {
-            time = bestTime;
-        }
+        time = Mathf.Max(time, bestTime);
         
         float timeRange = worstTime - bestTime;
 

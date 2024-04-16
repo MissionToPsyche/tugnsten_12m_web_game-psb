@@ -7,6 +7,7 @@ public class ScoreboardView : MonoBehaviour
     private VisualElement root, scoreboardPanel, scoreContainer, numberScoreContainer, letterScoreContainer, totalScoreContainer;
     private Label magnetometerNumber, magnetometerLetter, imagerNumber, imagerLetter, gravityNumber, gravityLetter, spectNumber, spectLetter, OrbitNumber, OrbitLetter, TotalNumber, TotalLetter;
     private Button titleBtn;
+    private ChangeScene SceneChanger;
     public void OnEnable()
     {
         InitializeUI();

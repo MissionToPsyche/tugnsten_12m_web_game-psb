@@ -28,7 +28,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="total-score-container" style="flex-grow: 1; height: 15%; flex-direction: row; align-items: center; -unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-ExtraBold.ttf?fileID=12800000&amp;guid=4ea3f77db28c19b448bdd77dd7dec530&amp;type=3#Orbitron-ExtraBold&apos;); font-size: 60%; padding-left: 1%; border-top-color: rgb(165, 63, 91); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px;">
+            <ui:VisualElement name="total-score-container" style="flex-grow: 1; height: 15%; flex-direction: row; align-items: center; -unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-ExtraBold.ttf?fileID=12800000&amp;guid=4ea3f77db28c19b448bdd77dd7dec530&amp;type=3#Orbitron-ExtraBold&apos;); font-size: 60%; padding-left: 1%; border-top-color: rgb(165, 63, 91); border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px;">
                 <ui:Label tabindex="-1" text="Total Score:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="total-title" style="width: 50%;" />
                 <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="total-number-score" style="width: 25%; justify-content: center; -unity-text-align: upper-center;" />
                 <ui:Label tabindex="-1" text="F" parse-escape-sequences="true" display-tooltip-when-elided="true" name="total-letter-score" style="-unity-text-align: upper-center; width: 21%;" />

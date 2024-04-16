@@ -12,9 +12,9 @@ public class TitleScreenView : MonoBehaviour
     // public OptionsScreenView optionsScreenView;
 
     // Private UI elements grouped by their functionality/screen
-    private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectCenter, gameSelectBottom, optionsScreen, optionsPanel, soundbar, optionsButtonContainer, creditsScreen;
+    private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectCenter, gameSelectBottom, optionsScreen, optionsPanel, soundbar, optionsButtonContainer, creditsScreen, blackScreen, infoPanel, tabs, scorePanel, scoreContainer;
 
-    private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, closeMinigameBtn, playMinigameBtn, closeOptionsBtn, closeCreditsBtn, nextBtn, prevBtn;
+    private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, closeMinigameBtn, playMinigameBtn, closeOptionsBtn, closeCreditsBtn, nextBtn, prevBtn, infoBtn, closeInfoBtn;
 
     private Slider musicSlider, soundSlider;
     private Label minigameText;
@@ -52,6 +52,8 @@ public class TitleScreenView : MonoBehaviour
         gameSelectScreen = root.Q<VisualElement>("game-select-screen");
         optionsScreen = root.Q<VisualElement>("options-screen");
         creditsScreen = root.Q<VisualElement>("credits-screen");
+        infoPanel = root.Q<VisualElement>("info-panel");
+        blackScreen = root.Q<VisualElement>("black-screen");
         screens.AddRange(new VisualElement[] { mainScreen, gameSelectScreen, optionsScreen, creditsScreen });
         buttonContainer = mainScreen.Q<VisualElement>("button-container");
         
@@ -74,7 +76,9 @@ public class TitleScreenView : MonoBehaviour
         nextBtn = gameSelectCenter.Q<Button>("next-button");
         nextBtn.style.display = DisplayStyle.None;
         playMinigameBtn = gameSelectBottom.Q<Button>("play-minigame-button");
-        
+        infoBtn = gameSelectScreen.Q<Button>("info-button");
+        closeCreditsBtn = infoPanel.Q<Button>("close-button");
+
         // minigame title text
         minigameText = gameSelectBottom.Q<Label>("minigame-text");
 
@@ -122,6 +126,7 @@ public class TitleScreenView : MonoBehaviour
             playSound();
             closeMinigameBtn.SetEnabled(false);
         };
+        infoBtn.clicked += () => openInfoPanel();
 
         // Options Screen
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
@@ -220,6 +225,12 @@ public class TitleScreenView : MonoBehaviour
     {   
         Debug.Log("change to: " + titleController.getScene());
         cameraZoom.startCameraMove(titleController.getScene());
+    }
+
+    public void openInfoPanel()
+    {
+        infoPanel.visible = true;
+        blackScreen.visible = true;
     }
 
     private void optionsClicked()

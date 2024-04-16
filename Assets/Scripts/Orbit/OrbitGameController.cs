@@ -17,7 +17,7 @@ public class OrbitGameController : GameController
     public float idealFuelUsage = 0.5f; // fuel use value for maximum possible score
 
     // Tracks whether the game has been won
-    private bool won = false;
+    public bool won = false;
 
     public int missionOrbit = 0;
 
@@ -140,10 +140,5 @@ public class OrbitGameController : GameController
         ui.screenUI.getContinueButton().SetEnabled(false);
         ui.screenUI.getContinueButton().clicked -= ui.RightBtnListener; // Prevents multiple listeners
         ui.screenUI.getContinueButton().clicked += ui.RightBtnListener;
-    }
-
-    public void SetMissionOrbit(int mission)
-    {
-        missionOrbit = mission;
     }
 }

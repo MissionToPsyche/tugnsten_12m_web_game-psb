@@ -24,11 +24,26 @@ public class MagnetometerGameController : GameController
     override public void InitializeGame()
     {
         ui.SetController(this);
-
         SetRightBtn();
+        ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
+        ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
+        ui.screenUI.getOptionsButton().clicked -= () => { StopGame(); };
+        ui.screenUI.getOptionsButton().clicked += () => { StopGame(); };
+        ui.screenUI.getOptionsCloseButton().clicked -= () => { StartGame(); }; 
+        ui.screenUI.getOptionsCloseButton().clicked += () => { StartGame(); };
+        ui.screenUI.getInfoButton().clicked -= () => { StopGame(); }; 
+        ui.screenUI.getInfoButton().clicked += () => { StopGame(); }; 
+        ui.screenUI.getInfoCloseButton().clicked -= () => { StartGame(); }; 
+        ui.screenUI.getInfoCloseButton().clicked += () => { StartGame(); }; 
+
+        GameObject[] gos = GameObject.FindGameObjectsWithTag("destroyOnReset");
+        foreach(GameObject go in gos)
+        {
+            Destroy(go);
+        }
 
         this.torus = torusGenerator.drawTorus(numEllipses, numPoints);
-        torus.torusObject.AddComponent<MoveTorus>();
+        // torus.torusObject.AddComponent<MoveTorus>();
         this.magneticMoment = torus.magneticMoment;
 
         List<(Vector3, Vector3, Vector3)> fieldPoints = arrowGenerator.getFieldPoints(torus, numPoints, numArrows);
@@ -38,7 +53,6 @@ public class MagnetometerGameController : GameController
 
         timer.resetTimer();
         ui.ResetUI();
-        StartGame();
     }
 
     void Update()
@@ -73,6 +87,7 @@ public class MagnetometerGameController : GameController
     {
         StopGame();
         ui.ShowScore(GetScore(), GetGrade());
+        scorecard.MagnetometerScore = score;
     }
 
     override public void CalcScore()

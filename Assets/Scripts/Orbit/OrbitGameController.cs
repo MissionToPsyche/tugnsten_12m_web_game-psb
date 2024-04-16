@@ -9,15 +9,14 @@ public class OrbitGameController : GameController
 
     public Orbiter spacecraft;
 
-    public const float altitudeTolerance = 0.1f;
-    public const float rotationTolerance = 4f;
-    public const float winTimeRequired = 3f;
-    private float winTimer = 0f;
-
     // Tracks whether the game has been won
     public bool won = false;
 
     public int missionOrbit = 0;
+
+    // Minimum acceptable orbit
+    const float worstRotationDelta = 7;
+    const float worstAltDelta = 0.3f;
 
     override public void InitializeGame()
     {
@@ -39,6 +38,7 @@ public class OrbitGameController : GameController
         // If mission orbit index is invalid, set it to -1 (random).
         if (missionOrbit < -1 || missionOrbit > 3)
         {
+            Debug.LogWarning("Orbit game received invalid orbit index.");
             missionOrbit = -1;
         }
 
@@ -49,7 +49,6 @@ public class OrbitGameController : GameController
         ui.SetTargetOrbit(periapsisDistance, apoapsisDistance, rotation);
 
         won = false;
-        winTimer = 0f;
         score = -1;
 
         ui.ResetUI();
@@ -107,15 +106,14 @@ public class OrbitGameController : GameController
             scorecard.OrbitScore[0] = score;
         }
 
-        ui.setIsSubmitted(true);
-        ui.screenUI.getContinueButton().SetEnabled(true);
+        // ui.screenUI.getContinueButton().SetEnabled(true);
     }
 
     override public void CalcScore()
     {
         // Must sum to 1
-        const float fuelWeight = 0.30f;
-        const float rotationWeight = 0.30f;
+        const float fuelWeight = 0.40f;
+        const float rotationWeight = 0.20f;
         const float altWeight = 0.40f;
 
         /* ------------------------------ Fuel ------------------------------ */
@@ -131,7 +129,7 @@ public class OrbitGameController : GameController
         /* ---------------------------- Rotation ---------------------------- */
         
         const float bestRotationDelta = 0.5f; // Degrees
-        const float worstRotationDelta = 7;
+        // worstRotationDelta lifted out for use in CheckWin()
         const float rotationDeltaRange = worstRotationDelta - bestRotationDelta;
 
         float rotationDelta = Mathf.Abs(ui.targetOrbit.rotation - spacecraft.orbit.rotation);
@@ -142,7 +140,7 @@ public class OrbitGameController : GameController
         /* ---------------------------- Altitude ---------------------------- */
 
         const float bestAltDelta = 0.05f;
-        const float worstAltDelta = 0.3f;
+        // worstAltDelta lifted out for use in CheckWin()
         const float altRange = worstAltDelta - bestAltDelta;
 
         float periapsisDelta = Mathf.Abs(ui.targetOrbit.periapsisDistance - spacecraft.orbit.periapsisDistance);
@@ -156,8 +154,18 @@ public class OrbitGameController : GameController
 
         /* ------------------------------------------------------------------ */
 
-        float overallPercent = fuelEfficiency * fuelWeight + rotationPrecision * rotationWeight + altPrecision * altWeight;
+        float overallPercent;
 
+        // Catches a minimum-effort submit and gives it an F
+        if (rotationPrecision + altPrecision < 0.1)
+        {
+            overallPercent = 0;
+        }
+        else
+        {
+            overallPercent = fuelEfficiency * fuelWeight + rotationPrecision * rotationWeight + altPrecision * altWeight;
+        }
+         
         score = Mathf.RoundToInt(maxScore * overallPercent);
     }
 
@@ -165,23 +173,16 @@ public class OrbitGameController : GameController
     {
         // Checks if the current orbit's rotation and apsis distances are
         // within tolerance of the target orbit.
-        bool winState = Mathf.Abs(spacecraft.orbit.rotation - ui.targetOrbit.rotation) < rotationTolerance
-                        && Mathf.Abs(spacecraft.orbit.periapsisDistance - ui.targetOrbit.periapsisDistance) < altitudeTolerance
-                        && Mathf.Abs(spacecraft.orbit.apoapsisDistance - ui.targetOrbit.apoapsisDistance) < altitudeTolerance;
+        bool winState = Mathf.Abs(spacecraft.orbit.rotation - ui.targetOrbit.rotation) < worstRotationDelta
+                        && Mathf.Abs(spacecraft.orbit.periapsisDistance - ui.targetOrbit.periapsisDistance) < worstAltDelta
+                        && Mathf.Abs(spacecraft.orbit.apoapsisDistance - ui.targetOrbit.apoapsisDistance) < worstAltDelta;
 
-        // If the game is in the win state, starts counting up to
-        // winTimeRequired. If the game leaves the win state, the timer is
-        // reset.
         if (winState)
         {
-            winTimer += Time.deltaTime;
-
-            float secondsRemaining = Mathf.Round(winTimeRequired - winTimer);
-            ui.ShowMsg("Maintain Orbit..." + secondsRemaining);
+            ui.ShowMsg("Orbit Reached");
         }
         else
         {
-            winTimer = 0f;
             ui.ShowMsg("");
         }
 
@@ -195,20 +196,11 @@ public class OrbitGameController : GameController
             ui.ShowMsg("Spacecraft Escaped Orbit!");
             FinishGame();
         }
-
-        // If the game has remained in the win state for winTimeRequired,
-        // the player has actually won.
-        if (winTimer >= winTimeRequired)
-        {
-            won = true;
-            FinishGame();
-        }
     }
 
     override public void SetRightBtn()
     {
-        ui.screenUI.getContinueButton().text = "Continue";
-        ui.screenUI.getContinueButton().SetEnabled(false);
+        ui.screenUI.getContinueButton().text = "Submit";
         ui.screenUI.getContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
         ui.screenUI.getContinueButton().clicked += ui.rightBtnListenerAction;
     }

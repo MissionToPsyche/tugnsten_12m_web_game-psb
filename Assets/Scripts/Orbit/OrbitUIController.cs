@@ -48,7 +48,8 @@ public class OrbitUIController : UIController
 
     override public void SubmitClicked()
     {
-        return;
+        screenUI.getContinueButton().text = "Continue";
+        controller.FinishGame();
     }
 
     public void ShowFuel(float fuel)

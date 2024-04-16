@@ -25,18 +25,19 @@ public class SpectGameController : GameController
     public override void InitializeGame()
     {
         ui.SetController(this);
+        ui.setIsSubmitted(false);
         SetRightBtn();
 
-        ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
-        ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
-        ui.screenUI.getOptionsButton().clicked -= () => { StopGame(); };
-        ui.screenUI.getOptionsButton().clicked += () => { StopGame(); };
-        ui.screenUI.getOptionsCloseButton().clicked -= () => { StartGame(); }; 
-        ui.screenUI.getOptionsCloseButton().clicked += () => { StartGame(); };
-        ui.screenUI.getInfoButton().clicked -= () => { StopGame(); }; 
-        ui.screenUI.getInfoButton().clicked += () => { StopGame(); }; 
-        ui.screenUI.getInfoCloseButton().clicked -= () => { StartGame(); }; 
-        ui.screenUI.getInfoCloseButton().clicked += () => { StartGame(); }; 
+        ui.screenUI.getResetButton().clicked -= initializeGameAction;
+        ui.screenUI.getResetButton().clicked += initializeGameAction;
+        ui.screenUI.getOptionsButton().clicked -= stopGameAction;
+        ui.screenUI.getOptionsButton().clicked += stopGameAction;
+        ui.screenUI.getOptionsCloseButton().clicked -= startGameAction; 
+        ui.screenUI.getOptionsCloseButton().clicked += startGameAction;
+        ui.screenUI.getInfoButton().clicked -= stopGameAction; 
+        ui.screenUI.getInfoButton().clicked += stopGameAction; 
+        ui.screenUI.getInfoCloseButton().clicked -= startGameAction; 
+        ui.screenUI.getInfoCloseButton().clicked += startGameAction; 
 
         // Gets true and false elements from generator
         SortedDictionary<string, Element> selectedElements = generator.GetData();
@@ -71,6 +72,8 @@ public class SpectGameController : GameController
     public override void FinishGame()
     {
         StopGame();
+        ui.screenUI.getOptionsCloseButton().clicked -= startGameAction;  
+        ui.screenUI.getInfoCloseButton().clicked -= startGameAction; 
         ui.ShowScore(GetScore(), GetGrade());
         scorecard.SpectrometerScore = score;
     }
@@ -107,7 +110,7 @@ public class SpectGameController : GameController
     override public void SetRightBtn()
     {
         ui.screenUI.getContinueButton().text = "Submit";
-        ui.screenUI.getContinueButton().clicked -= ui.RightBtnListener; // Prevents multiple listeners
-        ui.screenUI.getContinueButton().clicked += ui.RightBtnListener;
+        ui.screenUI.getContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
+        ui.screenUI.getContinueButton().clicked += ui.rightBtnListenerAction;
     }
 }

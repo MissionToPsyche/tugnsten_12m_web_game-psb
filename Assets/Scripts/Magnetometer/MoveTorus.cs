@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
 
 public class MoveTorus : MonoBehaviour
 {
@@ -9,25 +10,30 @@ public class MoveTorus : MonoBehaviour
     public Vector3 startScale {get;set;}
     public Vector3 initialMousePosition {get;set;}
     public Quaternion initialTorusRotation {get;set;}
-    private GameScreenUI gui;
-    private bool uiFlag = true;
+    private MagnetometerGameController magController;
+    public bool uiFlag = true;
     public GameObject northObject {get;set;}
     public GameObject southObject {get;set;}
+    public Action noMoveAction;
+    public Action moveAction;
 
     void OnEnable()
     {
+        magController = GameObject.Find("Game Controller").GetComponent<MagnetometerGameController>();
+        noMoveAction = () => { noMove(); };
+        moveAction = () => { move(); };
+
         // TODO: don't detect mouse click over UI
-        gui = GameObject.Find("UIDocument").GetComponent<GameScreenUI>();
-        gui.getBottomContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
-        gui.getTopContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
-        gui.getOptionsButton().clicked -= () => { noMove(); };
-        gui.getOptionsButton().clicked += () => { noMove(); };
-        gui.getOptionsCloseButton().clicked -= () => { move(); }; 
-        gui.getOptionsCloseButton().clicked += () => { move(); };
-        gui.getInfoButton().clicked -= () => { noMove(); }; 
-        gui.getInfoButton().clicked += () => { noMove(); }; 
-        gui.getInfoCloseButton().clicked -= () => { move(); }; 
-        gui.getInfoCloseButton().clicked += () => { move(); }; 
+        magController.ui.screenUI.getBottomContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
+        magController.ui.screenUI.getTopContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
+        magController.ui.screenUI.getOptionsButton().clicked -= noMoveAction;
+        magController.ui.screenUI.getOptionsButton().clicked += noMoveAction;
+        magController.ui.screenUI.getOptionsCloseButton().clicked -= moveAction; 
+        magController.ui.screenUI.getOptionsCloseButton().clicked += moveAction;
+        magController.ui.screenUI.getInfoButton().clicked -= noMoveAction; 
+        magController.ui.screenUI.getInfoButton().clicked += noMoveAction; 
+        magController.ui.screenUI.getInfoCloseButton().clicked -= moveAction; 
+        magController.ui.screenUI.getInfoCloseButton().clicked += moveAction;
     }
 
     void OnDestroy()
@@ -57,7 +63,7 @@ public class MoveTorus : MonoBehaviour
             ScaleTorus();
         }
 
-        if (uiFlag && Input.GetMouseButtonUp(0) && !gui.getInfoPanel().visible && !gui.getOptionsPanel().visible)
+        if (uiFlag && Input.GetMouseButtonUp(0) && magController.getGameRunning() && !magController.ui.screenUI.getInfoPanel().visible && !magController.ui.screenUI.getOptionsPanel().visible)
         {
             uiFlag = false;
         }

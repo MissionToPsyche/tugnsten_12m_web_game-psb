@@ -228,48 +228,6 @@
     justify-content: flex-start;
 }
 
-.emphasis-button:focus {
-    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&guid=5e45cd4bb34bec24eb2fe66c08f4067a&type=3#AndromedaTV');
-    -unity-font-definition: initial;
-    -unity-font-style: bold;
-    background-color: rgb(249, 160, 0);
-    -unity-background-image-tint-color: rgb(249, 160, 0);
-    border-left-color: rgb(89, 38, 81);
-    border-right-color: rgb(89, 38, 81);
-    border-top-color: rgb(89, 38, 81);
-    border-bottom-color: rgb(89, 38, 81);
-    border-top-width: 8px;
-    border-right-width: 8px;
-    border-bottom-width: 8px;
-    border-left-width: 8px;
-    color: rgb(89, 38, 81);
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-    border-bottom-left-radius: 25px;
-    margin-top: 2%;
-    margin-right: 2%;
-    margin-bottom: 2%;
-    margin-left: 2%;
-    width: 25%;
-    flex-grow: 1;
-    height: 10%;
-    flex-shrink: 1;
-    flex-basis: 1px;
-    padding-top: 1%;
-    padding-right: 1%;
-    padding-bottom: 1%;
-    padding-left: 1%;
-    min-width: 25px;
-    min-height: 70px;
-    opacity: 1;
-    max-width: none;
-    max-height: none;
-    flex-wrap: nowrap;
-    align-items: auto;
-    justify-content: flex-start;
-}
-
 .emphasis-button:disabled {
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&guid=5e45cd4bb34bec24eb2fe66c08f4067a&type=3#AndromedaTV');
     -unity-font-definition: initial;

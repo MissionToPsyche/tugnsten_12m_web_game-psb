@@ -94,6 +94,7 @@ public class GameScreenUI : MonoBehaviour
         mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); }; // return to title screen
         infoBtn.clicked += () => { infoClicked(); playSound(); };
         closeBtn.clicked += () => { closePanel(); playSound(); };
+        resetBtn.clicked += () => playSound();
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
         RegisterTabCallbacks();

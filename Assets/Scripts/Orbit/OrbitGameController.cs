@@ -24,18 +24,19 @@ public class OrbitGameController : GameController
     override public void InitializeGame()
     {
         ui.SetController(this);
+        ui.setIsSubmitted(false);
         SetRightBtn();
 
-        ui.screenUI.getResetButton().clicked -= () => { InitializeGame(); };
-        ui.screenUI.getResetButton().clicked += () => { InitializeGame(); };
-        ui.screenUI.getOptionsButton().clicked -= () => { StopGame(); };
-        ui.screenUI.getOptionsButton().clicked += () => { StopGame(); };
-        ui.screenUI.getOptionsCloseButton().clicked -= () => { StartGame(); }; 
-        ui.screenUI.getOptionsCloseButton().clicked += () => { StartGame(); };
-        ui.screenUI.getInfoButton().clicked -= () => { StopGame(); }; 
-        ui.screenUI.getInfoButton().clicked += () => { StopGame(); }; 
-        ui.screenUI.getInfoCloseButton().clicked -= () => { StartGame(); }; 
-        ui.screenUI.getInfoCloseButton().clicked += () => { StartGame(); }; 
+        ui.screenUI.getResetButton().clicked -= initializeGameAction;
+        ui.screenUI.getResetButton().clicked += initializeGameAction;
+        ui.screenUI.getOptionsButton().clicked -= stopGameAction;
+        ui.screenUI.getOptionsButton().clicked += stopGameAction;
+        ui.screenUI.getOptionsCloseButton().clicked -= startGameAction; 
+        ui.screenUI.getOptionsCloseButton().clicked += startGameAction;
+        ui.screenUI.getInfoButton().clicked -= stopGameAction; 
+        ui.screenUI.getInfoButton().clicked += stopGameAction; 
+        ui.screenUI.getInfoCloseButton().clicked -= startGameAction; 
+        ui.screenUI.getInfoCloseButton().clicked += startGameAction; 
 
         // If mission orbit index is invalid, set it to -1 (random).
         if (missionOrbit < -1 || missionOrbit > 3)
@@ -82,6 +83,8 @@ public class OrbitGameController : GameController
     override public void FinishGame()
     {
         StopGame();
+        ui.screenUI.getOptionsCloseButton().clicked -= startGameAction;  
+        ui.screenUI.getInfoCloseButton().clicked -= startGameAction; 
 
         if (won)
         {
@@ -166,7 +169,7 @@ public class OrbitGameController : GameController
     {
         ui.screenUI.getContinueButton().text = "Continue";
         ui.screenUI.getContinueButton().SetEnabled(false);
-        ui.screenUI.getContinueButton().clicked -= ui.RightBtnListener; // Prevents multiple listeners
-        ui.screenUI.getContinueButton().clicked += ui.RightBtnListener;
+        ui.screenUI.getContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
+        ui.screenUI.getContinueButton().clicked += ui.rightBtnListenerAction;
     }
 }

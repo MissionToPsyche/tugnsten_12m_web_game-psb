@@ -13,8 +13,14 @@ abstract public class UIController : MonoBehaviour
     public GameScreenUI screenUI;
     private bool isSubmitted = false;
     private string text;
-
+    public Action rightBtnListenerAction;
     public GameController controller;
+
+    public UIController()
+    {
+        rightBtnListenerAction = () => { RightBtnListener(); };
+    }
+    
     public void SetController(GameController gameController)
     {
         controller = gameController;

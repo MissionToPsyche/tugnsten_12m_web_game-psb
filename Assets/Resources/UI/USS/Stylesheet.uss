@@ -144,9 +144,6 @@
     -unity-background-image-tint-color: rgb(249, 160, 0);
 }
 
-.text-style {
-}
-
 .emphasis-button {
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&guid=5e45cd4bb34bec24eb2fe66c08f4067a&type=3#AndromedaTV');
     -unity-font-definition: initial;
@@ -315,7 +312,7 @@
     justify-content: flex-start;
 }
 
-.timer-text {
+.top-border-text {
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Medium.ttf?fileID=12800000&guid=dbbb85c07e7a87443badc5cd8c1a97b1&type=3#Orbitron-Medium');
     font-size: 100%;
     -unity-text-align: upper-center;
@@ -393,10 +390,10 @@
 .panel {
     position: absolute;
     background-color: rgb(214, 214, 214);
-    border-left-color: rgb(244, 124, 51);
-    border-right-color: rgb(244, 124, 51);
-    border-top-color: rgb(244, 124, 51);
-    border-bottom-color: rgb(244, 124, 51);
+    border-left-color: rgb(225, 143, 97);
+    border-right-color: rgb(225, 143, 97);
+    border-top-color: rgb(225, 143, 97);
+    border-bottom-color: rgb(225, 143, 97);
     border-top-width: 7px;
     border-right-width: 7px;
     border-bottom-width: 7px;
@@ -490,13 +487,6 @@
     padding-left: 0;
 }
 
-.info-text-content {
-    white-space: normal;
-    font-size: 150%;
-    -unity-font-definition: initial;
-    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Medium.ttf?fileID=12800000&guid=dbbb85c07e7a87443badc5cd8c1a97b1&type=3#Orbitron-Medium');
-}
-
 .tab {
     -unity-font-style: normal;
     -unity-font-definition: initial;
@@ -554,8 +544,16 @@
     color: rgb(27, 27, 27);
 }
 
+.info-heading {
+}
+
 .info-text-content {
-    -unity-font-definition: initial;
-    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Regular.ttf?fileID=12800000&guid=94a376486c1f5524c9ab48d0ca2432dc&type=3#Orbitron-Regular');
+    white-space: normal;
     font-size: 150%;
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Medium.ttf?fileID=12800000&guid=dbbb85c07e7a87443badc5cd8c1a97b1&type=3#Orbitron-Medium');
+}
+
+.info-image {
+    width: 100%;
 }

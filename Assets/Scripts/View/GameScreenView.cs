@@ -9,9 +9,9 @@ public class GameScreenUI : MonoBehaviour
     public TitleController titleController;
     public AudioClip clip;
     private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn;
-    private VisualElement root, gameScreen, gameBottomContainer, gameOptionsContainer, gameContinueContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen, tabs;
+    private VisualElement root, gameScreen, gameBottomContainer, gameOptionsContainer, gameContinueContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen, tabs, scorePanel, scoreContainer;
     private ScrollView infoScrollView;
-    private Label minigameTitle, timer, instructionsTab, contextTab;
+    private Label minigameTitle, timer, instructionsTab, contextTab, numberScore, letterScore;
     private void OnEnable()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -75,6 +75,13 @@ public class GameScreenUI : MonoBehaviour
         infoScrollView = infoPanel.Q<ScrollView>("game-info");
         showInfo();
         closeBtn = infoPanel.Q<Button>("close-button");
+
+        ////////////////////////////////////////////////////////////////////////////////
+        // SCORE PANEL UI ELEMENTS
+        scorePanel = root.Q<VisualElement>("score-panel");
+        scoreContainer = scorePanel.Q<VisualElement>("score-container");
+        numberScore = scoreContainer.Q<Label>("number-score");
+        letterScore = scoreContainer.Q<Label>("letter-score");
     }
 
     private void BindUIEvents()      
@@ -199,7 +206,11 @@ public class GameScreenUI : MonoBehaviour
         }
     }
 
-    
+    public void showScorePanel()
+    {
+        scorePanel.visible = true;
+        blackScreen.visible = true;
+    }
 
     public void closePanel()
     {
@@ -207,6 +218,7 @@ public class GameScreenUI : MonoBehaviour
         optionsPanel.visible = false;
         infoPanel.visible = false;
         blackScreen.visible = false;
+        scorePanel.visible = false;
     }
     private void playSound()
     {

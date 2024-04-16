@@ -1374,7 +1374,7 @@ AudioSource:
   m_Volume: 0.7
   m_Pitch: 1
   Loop: 1
-  Mute: 1
+  Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -1656,13 +1656,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: {fileID: 1437207598}
+  scorecard: {fileID: 11400000, guid: 99a54c30eee7d9f4e8e763d34610ba9a, type: 2}
   maxScore: 10000
   score: -1
   ui: {fileID: 715186586}
   generator: {fileID: 1610523713}
   orbit: {fileID: 269140321}
   spacecraft: {fileID: 1648529165}
-  scorecard: {fileID: 11400000, guid: 99a54c30eee7d9f4e8e763d34610ba9a, type: 2}
   idealDiff: 0.05
   idealTime: 5
   accuracyWeight: 0.5

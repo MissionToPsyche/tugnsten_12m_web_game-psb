@@ -8,7 +8,7 @@ public class GameScreenUI : MonoBehaviour
     private string currentSceneName;
     public TitleController titleController;
     public AudioClip clip;
-    private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn;
+    private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn, closeScoreBtn;
     private VisualElement root, gameScreen, gameBottomContainer, gameOptionsContainer, gameContinueContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen, tabs, scorePanel, scoreContainer;
     private Slider musicSlider, soundSlider;
     private ScrollView infoScrollView;

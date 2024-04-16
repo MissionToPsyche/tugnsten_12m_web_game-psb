@@ -77,7 +77,7 @@ public class TitleScreenView : MonoBehaviour
         nextBtn.style.display = DisplayStyle.None;
         playMinigameBtn = gameSelectBottom.Q<Button>("play-minigame-button");
         infoBtn = gameSelectScreen.Q<Button>("info-button");
-        closeCreditsBtn = infoPanel.Q<Button>("close-button");
+        closeInfoBtn = infoPanel.Q<Button>("close-button");
 
         // minigame title text
         minigameText = gameSelectBottom.Q<Label>("minigame-text");
@@ -127,6 +127,7 @@ public class TitleScreenView : MonoBehaviour
             closeMinigameBtn.SetEnabled(false);
         };
         infoBtn.clicked += () => openInfoPanel();
+        closeInfoBtn.clicked += () => { infoPanel.visible = false; blackScreen.visible = false; playSound(); };
 
         // Options Screen
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);

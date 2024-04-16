@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class GameScreenUI : MonoBehaviour
 {
-    private int minigameIndex;
+    public PersistentInt lastMinigameIndex;
+    private int currentSceneIndex;
     private string currentSceneName;
     public TitleController titleController;
     public AudioClip clip;
@@ -17,7 +18,18 @@ public class GameScreenUI : MonoBehaviour
     {
         Scene scene = SceneManager.GetActiveScene();
         currentSceneName = scene.name;
-        minigameIndex = titleController.getSceneIndex(currentSceneName);
+        currentSceneIndex = titleController.getSceneIndex(currentSceneName);
+
+        // If not orbit game
+        if (currentSceneIndex != 4)
+        {
+            lastMinigameIndex.Num = currentSceneIndex;
+        }
+        else
+        {
+            OrbitGameController controller = FindFirstObjectByType<OrbitGameController>().GetComponent<OrbitGameController>();
+            controller.missionOrbit = lastMinigameIndex.Num;
+        }
 
         InitializeUI();
         BindUIEvents();
@@ -39,7 +51,7 @@ public class GameScreenUI : MonoBehaviour
         topBorder = gameTopContainer.Q<VisualElement>("top-border");
         timer = topBorder.Q<Label>("timer-label");
         minigameTitle = gameBottomContainer.Q<Label>("minigame-title");
-        minigameTitle.text = titleController.getMinigameText(minigameIndex); // setting the minigame title
+        minigameTitle.text = titleController.getMinigameText(currentSceneIndex); // setting the minigame title
 
         //buttons on the game screen
         infoBtn = gameTopContainer.Q<Button>("help-button");
@@ -113,13 +125,23 @@ public class GameScreenUI : MonoBehaviour
 
     public void continueButtonClicked()
     {
-        minigameIndex += 1;
-        // titleController.setMinigame(minigameIndex);
-
-        if (minigameIndex < 4)
+        if (currentSceneIndex == 3)
         {
-            SceneManager.LoadScene(titleController.getSceneName(minigameIndex));
+            // Go to score scene
         }
+        else if (currentSceneIndex != 4) // If not orbit game
+        {
+            lastMinigameIndex.Num += 1;
+            // Load the orbit game
+            SceneManager.LoadScene(titleController.getSceneName(4));
+        }
+        else
+        {
+            if (lastMinigameIndex.Num < 4)
+            {
+                SceneManager.LoadScene(titleController.getSceneName(lastMinigameIndex.Num));
+            }
+        }        
     }
 
     public void infoClicked()

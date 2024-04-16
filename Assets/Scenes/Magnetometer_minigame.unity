@@ -184,6 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24745b7b92e51c3499c5b280418adcae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastMinigameIndex: {fileID: 11400000, guid: c1f2f44b01d5b964fafcdd736703669e, type: 2}
   titleController: {fileID: 317379090}
   clip: {fileID: 8300000, guid: 5c94beb16bb587bd9a011be115be06f9, type: 3}
 --- !u!1 &317379089

@@ -13,8 +13,6 @@ public class OrbitGameController : GameController
     public const float rotationTolerance = 4f;
     public const float winTimeRequired = 3f;
     private float winTimer = 0f;
-    // TODO: tune this
-    public float idealFuelUsage = 0.5f; // fuel use value for maximum possible score
 
     // Tracks whether the game has been won
     public bool won = false;
@@ -115,12 +113,52 @@ public class OrbitGameController : GameController
 
     override public void CalcScore()
     {
-        float fuelRatio = idealFuelUsage / spacecraft.fuelUsed;
-        fuelRatio = Mathf.Min(fuelRatio, 1.0f);
+        // Must sum to 1
+        const float fuelWeight = 0.30f;
+        const float rotationWeight = 0.30f;
+        const float altWeight = 0.40f;
 
-        int score = Mathf.RoundToInt(maxScore * fuelRatio);
+        /* ------------------------------ Fuel ------------------------------ */
 
-        this.score = score;
+        const float bestFuelUse = 7;
+        const float worstFuelUse = 20;
+        const float fuelRange = worstFuelUse - bestFuelUse;
+
+        float fuelUsed = Mathf.Max(bestFuelUse, spacecraft.fuelUsed);;
+
+        float fuelEfficiency = 1 - Mathf.Clamp01((fuelUsed - bestFuelUse) / fuelRange);
+
+        /* ---------------------------- Rotation ---------------------------- */
+        
+        const float bestRotationDelta = 0.5f; // Degrees
+        const float worstRotationDelta = 7;
+        const float rotationDeltaRange = worstRotationDelta - bestRotationDelta;
+
+        float rotationDelta = Mathf.Abs(ui.targetOrbit.rotation - spacecraft.orbit.rotation);
+        rotationDelta = Mathf.Max(bestRotationDelta, rotationDelta);
+
+        float rotationPrecision = 1 - Mathf.Clamp01((rotationDelta - bestRotationDelta) / rotationDeltaRange);
+
+        /* ---------------------------- Altitude ---------------------------- */
+
+        const float bestAltDelta = 0.05f;
+        const float worstAltDelta = 0.3f;
+        const float altRange = worstAltDelta - bestAltDelta;
+
+        float periapsisDelta = Mathf.Abs(ui.targetOrbit.periapsisDistance - spacecraft.orbit.periapsisDistance);
+        periapsisDelta = Mathf.Max(bestAltDelta, periapsisDelta);
+        float apoapsisDelta = Mathf.Abs(ui.targetOrbit.apoapsisDistance - spacecraft.orbit.apoapsisDistance);
+        apoapsisDelta = Mathf.Max(bestAltDelta, apoapsisDelta);
+
+        float altitudeDelta = periapsisDelta * 0.5f + apoapsisDelta * 0.5f;
+
+        float altPrecision = 1 - Mathf.Clamp01((altitudeDelta - bestAltDelta) / altRange);
+
+        /* ------------------------------------------------------------------ */
+
+        float overallPercent = fuelEfficiency * fuelWeight + rotationPrecision * rotationWeight + altPrecision * altWeight;
+
+        score = Mathf.RoundToInt(maxScore * overallPercent);
     }
 
     public void CheckWin()

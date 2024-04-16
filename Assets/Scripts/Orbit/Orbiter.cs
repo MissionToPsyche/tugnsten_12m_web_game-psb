@@ -237,6 +237,7 @@ public class Orbiter : PointMass
         orbit.ResetOrbit();
         transform.position = position;
         this.velocity = velocity;
+        fuelUsed = 0;
 
         controllable = true;
     }

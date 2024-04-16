@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 abstract public class GameController : MonoBehaviour
 {
@@ -9,6 +10,16 @@ abstract public class GameController : MonoBehaviour
     protected bool gameRunning = false;
     public int maxScore = 10000;
     public int score = -1;
+    protected Action startGameAction;
+    protected Action stopGameAction;
+    protected Action initializeGameAction;
+
+    public GameController()
+    {
+       startGameAction = () => { StartGame(); };
+       stopGameAction = () => { StopGame(); };
+       initializeGameAction = () => { InitializeGame(); };
+    }
 
     void Start()
     {

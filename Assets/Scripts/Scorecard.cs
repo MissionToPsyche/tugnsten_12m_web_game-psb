@@ -6,24 +6,24 @@ using UnityEngine;
 public class Scorecard : ScriptableObject
 {
     [SerializeField]
-    private int _magnetometerScore = 0;
+    private int _magnetometerScore = -1;
     [SerializeField]
-    private int _imagerScore = 0;
+    private int _imagerScore = -1;
     [SerializeField]
-    private int _gravityScore = 0;
+    private int _gravityScore = -1;
     [SerializeField]
-    private int _spectrometerScore = 0;
+    private int _spectrometerScore = -1;
     [SerializeField]
-    private int[] _orbitScore = {0, 0, 0, 0};
+    private int[] _orbitScore = {-1, -1, -1, -1};
 
     private void OnEnable() {
-        _magnetometerScore = 0;
-        _imagerScore = 0;
-        _gravityScore = 0;
-        _spectrometerScore = 0;
+        _magnetometerScore = -1;
+        _imagerScore = -1;
+        _gravityScore = -1;
+        _spectrometerScore = -1;
         for (int i = 0; i < _orbitScore.Length; i++)
         {
-            _orbitScore[i] = 0;
+            _orbitScore[i] = -1;
         }
     }
 

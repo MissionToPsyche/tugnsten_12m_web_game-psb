@@ -30,7 +30,7 @@ public class TitleController : MonoBehaviour
         "Spectrometer_minigame",
         "Orbit_subgame",
     };
-    private string currentScene = "Magnetometer_minigame";
+    private string currentScene = "Orbit_subgame";
     private int index;
 
     // Used to prevent camera zooming while moving or moving while zooming,

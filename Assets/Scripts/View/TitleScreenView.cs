@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class TitleScreenView : MonoBehaviour
@@ -20,6 +21,8 @@ public class TitleScreenView : MonoBehaviour
     private Label minigameText;
     private CameraZoom cameraZoom;
     private SlideCamera slideCamera;
+
+    public PersistentInt lastSceneIndex;
 
     // Collections for easier management
     private List<VisualElement> screens = new List<VisualElement>();
@@ -160,8 +163,11 @@ public class TitleScreenView : MonoBehaviour
     }
     private void play()
     {
-        minigameText.text = titleController.getScene();
-        SceneChanger.NextScene(minigameText.text);
+        // minigameText.text = titleController.getScene();
+        
+        // Go to orbit game with first orbit
+        lastSceneIndex.Num = 0;
+        SceneManager.LoadScene(titleController.getSceneName(4));
     }
 
     private void updateMinigameScreen()

@@ -951,6 +951,7 @@ MonoBehaviour:
   MinigameSelectMenu: {fileID: 1686762463}
   Console: {fileID: 1777323401}
   Animation: {fileID: 1153756010}
+  lastSceneIndex: {fileID: 11400000, guid: c1f2f44b01d5b964fafcdd736703669e, type: 2}
 --- !u!1 &457753959
 GameObject:
   m_ObjectHideFlags: 0

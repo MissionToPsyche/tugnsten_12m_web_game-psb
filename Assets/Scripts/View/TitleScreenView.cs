@@ -260,6 +260,7 @@ public class TitleScreenView : MonoBehaviour
     {
         infoPanel.visible = false;
         blackScreen.visible = false;
+        GetAllTabs().ForEach(UnselectTab);
 
         //electTab(instructionsTab);
         //TabIsCurrentlySelected(instructionsTab);

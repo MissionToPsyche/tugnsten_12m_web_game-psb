@@ -143,18 +143,22 @@ public class GameScreenUI : MonoBehaviour
 
     public void continueButtonClicked()
     {
-        if (currentSceneIndex == 3)
+        if (currentSceneIndex == 3) // Last minigame
         {
             // Go to score scene
             SceneManager.LoadScene(titleController.getSceneName(5));
         }
-        else if (currentSceneIndex != 4) // If not orbit game
+        else if (currentSceneIndex != 4) // Any minigame but orbit
         {
             lastMinigameIndex.Num += 1;
             // Load the orbit game
             SceneManager.LoadScene(titleController.getSceneName(4));
         }
-        else
+        else if (lastMinigameIndex.Num == -1) // Standalone orbit
+        {
+            SceneManager.LoadScene("Title");
+        }
+        else // Normal orbit
         {
             if (lastMinigameIndex.Num < 4)
             {

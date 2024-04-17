@@ -10,6 +10,7 @@ public class OrbitUIController : UIController
 
     public bool orbitReached = false;
     public bool orbitLeft = false;
+    public bool standalone = false;
 
     public void ShowMsg(string msg)
     {
@@ -39,15 +40,15 @@ public class OrbitUIController : UIController
     {
         controller.FinishGame();
 
-        if (orbitReached)
+        if (orbitReached || standalone)
         {
             screenUI.getContinueButton().text = "Continue";
         }
-        else if (!orbitLeft)
+        else if (!orbitLeft && !standalone)
         {
             screenUI.continueButtonClicked();
         }
-        else {
+        else if (orbitLeft) {
             controller.InitializeGame();
             controller.StartGame();
         }

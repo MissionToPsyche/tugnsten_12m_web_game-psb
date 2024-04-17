@@ -33,7 +33,10 @@ public class TitleScreenView : MonoBehaviour
     {
         InitializeUI();
         BindUIEvents();
+        
+        // Resets all persistent data
         scorecard.ResetScorecard();
+        lastSceneIndex.Num = -1;
     }
 
     void Update()

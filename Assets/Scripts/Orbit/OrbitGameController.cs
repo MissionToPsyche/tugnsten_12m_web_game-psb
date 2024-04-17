@@ -49,6 +49,11 @@ public class OrbitGameController : GameController
         ui.orbitReached = false;
         ui.orbitLeft = false;
 
+        if (missionOrbit == -1)
+        {
+            ui.standalone = true;
+        }
+
         ui.ResetUI();
         StopGame();
     }
@@ -83,7 +88,7 @@ public class OrbitGameController : GameController
         ui.screenUI.getOptionsCloseButton().clicked -= startGameAction;  
         ui.screenUI.getInfoCloseButton().clicked -= startGameAction; 
 
-        if (ui.orbitReached)
+        if (ui.orbitReached || missionOrbit == -1)
         {
             ui.ShowScore(GetScore(), GetGrade());
         }
@@ -177,7 +182,12 @@ public class OrbitGameController : GameController
         {
             ui.ShowMsg("");
             ui.orbitReached = false;
-            ui.screenUI.getContinueButton().text = "Skip";
+
+            // No skip button on the standalone game
+            if (missionOrbit != -1)
+            {
+                ui.screenUI.getContinueButton().text = "Skip";
+            }
         }
 
         if (spacecraft.orbit.hasCrashed)
@@ -198,7 +208,15 @@ public class OrbitGameController : GameController
 
     override public void SetRightBtn()
     {
-        ui.screenUI.getContinueButton().text = "Skip";
+        // If not the standalone orbit game
+        if (missionOrbit != -1)
+        {
+            ui.screenUI.getContinueButton().text = "Skip";
+        }
+        else
+        {
+            ui.screenUI.getContinueButton().text = "Submit";
+        }
         ui.screenUI.getContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
         ui.screenUI.getContinueButton().clicked += ui.rightBtnListenerAction;
     }

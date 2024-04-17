@@ -12,6 +12,7 @@ public class ScoreboardView : MonoBehaviour
     public Scorecard scorecard;
     private int[] scores = {-1, -1, -1, -1, -1, -1};
     private string[] displayScores = {"-", "-", "-", "-", "-", "-", "-"};
+    private string[] displayGrades = {"-", "-", "-", "-", "-", "-", "-"};
     public void OnEnable()
     {
         InitializeUI();
@@ -42,8 +43,8 @@ public class ScoreboardView : MonoBehaviour
         magnetometerLetter = letterScoreContainer.Q<Label>("magnetometer-letter-score");
         imagerLetter = letterScoreContainer.Q<Label>("imager-letter-score");
         gravityLetter = letterScoreContainer.Q<Label>("gravity-letter-score");
-        spectLetter = letterScoreContainer.Q<Label>("spect-letter-score");
-        orbitLetter = letterScoreContainer.Q<Label>("Orbit-letter-score");
+        spectLetter = letterScoreContainer.Q<Label>("spectrometer-letter-score");
+        orbitLetter = letterScoreContainer.Q<Label>("orbit-letter-score");
 
         // Total scores of the minigames
         AverageNumber = totalScoreContainer.Q<Label>("total-number-score");
@@ -63,6 +64,14 @@ public class ScoreboardView : MonoBehaviour
         scores[5] = AvgScore();
     }
 
+    private void setGrades()
+    {
+        for(int i = 0; i < scores.Length; i++)
+        {
+            displayGrades[i] = GetGrade(scores[i]);
+        }
+    }
+
     private void SetDisplayData()
     {
         for (int i = 0; i < scores.Length; i++)
@@ -75,16 +84,27 @@ public class ScoreboardView : MonoBehaviour
                 displayScores[i] = "-";
             }
         }
+
+        setGrades();
     }
 
     private void DisplayData()
     {
+        // display scores
         magnetometerNumber.text = displayScores[0];
         imagerNumber.text = displayScores[1];
         gravityNumber.text = displayScores[2];
         spectNumber.text = displayScores[3];
         orbitNumber.text = displayScores[4];
         AverageNumber.text = displayScores[5];
+
+        // display grades
+        magnetometerLetter.text = displayGrades[0];
+        imagerLetter.text = displayGrades[1];
+        gravityLetter.text = displayGrades[2];
+        spectLetter.text = displayGrades[3];
+        orbitLetter.text = displayGrades[4];
+        AverageLetter.text = displayGrades[5];
     }
 
     private int AvgScore()
@@ -136,6 +156,43 @@ public class ScoreboardView : MonoBehaviour
         }
         return avg;
     }
+
+    private string GetGrade(int score)
+    {
+        if (score < 0)
+        {
+            return "-";
+        }
+
+        if (score >= 9600)
+            return "A+";
+        else if (score >= 9200)
+            return "A";
+        else if (score >= 8800)
+            return "A-";
+        else if (score >= 8400)
+            return "B+";
+        else if (score >= 8000)
+            return "B";
+        else if (score >= 7600)
+            return "B-";
+        else if (score >= 7200)
+            return "C+";
+        else if (score >= 6800)
+            return "C";
+        else if (score >= 6200)
+            return "C-";
+        else if (score >= 5500)
+            return "D+";
+        else if (score >= 4000)
+            return "D";
+        else if (score >= 2500)
+            return "D-";
+        else
+            return "F";
+    }
+
+
 
 
     public void BindUIEvents()

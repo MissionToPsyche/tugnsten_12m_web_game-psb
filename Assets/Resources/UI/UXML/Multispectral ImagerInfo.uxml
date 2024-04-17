@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/UI/USS/Stylesheet.uss?fileID=7433441132597879392&amp;guid=30fb6192f07eb614bb3c2983da32c6ec&amp;type=3#Stylesheet" />
-    <ui:VisualElement name="info-content" style="flex-grow: 1;">
+    <ui:VisualElement name="info-content" class="infoView" style="flex-grow: 1;">
         <ui:Label tabindex="-1" text="Objective" parse-escape-sequences="true" display-tooltip-when-elided="true" name="objective-heading" style="font-size: 32px; -unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-ExtraBold.ttf?fileID=12800000&amp;guid=4ea3f77db28c19b448bdd77dd7dec530&amp;type=3#Orbitron-ExtraBold&apos;);" />
         <ui:Label tabindex="-1" text="Rearrange square image tiles to put them together into a single image.&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="objective-content" class="info-text-content info-heading" />
         <ui:Label tabindex="-1" text="Controls" parse-escape-sequences="true" display-tooltip-when-elided="true" name="controls-heading" style="font-size: 32px; -unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-ExtraBold.ttf?fileID=12800000&amp;guid=4ea3f77db28c19b448bdd77dd7dec530&amp;type=3#Orbitron-ExtraBold&apos;);" />

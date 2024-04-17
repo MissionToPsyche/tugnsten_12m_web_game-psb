@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     private AudioClip thrusterClip, lightThrusterClip;
-    private bool maxThrustOn, lightThrustOn;
+    private bool maxThrustOn = false, lightThrustOn = false, sound_stopped = true;
     public static SoundManager Instance;
     
     [SerializeField] private AudioSource musicSource, effectSource;
@@ -29,6 +29,7 @@ public class SoundManager : MonoBehaviour
     public void PlaySound(AudioClip clip) {
         if(effectSource != null && clip != null) 
         {
+            stopSound();
             effectSource.PlayOneShot(clip);
         }
     }
@@ -42,6 +43,7 @@ public class SoundManager : MonoBehaviour
             PlaySound(thrusterClip);
             maxThrustOn = true;
             lightThrustOn = false;
+            sound_stopped = false;
         }
     }
     
@@ -54,14 +56,18 @@ public class SoundManager : MonoBehaviour
             PlaySound(lightThrusterClip);
             lightThrustOn = true;
             maxThrustOn = false;
+            sound_stopped = false;
         }
     }
 
     public void stopSound()
     {
-        effectSource.loop = false;
-        effectSource.Stop();
-        maxThrustOn = false;
-        lightThrustOn = false;
+        if (!sound_stopped) {
+            effectSource.loop = false;
+            effectSource.Stop();
+            maxThrustOn = false;
+            lightThrustOn = false;
+            sound_stopped = true;
+        }
     }
 }

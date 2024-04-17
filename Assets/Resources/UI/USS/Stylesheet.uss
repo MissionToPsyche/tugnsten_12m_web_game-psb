@@ -503,9 +503,10 @@
 }
 
 .info-heading {
-    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-ExtraBold.ttf?fileID=12800000&guid=4ea3f77db28c19b448bdd77dd7dec530&type=3#Orbitron-ExtraBold');
-    font-size: 32px;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Black.ttf?fileID=12800000&guid=0d0a81670461c464d8d0cf24298c61d0&type=3#Orbitron-Black');
+    font-size: 35px;
     -unity-font-definition: initial;
+    -unity-font-style: normal;
 }
 
 .info-text-content {
@@ -513,7 +514,7 @@
     font-size: 28px;
     -unity-font-definition: initial;
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Medium.ttf?fileID=12800000&guid=dbbb85c07e7a87443badc5cd8c1a97b1&type=3#Orbitron-Medium');
-    -unity-paragraph-spacing: 75px;
+    -unity-paragraph-spacing: 150px;
 }
 
 .info-image {

@@ -24,6 +24,8 @@ public class TitleScreenView : MonoBehaviour
 
     public PersistentInt lastSceneIndex;
 
+    public Scorecard scorecard;
+
     // Collections for easier management
     private List<VisualElement> screens = new List<VisualElement>();
 
@@ -31,6 +33,10 @@ public class TitleScreenView : MonoBehaviour
     {
         InitializeUI();
         BindUIEvents();
+        
+        // Resets all persistent data
+        scorecard.ResetScorecard();
+        lastSceneIndex.Num = -1;
     }
 
     void Update()
@@ -84,7 +90,7 @@ public class TitleScreenView : MonoBehaviour
 
         // INFO PANEL TABS
         tabs = infoPanel.Q<VisualElement>("tabs");
-        instructionsTab = tabs.Q<Label>("instructions");
+        instructionsTab = tabs.Q<Label>("Instructions");
         contextTab = tabs.Q<Label>("science-context");
         infoScrollView = infoPanel.Q<ScrollView>("game-info");
         closeInfoBtn = infoPanel.Q<Button>("close-button");
@@ -245,12 +251,9 @@ public class TitleScreenView : MonoBehaviour
 
     public void openInfoPanel()
     {
+        handleTabSeclected(instructionsTab);
         infoPanel.visible = true;
         blackScreen.visible = true;
-
-        // Select the instructions tab by default
-        //SelectTab(instructionsTab);
-        showInfo();
     }
 
     public void closeInfoPanel()
@@ -288,7 +291,7 @@ public class TitleScreenView : MonoBehaviour
 
     ////////////////////////////////////////////////////////
     // Info panel tabs methods
-        public void RegisterTabCallbacks()
+    public void RegisterTabCallbacks()
     {
         UQueryBuilder<Label> tabs = GetAllTabs();
         tabs.ForEach((Label tab) => {
@@ -298,13 +301,7 @@ public class TitleScreenView : MonoBehaviour
     private void TabOnClick(ClickEvent evt)
     {
         Label clickedTab = evt.currentTarget as Label;
-        if (!TabIsCurrentlySelected(clickedTab))
-        {
-            GetAllTabs().Where(
-                (tab) => tab != clickedTab && TabIsCurrentlySelected(tab)
-            ).ForEach(UnselectTab);
-            SelectTab(clickedTab);
-        }
+        handleTabSeclected(clickedTab);
     }
      private static bool TabIsCurrentlySelected(Label tab)
     {
@@ -324,6 +321,18 @@ public class TitleScreenView : MonoBehaviour
         }
     }
 
+    private void handleTabSeclected(Label clickedTab)
+    {
+        Debug.Log("tab: " + TabIsCurrentlySelected(clickedTab));
+        if (!TabIsCurrentlySelected(clickedTab))
+        {
+            GetAllTabs().Where(
+                (tab) => tab != clickedTab && TabIsCurrentlySelected(tab)
+            ).ForEach(UnselectTab);
+            SelectTab(clickedTab);
+        }
+    }
+
     private UQueryBuilder<Label> GetAllTabs()
     {
         return root.Query<Label>(className: "tab");
@@ -338,6 +347,7 @@ public class TitleScreenView : MonoBehaviour
 
     public void showInfo()
     {
+        Debug.Log("text: " + minigameTitle.text);
         string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Info";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
 

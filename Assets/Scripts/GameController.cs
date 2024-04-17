@@ -18,7 +18,7 @@ abstract public class GameController : MonoBehaviour
     {
        startGameAction = () => { StartGame(); };
        stopGameAction = () => { StopGame(); };
-       initializeGameAction = () => { InitializeGame(); };
+       initializeGameAction = () => { InitializeGame(); StartGame(); };
     }
 
     void Start()

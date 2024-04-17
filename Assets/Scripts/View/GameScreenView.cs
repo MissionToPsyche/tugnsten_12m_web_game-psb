@@ -85,11 +85,11 @@ public class GameScreenUI : MonoBehaviour
         // INFO PANEL UI ELEMENTS
         infoPanel = root.Q<VisualElement>("info-panel");
         tabs = infoPanel.Q<VisualElement>("tabs");
-        instructionsTab = tabs.Q<Label>("instructions");
+        instructionsTab = tabs.Q<Label>("Instructions");
         contextTab = tabs.Q<Label>("science-context");
         infoScrollView = infoPanel.Q<ScrollView>("game-info");
-        showInfo();
         closeInfoBtn = infoPanel.Q<Button>("close-button");
+        showInfo();
 
         ////////////////////////////////////////////////////////////////////////////////
         // SCORE PANEL UI ELEMENTS
@@ -119,7 +119,7 @@ public class GameScreenUI : MonoBehaviour
         closeInfoBtn.clicked += () => { closePanel(); playSound(); };
         scoreCloseBtn.clicked += () => { closePanel(); playSound(); };
         scoreContinueBtn.clicked += () => { continueButtonClicked(); };
-        resetBtn.clicked += () => { playSound(); };
+        resetBtn.clicked += () => { playSound(); closePanel(); };
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
         RegisterTabCallbacks();
@@ -143,18 +143,22 @@ public class GameScreenUI : MonoBehaviour
 
     public void continueButtonClicked()
     {
-        if (currentSceneIndex == 3)
+        if (currentSceneIndex == 3) // Last minigame
         {
             // Go to score scene
             SceneManager.LoadScene(titleController.getSceneName(5));
         }
-        else if (currentSceneIndex != 4) // If not orbit game
+        else if (currentSceneIndex != 4) // Any minigame but orbit
         {
             lastMinigameIndex.Num += 1;
             // Load the orbit game
             SceneManager.LoadScene(titleController.getSceneName(4));
         }
-        else
+        else if (lastMinigameIndex.Num == -1) // Standalone orbit
+        {
+            SceneManager.LoadScene("Title");
+        }
+        else // Normal orbit
         {
             if (lastMinigameIndex.Num < 4)
             {
@@ -165,14 +169,9 @@ public class GameScreenUI : MonoBehaviour
 
     public void infoClicked()
     {
+        handleTabSeclected(instructionsTab);
         infoPanel.visible = true;
         blackScreen.visible = true;
-
-        // default to have insructions tab selected
-        // instructionsTab.AddToClassList("selectedTab");
-        // contextTab.RemoveFromClassList("selectedTab");
-        // SelectTab(instructionsTab);
-        // showInfo();
     }
 
     public void RegisterTabCallbacks()
@@ -185,6 +184,11 @@ public class GameScreenUI : MonoBehaviour
     private void TabOnClick(ClickEvent evt)
     {
         Label clickedTab = evt.currentTarget as Label;
+        handleTabSeclected(clickedTab);
+    }
+
+    private void handleTabSeclected(Label clickedTab)
+    {
         if (!TabIsCurrentlySelected(clickedTab))
         {
             GetAllTabs().Where(
@@ -193,7 +197,8 @@ public class GameScreenUI : MonoBehaviour
             SelectTab(clickedTab);
         }
     }
-     private static bool TabIsCurrentlySelected(Label tab)
+
+    private static bool TabIsCurrentlySelected(Label tab)
     {
         return tab.ClassListContains("selectedTab");
     }

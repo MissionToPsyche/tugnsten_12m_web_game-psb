@@ -6,10 +6,6 @@ using System;
 abstract public class UIController : MonoBehaviour
 {
     public GameObject continueButton;
-    // TODO: Menu button
-    // TODO: Help button
-    // TODO: Minigame name text
-    // TODO: Timer display
     public GameScreenUI screenUI;
     private bool isSubmitted = false;
     private string text;

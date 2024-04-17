@@ -9,9 +9,6 @@ public class OrbitGameController : GameController
 
     public Orbiter spacecraft;
 
-    // Tracks whether the game has been won
-    public bool won = false;
-
     public int missionOrbit = 0;
 
     // Minimum acceptable orbit
@@ -48,8 +45,14 @@ public class OrbitGameController : GameController
         (float periapsisDistance, float apoapsisDistance, float rotation) = generator.GetTargetOrbit(missionOrbit);
         ui.SetTargetOrbit(periapsisDistance, apoapsisDistance, rotation);
 
-        won = false;
         score = -1;
+        ui.orbitReached = false;
+        ui.orbitLeft = false;
+
+        if (missionOrbit == -1)
+        {
+            ui.standalone = true;
+        }
 
         ui.ResetUI();
         StopGame();
@@ -85,16 +88,10 @@ public class OrbitGameController : GameController
         ui.screenUI.getOptionsCloseButton().clicked -= startGameAction;  
         ui.screenUI.getInfoCloseButton().clicked -= startGameAction; 
 
-        if (won)
+        if (ui.orbitReached || missionOrbit == -1)
         {
-            ui.EnterWinState();
+            ui.ShowScore(GetScore(), GetGrade());
         }
-        else
-        {
-            ui.EnterFailState();
-        }
-
-        ui.ShowScore(GetScore(), GetGrade());
         
         // Puts the random orbit score into index 0.
         if (missionOrbit > 0)
@@ -105,8 +102,6 @@ public class OrbitGameController : GameController
         {
             scorecard.OrbitScore[0] = score;
         }
-
-        // ui.screenUI.getContinueButton().SetEnabled(true);
     }
 
     override public void CalcScore()
@@ -180,27 +175,48 @@ public class OrbitGameController : GameController
         if (winState)
         {
             ui.ShowMsg("Orbit Reached");
+            ui.orbitReached = true;
+            ui.screenUI.getContinueButton().text = "Submit";
         }
         else
         {
             ui.ShowMsg("");
+            ui.orbitReached = false;
+
+            // No skip button on the standalone game
+            if (missionOrbit != -1)
+            {
+                ui.screenUI.getContinueButton().text = "Skip";
+            }
         }
 
         if (spacecraft.orbit.hasCrashed)
         {
             ui.ShowMsg("Spacecraft Deorbited!");
+            ui.screenUI.getContinueButton().text = "Reset";
+            ui.orbitLeft = true;
             FinishGame();
         }
         else if (spacecraft.orbit.hasEscaped)
         {
             ui.ShowMsg("Spacecraft Escaped Orbit!");
+            ui.screenUI.getContinueButton().text = "Reset";
+            ui.orbitLeft = true;
             FinishGame();
         }
     }
 
     override public void SetRightBtn()
     {
-        ui.screenUI.getContinueButton().text = "Submit";
+        // If not the standalone orbit game
+        if (missionOrbit != -1)
+        {
+            ui.screenUI.getContinueButton().text = "Skip";
+        }
+        else
+        {
+            ui.screenUI.getContinueButton().text = "Submit";
+        }
         ui.screenUI.getContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
         ui.screenUI.getContinueButton().clicked += ui.rightBtnListenerAction;
     }

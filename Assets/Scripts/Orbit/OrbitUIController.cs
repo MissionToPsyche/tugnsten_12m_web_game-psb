@@ -6,9 +6,11 @@ using TMPro;
 public class OrbitUIController : UIController
 {
     public TextMeshProUGUI headerText;
-    // public GameObject skipButton;
-    // public GameObject restartButton;
     public Orbit targetOrbit;
+
+    public bool orbitReached = false;
+    public bool orbitLeft = false;
+    public bool standalone = false;
 
     public void ShowMsg(string msg)
     {
@@ -18,18 +20,6 @@ public class OrbitUIController : UIController
     override public void ResetUI()
     {
         ShowMsg("");
-    }
-
-    public void EnterFailState()
-    {
-        // restartButton.SetActive(true);
-    }
-
-    public void EnterWinState()
-    {
-        ShowMsg("Orbit Reached");
-        // restartButton.SetActive(true);
-        // continueButton.SetActive(true);
     }
 
     public override void ShowScore(int score, string grade)
@@ -48,8 +38,20 @@ public class OrbitUIController : UIController
 
     override public void SubmitClicked()
     {
-        screenUI.getContinueButton().text = "Continue";
         controller.FinishGame();
+
+        if (orbitReached || standalone)
+        {
+            screenUI.getContinueButton().text = "Continue";
+        }
+        else if (!orbitLeft && !standalone)
+        {
+            screenUI.continueButtonClicked();
+        }
+        else if (orbitLeft) {
+            controller.InitializeGame();
+            controller.StartGame();
+        }
     }
 
     public void ShowFuel(float fuel)

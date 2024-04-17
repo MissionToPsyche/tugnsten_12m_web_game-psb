@@ -123,6 +123,16 @@ public class ImagerGameController : GameController
         scorecard.ImagerScore = score;
         ui.setIsSubmitted(true);
         ui.screenUI.getContinueButton().SetEnabled(true);
+        disableInteraction();
+    }
+
+    private void disableInteraction()
+    {
+        foreach (GameObject img in images)
+        {
+            Draggable drag = img.GetComponent<Draggable>();
+            Destroy(drag);
+        }
     }
 
     override public void CalcScore()

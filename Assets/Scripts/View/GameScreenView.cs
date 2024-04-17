@@ -106,6 +106,7 @@ public class GameScreenUI : MonoBehaviour
     {
         this.numberScore.text = numberScore.ToString();
         letterScore.text = letterGrade;
+        blackScreen.visible = true;
         scorePanel.visible = true;
     }
 
@@ -118,7 +119,7 @@ public class GameScreenUI : MonoBehaviour
         closeBtn.clicked += () => { closePanel(); playSound(); };
         scoreCloseBtn.clicked += () => { closePanel(); playSound(); };
         scoreContinueBtn.clicked += () => { continueButtonClicked(); };
-        resetBtn.clicked += () => playSound();
+        resetBtn.clicked += () => { playSound(); };
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
         RegisterTabCallbacks();

@@ -85,11 +85,11 @@ public class GameScreenUI : MonoBehaviour
         // INFO PANEL UI ELEMENTS
         infoPanel = root.Q<VisualElement>("info-panel");
         tabs = infoPanel.Q<VisualElement>("tabs");
-        instructionsTab = tabs.Q<Label>("instructions");
+        instructionsTab = tabs.Q<Label>("Instructions");
         contextTab = tabs.Q<Label>("science-context");
         infoScrollView = infoPanel.Q<ScrollView>("game-info");
-        showInfo();
         closeInfoBtn = infoPanel.Q<Button>("close-button");
+        showInfo();
 
         ////////////////////////////////////////////////////////////////////////////////
         // SCORE PANEL UI ELEMENTS
@@ -169,14 +169,9 @@ public class GameScreenUI : MonoBehaviour
 
     public void infoClicked()
     {
+        handleTabSeclected(instructionsTab);
         infoPanel.visible = true;
         blackScreen.visible = true;
-
-        // default to have insructions tab selected
-        // instructionsTab.AddToClassList("selectedTab");
-        // contextTab.RemoveFromClassList("selectedTab");
-        // SelectTab(instructionsTab);
-        // showInfo();
     }
 
     public void RegisterTabCallbacks()
@@ -189,6 +184,11 @@ public class GameScreenUI : MonoBehaviour
     private void TabOnClick(ClickEvent evt)
     {
         Label clickedTab = evt.currentTarget as Label;
+        handleTabSeclected(clickedTab);
+    }
+
+    private void handleTabSeclected(Label clickedTab)
+    {
         if (!TabIsCurrentlySelected(clickedTab))
         {
             GetAllTabs().Where(
@@ -197,7 +197,8 @@ public class GameScreenUI : MonoBehaviour
             SelectTab(clickedTab);
         }
     }
-     private static bool TabIsCurrentlySelected(Label tab)
+
+    private static bool TabIsCurrentlySelected(Label tab)
     {
         return tab.ClassListContains("selectedTab");
     }

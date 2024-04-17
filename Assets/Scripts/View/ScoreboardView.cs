@@ -1,17 +1,24 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using System;
 
 public class ScoreboardView : MonoBehaviour
 {
     private VisualElement root, scoreboardPanel, scoreContainer, numberScoreContainer, letterScoreContainer, totalScoreContainer;
-    private Label magnetometerNumber, magnetometerLetter, imagerNumber, imagerLetter, gravityNumber, gravityLetter, spectNumber, spectLetter, OrbitNumber, OrbitLetter, TotalNumber, TotalLetter;
+    private Label magnetometerNumber, magnetometerLetter, imagerNumber, imagerLetter, gravityNumber, gravityLetter, spectNumber, spectLetter, orbitNumber, orbitLetter, AverageNumber, AverageLetter;
     private Button titleBtn;
     private ChangeScene SceneChanger;
+    public Scorecard scorecard;
+    private int[] scores = {-1, -1, -1, -1, -1, -1};
+    private string[] displayScores = {"-", "-", "-", "-", "-", "-", "-"};
     public void OnEnable()
     {
         InitializeUI();
         BindUIEvents();
+        GetData();
+        SetDisplayData();
+        DisplayData();
     }
 
     public void InitializeUI()
@@ -28,23 +35,109 @@ public class ScoreboardView : MonoBehaviour
         magnetometerNumber = numberScoreContainer.Q<Label>("magnetometer-number-score");
         imagerNumber = numberScoreContainer.Q<Label>("imager-number-score");
         gravityNumber = numberScoreContainer.Q<Label>("gravity-number-score");
-        spectNumber = numberScoreContainer.Q<Label>("spect-number-score");
-        OrbitNumber = numberScoreContainer.Q<Label>("Orbit-number-score");
+        spectNumber = numberScoreContainer.Q<Label>("spectrometer-number-score");
+        orbitNumber = numberScoreContainer.Q<Label>("orbit-number-score");
 
         // Letter scores of the minigames
         magnetometerLetter = letterScoreContainer.Q<Label>("magnetometer-letter-score");
         imagerLetter = letterScoreContainer.Q<Label>("imager-letter-score");
         gravityLetter = letterScoreContainer.Q<Label>("gravity-letter-score");
         spectLetter = letterScoreContainer.Q<Label>("spect-letter-score");
-        OrbitLetter = letterScoreContainer.Q<Label>("Orbit-letter-score");
+        orbitLetter = letterScoreContainer.Q<Label>("Orbit-letter-score");
 
         // Total scores of the minigames
-        TotalNumber = totalScoreContainer.Q<Label>("total-number-score");
-        TotalLetter = totalScoreContainer.Q<Label>("total-letter-score");
+        AverageNumber = totalScoreContainer.Q<Label>("total-number-score");
+        AverageLetter = totalScoreContainer.Q<Label>("total-letter-score");
     
         // Close button
         titleBtn = root.Q<Button>("title-screen-button");
     }
+
+    private void GetData()
+    {
+        scores[0] = scorecard.MagnetometerScore;
+        scores[1] = scorecard.ImagerScore;
+        scores[2] = scorecard.GravityScore;
+        scores[3] = scorecard.SpectrometerScore;
+        scores[4] = orbitAvg();
+        scores[5] = AvgScore();
+    }
+
+    private void SetDisplayData()
+    {
+        for (int i = 0; i < scores.Length; i++)
+        {
+            if(scores[i] != -1)
+            {
+                displayScores[i] = scores[i].ToString();
+            }
+            else{
+                displayScores[i] = "-";
+            }
+        }
+    }
+
+    private void DisplayData()
+    {
+        magnetometerNumber.text = displayScores[0];
+        imagerNumber.text = displayScores[1];
+        gravityNumber.text = displayScores[2];
+        spectNumber.text = displayScores[3];
+        orbitNumber.text = displayScores[4];
+        AverageNumber.text = displayScores[5];
+    }
+
+    private int AvgScore()
+    {
+        int avg = 0;
+        int sum = 0;
+        int ctr = 0;
+        foreach (int score in scores)
+        {
+            if(score != -1)
+            {
+                ctr++;
+                sum += score;
+            }
+        }
+        try
+        {
+            avg = sum / ctr;
+        }
+        catch(Exception e)
+        {
+            avg = -1;
+        }
+        return avg;
+    }
+
+    private int orbitAvg()
+    {
+        int[] orbitScores = {-1, -1, -1, -1};
+        orbitScores = scorecard.OrbitScore;
+        int sum = 0;
+        int avg = -1;
+        int ctr = 0;
+        foreach (int score in orbitScores)
+        {
+            if(score != -1)
+            {
+                ctr++;
+                sum += score;
+            }
+        }
+        try
+        {
+            avg = sum / ctr;
+        }
+        catch(Exception e)
+        {
+            avg = -1;
+        }
+        return avg;
+    }
+
+
     public void BindUIEvents()
     {
         titleBtn.clicked += () => ReturnToTitleScreen();

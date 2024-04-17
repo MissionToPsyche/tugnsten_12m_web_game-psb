@@ -9,7 +9,7 @@ public class GameScreenUI : MonoBehaviour
     private string currentSceneName;
     public TitleController titleController;
     public AudioClip clip;
-    private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn, closeScoreBtn, scoreContinueBtn, scoreCloseBtn;
+    private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, closeOptionsBtn, closeInfoBtn, closeScoreBtn, scoreContinueBtn, scoreCloseBtn;
     private VisualElement root, gameScreen, gameBottomContainer, gameOptionsContainer, gameContinueContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen, tabs, scorePanel, scoreContainer, scoreButtonContainer;
     private Slider musicSlider, soundSlider;
     private ScrollView infoScrollView;
@@ -75,7 +75,7 @@ public class GameScreenUI : MonoBehaviour
         optionsButtonContainer = optionsPanel.Q<VisualElement>("options-button-container");
 
         // buttons on the options screen
-        xBtn = optionsPanel.Q<Button>("x-button");
+        closeOptionsBtn = optionsPanel.Q<Button>("x-button");
         resetBtn = optionsButtonContainer.Q<Button>("reset-button");
         mainMenuBtn = optionsButtonContainer.Q<Button>("main-menu-button");
         musicSlider = soundBar.Q<Slider>("music-slider");
@@ -89,7 +89,7 @@ public class GameScreenUI : MonoBehaviour
         contextTab = tabs.Q<Label>("science-context");
         infoScrollView = infoPanel.Q<ScrollView>("game-info");
         showInfo();
-        closeBtn = infoPanel.Q<Button>("close-button");
+        closeInfoBtn = infoPanel.Q<Button>("close-button");
 
         ////////////////////////////////////////////////////////////////////////////////
         // SCORE PANEL UI ELEMENTS
@@ -113,10 +113,10 @@ public class GameScreenUI : MonoBehaviour
     private void BindUIEvents()      
     {
         optionsBtn.clicked += () => { optionsButtonClicked(); playSound(); };
-        xBtn.clicked += () => { closePanel(); playSound(); };
+        closeOptionsBtn.clicked += () => { closePanel(); playSound(); };
         mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); }; // return to title screen
         infoBtn.clicked += () => { infoClicked(); playSound(); };
-        closeBtn.clicked += () => { closePanel(); playSound(); };
+        closeInfoBtn.clicked += () => { closePanel(); playSound(); };
         scoreCloseBtn.clicked += () => { closePanel(); playSound(); };
         scoreContinueBtn.clicked += () => { continueButtonClicked(); };
         resetBtn.clicked += () => { playSound(); };
@@ -167,6 +167,12 @@ public class GameScreenUI : MonoBehaviour
     {
         infoPanel.visible = true;
         blackScreen.visible = true;
+
+        // default to have insructions tab selected
+        // instructionsTab.AddToClassList("selectedTab");
+        // contextTab.RemoveFromClassList("selectedTab");
+        // SelectTab(instructionsTab);
+        // showInfo();
     }
 
     public void RegisterTabCallbacks()
@@ -302,7 +308,7 @@ public class GameScreenUI : MonoBehaviour
 
     public Button getOptionsCloseButton()
     {
-        return xBtn;
+        return closeOptionsBtn;
     }
 
     public Button getInfoButton()
@@ -312,7 +318,7 @@ public class GameScreenUI : MonoBehaviour
 
     public Button getInfoCloseButton()
     {
-        return closeBtn;
+        return closeInfoBtn;
     }
 
     public VisualElement getInfoPanel()

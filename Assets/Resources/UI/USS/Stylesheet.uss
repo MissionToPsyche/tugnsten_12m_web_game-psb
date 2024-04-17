@@ -513,15 +513,24 @@
 }
 
 .info-image {
-    width: 500px;
+    width: 850px;
     margin-top: 1%;
     margin-right: 1%;
     margin-bottom: 1%;
     margin-left: 1%;
     -unity-background-scale-mode: scale-to-fit;
-    height: 270px;
+    height: 500px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    align-self: center;
+    background-image: none;
+}
+
+.infoView {
+    padding-top: 1%;
+    padding-right: 1%;
+    padding-bottom: 1%;
+    padding-left: 1%;
 }

@@ -13,12 +13,12 @@ public class TitleScreenView : MonoBehaviour
     // public OptionsScreenView optionsScreenView;
 
     // Private UI elements grouped by their functionality/screen
-    private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectCenter, gameSelectBottom, optionsScreen, optionsPanel, soundbar, optionsButtonContainer, creditsScreen, blackScreen, infoPanel, tabs, scorePanel, scoreContainer;
+    private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectCenter, gameSelectBottom, optionsScreen, optionsPanel, soundbar, optionsButtonContainer, creditsScreen, blackScreen, infoPanel, infoScrollView, tabs, scorePanel, scoreContainer;
 
     private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, closeMinigameBtn, playMinigameBtn, closeOptionsBtn, closeCreditsBtn, nextBtn, prevBtn, infoBtn, closeInfoBtn;
 
     private Slider musicSlider, soundSlider;
-    private Label minigameText;
+    private Label minigameTitle,instructionsTab, contextTab;
     private CameraZoom cameraZoom;
     private SlideCamera slideCamera;
 
@@ -82,8 +82,15 @@ public class TitleScreenView : MonoBehaviour
         infoBtn = gameSelectScreen.Q<Button>("info-button");
         closeInfoBtn = infoPanel.Q<Button>("close-button");
 
+        // INFO PANEL TABS
+        tabs = infoPanel.Q<VisualElement>("tabs");
+        instructionsTab = tabs.Q<Label>("instructions");
+        contextTab = tabs.Q<Label>("science-context");
+        infoScrollView = infoPanel.Q<ScrollView>("game-info");
+        closeInfoBtn = infoPanel.Q<Button>("close-button");
+
         // minigame title text
-        minigameText = gameSelectBottom.Q<Label>("minigame-text");
+        minigameTitle = gameSelectBottom.Q<Label>("minigame-text");
 
         ////////////////////////////////////////////////////////////////////////////////
         // OPTIONS SCREEN UI ELEMENTS
@@ -112,7 +119,7 @@ public class TitleScreenView : MonoBehaviour
         closeMinigameBtn.clicked += () =>
         {
             switchScreen(mainScreen);
-            minigameText.visible = false;
+            minigameTitle.visible = false;
             MinigameSelectMenu.SetActive(false);
             Console.SetActive(false);
             slideCamera.ResetPosition();
@@ -130,7 +137,8 @@ public class TitleScreenView : MonoBehaviour
             closeMinigameBtn.SetEnabled(false);
         };
         infoBtn.clicked += () => openInfoPanel();
-        closeInfoBtn.clicked += () => { infoPanel.visible = false; blackScreen.visible = false; playSound(); };
+        // RegisterTabCallbacks(); // Register the tab callbacks
+        closeInfoBtn.clicked += () => { closeInfoPanel(); playSound(); };
 
         // Options Screen
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
@@ -143,7 +151,7 @@ public class TitleScreenView : MonoBehaviour
 
     public void setMinigameText(string text)
     {
-        minigameText.text = text;
+        minigameTitle.text = text;
     }
 
 
@@ -173,7 +181,7 @@ public class TitleScreenView : MonoBehaviour
     private void updateMinigameScreen()
     {
         // update the minigame text
-        titleController.updateMinigame(minigameText);
+        titleController.updateMinigame(minigameTitle);
 
         // if the minigame is the first minigame, disable the previous button
         if (titleController.isFirstScene())
@@ -196,6 +204,7 @@ public class TitleScreenView : MonoBehaviour
         {
             nextBtn.visible = true;
         }
+        RegisterTabCallbacks();
     }
     private void minigameSelectClicked()
     {
@@ -211,10 +220,10 @@ public class TitleScreenView : MonoBehaviour
 
         // set minigame select menu to active
         gameSelectScreen.visible = true;
-        minigameText.visible = true;
+        minigameTitle.visible = true;
         prevBtn.style.display = DisplayStyle.Flex;
         nextBtn.style.display = DisplayStyle.Flex;
-        titleController.minigameSelect(minigameText);
+        titleController.minigameSelect(minigameTitle);
     }
 
     private void prevMinigame()
@@ -238,6 +247,20 @@ public class TitleScreenView : MonoBehaviour
     {
         infoPanel.visible = true;
         blackScreen.visible = true;
+
+        // Select the instructions tab by default
+        //SelectTab(instructionsTab);
+        showInfo();
+    }
+
+    public void closeInfoPanel()
+    {
+        infoPanel.visible = false;
+        blackScreen.visible = false;
+
+        //electTab(instructionsTab);
+        //TabIsCurrentlySelected(instructionsTab);
+        //UnselectTab(contextTab);
     }
 
     private void optionsClicked()
@@ -261,4 +284,92 @@ public class TitleScreenView : MonoBehaviour
         AudioSource audioSource = soundSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
     }
+
+
+    ////////////////////////////////////////////////////////
+    // Info panel tabs methods
+        public void RegisterTabCallbacks()
+    {
+        UQueryBuilder<Label> tabs = GetAllTabs();
+        tabs.ForEach((Label tab) => {
+            tab.RegisterCallback<ClickEvent>(TabOnClick);
+        });
+    }
+    private void TabOnClick(ClickEvent evt)
+    {
+        Label clickedTab = evt.currentTarget as Label;
+        if (!TabIsCurrentlySelected(clickedTab))
+        {
+            GetAllTabs().Where(
+                (tab) => tab != clickedTab && TabIsCurrentlySelected(tab)
+            ).ForEach(UnselectTab);
+            SelectTab(clickedTab);
+        }
+    }
+     private static bool TabIsCurrentlySelected(Label tab)
+    {
+        return tab.ClassListContains("selectedTab");
+    }
+
+    private void SelectTab(Label tab)
+    {
+        tab.AddToClassList("selectedTab");
+        if(tab.name == "Instructions")
+        {
+            showInfo();
+        }
+        else if(tab.name == "science-context")
+        {
+            ShowContext();
+        }
+    }
+
+    private UQueryBuilder<Label> GetAllTabs()
+    {
+        return root.Query<Label>(className: "tab");
+    }
+
+    private void UnselectTab(Label tab)
+    {
+        tab.RemoveFromClassList("selectedTab");
+        Debug.Log("Unselected tab");
+        // tab.AddToClassList("unselectedTab");
+    }
+
+    public void showInfo()
+    {
+        string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Info";
+        VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
+
+
+        if (gameInfoTree != null)
+        {
+            infoScrollView.contentContainer.Clear();
+            VisualElement gameInfoContent = gameInfoTree.Instantiate();
+            infoScrollView.contentContainer.Add(gameInfoContent);
+        }
+        else
+        {
+            Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
+        }
+    }
+
+    public void ShowContext()
+    {
+        string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Context";
+        VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
+
+
+        if (gameInfoTree != null)
+        {
+            infoScrollView.contentContainer.Clear();
+            VisualElement gameInfoContent = gameInfoTree.Instantiate();
+            infoScrollView.contentContainer.Add(gameInfoContent);
+        }
+        else
+        {
+            Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
+        }
+    }
+
 }

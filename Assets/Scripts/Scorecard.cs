@@ -14,9 +14,15 @@ public class Scorecard : ScriptableObject
     [SerializeField]
     private int _spectrometerScore = -1;
     [SerializeField]
-    private int[] _orbitScore = {-1, -1, -1, -1};
+    private int[] _orbitScore = { -1, -1, -1, -1 };
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
+        ResetScorecard();
+    }
+
+    public void ResetScorecard()
+    {
         _magnetometerScore = -1;
         _imagerScore = -1;
         _gravityScore = -1;

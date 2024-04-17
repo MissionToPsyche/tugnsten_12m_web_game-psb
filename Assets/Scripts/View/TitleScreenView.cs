@@ -24,6 +24,8 @@ public class TitleScreenView : MonoBehaviour
 
     public PersistentInt lastSceneIndex;
 
+    public Scorecard scorecard;
+
     // Collections for easier management
     private List<VisualElement> screens = new List<VisualElement>();
 
@@ -31,6 +33,7 @@ public class TitleScreenView : MonoBehaviour
     {
         InitializeUI();
         BindUIEvents();
+        scorecard.ResetScorecard();
     }
 
     void Update()

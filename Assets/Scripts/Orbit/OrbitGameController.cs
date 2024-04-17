@@ -47,6 +47,7 @@ public class OrbitGameController : GameController
 
         score = -1;
         ui.orbitReached = false;
+        ui.orbitLeft = false;
 
         ui.ResetUI();
         StopGame();
@@ -175,17 +176,22 @@ public class OrbitGameController : GameController
         else
         {
             ui.ShowMsg("");
+            ui.orbitReached = false;
             ui.screenUI.getContinueButton().text = "Skip";
         }
 
         if (spacecraft.orbit.hasCrashed)
         {
             ui.ShowMsg("Spacecraft Deorbited!");
+            ui.screenUI.getContinueButton().text = "Reset";
+            ui.orbitLeft = true;
             FinishGame();
         }
         else if (spacecraft.orbit.hasEscaped)
         {
             ui.ShowMsg("Spacecraft Escaped Orbit!");
+            ui.screenUI.getContinueButton().text = "Reset";
+            ui.orbitLeft = true;
             FinishGame();
         }
     }

@@ -9,6 +9,7 @@ public class OrbitUIController : UIController
     public Orbit targetOrbit;
 
     public bool orbitReached = false;
+    public bool orbitLeft = false;
 
     public void ShowMsg(string msg)
     {
@@ -37,14 +38,18 @@ public class OrbitUIController : UIController
     override public void SubmitClicked()
     {
         controller.FinishGame();
-        
+
         if (orbitReached)
         {
             screenUI.getContinueButton().text = "Continue";
         }
-        else
+        else if (!orbitLeft)
         {
             screenUI.continueButtonClicked();
+        }
+        else {
+            controller.InitializeGame();
+            controller.StartGame();
         }
     }
 

@@ -42,7 +42,7 @@ public class OrbitTests
         yield return new WaitForSeconds(3.5f);
         controller.CheckWin();
 
-        Assert.IsTrue(controller.won);
+        Assert.IsTrue(controller.ui.orbitReached);
     }
 
     [UnityTest]

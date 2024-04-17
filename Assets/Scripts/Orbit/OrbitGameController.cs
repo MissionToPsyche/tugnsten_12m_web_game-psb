@@ -9,9 +9,6 @@ public class OrbitGameController : GameController
 
     public Orbiter spacecraft;
 
-    // Tracks whether the game has been won
-    public bool won = false;
-
     public int missionOrbit = 0;
 
     // Minimum acceptable orbit
@@ -48,8 +45,8 @@ public class OrbitGameController : GameController
         (float periapsisDistance, float apoapsisDistance, float rotation) = generator.GetTargetOrbit(missionOrbit);
         ui.SetTargetOrbit(periapsisDistance, apoapsisDistance, rotation);
 
-        won = false;
         score = -1;
+        ui.orbitReached = false;
 
         ui.ResetUI();
         StopGame();
@@ -85,16 +82,10 @@ public class OrbitGameController : GameController
         ui.screenUI.getOptionsCloseButton().clicked -= startGameAction;  
         ui.screenUI.getInfoCloseButton().clicked -= startGameAction; 
 
-        if (won)
+        if (ui.orbitReached)
         {
-            ui.EnterWinState();
+            ui.ShowScore(GetScore(), GetGrade());
         }
-        else
-        {
-            ui.EnterFailState();
-        }
-
-        ui.ShowScore(GetScore(), GetGrade());
         
         // Puts the random orbit score into index 0.
         if (missionOrbit > 0)
@@ -105,8 +96,6 @@ public class OrbitGameController : GameController
         {
             scorecard.OrbitScore[0] = score;
         }
-
-        // ui.screenUI.getContinueButton().SetEnabled(true);
     }
 
     override public void CalcScore()
@@ -180,10 +169,13 @@ public class OrbitGameController : GameController
         if (winState)
         {
             ui.ShowMsg("Orbit Reached");
+            ui.orbitReached = true;
+            ui.screenUI.getContinueButton().text = "Submit";
         }
         else
         {
             ui.ShowMsg("");
+            ui.screenUI.getContinueButton().text = "Skip";
         }
 
         if (spacecraft.orbit.hasCrashed)
@@ -200,7 +192,7 @@ public class OrbitGameController : GameController
 
     override public void SetRightBtn()
     {
-        ui.screenUI.getContinueButton().text = "Submit";
+        ui.screenUI.getContinueButton().text = "Skip";
         ui.screenUI.getContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
         ui.screenUI.getContinueButton().clicked += ui.rightBtnListenerAction;
     }

@@ -119,10 +119,15 @@ public class GameScreenUI : MonoBehaviour
         closeInfoBtn.clicked += () => { closePanel(); playSound(); };
         scoreCloseBtn.clicked += () => { closePanel(); playSound(); };
         scoreContinueBtn.clicked += () => { continueButtonClicked(); };
-        resetBtn.clicked += () => { playSound(); closePanel(); };
+        resetBtn.clicked += () => { playSound(); closePanel(); reset(); };
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
         RegisterTabCallbacks();
+    }
+
+    private void reset()
+    {
+        resetBtn.SetEnabled(false);
     }
 
     private void closeScorePanel()
@@ -137,6 +142,7 @@ public class GameScreenUI : MonoBehaviour
 
     public void optionsButtonClicked()
     {
+        resetBtn.SetEnabled(true);
         blackScreen.visible = true;
         optionsPanel.visible = true;
     }

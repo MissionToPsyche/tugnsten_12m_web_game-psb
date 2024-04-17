@@ -118,8 +118,9 @@ public class GameScreenUI : MonoBehaviour
         infoBtn.clicked += () => { infoClicked(); playSound(); };
         closeInfoBtn.clicked += () => { closePanel(); playSound(); };
         scoreCloseBtn.clicked += () => { closePanel(); playSound(); };
-        scoreContinueBtn.clicked += () => { continueButtonClicked(); };
+        scoreContinueBtn.clicked += () => { continueButtonClicked(); playSound(); };
         resetBtn.clicked += () => { playSound(); closePanel(); reset(); };
+        continueBtn.clicked += () => playSound();
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
         RegisterTabCallbacks();

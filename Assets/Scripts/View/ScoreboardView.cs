@@ -197,12 +197,18 @@ public class ScoreboardView : MonoBehaviour
 
     public void BindUIEvents()
     {
-        titleBtn.clicked += () => ReturnToTitleScreen();
+        titleBtn.clicked += () => { playSound(); ReturnToTitleScreen(); };
     }
 
     public void ReturnToTitleScreen()
     {
         Debug.Log("Title clicked");
         SceneManager.LoadScene("Title");
+    }
+
+    private void playSound()
+    {
+        AudioClip clip = (AudioClip)Resources.Load("Sounds/analog-appliance-button");
+        SoundManager.Instance.PlaySound(clip);
     }
 }

@@ -142,7 +142,7 @@ public class TitleScreenView : MonoBehaviour
             playSound();
             closeMinigameBtn.SetEnabled(false);
         };
-        infoBtn.clicked += () => openInfoPanel();
+        infoBtn.clicked += () => { openInfoPanel(); playSound(); };
         // RegisterTabCallbacks(); // Register the tab callbacks
         closeInfoBtn.clicked += () => { closeInfoPanel(); playSound(); };
 

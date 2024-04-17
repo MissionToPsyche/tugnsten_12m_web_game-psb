@@ -9,8 +9,8 @@ public class GameScreenUI : MonoBehaviour
     private string currentSceneName;
     public TitleController titleController;
     public AudioClip clip;
-    private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn, closeScoreBtn;
-    private VisualElement root, gameScreen, gameBottomContainer, gameOptionsContainer, gameContinueContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen, tabs, scorePanel, scoreContainer;
+    private Button optionsBtn, continueBtn, resetBtn, mainMenuBtn, infoBtn, xBtn, closeBtn, closeScoreBtn, scoreContinueBtn, scoreCloseBtn;
+    private VisualElement root, gameScreen, gameBottomContainer, gameOptionsContainer, gameContinueContainer, gameTopContainer, topBorder, gameButtonContainer, optionsPanel, soundBar, optionsButtonContainer, infoPanel, blackScreen, tabs, scorePanel, scoreContainer, scoreButtonContainer;
     private Slider musicSlider, soundSlider;
     private ScrollView infoScrollView;
     private Label minigameTitle, timer, instructionsTab, contextTab, numberScore, letterScore;
@@ -97,6 +97,16 @@ public class GameScreenUI : MonoBehaviour
         scoreContainer = scorePanel.Q<VisualElement>("score-container");
         numberScore = scoreContainer.Q<Label>("number-score");
         letterScore = scoreContainer.Q<Label>("letter-score");
+        scoreButtonContainer = scorePanel.Q<VisualElement>("score-button-container");
+        scoreCloseBtn = scoreButtonContainer.Q<Button>("close-score-button");
+        scoreContinueBtn = scoreButtonContainer.Q<Button>("continue-button");
+    }
+
+    public void showScorePanel(float numberScore, string letterGrade)
+    {
+        this.numberScore.text = numberScore.ToString();
+        letterScore.text = letterGrade;
+        scorePanel.visible = true;
     }
 
     private void BindUIEvents()      
@@ -106,10 +116,17 @@ public class GameScreenUI : MonoBehaviour
         mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); }; // return to title screen
         infoBtn.clicked += () => { infoClicked(); playSound(); };
         closeBtn.clicked += () => { closePanel(); playSound(); };
+        scoreCloseBtn.clicked += () => { closePanel(); playSound(); };
+        scoreContinueBtn.clicked += () => { continueButtonClicked(); };
         resetBtn.clicked += () => playSound();
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
         RegisterTabCallbacks();
+    }
+
+    private void closeScorePanel()
+    {
+        scorePanel.visible = false;
     }
 
     public Button getContinueButton()
@@ -128,6 +145,7 @@ public class GameScreenUI : MonoBehaviour
         if (currentSceneIndex == 3)
         {
             // Go to score scene
+            SceneManager.LoadScene(titleController.getSceneName(5));
         }
         else if (currentSceneIndex != 4) // If not orbit game
         {
@@ -245,8 +263,8 @@ public class GameScreenUI : MonoBehaviour
         gameScreen.visible = true;
         optionsPanel.visible = false;
         infoPanel.visible = false;
-        blackScreen.visible = false;
         scorePanel.visible = false;
+        blackScreen.visible = false;
     }
     private void playSound()
     {

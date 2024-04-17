@@ -29,6 +29,7 @@ public class TitleController : MonoBehaviour
         "Science_minigame",
         "Spectrometer_minigame",
         "Orbit_subgame",
+        "Scoreboard",
     };
     private string currentScene = "Orbit_subgame";
     private int index;

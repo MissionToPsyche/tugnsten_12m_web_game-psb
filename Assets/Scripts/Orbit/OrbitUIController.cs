@@ -34,7 +34,7 @@ public class OrbitUIController : UIController
 
     public override void ShowScore(int score, string grade)
     {
-        Debug.Log("Grade: " + grade + " (" + score + ")");
+        screenUI.showScorePanel(score, grade);
     }
 
     public void SetTargetOrbit(float periapsisDistance, float apoapsisDistance, float rotation)

@@ -179,7 +179,7 @@ public class GravitySciUIController : UIController
 
     public override void ShowScore(int score, string grade)
     {
-        Debug.Log("Grade: " + grade + " (" + score + ")");
+        screenUI.showScorePanel(score, grade);
     }
 
     override public void SubmitClicked()

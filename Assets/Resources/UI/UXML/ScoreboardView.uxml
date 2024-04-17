@@ -5,19 +5,19 @@
             <ui:Label tabindex="-1" text="Score" parse-escape-sequences="true" display-tooltip-when-elided="true" name="score-title" style="-unity-font-definition: initial; font-size: 50%; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Bold.ttf?fileID=12800000&amp;guid=5fe14b4e4cc3f014cb74683c9c15bcf7&amp;type=3#Orbitron-Bold&apos;); -unity-text-align: upper-center;" />
             <ui:VisualElement name="score-display-container" style="flex-grow: 1; flex-direction: row; height: 60%; padding-left: 1%;">
                 <ui:VisualElement name="minigame-title-container" style="flex-grow: 1; height: 100%; width: 50%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; -unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Black.ttf?fileID=12800000&amp;guid=0d0a81670461c464d8d0cf24298c61d0&amp;type=3#Orbitron-Black&apos;); font-size: 55%; justify-content: space-around;">
-                    <ui:Label tabindex="-1" text="Magnetometer" parse-escape-sequences="true" display-tooltip-when-elided="true" name="magnetometer-title" />
+                    <ui:Label tabindex="-1" text="Magnetometer" parse-escape-sequences="true" display-tooltip-when-elided="true" name="magnetometer-title" focusable="false" />
                     <ui:Label tabindex="-1" text="Multispectral Imager" parse-escape-sequences="true" display-tooltip-when-elided="true" name="imager-title" />
                     <ui:Label tabindex="-1" text="Gravity Science" parse-escape-sequences="true" display-tooltip-when-elided="true" name="gravity-title" />
                     <ui:Label tabindex="-1" text="Spectrometer" parse-escape-sequences="true" display-tooltip-when-elided="true" name="spectrometer-title" />
-                    <ui:Label tabindex="-1" text="Orbit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="orbit-title" />
+                    <ui:Label tabindex="-1" text="Orbit Average" parse-escape-sequences="true" display-tooltip-when-elided="true" name="orbit-title" />
                 </ui:VisualElement>
                 <ui:VisualElement name="score-container" style="flex-grow: 1; height: 100%; width: 50%; padding-top: 1%; padding-right: 1%; padding-bottom: 1%; padding-left: 1%; -unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-Black.ttf?fileID=12800000&amp;guid=0d0a81670461c464d8d0cf24298c61d0&amp;type=3#Orbitron-Black&apos;); font-size: 55%; justify-content: space-around; align-items: center; flex-direction: row;">
                     <ui:VisualElement name="number-score-container" style="flex-grow: 1; height: 100%; width: 50%; align-items: center; justify-content: space-around;">
-                        <ui:Label tabindex="-1" text="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="magnetometer-number-score" />
-                        <ui:Label tabindex="-1" text="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="imager-number-score" />
-                        <ui:Label tabindex="-1" text="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="gravity-number-score" />
-                        <ui:Label tabindex="-1" text="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="spectrometer-number-score" />
-                        <ui:Label tabindex="-1" text="-1" parse-escape-sequences="true" display-tooltip-when-elided="true" name="orbit-number-score" />
+                        <ui:Label tabindex="-1" text="-" parse-escape-sequences="true" display-tooltip-when-elided="true" name="magnetometer-number-score" />
+                        <ui:Label tabindex="-1" text="-" parse-escape-sequences="true" display-tooltip-when-elided="true" name="imager-number-score" />
+                        <ui:Label tabindex="-1" text="-" parse-escape-sequences="true" display-tooltip-when-elided="true" name="gravity-number-score" />
+                        <ui:Label tabindex="-1" text="-" parse-escape-sequences="true" display-tooltip-when-elided="true" name="spectrometer-number-score" />
+                        <ui:Label tabindex="-1" text="-" parse-escape-sequences="true" display-tooltip-when-elided="true" name="orbit-number-score" />
                     </ui:VisualElement>
                     <ui:VisualElement name="letter-score-container" style="flex-grow: 1; height: 100%; width: 50%; align-items: center; justify-content: space-around;">
                         <ui:Label tabindex="-1" text="F" parse-escape-sequences="true" display-tooltip-when-elided="true" name="magnetometer-letter-score" />
@@ -29,8 +29,8 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="total-score-container" style="flex-grow: 1; height: 15%; flex-direction: row; align-items: center; -unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-ExtraBold.ttf?fileID=12800000&amp;guid=4ea3f77db28c19b448bdd77dd7dec530&amp;type=3#Orbitron-ExtraBold&apos;); font-size: 60%; padding-left: 1%; border-top-color: rgb(165, 63, 91); border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px;">
-                <ui:Label tabindex="-1" text="Total Score:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="total-title" style="width: 50%;" />
-                <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="total-number-score" style="width: 25%; justify-content: center; -unity-text-align: upper-center;" />
+                <ui:Label tabindex="-1" text="Average Score:" parse-escape-sequences="true" display-tooltip-when-elided="true" name="total-title" style="width: 50%;" />
+                <ui:Label tabindex="-1" text="-" parse-escape-sequences="true" display-tooltip-when-elided="true" name="total-number-score" enable-rich-text="true" style="width: 25%; justify-content: center; -unity-text-align: upper-center;" />
                 <ui:Label tabindex="-1" text="F" parse-escape-sequences="true" display-tooltip-when-elided="true" name="total-letter-score" style="-unity-text-align: upper-center; width: 21%;" />
             </ui:VisualElement>
         </ui:VisualElement>

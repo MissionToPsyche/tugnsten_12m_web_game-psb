@@ -345,6 +345,7 @@ public class TitleScreenView : MonoBehaviour
     }
     private void TabOnClick(ClickEvent evt)
     {
+        playSound();
         Label clickedTab = evt.currentTarget as Label;
         handleTabSeclected(clickedTab);
     }

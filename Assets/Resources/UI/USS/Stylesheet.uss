@@ -71,7 +71,7 @@
     border-bottom-left-radius: 25px;
 }
 
-.button:focus {
+.button:active {
     background-color: rgb(249, 160, 0);
     border-left-color: rgb(89, 38, 81);
     border-right-color: rgb(89, 38, 81);
@@ -123,7 +123,7 @@
     -unity-background-image-tint-color: rgb(249, 160, 0);
 }
 
-.back-button:focus {
+.back-button:active {
     border-left-color: rgb(249, 160, 0);
     border-right-color: rgb(249, 160, 0);
     border-top-color: rgb(249, 160, 0);
@@ -325,7 +325,7 @@
     background-color: rgb(107, 107, 107);
 }
 
-.help-button:focus {
+.help-button:active {
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/AndromedaTV.TTF?fileID=12800000&guid=5e45cd4bb34bec24eb2fe66c08f4067a&type=3#AndromedaTV');
     -unity-font-style: bold;
     -unity-font-definition: initial;
@@ -433,7 +433,7 @@
     -unity-background-image-tint-color: rgb(168, 168, 168);
 }
 
-.img-button:focus {
+.img-button:active {
     background-color: rgba(0, 0, 0, 0);
     margin-top: 0;
     margin-right: 0;

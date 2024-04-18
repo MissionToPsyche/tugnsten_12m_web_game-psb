@@ -65,8 +65,6 @@ public class SlideCamera : MonoBehaviour
             }
         }
 
-        // transform.position = Vector3.Lerp(transform.position, currentPos, speed*Time.deltaTime);
-
     }
     public void movePrevPos()
     {

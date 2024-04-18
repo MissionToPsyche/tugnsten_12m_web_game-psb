@@ -44,17 +44,17 @@ public class OptionsScreenView : MonoBehaviour
 
     private void musicValueChanged(ChangeEvent<float> evt)
     {
-        Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Slider value changed: " + evt.newValue);
         GameObject musicSource = SoundManager.Instance.transform.GetChild(0).gameObject;
-        Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
+        // Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
         AudioSource audioSource = musicSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue/100;
     }
     private void soundValueChanged(ChangeEvent<float> evt)
     {
-        Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Slider value changed: " + evt.newValue);
         GameObject soundSource = SoundManager.Instance.transform.GetChild(1).gameObject;
-        Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
+        // Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
         AudioSource audioSource = soundSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue/100;
     }

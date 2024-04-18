@@ -14,6 +14,30 @@ public class GameScreenUI : MonoBehaviour
     private Slider musicSlider, soundSlider;
     private ScrollView infoScrollView;
     private Label minigameTitle, timer, instructionsTab, contextTab, numberScore, letterScore;
+    private UIDocument myUIDocument;
+
+    private void DisableKeyboardNavigation()
+    {
+        var myUIDDocument = GetComponent<UIDocument>();
+        var rootElement = myUIDDocument.rootVisualElement;
+
+        // Use Query to select all elements in the UIDDocument
+        var allElements = rootElement.Query<VisualElement>().ToList();
+
+        // Disable keyboard navigation for all elements
+        foreach (var element in allElements)
+        {
+            element.focusable = false;
+            element.UnregisterCallback<KeyDownEvent>(OnKeyDownEvent);
+        }
+    }
+
+    private void OnKeyDownEvent(KeyDownEvent evt)
+    {
+        // Prevent the default keyboard navigation behavior
+        evt.StopPropagation();
+    }
+
     private void OnEnable()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -100,6 +124,8 @@ public class GameScreenUI : MonoBehaviour
         scoreButtonContainer = scorePanel.Q<VisualElement>("score-button-container");
         scoreCloseBtn = scoreButtonContainer.Q<Button>("close-score-button");
         scoreContinueBtn = scoreButtonContainer.Q<Button>("continue-button");
+
+        DisableKeyboardNavigation();
     }
 
     public void showScorePanel(float numberScore, string letterGrade)
@@ -231,7 +257,7 @@ public class GameScreenUI : MonoBehaviour
     private void UnselectTab(Label tab)
     {
         tab.RemoveFromClassList("selectedTab");
-        Debug.Log("Unselected tab");
+        // Debug.Log("Unselected tab");
         // tab.AddToClassList("unselectedTab");
     }
 
@@ -249,7 +275,7 @@ public class GameScreenUI : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
+            // Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
         }
     }
 
@@ -267,7 +293,7 @@ public class GameScreenUI : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
+            // Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
         }
     }
 
@@ -345,17 +371,17 @@ public class GameScreenUI : MonoBehaviour
 
     private void musicValueChanged(ChangeEvent<float> evt)
     {
-        Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Slider value changed: " + evt.newValue);
         GameObject musicSource = SoundManager.Instance.transform.GetChild(0).gameObject;
-        Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
+        // Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
         AudioSource audioSource = musicSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
     }
     private void soundValueChanged(ChangeEvent<float> evt)
     {
-        Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Slider value changed: " + evt.newValue);
         GameObject soundSource = SoundManager.Instance.transform.GetChild(1).gameObject;
-        Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
+        // Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
         AudioSource audioSource = soundSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
     }

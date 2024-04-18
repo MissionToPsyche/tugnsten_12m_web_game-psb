@@ -38,6 +38,7 @@ public class TitleController : MonoBehaviour
     // which softlocks the screen.
     public bool cameraMoving = false;
     public bool cameraZooming = false;
+    public bool inInfoPanel = false;
 
     public Vector3[] getAllPositions()
     {

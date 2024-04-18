@@ -62,7 +62,7 @@ public class TitleController : MonoBehaviour
 
     public bool isLastScene()
     {
-        return index == scenes.Length - 1;
+        return index == scenes.Length - 2;
     }
     public void getNextScene()
     {

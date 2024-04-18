@@ -13,6 +13,29 @@ public class ScoreboardView : MonoBehaviour
     private int[] scores = {-1, -1, -1, -1, -1, -1};
     private string[] displayScores = {"-", "-", "-", "-", "-", "-", "-"};
     private string[] displayGrades = {"-", "-", "-", "-", "-", "-", "-"};
+
+    private void DisableKeyboardNavigation()
+    {
+        var myUIDDocument = GetComponent<UIDocument>();
+        var rootElement = myUIDDocument.rootVisualElement;
+
+        // Use Query to select all elements in the UIDDocument
+        var allElements = rootElement.Query<VisualElement>().ToList();
+
+        // Disable keyboard navigation for all elements
+        foreach (var element in allElements)
+        {
+            element.focusable = false;
+            element.UnregisterCallback<KeyDownEvent>(OnKeyDownEvent);
+        }
+    }
+
+    private void OnKeyDownEvent(KeyDownEvent evt)
+    {
+        // Prevent the default keyboard navigation behavior
+        evt.StopPropagation();
+    }
+
     public void OnEnable()
     {
         InitializeUI();
@@ -52,6 +75,7 @@ public class ScoreboardView : MonoBehaviour
     
         // Close button
         titleBtn = root.Q<Button>("title-screen-button");
+        DisableKeyboardNavigation();
     }
 
     private void GetData()

@@ -29,6 +29,28 @@ public class TitleScreenView : MonoBehaviour
     // Collections for easier management
     private List<VisualElement> screens = new List<VisualElement>();
 
+    private void DisableKeyboardNavigation()
+    {
+        var myUIDDocument = GetComponent<UIDocument>();
+        var rootElement = myUIDDocument.rootVisualElement;
+
+        // Use Query to select all elements in the UIDDocument
+        var allElements = rootElement.Query<VisualElement>().ToList();
+
+        // Disable keyboard navigation for all elements
+        foreach (var element in allElements)
+        {
+            element.focusable = false;
+            element.UnregisterCallback<KeyDownEvent>(OnKeyDownEvent);
+        }
+    }
+
+    private void OnKeyDownEvent(KeyDownEvent evt)
+    {
+        // Prevent the default keyboard navigation behavior
+        evt.StopPropagation();
+    }
+
     private void OnEnable()
     {
         InitializeUI();
@@ -45,6 +67,12 @@ public class TitleScreenView : MonoBehaviour
         // {
             updateMinigameScreen();
         // }
+
+        if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && !titleController.cameraZooming)
+        {
+            playMinigame();
+            playSound();
+        }
 
     }
 
@@ -111,6 +139,7 @@ public class TitleScreenView : MonoBehaviour
         // CREDITS SCREEN UI ELEMENTS
          closeCreditsBtn = creditsScreen.Q<Button>("close-button");
         // optionsScreenView.hideOptionsScreen();
+        DisableKeyboardNavigation();
     }
 
     private void BindUIEvents()
@@ -243,7 +272,7 @@ public class TitleScreenView : MonoBehaviour
         slideCamera.moveNextPos();
     }
 
-      private void playMinigame()
+    private void playMinigame()
     {   
         // Debug.Log("change to: " + titleController.getScene());
         cameraZoom.startCameraMove(titleController.getScene());

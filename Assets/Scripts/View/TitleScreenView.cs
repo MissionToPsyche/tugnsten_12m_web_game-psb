@@ -19,7 +19,6 @@ public class TitleScreenView : MonoBehaviour
 
     private Slider musicSlider, soundSlider;
     private Label minigameTitle,instructionsTab, contextTab;
-    GameObject musicSource, soundSource;
     private CameraZoom cameraZoom;
     private SlideCamera slideCamera;
 
@@ -134,6 +133,8 @@ public class TitleScreenView : MonoBehaviour
         optionsButtonContainer = optionsPanel.Q<VisualElement>("button-container");
         musicSlider = soundbar.Q<Slider>("music-slider");
         soundSlider = soundbar.Q<Slider>("sound-slider");
+        InitializeSlider(musicSlider, 0);
+        InitializeSlider(soundSlider, 1);
         closeOptionsBtn = optionsButtonContainer.Q<Button>("close-button");
         
         ////////////////////////////////////////////////////////////////////////////////
@@ -178,9 +179,7 @@ public class TitleScreenView : MonoBehaviour
 
         // Options Screen
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
-        soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);        
-        InitializeSlider(musicSlider, 0);
-        InitializeSlider(soundSlider, 1);
+        soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
 
         closeOptionsBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
         
@@ -325,13 +324,12 @@ public class TitleScreenView : MonoBehaviour
 
     public void InitializeSlider(Slider slider, int child)
     {
-        Debug.Log("Initializing slider");
-        GameObject audioSource = SoundManager.Instance.transform.GetChild(child).gameObject;
-        Debug.Log("Got audio object");
-        AudioSource audio = audioSource.GetComponent<AudioSource>();
-        Debug.Log("Got audio source");
-        slider.value = audio.volume * 100;
-        Debug.Log("Set slider value");
+        if (SoundManager.Instance != null)
+        {
+            GameObject audioSource = SoundManager.Instance.transform.GetChild(child).gameObject;
+            AudioSource audio = audioSource.GetComponent<AudioSource>();
+            slider.value = audio.volume * 100;
+        }
     }
 
     ////////////////////////////////////////////////////////

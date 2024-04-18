@@ -104,7 +104,9 @@ public class GameScreenUI : MonoBehaviour
         mainMenuBtn = optionsButtonContainer.Q<Button>("main-menu-button");
         musicSlider = soundBar.Q<Slider>("music-slider");
         soundSlider = soundBar.Q<Slider>("sound-slider");
-
+        InitializeSlider(musicSlider, 0);
+        InitializeSlider(soundSlider, 1);
+        
         ////////////////////////////////////////////////////////////////////////////////
         // INFO PANEL UI ELEMENTS
         infoPanel = root.Q<VisualElement>("info-panel");
@@ -385,5 +387,14 @@ public class GameScreenUI : MonoBehaviour
         // Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
         AudioSource audioSource = soundSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
+    }
+    public void InitializeSlider(Slider slider, int child)
+    {
+        if (SoundManager.Instance != null)
+        {
+            GameObject audioSource = SoundManager.Instance.transform.GetChild(child).gameObject;
+            AudioSource audio = audioSource.GetComponent<AudioSource>();
+            slider.value = audio.volume * 100;
+        }
     }
 }

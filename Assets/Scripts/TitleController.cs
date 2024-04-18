@@ -38,6 +38,7 @@ public class TitleController : MonoBehaviour
     // which softlocks the screen.
     public bool cameraMoving = false;
     public bool cameraZooming = false;
+    public bool inInfoPanel = false;
 
     public Vector3[] getAllPositions()
     {
@@ -61,7 +62,7 @@ public class TitleController : MonoBehaviour
 
     public bool isLastScene()
     {
-        return index == scenes.Length - 1;
+        return index == scenes.Length - 2;
     }
     public void getNextScene()
     {

@@ -8,6 +8,6 @@
         <ui:Label tabindex="-1" text="Scoring" parse-escape-sequences="true" display-tooltip-when-elided="true" name="scoring-heading" class="info-heading" />
         <ui:Label tabindex="-1" text="The closer your graph matches the provided graph, the higher your score. &#10;The faster you can make the correct graph, the more points you’ll get. &#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="scoring-content" class="info-text-content" />
         <ui:Label tabindex="-1" text="Tips" parse-escape-sequences="true" display-tooltip-when-elided="true" name="tips-heading" class="info-heading" />
-        <ui:Label tabindex="-1" text="Different elements may share a peak or two, but no two elements have identical peaks. &#10;Two peaks in the same location will combine. If you think you have the right amount of one element but a few of its peaks look wrong, try to find another element with peaks in those places. &#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="tips-content" class="info-text-content" />
+        <ui:Label tabindex="-1" text="Different elements may share a peak or two, but no two elements have identical peaks. &#10;Two peaks in the same location will combine. If you think you have the right amount of one element but a few of its peaks look wrong, try to find another element with peaks in those places. " parse-escape-sequences="true" display-tooltip-when-elided="true" name="tips-content" class="info-text-content" />
     </ui:VisualElement>
 </ui:UXML>

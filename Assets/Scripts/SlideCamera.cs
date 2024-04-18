@@ -34,14 +34,17 @@ public class SlideCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow) && !titleController.cameraZooming)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && !titleController.cameraZooming && !titleController.inInfoPanel)
         {
             moveNextPos();
+
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) && !titleController.cameraZooming)
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) && !titleController.cameraZooming && !titleController.inInfoPanel)
         {
             movePrevPos();
         }
+
+
 
         Vector3 currentPos = positions[currentIndex];
 
@@ -61,8 +64,6 @@ public class SlideCamera : MonoBehaviour
                 transform.position = Vector3.Lerp(transform.position, currentPos, speed * Time.deltaTime);
             }
         }
-
-        // transform.position = Vector3.Lerp(transform.position, currentPos, speed*Time.deltaTime);
 
     }
     public void movePrevPos()

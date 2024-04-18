@@ -68,7 +68,7 @@ public class TitleScreenView : MonoBehaviour
             updateMinigameScreen();
         // }
 
-        if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && !titleController.cameraZooming)
+        if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && !titleController.cameraZooming && !titleController.inInfoPanel)
         {
             playMinigame();
             playSound();
@@ -286,6 +286,7 @@ public class TitleScreenView : MonoBehaviour
         handleTabSeclected(instructionsTab);
         infoPanel.visible = true;
         blackScreen.visible = true;
+        titleController.inInfoPanel = true;
     }
 
     public void closeInfoPanel()
@@ -293,6 +294,7 @@ public class TitleScreenView : MonoBehaviour
         infoPanel.visible = false;
         blackScreen.visible = false;
         GetAllTabs().ForEach(UnselectTab);
+        titleController.inInfoPanel = false;
 
         //electTab(instructionsTab);
         //TabIsCurrentlySelected(instructionsTab);

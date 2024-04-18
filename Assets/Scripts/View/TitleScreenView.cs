@@ -19,6 +19,7 @@ public class TitleScreenView : MonoBehaviour
 
     private Slider musicSlider, soundSlider;
     private Label minigameTitle,instructionsTab, contextTab;
+    GameObject musicSource, soundSource;
     private CameraZoom cameraZoom;
     private SlideCamera slideCamera;
 
@@ -148,7 +149,10 @@ public class TitleScreenView : MonoBehaviour
 
         // Options Screen
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
-        soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
+        soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);        
+        InitializeSlider(musicSlider, 0);
+        InitializeSlider(soundSlider, 1);
+
         closeOptionsBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
         
         // Credits Screen
@@ -245,7 +249,7 @@ public class TitleScreenView : MonoBehaviour
 
       private void playMinigame()
     {   
-        Debug.Log("change to: " + titleController.getScene());
+        // Debug.Log("change to: " + titleController.getScene());
         cameraZoom.startCameraMove(titleController.getScene());
     }
 
@@ -272,23 +276,34 @@ public class TitleScreenView : MonoBehaviour
         switchScreen(optionsScreen);
     }
 
+    // Slider Functions
     private void musicValueChanged(ChangeEvent<float> evt)
     {
-        Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
         GameObject musicSource = SoundManager.Instance.transform.GetChild(0).gameObject;
-        Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
         AudioSource audioSource = musicSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
     }
     private void soundValueChanged(ChangeEvent<float> evt)
     {
-        Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
         GameObject soundSource = SoundManager.Instance.transform.GetChild(1).gameObject;
-        Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
-        AudioSource audioSource = soundSource.GetComponent<AudioSource>();
-        audioSource.volume = evt.newValue / 100;
+        AudioSource audio = soundSource.GetComponent<AudioSource>();
+        audio.volume = evt.newValue / 100;
     }
 
+    public void InitializeSlider(Slider slider, int child)
+    {
+        Debug.Log("Initializing slider");
+        GameObject audioSource = SoundManager.Instance.transform.GetChild(child).gameObject;
+        Debug.Log("Got audio object");
+        AudioSource audio = audioSource.GetComponent<AudioSource>();
+        Debug.Log("Got audio source");
+        slider.value = audio.volume * 100;
+        Debug.Log("Set slider value");
+    }
 
     ////////////////////////////////////////////////////////
     // Info panel tabs methods
@@ -324,7 +339,7 @@ public class TitleScreenView : MonoBehaviour
 
     private void handleTabSeclected(Label clickedTab)
     {
-        Debug.Log("tab: " + TabIsCurrentlySelected(clickedTab));
+        // Debug.Log("tab: " + TabIsCurrentlySelected(clickedTab));
         if (!TabIsCurrentlySelected(clickedTab))
         {
             GetAllTabs().Where(
@@ -342,13 +357,13 @@ public class TitleScreenView : MonoBehaviour
     private void UnselectTab(Label tab)
     {
         tab.RemoveFromClassList("selectedTab");
-        Debug.Log("Unselected tab");
+        // Debug.Log("Unselected tab");
         // tab.AddToClassList("unselectedTab");
     }
 
     public void showInfo()
     {
-        Debug.Log("text: " + minigameTitle.text);
+        // Debug.Log("text: " + minigameTitle.text);
         string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Info";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
 
@@ -361,7 +376,7 @@ public class TitleScreenView : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
+            // Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
         }
     }
 
@@ -379,7 +394,7 @@ public class TitleScreenView : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
+            // Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
         }
     }
 

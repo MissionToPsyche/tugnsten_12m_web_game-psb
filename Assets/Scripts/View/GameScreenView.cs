@@ -14,6 +14,30 @@ public class GameScreenUI : MonoBehaviour
     private Slider musicSlider, soundSlider;
     private ScrollView infoScrollView;
     private Label minigameTitle, timer, instructionsTab, contextTab, numberScore, letterScore;
+    private UIDocument myUIDocument;
+
+    private void DisableKeyboardNavigation()
+    {
+        var myUIDDocument = GetComponent<UIDocument>();
+        var rootElement = myUIDDocument.rootVisualElement;
+
+        // Use Query to select all elements in the UIDDocument
+        var allElements = rootElement.Query<VisualElement>().ToList();
+
+        // Disable keyboard navigation for all elements
+        foreach (var element in allElements)
+        {
+            element.focusable = false;
+            element.UnregisterCallback<KeyDownEvent>(OnKeyDownEvent);
+        }
+    }
+
+    private void OnKeyDownEvent(KeyDownEvent evt)
+    {
+        // Prevent the default keyboard navigation behavior
+        evt.StopPropagation();
+    }
+
     private void OnEnable()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -100,6 +124,8 @@ public class GameScreenUI : MonoBehaviour
         scoreButtonContainer = scorePanel.Q<VisualElement>("score-button-container");
         scoreCloseBtn = scoreButtonContainer.Q<Button>("close-score-button");
         scoreContinueBtn = scoreButtonContainer.Q<Button>("continue-button");
+
+        DisableKeyboardNavigation();
     }
 
     public void showScorePanel(float numberScore, string letterGrade)

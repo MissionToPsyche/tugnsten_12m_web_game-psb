@@ -13,7 +13,8 @@ public class TitleScreenView : MonoBehaviour
     // public OptionsScreenView optionsScreenView;
 
     // Private UI elements grouped by their functionality/screen
-    private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectCenter, gameSelectBottom, optionsScreen, optionsPanel, soundbar, optionsButtonContainer, creditsScreen, blackScreen, infoPanel, infoScrollView, tabs, scorePanel, scoreContainer;
+    private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectCenter, gameSelectBottom, optionsScreen, optionsPanel, soundbar, optionsButtonContainer, creditsScreen, blackScreen, infoPanel, tabs, scorePanel, scoreContainer;
+    private ScrollView infoScrollView;
 
     private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, closeMinigameBtn, playMinigameBtn, closeOptionsBtn, closeCreditsBtn, nextBtn, prevBtn, infoBtn, closeInfoBtn;
 
@@ -295,6 +296,9 @@ public class TitleScreenView : MonoBehaviour
         blackScreen.visible = false;
         GetAllTabs().ForEach(UnselectTab);
         titleController.inInfoPanel = false;
+        
+        infoScrollView.scrollOffset = Vector2.zero;
+        
 
         //electTab(instructionsTab);
         //TabIsCurrentlySelected(instructionsTab);

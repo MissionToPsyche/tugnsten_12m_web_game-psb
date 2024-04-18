@@ -100,7 +100,7 @@ public class ScoreboardView : MonoBehaviour
     {
         for (int i = 0; i < scores.Length; i++)
         {
-            if(scores[i] != -1)
+            if(scores[i] >= 0)
             {
                 displayScores[i] = scores[i].ToString();
             }
@@ -138,18 +138,17 @@ public class ScoreboardView : MonoBehaviour
         int ctr = 0;
         foreach (int score in scores)
         {
-            if(score != -1)
+            if(score >= 0)
             {
                 ctr++;
                 sum += score;
             }
         }
-        try
+        if(ctr != 0)
         {
             avg = sum / ctr;
         }
-        catch(Exception e)
-        {
+        else{
             avg = -1;
         }
         return avg;
@@ -160,22 +159,21 @@ public class ScoreboardView : MonoBehaviour
         int[] orbitScores = {-1, -1, -1, -1};
         orbitScores = scorecard.OrbitScore;
         int sum = 0;
-        int avg = -1;
+        int avg = 0;
         int ctr = 0;
         foreach (int score in orbitScores)
         {
-            if(score != -1)
+            if(score >= 0)
             {
                 ctr++;
                 sum += score;
             }
         }
-        try
+        if(ctr != 0)
         {
             avg = sum / ctr;
         }
-        catch(Exception e)
-        {
+        else{
             avg = -1;
         }
         return avg;

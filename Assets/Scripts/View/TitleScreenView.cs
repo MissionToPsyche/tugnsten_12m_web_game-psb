@@ -29,6 +29,28 @@ public class TitleScreenView : MonoBehaviour
     // Collections for easier management
     private List<VisualElement> screens = new List<VisualElement>();
 
+    private void DisableKeyboardNavigation()
+    {
+        var myUIDDocument = GetComponent<UIDocument>();
+        var rootElement = myUIDDocument.rootVisualElement;
+
+        // Use Query to select all elements in the UIDDocument
+        var allElements = rootElement.Query<VisualElement>().ToList();
+
+        // Disable keyboard navigation for all elements
+        foreach (var element in allElements)
+        {
+            element.focusable = false;
+            element.UnregisterCallback<KeyDownEvent>(OnKeyDownEvent);
+        }
+    }
+
+    private void OnKeyDownEvent(KeyDownEvent evt)
+    {
+        // Prevent the default keyboard navigation behavior
+        evt.StopPropagation();
+    }
+
     private void OnEnable()
     {
         InitializeUI();
@@ -45,6 +67,12 @@ public class TitleScreenView : MonoBehaviour
         // {
             updateMinigameScreen();
         // }
+
+        if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && !titleController.cameraZooming)
+        {
+            playMinigame();
+            playSound();
+        }
 
     }
 
@@ -111,6 +139,7 @@ public class TitleScreenView : MonoBehaviour
         // CREDITS SCREEN UI ELEMENTS
          closeCreditsBtn = creditsScreen.Q<Button>("close-button");
         // optionsScreenView.hideOptionsScreen();
+        DisableKeyboardNavigation();
     }
 
     private void BindUIEvents()
@@ -243,9 +272,9 @@ public class TitleScreenView : MonoBehaviour
         slideCamera.moveNextPos();
     }
 
-      private void playMinigame()
+    private void playMinigame()
     {   
-        Debug.Log("change to: " + titleController.getScene());
+        // Debug.Log("change to: " + titleController.getScene());
         cameraZoom.startCameraMove(titleController.getScene());
     }
 
@@ -274,17 +303,17 @@ public class TitleScreenView : MonoBehaviour
 
     private void musicValueChanged(ChangeEvent<float> evt)
     {
-        Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Slider value changed: " + evt.newValue);
         GameObject musicSource = SoundManager.Instance.transform.GetChild(0).gameObject;
-        Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
+        // Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
         AudioSource audioSource = musicSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
     }
     private void soundValueChanged(ChangeEvent<float> evt)
     {
-        Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Slider value changed: " + evt.newValue);
         GameObject soundSource = SoundManager.Instance.transform.GetChild(1).gameObject;
-        Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
+        // Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
         AudioSource audioSource = soundSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
     }
@@ -324,7 +353,7 @@ public class TitleScreenView : MonoBehaviour
 
     private void handleTabSeclected(Label clickedTab)
     {
-        Debug.Log("tab: " + TabIsCurrentlySelected(clickedTab));
+        // Debug.Log("tab: " + TabIsCurrentlySelected(clickedTab));
         if (!TabIsCurrentlySelected(clickedTab))
         {
             GetAllTabs().Where(
@@ -342,13 +371,13 @@ public class TitleScreenView : MonoBehaviour
     private void UnselectTab(Label tab)
     {
         tab.RemoveFromClassList("selectedTab");
-        Debug.Log("Unselected tab");
+        // Debug.Log("Unselected tab");
         // tab.AddToClassList("unselectedTab");
     }
 
     public void showInfo()
     {
-        Debug.Log("text: " + minigameTitle.text);
+        // Debug.Log("text: " + minigameTitle.text);
         string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Info";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
 
@@ -361,7 +390,7 @@ public class TitleScreenView : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
+            // Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
         }
     }
 
@@ -379,7 +408,7 @@ public class TitleScreenView : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
+            // Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
         }
     }
 

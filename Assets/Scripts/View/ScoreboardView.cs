@@ -226,7 +226,7 @@ public class ScoreboardView : MonoBehaviour
 
     public void ReturnToTitleScreen()
     {
-        Debug.Log("Title clicked");
+        // Debug.Log("Title clicked");
         SceneManager.LoadScene("Title");
     }
 

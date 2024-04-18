@@ -52,10 +52,7 @@ public class SliceImage : MonoBehaviour
 
     public void slice()
     {
-        path = "Assets/Psyche_Mission_RubinAsteroid_171203.png";
-        bytes = File.ReadAllBytes(path);
-        originalImage = new Texture2D(1, 1); // size will be replaced by image size
-        originalImage.LoadImage(bytes); // create a texture2d asset from the image
+        GetTexture();
 
         // Debug.Log("slice");
         // can probably take out (just here to reset for testing)
@@ -161,6 +158,23 @@ public class SliceImage : MonoBehaviour
         // add snap offsets to each image
         addSnapOffsets(imgWidth, imgHeight);
         setInitialSnapPositions();
+    }
+
+    public void GetTexture()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null && spriteRenderer.sprite != null)
+        {
+            // Access the Sprite from the SpriteRenderer
+            Sprite sprite = spriteRenderer.sprite;
+
+            // Access the Texture2D associated with the Sprite
+            originalImage = sprite.texture;
+        }
+        else
+        {
+            Debug.LogError("SpriteRenderer or Sprite not found!");
+        }
     }
 
     public bool isStartDifferent(Vector2 newStart, Vector2 diff)

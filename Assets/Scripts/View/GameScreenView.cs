@@ -190,6 +190,7 @@ public class GameScreenUI : MonoBehaviour
     }
     private void TabOnClick(ClickEvent evt)
     {
+        playSound();
         Label clickedTab = evt.currentTarget as Label;
         handleTabSeclected(clickedTab);
     }
@@ -231,7 +232,7 @@ public class GameScreenUI : MonoBehaviour
     private void UnselectTab(Label tab)
     {
         tab.RemoveFromClassList("selectedTab");
-        Debug.Log("Unselected tab");
+        // Debug.Log("Unselected tab");
         // tab.AddToClassList("unselectedTab");
     }
 
@@ -249,7 +250,7 @@ public class GameScreenUI : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
+            // Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
         }
     }
 
@@ -267,7 +268,7 @@ public class GameScreenUI : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
+            // Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
         }
     }
 
@@ -345,17 +346,17 @@ public class GameScreenUI : MonoBehaviour
 
     private void musicValueChanged(ChangeEvent<float> evt)
     {
-        Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Slider value changed: " + evt.newValue);
         GameObject musicSource = SoundManager.Instance.transform.GetChild(0).gameObject;
-        Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
+        // Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
         AudioSource audioSource = musicSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
     }
     private void soundValueChanged(ChangeEvent<float> evt)
     {
-        Debug.Log("Slider value changed: " + evt.newValue);
+        // Debug.Log("Slider value changed: " + evt.newValue);
         GameObject soundSource = SoundManager.Instance.transform.GetChild(1).gameObject;
-        Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
+        // Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
         AudioSource audioSource = soundSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
     }

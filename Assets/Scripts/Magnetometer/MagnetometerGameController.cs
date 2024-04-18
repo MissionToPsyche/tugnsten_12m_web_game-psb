@@ -140,7 +140,7 @@ public class MagnetometerGameController : GameController
                 scale = targetScale;
             }
             scaleDiff = Mathf.Abs(Vector3.Distance(scale, targetScale));
-            Debug.Log("zero");
+            // Debug.Log("zero");
             scalePercentage = calc(scaleMaxDeviation, scaleDiff);
 
             avgPercentage = (scalePercentage * scaleWeight) + (timePercentage * timeWeight);

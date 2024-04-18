@@ -90,10 +90,10 @@ public class CameraZoom : MonoBehaviour
 
     void MoveCamera()
     {
-        Debug.Log("dest: " + destPosition);
-        Debug.Log("pos1: " + cam.transform.position);
+        // Debug.Log("dest: " + destPosition);
+        // Debug.Log("pos1: " + cam.transform.position);
         cam.transform.position = Vector3.MoveTowards(cam.transform.position, destPosition, Time.fixedDeltaTime * moveSpeed);
-        Debug.Log("pos2: " + cam.transform.position);
+        // Debug.Log("pos2: " + cam.transform.position);
     }
 
     IEnumerator MoveAndZoom()
@@ -112,12 +112,12 @@ public class CameraZoom : MonoBehaviour
 
     public void startCameraMove(string sceneName)
     {
-        Debug.Log("start zoom");
+        // Debug.Log("start zoom");
         slidePosition = titleController.getPosition();
         destPosition = new Vector3(slidePosition.x, 0.45f, slidePosition.z);
-        Debug.Log("dest: " + destPosition);
+        // Debug.Log("dest: " + destPosition);
         this.sceneName = sceneName;
-        Debug.Log("name: " + this.sceneName);
+        // Debug.Log("name: " + this.sceneName);
         zoom = true;
         move = true;
         titleController.cameraZooming = true;

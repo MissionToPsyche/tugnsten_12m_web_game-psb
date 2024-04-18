@@ -119,7 +119,7 @@ public class TitleController : MonoBehaviour
                 return i;
             }
         }
-        Debug.Log("Scene not found");
+        // Debug.Log("Scene not found");
         return -1;
     }
     public void setSceneIndex(int index)

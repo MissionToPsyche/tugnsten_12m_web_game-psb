@@ -8,20 +8,6 @@ public class SpectGameController : GameController
     public SpectUIController ui;
     public SpectDataGenerator generator;
 
-    // Difference between user and reference quantities treated as perfect.
-    public float idealDiff = 0.05f;
-    // Time treated as perfect.
-    public float idealTime = 5f;
-
-    [Range(0, 1)]
-    public float accuracyWeight = 0.5f;
-    private float timeWeight;
-
-    private void OnValidate()
-    {
-        timeWeight = 1 - accuracyWeight;
-    }
-
     public override void InitializeGame()
     {
         ui.SetController(this);

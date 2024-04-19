@@ -69,10 +69,9 @@ public class SpectrumGraph : MonoBehaviour
         // Similar logic for moving it down by half its height. 
 
         float xCenter = (graphEnd - graphStart) / 2f + graphStart;
-        
-        // TODO: fix this
+
         float yCenter = (graphEnd - graphStart) / (numXTicks / (float)numYTicks) / 2f;
-        
+
         Vector2 newTransform = new(-xCenter, -yCenter);
 
         rt.anchoredPosition = newTransform;
@@ -82,6 +81,12 @@ public class SpectrumGraph : MonoBehaviour
             slider.direction = Slider.Direction.BottomToTop;
             slider.GetComponent<RectTransform>().anchoredPosition = new(-(xCenter / 2f + graphStart + sliderMargin), 30);
         }
+    }
+
+    private void Start()
+    {
+        graphStart = EmissionSpectra.spectraRange.Item1 - graphEndPadding;
+        graphEnd = EmissionSpectra.spectraRange.Item2 + graphEndPadding;
     }
 
     private void Update()

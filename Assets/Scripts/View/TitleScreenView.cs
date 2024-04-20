@@ -13,7 +13,7 @@ public class TitleScreenView : MonoBehaviour
     // public OptionsScreenView optionsScreenView;
 
     // Private UI elements grouped by their functionality/screen
-    private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectCenter, gameSelectBottom, optionsScreen, optionsPanel, soundbar, optionsButtonContainer, creditsScreen, blackScreen, infoPanel, tabs, scorePanel, scoreContainer;
+    private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectCenter, gameSelectBottom, optionsScreen, optionsPanel, soundbar, optionsButtonContainer, creditsScreen, blackScreen, infoScreen, infoPanel, tabs, scorePanel, scoreContainer;
     private ScrollView infoScrollView;
 
     private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, closeMinigameBtn, playMinigameBtn, closeOptionsBtn, closeCreditsBtn, nextBtn, prevBtn, infoBtn, closeInfoBtn;
@@ -90,7 +90,7 @@ public class TitleScreenView : MonoBehaviour
         gameSelectScreen = root.Q<VisualElement>("game-select-screen");
         optionsScreen = root.Q<VisualElement>("options-screen");
         creditsScreen = root.Q<VisualElement>("credits-screen");
-        infoPanel = root.Q<VisualElement>("info-panel");
+        infoScreen = root.Q<TemplateContainer>("info-screen");
         blackScreen = root.Q<VisualElement>("black-screen");
         screens.AddRange(new VisualElement[] { mainScreen, gameSelectScreen, optionsScreen, creditsScreen });
         buttonContainer = mainScreen.Q<VisualElement>("button-container");
@@ -107,6 +107,9 @@ public class TitleScreenView : MonoBehaviour
         gameSelectCenter = gameSelectScreen.Q<VisualElement>("game-select-center");
         gameSelectBottom = gameSelectScreen.Q<VisualElement>("game-select-bottom");
 
+        // minigame title text
+        minigameTitle = gameSelectBottom.Q<Label>("minigame-text");
+
         // buttons on the minigame select screen
         closeMinigameBtn = gameSelectTop.Q<Button>("minigame-back-button");
         prevBtn = gameSelectCenter.Q<Button>("previous-button");
@@ -115,17 +118,15 @@ public class TitleScreenView : MonoBehaviour
         nextBtn.style.display = DisplayStyle.None;
         playMinigameBtn = gameSelectBottom.Q<Button>("play-minigame-button");
         infoBtn = gameSelectScreen.Q<Button>("info-button");
-        closeInfoBtn = infoPanel.Q<Button>("close-button");
-
+    
         // INFO PANEL TABS
+        infoPanel = infoScreen.Q<VisualElement>("info-panel");
         tabs = infoPanel.Q<VisualElement>("tabs");
         instructionsTab = tabs.Q<Label>("Instructions");
         contextTab = tabs.Q<Label>("science-context");
         infoScrollView = infoPanel.Q<ScrollView>("game-info");
         closeInfoBtn = infoPanel.Q<Button>("close-button");
-
-        // minigame title text
-        minigameTitle = gameSelectBottom.Q<Label>("minigame-text");
+        showInfo();
 
         ////////////////////////////////////////////////////////////////////////////////
         // OPTIONS SCREEN UI ELEMENTS
@@ -285,14 +286,14 @@ public class TitleScreenView : MonoBehaviour
     public void openInfoPanel()
     {
         handleTabSeclected(instructionsTab);
-        infoPanel.visible = true;
+        infoScreen.style.display = DisplayStyle.Flex;
         blackScreen.visible = true;
         titleController.inInfoPanel = true;
     }
 
     public void closeInfoPanel()
     {
-        infoPanel.visible = false;
+        infoScreen.style.display = DisplayStyle.None;
         blackScreen.visible = false;
         GetAllTabs().ForEach(UnselectTab);
         titleController.inInfoPanel = false;
@@ -397,7 +398,6 @@ public class TitleScreenView : MonoBehaviour
 
     public void showInfo()
     {
-        // Debug.Log("text: " + minigameTitle.text);
         string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Info";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
 

@@ -176,8 +176,6 @@
     padding-right: 1%;
     padding-bottom: 1%;
     padding-left: 1%;
-    min-width: 25px;
-    min-height: 70px;
     opacity: 1;
     max-width: none;
     max-height: none;
@@ -218,8 +216,6 @@
     padding-right: 1%;
     padding-bottom: 1%;
     padding-left: 1%;
-    min-width: 25px;
-    min-height: 70px;
     opacity: 1;
     max-width: none;
     max-height: none;
@@ -260,8 +256,6 @@
     padding-right: 1%;
     padding-bottom: 1%;
     padding-left: 1%;
-    min-width: 25px;
-    min-height: 70px;
     opacity: 1;
     max-width: none;
     max-height: none;

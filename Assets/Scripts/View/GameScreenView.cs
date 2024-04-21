@@ -75,7 +75,8 @@ public class GameScreenUI : MonoBehaviour
         topBorder = gameTopContainer.Q<VisualElement>("top-border");
         timer = topBorder.Q<Label>("timer-label");
         minigameTitle = gameBottomContainer.Q<Label>("minigame-title");
-        minigameTitle.text = titleController.getMinigameText(currentSceneIndex); // setting the minigame title
+        InitializeMinigameTitle();
+        // minigameTitle.text = titleController.getMinigameText(currentSceneIndex); // set minigame text in title controller
 
         //buttons on the game screen
         infoBtn = gameTopContainer.Q<Button>("help-button");
@@ -106,7 +107,7 @@ public class GameScreenUI : MonoBehaviour
         soundSlider = soundBar.Q<Slider>("sound-slider");
         InitializeSlider(musicSlider, 0);
         InitializeSlider(soundSlider, 1);
-        
+
         ////////////////////////////////////////////////////////////////////////////////
         // INFO PANEL UI ELEMENTS
         infoScreen = root.Q<TemplateContainer>("info-screen");
@@ -117,7 +118,8 @@ public class GameScreenUI : MonoBehaviour
         contextTab = tabs.Q<Label>("science-context");
         infoScrollView = infoPanel.Q<ScrollView>("game-info");
         closeInfoBtn = infoPanel.Q<Button>("close-button");
-        showInfo();
+
+        LoadInfo();
 
         ////////////////////////////////////////////////////////////////////////////////
         // SCORE PANEL UI ELEMENTS
@@ -140,7 +142,7 @@ public class GameScreenUI : MonoBehaviour
         scorePanel.visible = true;
     }
 
-    private void BindUIEvents()      
+    private void BindUIEvents()
     {
         optionsBtn.clicked += () => { optionsButtonClicked(); playSound(); };
         closeOptionsBtn.clicked += () => { closePanel(); playSound(); };
@@ -201,7 +203,7 @@ public class GameScreenUI : MonoBehaviour
             {
                 SceneManager.LoadScene(titleController.getSceneName(lastMinigameIndex.Num));
             }
-        }        
+        }
     }
 
     public void openInfoPanel()
@@ -215,7 +217,8 @@ public class GameScreenUI : MonoBehaviour
     public void RegisterTabCallbacks()
     {
         UQueryBuilder<Label> tabs = GetAllTabs();
-        tabs.ForEach((Label tab) => {
+        tabs.ForEach((Label tab) =>
+        {
             tab.RegisterCallback<ClickEvent>(TabOnClick);
         });
     }
@@ -245,13 +248,13 @@ public class GameScreenUI : MonoBehaviour
     private void SelectTab(Label tab)
     {
         tab.AddToClassList("selectedTab");
-        if(tab.name == "Instructions")
+        if (tab.name == "Instructions")
         {
-            showInfo();
+            LoadInfo();
         }
-        else if(tab.name == "science-context")
+        else if (tab.name == "science-context")
         {
-            ShowContext();
+            LoadContext(minigameTitle.text);
         }
     }
 
@@ -267,16 +270,16 @@ public class GameScreenUI : MonoBehaviour
         // tab.AddToClassList("unselectedTab");
     }
 
-    public void showInfo()
+    public void LoadInStrunction(string minigameName)
     {
-        string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Info";
-        VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
+        string instructionUxmlPath = $"UI/UXML/{minigameName}Info";
+        VisualTreeAsset gameInstrunctionTree = Resources.Load<VisualTreeAsset>(instructionUxmlPath);
 
 
-        if (gameInfoTree != null)
+        if (gameInstrunctionTree != null)
         {
             infoScrollView.contentContainer.Clear();
-            VisualElement gameInfoContent = gameInfoTree.Instantiate();
+            VisualElement gameInfoContent = gameInstrunctionTree.Instantiate();
             infoScrollView.contentContainer.Add(gameInfoContent);
         }
         else
@@ -285,10 +288,10 @@ public class GameScreenUI : MonoBehaviour
         }
     }
 
-    public void ShowContext()
+    public void LoadContext(string minigameName)
     {
-        string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Context";
-        VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
+        string contextUxmlPath = $"UI/UXML/{minigameName}Context";
+        VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(contextUxmlPath);
 
 
         if (gameInfoTree != null)
@@ -302,6 +305,47 @@ public class GameScreenUI : MonoBehaviour
             // Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
         }
     }
+
+    public void LoadInfo()
+    {
+        if(currentSceneIndex == 4)  // load same orbit info in all orbit scene
+        {
+            LoadInStrunction("Orbit");
+        }
+        else
+        {
+            LoadInStrunction(minigameTitle.text);
+        }
+
+    }
+
+    public void InitializeMinigameTitle()
+    {
+        // getting minigame text from title controller
+        if (currentSceneIndex == 4 && lastMinigameIndex.Num == 0) // orbit A
+        {
+            minigameTitle.text = titleController.getMinigameText(currentSceneIndex) + " A";
+        }
+        else if (currentSceneIndex == 4 && lastMinigameIndex.Num == 1) // orbit B
+        {
+            minigameTitle.text = titleController.getMinigameText(currentSceneIndex) + " B";
+        }
+        else if (currentSceneIndex == 4 && lastMinigameIndex.Num == 2) // orbit D
+        {
+            minigameTitle.text = titleController.getMinigameText(currentSceneIndex) + " D";
+        }
+        else if (currentSceneIndex == 4 && lastMinigameIndex.Num == 3) // orbit C
+        {
+            minigameTitle.text = titleController.getMinigameText(currentSceneIndex) + " C";
+        }
+        else // all other minigames including standalone orbit
+        {
+            minigameTitle.text = titleController.getMinigameText(currentSceneIndex);
+        }
+
+    }
+
+
 
     public void showScorePanel()
     {

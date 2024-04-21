@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI/USS/Stylesheet.uss?fileID=7433441132597879392&amp;guid=30fb6192f07eb614bb3c2983da32c6ec&amp;type=3#Stylesheet" />
+    <ui:VisualElement name="info-content" class="infoView" style="flex-grow: 1;">
+        <ui:Label text="Orbit D, the lowest in altitude, brings the spacecraft within 47 miles (75 kilometers) of the asteroid’s surface. At the same time, Orbit D marks a shift from a course that generally goes around the asteroid’s poles to one that generally travels around its equator. This orbit will help the mission focus on measuring the asteroid’s composition. The spacecraft will also map the asteroid and study its gravity and magnetic field. With about a month built in as a buffer, Orbit D is expected to start in May 2030 and last about 100 days." name="text-content" class="info-text-content" />
+        <ui:VisualElement name="image-content" class="info-image" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/orbital%20operations%20illustration.jpg?fileID=21300000&amp;guid=b96168268adf04c4882fa207c00e2d21&amp;type=3#orbital operations illustration&apos;); -unity-background-scale-mode: scale-to-fit;" />
+    </ui:VisualElement>
+</ui:UXML>

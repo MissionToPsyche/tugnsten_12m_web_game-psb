@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI/USS/Stylesheet.uss?fileID=7433441132597879392&amp;guid=30fb6192f07eb614bb3c2983da32c6ec&amp;type=3#Stylesheet" />
+    <ui:VisualElement name="info-content" class="infoView" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="Objective" parse-escape-sequences="true" display-tooltip-when-elided="true" name="objective-heading" class="info-heading" />
+        <ui:Label tabindex="-1" text="Arrange the images of Psyche to make a complete picture. &#10;The &lt;b&gt;Continue&lt;/b&gt; button will unlock when the picture is complete.&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="objective-content" class="info-text-content" />
+        <ui:Label tabindex="-1" text="Controls" parse-escape-sequences="true" display-tooltip-when-elided="true" name="controls-heading" class="info-heading" />
+        <ui:Label tabindex="-1" text="&lt;b&gt;Left click and hold&lt;/b&gt; on an image to grab it, &lt;b&gt;move the mouse&lt;/b&gt; to move the image, then release left click to drop it.&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="controls-content" class="info-text-content" />
+        <ui:Label tabindex="-1" text="Scoring" parse-escape-sequences="true" display-tooltip-when-elided="true" name="scoring-heading" class="info-heading" />
+        <ui:Label tabindex="-1" text="The faster you can snap all the images together, the more points you’ll get. &#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="scoring-content" class="info-text-content" />
+        <ui:Label tabindex="-1" text="Tips" parse-escape-sequences="true" display-tooltip-when-elided="true" name="tips-heading" class="info-heading" />
+        <ui:Label tabindex="-1" text="Images will automatically snap into place when dropped if you drop them close enough to the right position.&#10;When held, images are slightly transparent. You can use this to look through a held image and match it with the one behind it." parse-escape-sequences="true" display-tooltip-when-elided="true" name="tips-content" class="info-text-content" />
+    </ui:VisualElement>
+</ui:UXML>

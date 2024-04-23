@@ -7,16 +7,27 @@ using UnityEngine.UI;
 using System.IO;
 using UnityEngine.EventSystems;
 
+// tests run fine, but some produce a null object error after succeeding due to partial mocking
+
 public class sliceImageTests
 {
     [Test]
     public void numImages()
     {
-        SliceImage sliceImage = new GameObject().AddComponent<SliceImage>();
+        GameObject go = new GameObject();
+        SliceImage sliceImage = go.AddComponent<SliceImage>();
+        SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+        Texture2D originalImage = new Texture2D(512, 512);
+
+        // Create a new Sprite object using the new texture
+        Sprite newSprite = Sprite.Create(originalImage, new Rect(0, 0, originalImage.width, originalImage.height), Vector2.one);
+
+        // Assign the new Sprite to the SpriteRenderer
+        sr.sprite = newSprite;
         
         // Set up or mock the originalImage
-        Texture2D originalImage = new Texture2D(512, 512);
-        sliceImage.setOriginalImage(originalImage);
+        // Texture2D originalImage = new Texture2D(512, 512);
+        // sliceImage.setOriginalImage(originalImage);
 
         // Set up or mock the Canvas
         sliceImage.setCanvas(new GameObject().AddComponent<Canvas>());

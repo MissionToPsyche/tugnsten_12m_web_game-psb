@@ -410,9 +410,9 @@ public class GameScreenUI : MonoBehaviour
         return closeInfoBtn;
     }
 
-    public VisualElement getInfoPanel()
+    public VisualElement getInfoScreen()
     {
-        return infoPanel;
+        return infoScreen;
     }
 
     public VisualElement getOptionsPanel()

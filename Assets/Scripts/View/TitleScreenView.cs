@@ -14,7 +14,7 @@ public class TitleScreenView : MonoBehaviour
 
     // Private UI elements grouped by their functionality/screen
     private VisualElement root, mainScreen, buttonContainer, gameSelectScreen, gameSelectTop, gameSelectCenter, gameSelectBottom, optionsScreen, optionsPanel, soundbar, optionsButtonContainer, creditsScreen, blackScreen, infoScreen, infoPanel, tabs, scorePanel, scoreContainer;
-    private ScrollView infoScrollView;
+    private ScrollView infoScrollView, creditsScrollView;
 
     private Button playBtn, gameSelectBtn, OptionsBtn, CreditsBtn, closeMinigameBtn, playMinigameBtn, closeOptionsBtn, closeCreditsBtn, nextBtn, prevBtn, infoBtn, closeInfoBtn;
 
@@ -94,7 +94,7 @@ public class TitleScreenView : MonoBehaviour
         blackScreen = root.Q<VisualElement>("black-screen");
         screens.AddRange(new VisualElement[] { mainScreen, gameSelectScreen, optionsScreen, creditsScreen });
         buttonContainer = mainScreen.Q<VisualElement>("button-container");
-        
+
         // buttons on the main screen
         playBtn = buttonContainer.Q<Button>("play-button");
         gameSelectBtn = buttonContainer.Q<Button>("game-select-button");
@@ -118,7 +118,7 @@ public class TitleScreenView : MonoBehaviour
         nextBtn.style.display = DisplayStyle.None;
         playMinigameBtn = gameSelectBottom.Q<Button>("play-minigame-button");
         infoBtn = gameSelectScreen.Q<Button>("info-button");
-    
+
         // INFO PANEL TABS
         infoPanel = infoScreen.Q<VisualElement>("info-panel");
         tabs = infoPanel.Q<VisualElement>("tabs");
@@ -141,7 +141,9 @@ public class TitleScreenView : MonoBehaviour
         
         ////////////////////////////////////////////////////////////////////////////////
         // CREDITS SCREEN UI ELEMENTS
-         closeCreditsBtn = creditsScreen.Q<Button>("close-button");
+        closeCreditsBtn = creditsScreen.Q<Button>("close-button");
+        creditsScrollView = creditsScreen.Q<ScrollView>("credits-content");
+        ShowCredits();
         // optionsScreenView.hideOptionsScreen();
         DisableKeyboardNavigation();
     }
@@ -398,6 +400,7 @@ public class TitleScreenView : MonoBehaviour
 
     public void LoadInstruction()
     {
+        // Debug.Log("text: " + minigameTitle.text);
         string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Info";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
 
@@ -428,6 +431,23 @@ public class TitleScreenView : MonoBehaviour
         else
         {
             // Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
+        }
+    }
+    
+    private void ShowCredits()
+    {
+        string creditsUxmlPath = $"UI/UXML/Credits";
+        VisualTreeAsset creditsTree = Resources.Load<VisualTreeAsset>(creditsUxmlPath);
+
+
+        if (creditsTree != null)
+        {
+            VisualElement creditsContent = creditsTree.Instantiate();
+            creditsScrollView.contentContainer.Add(creditsContent);
+        }
+        else
+        {
+            // Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
         }
     }
 

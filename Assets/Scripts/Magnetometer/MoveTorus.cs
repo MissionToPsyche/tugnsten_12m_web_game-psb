@@ -34,6 +34,11 @@ public class MoveTorus : MonoBehaviour
         magController.ui.screenUI.getInfoButton().clicked += noMoveAction; 
         magController.ui.screenUI.getInfoCloseButton().clicked -= moveAction; 
         magController.ui.screenUI.getInfoCloseButton().clicked += moveAction;
+
+        if( magController.ui.resetFlag)
+        {
+            uiFlag = false;
+        }
     }
 
     void OnDestroy()
@@ -63,7 +68,7 @@ public class MoveTorus : MonoBehaviour
             ScaleTorus();
         }
 
-        if (uiFlag && Input.GetMouseButtonUp(0) && magController.getGameRunning() && !magController.ui.screenUI.getInfoPanel().visible && !magController.ui.screenUI.getOptionsPanel().visible)
+        if (uiFlag && Input.GetMouseButtonUp(0) && magController.getGameRunning() && !(magController.ui.screenUI.getInfoScreen().style.display == DisplayStyle.None) && !magController.ui.screenUI.getOptionsPanel().visible)
         {
             uiFlag = false;
         }

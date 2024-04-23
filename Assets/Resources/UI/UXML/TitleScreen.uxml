@@ -2,7 +2,7 @@
     <ui:Template name="InfoPanel" src="project://database/Assets/Resources/UI/UXML/InfoPanel.uxml?fileID=9197481963319205126&amp;guid=ede0ee47ae6c5314fbdef3e5786cd519&amp;type=3#InfoPanel" />
     <Style src="project://database/Assets/Resources/UI/USS/Stylesheet.uss?fileID=7433441132597879392&amp;guid=30fb6192f07eb614bb3c2983da32c6ec&amp;type=3#Stylesheet" />
     <ui:VisualElement style="flex-grow: 1; position: relative; width: 100%; height: 100%; align-items: flex-start;">
-        <ui:VisualElement name="main-menu-screen" style="flex-grow: 1; left: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%; position: absolute; min-width: auto; min-height: auto; width: 100%; height: 100%; align-items: auto; visibility: visible;">
+        <ui:VisualElement name="main-menu-screen" style="flex-grow: 1; left: auto; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%; position: absolute; min-width: auto; min-height: auto; width: 100%; height: 100%; align-items: auto; visibility: visible; display: flex;">
             <ui:Label tabindex="-1" text="ON CONSOLE: PSYCHE" parse-escape-sequences="true" display-tooltip-when-elided="true" name="game-title" picking-mode="Ignore" class="title" style="flex-grow: 1; font-size: 100%; align-self: flex-start; -unity-text-align: middle-left;" />
             <ui:VisualElement name="button-container" style="flex-grow: 1; height: 65%; width: 100%;">
                 <ui:Button text="Play" parse-escape-sequences="true" display-tooltip-when-elided="true" name="play-button" class="emphasis-button" style="font-size: 65%;" />
@@ -39,8 +39,11 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="credits-screen" style="flex-grow: 1; width: 100%; height: 100%; visibility: hidden;">
-            <ui:VisualElement name="credits-panel" class="panel" style="flex-grow: 1; width: 45%; height: 70%; position: absolute; left: 27%; top: 15%;">
+            <ui:VisualElement name="credits-panel" class="panel" style="flex-grow: 1; width: 60%; height: 70%; position: absolute; left: 20%; top: 15%;">
                 <ui:Label tabindex="-1" text="CREDITS&#10;" parse-escape-sequences="true" display-tooltip-when-elided="true" name="credits-title" style="font-size: 65%; -unity-text-align: upper-center; height: 15%; align-self: auto; width: 100%; min-width: 100%; min-height: 15%; -unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Fonts/static/Orbitron-SemiBold.ttf?fileID=12800000&amp;guid=e38a91edc271c6e49849cf2512cf6f66&amp;type=3#Orbitron-SemiBold&apos;); -unity-font-style: normal; color: rgb(27, 27, 27); margin-top: 2%; margin-right: 0; margin-bottom: auto; margin-left: auto;" />
+                <ui:VisualElement name="credits-container" style="flex-grow: 1; height: 447px;">
+                    <ui:ScrollView name="credits-content" mouse-wheel-scroll-size="75" style="height: 475px;" />
+                </ui:VisualElement>
                 <ui:Button text="Close" parse-escape-sequences="true" display-tooltip-when-elided="true" name="close-button" focusable="true" class="button-main-screen button-style button" style="min-height: 70px; min-width: 30px; position: absolute; top: 81%; left: 32%; right: auto; font-size: 50%; border-top-width: 7px; border-right-width: 7px; border-bottom-width: 7px; border-left-width: 7px; border-top-left-radius: 25px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; border-bottom-left-radius: 25px; width: 30%; height: 12%;" />
             </ui:VisualElement>
         </ui:VisualElement>

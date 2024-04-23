@@ -14,10 +14,10 @@ public class SpectGameController : GameController
         ui.setIsSubmitted(false);
         SetRightBtn();
 
-        ui.screenUI.getResetButton().clicked -= initializeGameAction;
-        ui.screenUI.getResetButton().clicked += initializeGameAction;
-        ui.screenUI.getOptionsButton().clicked -= stopGameAction;
-        ui.screenUI.getOptionsButton().clicked += stopGameAction;
+        ui.screenUI.GetResetButton().clicked -= initializeGameAction;
+        ui.screenUI.GetResetButton().clicked += initializeGameAction;
+        ui.screenUI.GetOptionsButton().clicked -= stopGameAction;
+        ui.screenUI.GetOptionsButton().clicked += stopGameAction;
         ui.screenUI.getOptionsCloseButton().clicked -= startGameAction; 
         ui.screenUI.getOptionsCloseButton().clicked += startGameAction;
         ui.screenUI.getInfoButton().clicked -= stopGameAction; 
@@ -119,8 +119,8 @@ public class SpectGameController : GameController
 
     override public void SetRightBtn()
     {
-        ui.screenUI.getContinueButton().text = "Submit";
-        ui.screenUI.getContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
-        ui.screenUI.getContinueButton().clicked += ui.rightBtnListenerAction;
+        ui.screenUI.GetContinueButton().text = "Submit";
+        ui.screenUI.GetContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
+        ui.screenUI.GetContinueButton().clicked += ui.rightBtnListenerAction;
     }
 }

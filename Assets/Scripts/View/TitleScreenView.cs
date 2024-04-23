@@ -66,13 +66,13 @@ public class TitleScreenView : MonoBehaviour
     {
         // if (gameSelectScreen.visible)
         // {
-            updateMinigameScreen();
+            UpdateMinigameScreen();
         // }
 
         if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && !titleController.cameraZooming && !titleController.inInfoPanel)
         {
-            playMinigame();
-            playSound();
+            PlayMinigame();
+            PlaySound();
         }
 
     }
@@ -126,7 +126,7 @@ public class TitleScreenView : MonoBehaviour
         contextTab = tabs.Q<Label>("science-context");
         infoScrollView = infoPanel.Q<ScrollView>("game-info");
         closeInfoBtn = infoPanel.Q<Button>("close-button");
-        showInfo();
+        LoadInstruction();
 
         ////////////////////////////////////////////////////////////////////////////////
         // OPTIONS SCREEN UI ELEMENTS
@@ -149,15 +149,15 @@ public class TitleScreenView : MonoBehaviour
     private void BindUIEvents()
     {
         // Main Menu Buttons
-        playBtn.clicked += () => { play(); playSound(); };
-        gameSelectBtn.clicked += () => { minigameSelectClicked(); playSound(); };
-        OptionsBtn.clicked += () => { optionsClicked(); playSound(); };
-        CreditsBtn.clicked += () => { switchScreen(creditsScreen); playSound(); };
+        playBtn.clicked += () => { Play(); PlaySound(); };
+        gameSelectBtn.clicked += () => { MinigameSelectClicked(); PlaySound(); };
+        OptionsBtn.clicked += () => { OptionsClicked(); PlaySound(); };
+        CreditsBtn.clicked += () => { SwitchScreen(creditsScreen); PlaySound(); };
 
         // Minigame Select Screen
         closeMinigameBtn.clicked += () =>
         {
-            switchScreen(mainScreen);
+            SwitchScreen(mainScreen);
             minigameTitle.visible = false;
             MinigameSelectMenu.SetActive(false);
             Console.SetActive(false);
@@ -165,37 +165,37 @@ public class TitleScreenView : MonoBehaviour
             Animation.SetActive(true);
             prevBtn.style.display = DisplayStyle.None;
             nextBtn.style.display = DisplayStyle.None;
-            playSound();
+            PlaySound();
         };
 
-        prevBtn.clicked += () => {prevMinigame(); playSound();};
-        nextBtn.clicked += () => { nextMinigame(); playSound();};
+        prevBtn.clicked += () => {PrevMinigame(); PlaySound();};
+        nextBtn.clicked += () => { NextMinigame(); PlaySound();};
         playMinigameBtn.clicked += () => { 
-            playMinigame();
-            playSound();
+            PlayMinigame();
+            PlaySound();
             closeMinigameBtn.SetEnabled(false);
         };
-        infoBtn.clicked += () => { openInfoPanel(); playSound(); };
+        infoBtn.clicked += () => { OpenInfoPanel(); PlaySound(); };
         // RegisterTabCallbacks(); // Register the tab callbacks
-        closeInfoBtn.clicked += () => { closeInfoPanel(); playSound(); };
+        closeInfoBtn.clicked += () => { CloseInfoPanel(); PlaySound(); };
 
         // Options Screen
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
 
-        closeOptionsBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
+        closeOptionsBtn.clicked += () => { SwitchScreen(mainScreen); PlaySound(); };
         
         // Credits Screen
-        closeCreditsBtn.clicked += () => { switchScreen(mainScreen); playSound(); };
+        closeCreditsBtn.clicked += () => { SwitchScreen(mainScreen); PlaySound(); };
     }
 
-    public void setMinigameText(string text)
+    public void SetMinigameText(string text)
     {
         minigameTitle.text = text;
     }
 
 
-    private void switchScreen(VisualElement returnScreen)
+    private void SwitchScreen(VisualElement returnScreen)
     {
         foreach (VisualElement screen in screens)
         {
@@ -205,11 +205,11 @@ public class TitleScreenView : MonoBehaviour
         returnScreen.visible = true;
     }
 
-    private void playSound()
+    private void PlaySound()
     {
         SoundManager.Instance.PlaySound(clip);
     }
-    private void play()
+    private void Play()
     {
         // minigameText.text = titleController.getScene();
         
@@ -218,7 +218,7 @@ public class TitleScreenView : MonoBehaviour
         SceneManager.LoadScene(titleController.getSceneName(4));
     }
 
-    private void updateMinigameScreen()
+    private void UpdateMinigameScreen()
     {
         // update the minigame text
         titleController.updateMinigame(minigameTitle);
@@ -246,7 +246,7 @@ public class TitleScreenView : MonoBehaviour
         }
         RegisterTabCallbacks();
     }
-    private void minigameSelectClicked()
+    private void MinigameSelectClicked()
     {
         // Hides the animation
         Animation.SetActive(false);
@@ -266,32 +266,32 @@ public class TitleScreenView : MonoBehaviour
         titleController.minigameSelect(minigameTitle);
     }
 
-    private void prevMinigame()
+    private void PrevMinigame()
     {
         titleController.getPrevScene();
         slideCamera.movePrevPos();
     }
-    private void nextMinigame()
+    private void NextMinigame()
     {
         titleController.getNextScene();
         slideCamera.moveNextPos();
     }
 
-    private void playMinigame()
+    private void PlayMinigame()
     {   
         // Debug.Log("change to: " + titleController.getScene());
         cameraZoom.startCameraMove(titleController.getScene());
     }
 
-    public void openInfoPanel()
+    public void OpenInfoPanel()
     {
-        handleTabSeclected(instructionsTab);
+        HandleTabSeclected(instructionsTab);
         infoScreen.style.display = DisplayStyle.Flex;
         blackScreen.visible = true;
         titleController.inInfoPanel = true;
     }
 
-    public void closeInfoPanel()
+    public void CloseInfoPanel()
     {
         infoScreen.style.display = DisplayStyle.None;
         blackScreen.visible = false;
@@ -306,9 +306,9 @@ public class TitleScreenView : MonoBehaviour
         //UnselectTab(contextTab);
     }
 
-    private void optionsClicked()
+    private void OptionsClicked()
     {
-        switchScreen(optionsScreen);
+        SwitchScreen(optionsScreen);
     }
 
     // Slider Functions
@@ -350,9 +350,9 @@ public class TitleScreenView : MonoBehaviour
     }
     private void TabOnClick(ClickEvent evt)
     {
-        playSound();
+        PlaySound();
         Label clickedTab = evt.currentTarget as Label;
-        handleTabSeclected(clickedTab);
+        HandleTabSeclected(clickedTab);
     }
      private static bool TabIsCurrentlySelected(Label tab)
     {
@@ -364,15 +364,15 @@ public class TitleScreenView : MonoBehaviour
         tab.AddToClassList("selectedTab");
         if(tab.name == "Instructions")
         {
-            showInfo();
+            LoadInstruction();
         }
         else if(tab.name == "science-context")
         {
-            ShowContext();
+            LoadContext();
         }
     }
 
-    private void handleTabSeclected(Label clickedTab)
+    private void HandleTabSeclected(Label clickedTab)
     {
         // Debug.Log("tab: " + TabIsCurrentlySelected(clickedTab));
         if (!TabIsCurrentlySelected(clickedTab))
@@ -396,7 +396,7 @@ public class TitleScreenView : MonoBehaviour
         // tab.AddToClassList("unselectedTab");
     }
 
-    public void showInfo()
+    public void LoadInstruction()
     {
         string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Info";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
@@ -414,11 +414,10 @@ public class TitleScreenView : MonoBehaviour
         }
     }
 
-    public void ShowContext()
+    public void LoadContext()
     {
         string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Context";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
-
 
         if (gameInfoTree != null)
         {

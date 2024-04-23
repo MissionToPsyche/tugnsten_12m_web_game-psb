@@ -12,7 +12,7 @@ public class ImagerUIController : UIController
 
     override public void ShowScore(int score, string grade)
     {
-        screenUI.showScorePanel(score, grade);
+        screenUI.ShowScorePanel(score, grade);
     }
 
     override public void ResetUI()

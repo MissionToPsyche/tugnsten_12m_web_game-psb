@@ -21,10 +21,10 @@ public class OrbitGameController : GameController
         ui.setIsSubmitted(false);
         SetRightBtn();
 
-        ui.screenUI.getResetButton().clicked -= initializeGameAction;
-        ui.screenUI.getResetButton().clicked += initializeGameAction;
-        ui.screenUI.getOptionsButton().clicked -= stopGameAction;
-        ui.screenUI.getOptionsButton().clicked += stopGameAction;
+        ui.screenUI.GetResetButton().clicked -= initializeGameAction;
+        ui.screenUI.GetResetButton().clicked += initializeGameAction;
+        ui.screenUI.GetOptionsButton().clicked -= stopGameAction;
+        ui.screenUI.GetOptionsButton().clicked += stopGameAction;
         ui.screenUI.getOptionsCloseButton().clicked -= startGameAction; 
         ui.screenUI.getOptionsCloseButton().clicked += startGameAction;
         ui.screenUI.getInfoButton().clicked -= stopGameAction; 
@@ -176,7 +176,7 @@ public class OrbitGameController : GameController
         {
             ui.ShowMsg("Orbit Reached");
             ui.orbitReached = true;
-            ui.screenUI.getContinueButton().text = "Submit";
+            ui.screenUI.GetContinueButton().text = "Submit";
         }
         else
         {
@@ -186,21 +186,21 @@ public class OrbitGameController : GameController
             // No skip button on the standalone game
             if (missionOrbit != -1)
             {
-                ui.screenUI.getContinueButton().text = "Skip";
+                ui.screenUI.GetContinueButton().text = "Skip";
             }
         }
 
         if (spacecraft.orbit.hasCrashed)
         {
             ui.ShowMsg("Spacecraft Deorbited!");
-            ui.screenUI.getContinueButton().text = "Reset";
+            ui.screenUI.GetContinueButton().text = "Reset";
             ui.orbitLeft = true;
             FinishGame();
         }
         else if (spacecraft.orbit.hasEscaped)
         {
             ui.ShowMsg("Spacecraft Escaped Orbit!");
-            ui.screenUI.getContinueButton().text = "Reset";
+            ui.screenUI.GetContinueButton().text = "Reset";
             ui.orbitLeft = true;
             FinishGame();
         }
@@ -211,13 +211,13 @@ public class OrbitGameController : GameController
         // If not the standalone orbit game
         if (missionOrbit != -1)
         {
-            ui.screenUI.getContinueButton().text = "Skip";
+            ui.screenUI.GetContinueButton().text = "Skip";
         }
         else
         {
-            ui.screenUI.getContinueButton().text = "Submit";
+            ui.screenUI.GetContinueButton().text = "Submit";
         }
-        ui.screenUI.getContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
-        ui.screenUI.getContinueButton().clicked += ui.rightBtnListenerAction;
+        ui.screenUI.GetContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
+        ui.screenUI.GetContinueButton().clicked += ui.rightBtnListenerAction;
     }
 }

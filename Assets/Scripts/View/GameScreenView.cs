@@ -134,7 +134,7 @@ public class GameScreenUI : MonoBehaviour
         DisableKeyboardNavigation();
     }
 
-    public void showScorePanel(float numberScore, string letterGrade)
+    public void ShowScorePanel(float numberScore, string letterGrade)
     {
         this.numberScore.text = numberScore.ToString();
         letterScore.text = letterGrade;
@@ -144,15 +144,15 @@ public class GameScreenUI : MonoBehaviour
 
     private void BindUIEvents()
     {
-        optionsBtn.clicked += () => { optionsButtonClicked(); playSound(); };
-        closeOptionsBtn.clicked += () => { closePanel(); playSound(); };
-        mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); playSound(); }; // return to title screen
-        infoBtn.clicked += () => { openInfoPanel(); playSound(); };
-        closeInfoBtn.clicked += () => { closePanel(); playSound(); };
-        scoreCloseBtn.clicked += () => { closePanel(); playSound(); };
-        scoreContinueBtn.clicked += () => { continueButtonClicked(); playSound(); };
-        resetBtn.clicked += () => { playSound(); closePanel(); reset(); };
-        continueBtn.clicked += () => playSound();
+        optionsBtn.clicked += () => { OptionsButtonClicked(); PlaySound(); };
+        closeOptionsBtn.clicked += () => { ClosePanel(); PlaySound(); };
+        mainMenuBtn.clicked += () => { SceneManager.LoadScene("Title"); PlaySound(); }; // return to title screen
+        infoBtn.clicked += () => { OpenInfoPanel(); PlaySound(); };
+        closeInfoBtn.clicked += () => { ClosePanel(); PlaySound(); };
+        scoreCloseBtn.clicked += () => { ClosePanel(); PlaySound(); };
+        scoreContinueBtn.clicked += () => { ContinueButtonClicked(); PlaySound(); };
+        resetBtn.clicked += () => { PlaySound(); ClosePanel(); reset(); };
+        continueBtn.clicked += () => PlaySound();
         musicSlider.RegisterCallback<ChangeEvent<float>>(musicValueChanged);
         soundSlider.RegisterCallback<ChangeEvent<float>>(soundValueChanged);
         RegisterTabCallbacks();
@@ -163,24 +163,24 @@ public class GameScreenUI : MonoBehaviour
         resetBtn.SetEnabled(false);
     }
 
-    private void closeScorePanel()
+    private void CloseScorePanel()
     {
         scorePanel.visible = false;
     }
 
-    public Button getContinueButton()
+    public Button GetContinueButton()
     {
         return continueBtn;
     }
 
-    public void optionsButtonClicked()
+    public void OptionsButtonClicked()
     {
         resetBtn.SetEnabled(true);
         blackScreen.visible = true;
         optionsPanel.visible = true;
     }
 
-    public void continueButtonClicked()
+    public void ContinueButtonClicked()
     {
         if (currentSceneIndex == 3) // Last minigame
         {
@@ -206,9 +206,9 @@ public class GameScreenUI : MonoBehaviour
         }
     }
 
-    public void openInfoPanel()
+    public void OpenInfoPanel()
     {
-        handleTabSeclected(instructionsTab);
+        HandleTabSeclected(instructionsTab);
         // infoPanel.visible = true;
         infoScreen.style.display = DisplayStyle.Flex;
         blackScreen.visible = true;
@@ -224,12 +224,12 @@ public class GameScreenUI : MonoBehaviour
     }
     private void TabOnClick(ClickEvent evt)
     {
-        playSound();
+        PlaySound();
         Label clickedTab = evt.currentTarget as Label;
-        handleTabSeclected(clickedTab);
+        HandleTabSeclected(clickedTab);
     }
 
-    private void handleTabSeclected(Label clickedTab)
+    private void HandleTabSeclected(Label clickedTab)
     {
         if (!TabIsCurrentlySelected(clickedTab))
         {
@@ -347,13 +347,13 @@ public class GameScreenUI : MonoBehaviour
 
 
 
-    public void showScorePanel()
+    public void ShowScorePanel()
     {
         scorePanel.visible = true;
         blackScreen.visible = true;
     }
 
-    public void closePanel()
+    public void ClosePanel()
     {
         gameScreen.visible = true;
         optionsPanel.visible = false;
@@ -362,7 +362,7 @@ public class GameScreenUI : MonoBehaviour
         scorePanel.visible = false;
         blackScreen.visible = false;
     }
-    private void playSound()
+    private void PlaySound()
     {
         SoundManager.Instance.PlaySound(clip);
     }
@@ -370,27 +370,27 @@ public class GameScreenUI : MonoBehaviour
     {
         return timer;
     }
-    public void setTimerText(string time)
+    public void SetTimerText(string time)
     {
         timer.text = time;
     }
 
-    public VisualElement getBottomContainer()
+    public VisualElement GetBottomContainer()
     {
         return gameBottomContainer;
     }
 
-    public VisualElement getTopContainer()
+    public VisualElement GetTopContainer()
     {
         return gameTopContainer;
     }
 
-    public Button getResetButton()
+    public Button GetResetButton()
     {
         return resetBtn;
     }
 
-    public Button getOptionsButton()
+    public Button GetOptionsButton()
     {
         return optionsBtn;
     }

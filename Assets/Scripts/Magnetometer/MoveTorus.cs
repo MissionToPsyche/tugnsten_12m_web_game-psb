@@ -24,10 +24,10 @@ public class MoveTorus : MonoBehaviour
         moveAction = () => { move(); };
 
         // TODO: don't detect mouse click over UI
-        magController.ui.screenUI.getBottomContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
-        magController.ui.screenUI.getTopContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
-        magController.ui.screenUI.getOptionsButton().clicked -= noMoveAction;
-        magController.ui.screenUI.getOptionsButton().clicked += noMoveAction;
+        magController.ui.screenUI.GetBottomContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
+        magController.ui.screenUI.GetTopContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
+        magController.ui.screenUI.GetOptionsButton().clicked -= noMoveAction;
+        magController.ui.screenUI.GetOptionsButton().clicked += noMoveAction;
         magController.ui.screenUI.getOptionsCloseButton().clicked -= moveAction; 
         magController.ui.screenUI.getOptionsCloseButton().clicked += moveAction;
         magController.ui.screenUI.getInfoButton().clicked -= noMoveAction; 

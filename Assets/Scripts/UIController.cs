@@ -48,7 +48,7 @@ abstract public class UIController : MonoBehaviour
 
     private void ContinueHandler()
     {
-        screenUI.continueButtonClicked();
+        screenUI.ContinueButtonClicked();
     }
 
     public void ShowTime(float time)
@@ -56,7 +56,7 @@ abstract public class UIController : MonoBehaviour
         // TODO: update time display
         TimeSpan formatTime = TimeSpan.FromSeconds(time);
         text = formatTime.Minutes.ToString("D2") + ":" + formatTime.Seconds.ToString("D2") + ":" + (formatTime.Milliseconds/100).ToString("D1");
-        screenUI.setTimerText(text);
+        screenUI.SetTimerText(text);
     }
 
     public void ShowInformation()

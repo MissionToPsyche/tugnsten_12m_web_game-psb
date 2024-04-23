@@ -17,10 +17,10 @@ public class ImagerGameController : GameController
         ui.setIsSubmitted(false);
         SetRightBtn();
 
-        ui.screenUI.getResetButton().clicked -= initializeGameAction;
-        ui.screenUI.getResetButton().clicked += initializeGameAction;
-        ui.screenUI.getOptionsButton().clicked -= stopGameAction;
-        ui.screenUI.getOptionsButton().clicked += stopGameAction;
+        ui.screenUI.GetResetButton().clicked -= initializeGameAction;
+        ui.screenUI.GetResetButton().clicked += initializeGameAction;
+        ui.screenUI.GetOptionsButton().clicked -= stopGameAction;
+        ui.screenUI.GetOptionsButton().clicked += stopGameAction;
         ui.screenUI.getOptionsCloseButton().clicked -= startGameAction; 
         ui.screenUI.getOptionsCloseButton().clicked += startGameAction;
         ui.screenUI.getInfoButton().clicked -= stopGameAction; 
@@ -122,7 +122,7 @@ public class ImagerGameController : GameController
         ui.ShowScore(GetScore(), GetGrade());
         scorecard.ImagerScore = score;
         ui.setIsSubmitted(true);
-        ui.screenUI.getContinueButton().SetEnabled(true);
+        ui.screenUI.GetContinueButton().SetEnabled(true);
         disableInteraction();
     }
 
@@ -143,10 +143,10 @@ public class ImagerGameController : GameController
 
     override public void SetRightBtn()
     {
-        ui.screenUI.getContinueButton().text = "Continue";
-        ui.screenUI.getContinueButton().SetEnabled(false);
-        ui.screenUI.getContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
-        ui.screenUI.getContinueButton().clicked += ui.rightBtnListenerAction;
+        ui.screenUI.GetContinueButton().text = "Continue";
+        ui.screenUI.GetContinueButton().SetEnabled(false);
+        ui.screenUI.GetContinueButton().clicked -= ui.rightBtnListenerAction; // Prevents multiple listeners
+        ui.screenUI.GetContinueButton().clicked += ui.rightBtnListenerAction;
     }
 
 }

@@ -179,12 +179,12 @@ public class GravitySciUIController : UIController
 
     public override void ShowScore(int score, string grade)
     {
-        screenUI.showScorePanel(score, grade);
+        screenUI.ShowScorePanel(score, grade);
     }
 
     override public void SubmitClicked()
     {
-        screenUI.getContinueButton().text = "Continue";
+        screenUI.GetContinueButton().text = "Continue";
         controller.FinishGame();
     }
 }

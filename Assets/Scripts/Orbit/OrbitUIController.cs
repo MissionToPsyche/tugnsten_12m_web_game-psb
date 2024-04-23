@@ -24,7 +24,7 @@ public class OrbitUIController : UIController
 
     public override void ShowScore(int score, string grade)
     {
-        screenUI.showScorePanel(score, grade);
+        screenUI.ShowScorePanel(score, grade);
     }
 
     public void SetTargetOrbit(float periapsisDistance, float apoapsisDistance, float rotation)
@@ -42,11 +42,11 @@ public class OrbitUIController : UIController
 
         if (orbitReached || standalone)
         {
-            screenUI.getContinueButton().text = "Continue";
+            screenUI.GetContinueButton().text = "Continue";
         }
         else if (!orbitLeft && !standalone)
         {
-            screenUI.continueButtonClicked();
+            screenUI.ContinueButtonClicked();
         }
         else if (orbitLeft) {
             controller.InitializeGame();
@@ -57,6 +57,6 @@ public class OrbitUIController : UIController
     public void ShowFuel(float fuel)
     {
         string text = "Fuel Used: " + (fuel * 10).ToString("F1");
-        screenUI.setTimerText(text);
+        screenUI.SetTimerText(text);
     }
 }

@@ -508,7 +508,7 @@
     font-size: 32px;
     -unity-font-definition: initial;
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/public%20sans%20static/PublicSans-Medium.ttf?fileID=12800000&guid=86d4d48422d732843abc15a6b2ca9e33&type=3#PublicSans-Medium');
-    -unity-paragraph-spacing: 150px;
+    -unity-paragraph-spacing: 100px;
 }
 
 .info-image {
@@ -536,8 +536,8 @@
 
 .credits-text-content {
     white-space: normal;
-    font-size: 28px;
+    font-size: 30px;
     -unity-font-definition: initial;
     -unity-font: url('project://database/Assets/TextMesh%20Pro/Fonts/public%20sans%20static/PublicSans-Medium.ttf?fileID=12800000&guid=86d4d48422d732843abc15a6b2ca9e33&type=3#PublicSans-Medium');
-    -unity-paragraph-spacing: 150px;
+    -unity-paragraph-spacing: 50px;
 }

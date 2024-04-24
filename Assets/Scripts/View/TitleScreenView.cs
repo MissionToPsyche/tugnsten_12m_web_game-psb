@@ -126,7 +126,6 @@ public class TitleScreenView : MonoBehaviour
         contextTab = tabs.Q<Label>("science-context");
         infoScrollView = infoPanel.Q<ScrollView>("game-info");
         closeInfoBtn = infoPanel.Q<Button>("close-button");
-        LoadInstruction();
 
         ////////////////////////////////////////////////////////////////////////////////
         // OPTIONS SCREEN UI ELEMENTS
@@ -224,7 +223,8 @@ public class TitleScreenView : MonoBehaviour
     {
         // update the minigame text
         titleController.updateMinigame(minigameTitle);
-
+        LoadInstruction(minigameTitle.text);
+        
         // if the minigame is the first minigame, disable the previous button
         if (titleController.isFirstScene())
         {
@@ -366,11 +366,11 @@ public class TitleScreenView : MonoBehaviour
         tab.AddToClassList("selectedTab");
         if(tab.name == "Instructions")
         {
-            LoadInstruction();
+            LoadInstruction(minigameTitle.text);
         }
         else if(tab.name == "science-context")
         {
-            LoadContext();
+            LoadContext(minigameTitle.text);
         }
     }
 
@@ -398,10 +398,10 @@ public class TitleScreenView : MonoBehaviour
         // tab.AddToClassList("unselectedTab");
     }
 
-    public void LoadInstruction()
+    public void LoadInstruction(string minigameName)
     {
         // Debug.Log("text: " + minigameTitle.text);
-        string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Info";
+        string infoUxmlPath = $"UI/UXML/{minigameName}Info";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
 
 
@@ -417,7 +417,7 @@ public class TitleScreenView : MonoBehaviour
         }
     }
 
-    public void LoadContext()
+    public void LoadContext(string minigameName)
     {
         string infoUxmlPath = $"UI/UXML/{minigameTitle.text}Context";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);

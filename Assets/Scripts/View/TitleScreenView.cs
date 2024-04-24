@@ -223,7 +223,6 @@ public class TitleScreenView : MonoBehaviour
     {
         // update the minigame text
         titleController.updateMinigame(minigameTitle);
-        LoadInstruction(minigameTitle.text);
         
         // if the minigame is the first minigame, disable the previous button
         if (titleController.isFirstScene())
@@ -287,7 +286,7 @@ public class TitleScreenView : MonoBehaviour
 
     public void OpenInfoPanel()
     {
-        HandleTabSeclected(instructionsTab);
+        HandleTabSelected(instructionsTab);
         infoScreen.style.display = DisplayStyle.Flex;
         blackScreen.visible = true;
         titleController.inInfoPanel = true;
@@ -354,7 +353,7 @@ public class TitleScreenView : MonoBehaviour
     {
         PlaySound();
         Label clickedTab = evt.currentTarget as Label;
-        HandleTabSeclected(clickedTab);
+        HandleTabSelected(clickedTab);
     }
      private static bool TabIsCurrentlySelected(Label tab)
     {
@@ -374,7 +373,7 @@ public class TitleScreenView : MonoBehaviour
         }
     }
 
-    private void HandleTabSeclected(Label clickedTab)
+    private void HandleTabSelected(Label clickedTab)
     {
         // Debug.Log("tab: " + TabIsCurrentlySelected(clickedTab));
         if (!TabIsCurrentlySelected(clickedTab))

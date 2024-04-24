@@ -69,7 +69,7 @@ public class TitleScreenView : MonoBehaviour
             UpdateMinigameScreen();
         // }
 
-        if((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && !titleController.cameraZooming && !titleController.inInfoPanel)
+        if(titleController.gameSelect && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && !titleController.cameraZooming && !titleController.inInfoPanel)
         {
             PlayMinigame();
             PlaySound();
@@ -167,6 +167,7 @@ public class TitleScreenView : MonoBehaviour
             prevBtn.style.display = DisplayStyle.None;
             nextBtn.style.display = DisplayStyle.None;
             PlaySound();
+            titleController.gameSelect = false;
         };
 
         prevBtn.clicked += () => {PrevMinigame(); PlaySound();};
@@ -265,6 +266,7 @@ public class TitleScreenView : MonoBehaviour
         prevBtn.style.display = DisplayStyle.Flex;
         nextBtn.style.display = DisplayStyle.Flex;
         titleController.minigameSelect(minigameTitle);
+        titleController.gameSelect = true;
     }
 
     private void PrevMinigame()

@@ -132,6 +132,7 @@ public class GameScreenUI : MonoBehaviour
         scoreContinueBtn = scoreButtonContainer.Q<Button>("continue-button");
 
         DisableKeyboardNavigation();
+        OpenInfoPanel();
     }
 
     public void ShowScorePanel(float numberScore, string letterGrade)

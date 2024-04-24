@@ -34,12 +34,12 @@ public class SlideCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow) && !titleController.cameraZooming && !titleController.inInfoPanel)
+        if (titleController.gameSelect && Input.GetKeyDown(KeyCode.RightArrow) && !titleController.cameraZooming && !titleController.inInfoPanel)
         {
             moveNextPos();
 
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) && !titleController.cameraZooming && !titleController.inInfoPanel)
+        else if (titleController.gameSelect && Input.GetKeyDown(KeyCode.LeftArrow) && !titleController.cameraZooming && !titleController.inInfoPanel)
         {
             movePrevPos();
         }

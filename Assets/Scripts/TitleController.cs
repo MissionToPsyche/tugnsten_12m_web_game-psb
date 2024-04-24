@@ -33,6 +33,7 @@ public class TitleController : MonoBehaviour
     };
     private string currentScene = "Orbit_subgame";
     private int index;
+    public bool gameSelect = false;
 
     // Used to prevent camera zooming while moving or moving while zooming,
     // which softlocks the screen.

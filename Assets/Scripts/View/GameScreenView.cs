@@ -331,13 +331,13 @@ public class GameScreenUI : MonoBehaviour
         {
             minigameTitle.text = titleController.getMinigameText(currentSceneIndex) + " B";
         }
-        else if (currentSceneIndex == 4 && lastMinigameIndex.Num == 2) // orbit D
-        {
-            minigameTitle.text = titleController.getMinigameText(currentSceneIndex) + " D";
-        }
-        else if (currentSceneIndex == 4 && lastMinigameIndex.Num == 3) // orbit C
+        else if (currentSceneIndex == 4 && lastMinigameIndex.Num == 2) // orbit C
         {
             minigameTitle.text = titleController.getMinigameText(currentSceneIndex) + " C";
+        }
+        else if (currentSceneIndex == 4 && lastMinigameIndex.Num == 3) // orbit D
+        {
+            minigameTitle.text = titleController.getMinigameText(currentSceneIndex) + " D";
         }
         else // all other minigames including standalone orbit
         {

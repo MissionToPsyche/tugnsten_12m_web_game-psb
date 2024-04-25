@@ -18,7 +18,7 @@ public static class EmissionSpectra
             {"mg", new("Magnesium (Mg)")},
             {"si", new("Silicon (Si)")},
             {"s", new("Sulfur (S)")},
-            {"ca", new("Calcium (C)")},
+            {"ca", new("Calcium (Ca)")},
             {"fe", new("Iron (Fe)")},
             {"ni", new("Nickel (Ni)")},
         };

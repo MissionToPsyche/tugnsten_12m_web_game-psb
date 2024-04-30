@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class SlideCamera : MonoBehaviour
 {
-
-    // private Vector3[] positions = new Vector3[] {
-    //     new Vector3(0f, 0f, -10f),
-    //     new Vector3(145f, 0f, -10f),
-    //     new Vector3(293f, 0f, -10f),
-    //     new Vector3(438f, 0f, -10f),
-    // };
     private Vector3[] positions;
 
     private int currentIndex = 0;
@@ -34,17 +27,17 @@ public class SlideCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // check that screen is game select, right arrow key is pressed, and make sure camera is not moving
         if (titleController.gameSelect && Input.GetKeyDown(KeyCode.RightArrow) && !titleController.cameraZooming && !titleController.inInfoPanel)
         {
             moveNextPos();
 
         }
+        // check that screen is game select, left arrow key is pressed, and make sure camera is not moving
         else if (titleController.gameSelect && Input.GetKeyDown(KeyCode.LeftArrow) && !titleController.cameraZooming && !titleController.inInfoPanel)
         {
             movePrevPos();
         }
-
-
 
         Vector3 currentPos = positions[currentIndex];
 
@@ -91,18 +84,5 @@ public class SlideCamera : MonoBehaviour
         currentIndex = 0;
         titleController.setMinigameWithIndex(currentIndex);
         transform.position = positions[0];
-    }
-
-    // for testing
-    public void changeIndex(KeyCode key)
-    {
-        if (key == KeyCode.RightArrow && currentIndex < positions.Length - 1)
-        {
-            currentIndex++;
-        }
-        else if (key == KeyCode.LeftArrow && currentIndex > 0)
-        {
-            currentIndex--;
-        }
     }
 }

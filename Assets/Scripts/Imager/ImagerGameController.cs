@@ -41,7 +41,6 @@ public class ImagerGameController : GameController
 
         timer.resetTimer();
         ui.ResetUI();
-        StopGame();
     }
 
     void Update()
@@ -126,6 +125,7 @@ public class ImagerGameController : GameController
         disableInteraction();
     }
 
+    // disables user interaction with game images after game submitted
     private void disableInteraction()
     {
         foreach (GameObject img in images)

@@ -37,6 +37,7 @@ public class ImageController : MonoBehaviour
         return position + offset;
     }
 
+    // updates the snpa point of this image to the parameter image
     public void updateSnapPoint(string name, Vector2 position)
     {
         snapPoints[name] = calcSnapPoint(position, snapOffsets[name]);

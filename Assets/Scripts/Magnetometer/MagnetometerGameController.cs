@@ -51,7 +51,6 @@ public class MagnetometerGameController : GameController
         }
 
         this.torus = torusGenerator.drawTorus(numEllipses, numPoints);
-        // torus.torusObject.AddComponent<MoveTorus>();
         this.magneticMoment = torus.magneticMoment;
 
         this.moveTorus = torus.torusObject.GetComponent<MoveTorus>();
@@ -127,6 +126,7 @@ public class MagnetometerGameController : GameController
 
         float timePercentage = CalcTimePercent(timer.getTime(), 90, 3);
 
+        // no magnetic moment (no magnetic field)
         if (magneticMoment == Vector3.zero)
         {
             rotationWeight = 0f;
@@ -140,12 +140,11 @@ public class MagnetometerGameController : GameController
                 scale = targetScale;
             }
             scaleDiff = Mathf.Abs(Vector3.Distance(scale, targetScale));
-            // Debug.Log("zero");
             scalePercentage = calc(scaleMaxDeviation, scaleDiff);
 
             avgPercentage = (scalePercentage * scaleWeight) + (timePercentage * timeWeight);
         }
-        else
+        else // magnetic field exists
         {
             targetScale = new Vector3(1, 1, 1);
             scaleMaxDeviation = Mathf.Abs(Vector3.Distance(maxScale, targetScale));

@@ -7,6 +7,7 @@ public class SnapToTarget : MonoBehaviour
 {
     private float snapRadius = 50.0f;
 
+    // snap the image to the correct position if in radius of a snap point
     public void SnapIfInRange()
     {
         Dictionary<string, Vector2>.ValueCollection snapPoints = GetComponent<ImageController>().getSnapPoints();

@@ -38,24 +38,13 @@ public class TorusGenerator : MonoBehaviour
         List<Vector3> magMoments = generateMagneticMoments(minMagnitude, maxMagnitude);
         int magMomentIndex = Random.Range(0, magMoments.Count);
         Vector3 magneticMoment = magMoments[magMomentIndex];
-        // Debug.Log("mag mom: " + magneticMoment);
-        // Debug.Log("mag mag: " + magneticMoment.magnitude);
-        // magneticMoment = new Vector3(2 * Mathf.Pow(10f, 14f), 0, 0);
-        // magneticMoment = new Vector3(8 * Mathf.Pow(10f, 22f), 0, 0);
-        // magneticMoment = new Vector3(maxMagnitude / Mathf.Sqrt(2f), maxMagnitude / Mathf.Sqrt(2f), 0);
-        // magneticMoment = new Vector3(maxMagnitude, 0, 0);
-        // magneticMoment = new Vector3(0, 0, 0);
-        // Debug.Log("mag mom2: " + magneticMoment);
-        // Debug.Log("mag mag2: " + magneticMoment.magnitude);
         torus.magneticMoment = magneticMoment;
 
         // Calculate the angle between the magnetic moment and the position vector
         Vector3 cross = Vector3.Cross(Vector3.right.normalized, magneticMoment.normalized);
         rotationAngle = Mathf.Acos(Vector3.Dot(Vector3.right.normalized, magneticMoment.normalized));
-        // Debug.Log("angle: " + rotationAngle * Mathf.Rad2Deg);
 
         float ellipseFactor = mapEllipseScale(minMagnitude, maxMagnitude, magneticMoment.magnitude);
-        // Debug.Log("ellipseFactor: " + ellipseFactor);
         float ellipseRatio = 2f;
         int reflection = 1;
         int ellipseNum = 1;
@@ -65,8 +54,6 @@ public class TorusGenerator : MonoBehaviour
         {
             float semiMajorAxis = (0.75f * (i) + Mathf.Pow(2, i) / (i + 2)) / ellipseFactor;
             float semiMinorAxis = (0.75f * 0.75f * (i) + Mathf.Pow(2, i) / (i + 1)) / ellipseFactor / ellipseRatio;
-            // Debug.Log("major: " + semiMajorAxis);
-            // Debug.Log("minor: " + semiMinorAxis);
             Vector3 ellipseCenter = new Vector3(0, semiMinorAxis, 0);
 
             Ellipse ellipse = new Ellipse(semiMajorAxis, semiMinorAxis, ellipseCenter);
@@ -149,8 +136,6 @@ public class TorusGenerator : MonoBehaviour
         lineRenderer.loop = true;
 
         // set color and width
-        // lineRenderer.startColor = Color.red;
-        // lineRenderer.endColor = Color.blue;
         applyGradient(lineRenderer, ellipseNum);
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
@@ -164,7 +149,6 @@ public class TorusGenerator : MonoBehaviour
         Gradient staticGradient = new Gradient();
 
         float whiteWashValue = ((0.60f / 4) * ((ellipseNum-1) % numEllipses));
-        // Debug.Log("ellipseNum: " + ellipseNum + " whiteWashValue: " + whiteWashValue);
 
         // Define color keys
         GradientColorKey[] colorKeys = new GradientColorKey[2];
@@ -205,7 +189,6 @@ public class TorusGenerator : MonoBehaviour
         // Apply the inverted proportion to the output range
         float ellipseScale = invertedProportion * outputScale + minScale;
         ellipseScale = Mathf.Clamp(ellipseScale, minScale, maxScale);
-        // Debug.Log("scale: " + ellipseScale);
 
         return ellipseScale;
     }
@@ -224,8 +207,6 @@ public class TorusGenerator : MonoBehaviour
         // Calculate the mapped output range
         float mappedScaleMin = Mathf.Lerp(minScaleMin, maxScaleMin, percentage);
         float mappedScaleMax = Mathf.Lerp(minScaleMax, maxScaleMax, percentage);
-        // Debug.Log("min: " + mappedScaleMin);
-        // Debug.Log("max: " + mappedScaleMax);
 
         return (mappedScaleMin, mappedScaleMax);
     }

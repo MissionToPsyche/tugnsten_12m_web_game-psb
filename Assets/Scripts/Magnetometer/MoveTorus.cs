@@ -23,7 +23,7 @@ public class MoveTorus : MonoBehaviour
         noMoveAction = () => { noMove(); };
         moveAction = () => { move(); };
 
-        // TODO: don't detect mouse click over UI
+        // set up for ignoring mouse drags over game ui
         magController.ui.screenUI.GetBottomContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
         magController.ui.screenUI.GetTopContainer().RegisterCallback<MouseDownEvent>(OnElementClicked);
         magController.ui.screenUI.GetOptionsButton().clicked -= noMoveAction;
@@ -41,6 +41,7 @@ public class MoveTorus : MonoBehaviour
         }
     }
 
+    // clean up when torus object destroyed in reset
     void OnDestroy()
     {
         northObject = null;

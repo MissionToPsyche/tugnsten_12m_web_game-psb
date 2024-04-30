@@ -54,8 +54,6 @@ public class SliceImage : MonoBehaviour
     {
         GetTexture();
 
-        // Debug.Log("slice");
-        // can probably take out (just here to reset for testing)
         foreach (GameObject obj in images)
         {
             Destroy(obj);
@@ -70,14 +68,8 @@ public class SliceImage : MonoBehaviour
         float slicedHeight = slicedTexture.height;
 
         // image
-        // int numImgs = 4;
-        // float imgSize = 0.5f;
-        // int numImgs = 5;
-        // float imgSize = 0.5f;
         int numImgs = 6;
         float imgSize = 0.4f;
-        // int numImgs = 7;
-        // float imgSize = 0.4f;
         float imgWidth = slicedWidth * imgSize;
         float imgHeight = slicedHeight * imgSize;
 
@@ -122,7 +114,6 @@ public class SliceImage : MonoBehaviour
             do
             {
                 ctr++;
-                // Debug.Log("do: " + ctr);
 
                 int[] cell = cells[randomCell];
                 int cellX = cell[0];
@@ -177,6 +168,7 @@ public class SliceImage : MonoBehaviour
         }
     }
 
+    // checks if the small images are different enough
     public bool isStartDifferent(Vector2 newStart, Vector2 diff)
     {
         foreach (Vector2 start in starts)
@@ -189,6 +181,7 @@ public class SliceImage : MonoBehaviour
         return true;
     }
 
+    // checks if the small images overlap enough
     public bool isOverlap(Vector2 newStart, Vector2 overlap)
     {
         foreach (Vector2 start in starts)
@@ -247,7 +240,6 @@ public class SliceImage : MonoBehaviour
         trans.localScale = Vector3.one;
         trans.pivot = new Vector2(0.5f, 0.5f);
         trans.anchoredPosition = new Vector2(initialPositions[imgNum].x, initialPositions[imgNum].y); // setting position
-        // trans.sizeDelta = new Vector2(displaySize, displaySize); // set the size of the image/gameobject
         trans.sizeDelta = new Vector2(imgWidth, imgHeight);
 
         // adding canvas group component
@@ -271,7 +263,6 @@ public class SliceImage : MonoBehaviour
 
         imgObject.AddComponent<ImageController>();
         imgObject.AddComponent<Draggable>(); // adding script to drag image
-        //imgObject.AddComponent<RaycastController>();
 
         // adding script to snap image
         imgObject.AddComponent<SnapToTarget>(); // need to take this snapToTarget and setTargetPosition in imageGameHelper
@@ -279,6 +270,7 @@ public class SliceImage : MonoBehaviour
         return imgObject;
     }
 
+    // set the snap offsets for all images
     public void addSnapOffsets(float imgWidth, float imgHeight)
     {
         for (int i = 0; i < images.Count; i++)
@@ -301,6 +293,7 @@ public class SliceImage : MonoBehaviour
         }
     }
 
+    // set the snap positions for all images
     public void setInitialSnapPositions()
     {
         foreach (GameObject image in images)
@@ -308,22 +301,4 @@ public class SliceImage : MonoBehaviour
             image.GetComponent<ImageController>().setSnapPoints(images);
         }
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        // path = "Assets/Psyche_Mission_RubinAsteroid_171203.png";
-        // bytes = File.ReadAllBytes(path);
-        // originalImage = new Texture2D(1, 1); // size will be replaced by image size
-        // originalImage.LoadImage(bytes); // create a texture2d asset from the image
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
-
 }

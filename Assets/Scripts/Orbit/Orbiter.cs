@@ -8,7 +8,6 @@ public class Orbiter : PointMass
     public PointMass parent;
     public Orbit orbit;
     public ParticleSystem engine;
-    // public Vector3 initialVelocity;
     public Vector3 velocity;
 
     public const float maxThrust = 0.15f;
@@ -27,7 +26,6 @@ public class Orbiter : PointMass
 
     private void OnValidate()
     {
-        // currentVelocity = initialVelocity;
         Time.fixedDeltaTime = physicsTimeStep;
 
         // Exit early if parent is not set
@@ -41,11 +39,6 @@ public class Orbiter : PointMass
 
         orbit.CalcOrbitFromOrbiter(transform.position, velocity);
         orbit.DrawOrbit();
-    }
-
-    private void Start()
-    {
-        // currentVelocity = initialVelocity;
     }
 
     private void Update()

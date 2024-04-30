@@ -103,27 +103,6 @@ public class GravitySciUIController : UIController
         this.activeSlider = activeSlider;
         // Changes the reference wave to the one for this slider's distortion
         referenceWave.SetWavelength(referenceWavelengths[this.activeSlider]);
-
-        // TODO: Highlight active slider
-        // for (int i = 0; i < sliders.Count; i++)
-        // {
-        //     ColorBlock colors = sliders[i].colors;
-            
-        //     if (i == this.activeSlider)
-        //     {
-        //         colors.normalColor = new Color(162, 55, 212);
-        //         colors.selectedColor = new Color(162, 55, 212);
-        //         colors.pressedColor = new Color(210, 126, 250);
-        //     }
-        //     else
-        //     {
-        //         colors.normalColor = Color.white;
-        //         colors.selectedColor = new Color(245, 245, 245);
-        //         colors.pressedColor = new Color(200, 200, 200);
-        //     }
-
-        //     sliders[i].colors = colors;
-        // }
     }
 
     public void SyncSliders(bool preciseChanged)

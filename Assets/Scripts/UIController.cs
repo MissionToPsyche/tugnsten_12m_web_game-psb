@@ -59,16 +59,6 @@ abstract public class UIController : MonoBehaviour
         screenUI.SetTimerText(text);
     }
 
-    public void ShowInformation()
-    {
-        // TODO: show context and tutorial window, called by controller on scene change
-    }
-
-    public void ShowMenu()
-    {
-        // TODO: show settings menu
-    }
-    
     abstract public void ShowScore(int score, string grade);
 
     abstract public void ResetUI();

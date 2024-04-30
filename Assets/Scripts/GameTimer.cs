@@ -8,7 +8,6 @@ public class GameTimer : MonoBehaviour
 {
     private bool timerActive = false;
     private float currentTime = 0f;
-    // [SerializeField] private TMP_Text text;
 
     public void setTime(float time)
     {
@@ -26,9 +25,6 @@ public class GameTimer : MonoBehaviour
         {
             currentTime += Time.deltaTime;
         }
-        // TODO: move to UIController ShowTime()
-        // TimeSpan time = TimeSpan.FromSeconds(currentTime);
-        // text.text = time.Minutes.ToString("D2") + ":" + time.Seconds.ToString("D2") + ":" + time.Milliseconds.ToString("D3");
     }
 
     public void startTimer()

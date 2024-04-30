@@ -53,7 +53,6 @@ public class SpectrumGraph : MonoBehaviour
         lr = GetComponent<LineRenderer>();
         rt = GetComponent<RectTransform>();
 
-        // TODO: fix this resource path
         lr.material = new(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
         lr.useWorldSpace = false;
         lr.startWidth = lineWidth;

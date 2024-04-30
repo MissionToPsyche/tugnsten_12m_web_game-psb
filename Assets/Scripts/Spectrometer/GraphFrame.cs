@@ -11,7 +11,6 @@ public class GraphFrame : MonoBehaviour
     private void Reset() {
         lr = GetComponent<LineRenderer>();
 
-        // TODO: fix this resource path
         lr.material = new(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
         lr.useWorldSpace = false;
         lr.startWidth = lineWidth;

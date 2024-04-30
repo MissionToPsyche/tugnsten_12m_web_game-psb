@@ -30,28 +30,6 @@ public class TitleScreenView : MonoBehaviour
     // Collections for easier management
     private List<VisualElement> screens = new List<VisualElement>();
 
-    private void DisableKeyboardNavigation()
-    {
-        var myUIDDocument = GetComponent<UIDocument>();
-        var rootElement = myUIDDocument.rootVisualElement;
-
-        // Use Query to select all elements in the UIDDocument
-        var allElements = rootElement.Query<VisualElement>().ToList();
-
-        // Disable keyboard navigation for all elements
-        foreach (var element in allElements)
-        {
-            element.focusable = false;
-            element.UnregisterCallback<KeyDownEvent>(OnKeyDownEvent);
-        }
-    }
-
-    private void OnKeyDownEvent(KeyDownEvent evt)
-    {
-        // Prevent the default keyboard navigation behavior
-        evt.StopPropagation();
-    }
-
     private void OnEnable()
     {
         InitializeUI();
@@ -64,10 +42,7 @@ public class TitleScreenView : MonoBehaviour
 
     void Update()
     {
-        // if (gameSelectScreen.visible)
-        // {
-            UpdateMinigameScreen();
-        // }
+        UpdateMinigameScreen();
 
         if(titleController.gameSelect && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) && !titleController.cameraZooming && !titleController.inInfoPanel)
         {
@@ -143,7 +118,6 @@ public class TitleScreenView : MonoBehaviour
         closeCreditsBtn = creditsScreen.Q<Button>("close-button");
         creditsScrollView = creditsScreen.Q<ScrollView>("credits-content");
         ShowCredits();
-        // optionsScreenView.hideOptionsScreen();
         DisableKeyboardNavigation();
     }
 
@@ -178,7 +152,6 @@ public class TitleScreenView : MonoBehaviour
             closeMinigameBtn.SetEnabled(false);
         };
         infoBtn.clicked += () => { OpenInfoPanel(); PlaySound(); };
-        // RegisterTabCallbacks(); // Register the tab callbacks
         closeInfoBtn.clicked += () => { CloseInfoPanel(); PlaySound(); };
 
         // Options Screen
@@ -213,8 +186,6 @@ public class TitleScreenView : MonoBehaviour
     }
     private void Play()
     {
-        // minigameText.text = titleController.getScene();
-        
         // Go to orbit game with first orbit
         lastSceneIndex.Num = 0;
         SceneManager.LoadScene(titleController.getSceneName(4));
@@ -228,7 +199,6 @@ public class TitleScreenView : MonoBehaviour
         // if the minigame is the first minigame, disable the previous button
         if (titleController.isFirstScene())
         {
-            // prevBtn.style.display = DisplayStyle.None;
             prevBtn.visible = false;
         }
         else
@@ -239,7 +209,6 @@ public class TitleScreenView : MonoBehaviour
         // if the minigame is the last minigame, disable the next button
         if (titleController.isLastScene())
         {
-            // nextBtn.style.display = DisplayStyle.None;
             nextBtn.visible = false;
         }
         else
@@ -281,14 +250,13 @@ public class TitleScreenView : MonoBehaviour
     }
 
     private void PlayMinigame()
-    {   
-        // Debug.Log("change to: " + titleController.getScene());
+    {
         cameraZoom.startCameraMove(titleController.getScene());
     }
 
     public void OpenInfoPanel()
     {
-        HandleTabSelected(instructionsTab);
+        HandleTabSeleted(instructionsTab);
         infoScreen.style.display = DisplayStyle.Flex;
         blackScreen.visible = true;
         titleController.inInfoPanel = true;
@@ -301,12 +269,8 @@ public class TitleScreenView : MonoBehaviour
         GetAllTabs().ForEach(UnselectTab);
         titleController.inInfoPanel = false;
         
+        // Reset the scroll view to the top
         infoScrollView.scrollOffset = Vector2.zero;
-        
-
-        //electTab(instructionsTab);
-        //TabIsCurrentlySelected(instructionsTab);
-        //UnselectTab(contextTab);
     }
 
     private void OptionsClicked()
@@ -317,16 +281,12 @@ public class TitleScreenView : MonoBehaviour
     // Slider Functions
     private void musicValueChanged(ChangeEvent<float> evt)
     {
-        // Debug.Log("Slider value changed: " + evt.newValue);
-        // Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
         GameObject musicSource = SoundManager.Instance.transform.GetChild(0).gameObject;
         AudioSource audioSource = musicSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
     }
     private void soundValueChanged(ChangeEvent<float> evt)
     {
-        // Debug.Log("Slider value changed: " + evt.newValue);
-        // Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
         GameObject soundSource = SoundManager.Instance.transform.GetChild(1).gameObject;
         AudioSource audio = soundSource.GetComponent<AudioSource>();
         audio.volume = evt.newValue / 100;
@@ -355,7 +315,7 @@ public class TitleScreenView : MonoBehaviour
     {
         PlaySound();
         Label clickedTab = evt.currentTarget as Label;
-        HandleTabSelected(clickedTab);
+        HandleTabSeleted(clickedTab);
     }
      private static bool TabIsCurrentlySelected(Label tab)
     {
@@ -363,7 +323,10 @@ public class TitleScreenView : MonoBehaviour
     }
 
     private void SelectTab(Label tab)
-    {
+    {   
+        // reset scroll position when tab is switched
+        infoScrollView.scrollOffset = Vector2.zero;
+        
         tab.AddToClassList("selectedTab");
         if(tab.name == "Instructions")
         {
@@ -375,9 +338,8 @@ public class TitleScreenView : MonoBehaviour
         }
     }
 
-    private void HandleTabSelected(Label clickedTab)
+    private void HandleTabSeleted(Label clickedTab)
     {
-        // Debug.Log("tab: " + TabIsCurrentlySelected(clickedTab));
         if (!TabIsCurrentlySelected(clickedTab))
         {
             GetAllTabs().Where(
@@ -395,13 +357,10 @@ public class TitleScreenView : MonoBehaviour
     private void UnselectTab(Label tab)
     {
         tab.RemoveFromClassList("selectedTab");
-        // Debug.Log("Unselected tab");
-        // tab.AddToClassList("unselectedTab");
     }
 
     public void LoadInstruction(string minigameName)
     {
-        // Debug.Log("text: " + minigameTitle.text);
         string infoUxmlPath = $"UI/UXML/{minigameName}Info";
         VisualTreeAsset gameInfoTree = Resources.Load<VisualTreeAsset>(infoUxmlPath);
 
@@ -412,10 +371,7 @@ public class TitleScreenView : MonoBehaviour
             VisualElement gameInfoContent = gameInfoTree.Instantiate();
             infoScrollView.contentContainer.Add(gameInfoContent);
         }
-        else
-        {
-            // Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
-        }
+        else {}
     }
 
     public void LoadContext(string minigameName)
@@ -429,10 +385,7 @@ public class TitleScreenView : MonoBehaviour
             VisualElement gameInfoContent = gameInfoTree.Instantiate();
             infoScrollView.contentContainer.Add(gameInfoContent);
         }
-        else
-        {
-            // Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
-        }
+        else{ }
     }
     
     private void ShowCredits()
@@ -446,10 +399,28 @@ public class TitleScreenView : MonoBehaviour
             VisualElement creditsContent = creditsTree.Instantiate();
             creditsScrollView.contentContainer.Add(creditsContent);
         }
-        else
+        else{}
+    }
+    private void DisableKeyboardNavigation()
+    {
+        var myUIDDocument = GetComponent<UIDocument>();
+        var rootElement = myUIDDocument.rootVisualElement;
+
+        // Use Query to select all elements in the UIDDocument
+        var allElements = rootElement.Query<VisualElement>().ToList();
+
+        // Disable keyboard navigation for all elements
+        foreach (var element in allElements)
         {
-            // Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
+            element.focusable = false;
+            element.UnregisterCallback<KeyDownEvent>(OnKeyDownEvent);
         }
+    }
+
+    private void OnKeyDownEvent(KeyDownEvent evt)
+    {
+        // Prevent the default keyboard navigation behavior
+        evt.StopPropagation();
     }
 
 }

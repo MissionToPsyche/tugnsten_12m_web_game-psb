@@ -16,28 +16,6 @@ public class GameScreenUI : MonoBehaviour
     private Label minigameTitle, timer, instructionsTab, contextTab, numberScore, letterScore;
     private UIDocument myUIDocument;
 
-    private void DisableKeyboardNavigation()
-    {
-        var myUIDDocument = GetComponent<UIDocument>();
-        var rootElement = myUIDDocument.rootVisualElement;
-
-        // Use Query to select all elements in the UIDDocument
-        var allElements = rootElement.Query<VisualElement>().ToList();
-
-        // Disable keyboard navigation for all elements
-        foreach (var element in allElements)
-        {
-            element.focusable = false;
-            element.UnregisterCallback<KeyDownEvent>(OnKeyDownEvent);
-        }
-    }
-
-    private void OnKeyDownEvent(KeyDownEvent evt)
-    {
-        // Prevent the default keyboard navigation behavior
-        evt.StopPropagation();
-    }
-
     private void OnEnable()
     {
         Scene scene = SceneManager.GetActiveScene();
@@ -69,31 +47,17 @@ public class GameScreenUI : MonoBehaviour
         gameScreen = root.Q<VisualElement>("game-screen");
         gameTopContainer = gameScreen.Q<VisualElement>("game-top-container");
         gameBottomContainer = gameScreen.Q<VisualElement>("game-bottom-container");
-        // gameButtonContainer = gameBottomContainer.Q<VisualElement>("game-button-container");
         gameOptionsContainer = gameBottomContainer.Q<VisualElement>("options-button-container");
         gameContinueContainer = gameBottomContainer.Q<VisualElement>("continue-button-container");
         topBorder = gameTopContainer.Q<VisualElement>("top-border");
         timer = topBorder.Q<Label>("timer-label");
         minigameTitle = gameBottomContainer.Q<Label>("minigame-title");
         InitializeMinigameTitle();
-        // minigameTitle.text = titleController.getMinigameText(currentSceneIndex); // set minigame text in title controller
 
-        //buttons on the game screen
+        //buttons on the minigame select screen
         infoBtn = gameTopContainer.Q<Button>("help-button");
         optionsBtn = gameOptionsContainer.Q<Button>("options-button");
-
         continueBtn = gameContinueContainer.Q<Button>("continue-button");
-        // continueBtn.clicked += () => continueButtonClicked();
-        // continueBtn.clicked += () => rightButtonClicked(string action);
-
-        ////////////////////////////////////////////////////////////////////////////////
-        // OPTIONS SCREEN UI ELEMENTS
-        // // loading the options panel UXML file
-        // VisualTreeAsset optionsPanelTree = Resources.Load<VisualTreeAsset>("Assets/UI/UXML/OptionsPanel.uxml");
-        // // cloning the UXML content and add it to root element
-        // Debug.Log(optionsPanelTree == null ? "Failed to load OptionsPanel.uxml" : "OptionsPanel.uxml loaded successfully");
-        // optionsPanel = optionsPanelTree.CloneTree();
-        // root.Add(optionsPanel);
 
         optionsPanel = root.Q<VisualElement>("options-panel");
         soundBar = optionsPanel.Q<VisualElement>("sound-bar");
@@ -111,7 +75,6 @@ public class GameScreenUI : MonoBehaviour
         ////////////////////////////////////////////////////////////////////////////////
         // INFO PANEL UI ELEMENTS
         infoScreen = root.Q<TemplateContainer>("info-screen");
-        // infoTemplate = root.Q<TemplateContainer>("info-screen");
         infoPanel = infoScreen.Q<VisualElement>("info-panel");
         tabs = infoPanel.Q<VisualElement>("tabs");
         instructionsTab = tabs.Q<Label>("Instructions");
@@ -164,11 +127,6 @@ public class GameScreenUI : MonoBehaviour
         resetBtn.SetEnabled(false);
     }
 
-    private void CloseScorePanel()
-    {
-        scorePanel.visible = false;
-    }
-
     public Button GetContinueButton()
     {
         return continueBtn;
@@ -209,8 +167,7 @@ public class GameScreenUI : MonoBehaviour
 
     public void OpenInfoPanel()
     {
-        HandleTabSeclected(instructionsTab);
-        // infoPanel.visible = true;
+        HandleTabSelected(instructionsTab);
         infoScreen.style.display = DisplayStyle.Flex;
         blackScreen.visible = true;
     }
@@ -227,10 +184,10 @@ public class GameScreenUI : MonoBehaviour
     {
         PlaySound();
         Label clickedTab = evt.currentTarget as Label;
-        HandleTabSeclected(clickedTab);
+        HandleTabSelected(clickedTab);
     }
 
-    private void HandleTabSeclected(Label clickedTab)
+    private void HandleTabSelected(Label clickedTab)
     {
         if (!TabIsCurrentlySelected(clickedTab))
         {
@@ -248,6 +205,9 @@ public class GameScreenUI : MonoBehaviour
 
     private void SelectTab(Label tab)
     {
+        // reset scroll position when tab is switched
+        infoScrollView.scrollOffset = Vector2.zero;
+        
         tab.AddToClassList("selectedTab");
         if (tab.name == "Instructions")
         {
@@ -267,8 +227,6 @@ public class GameScreenUI : MonoBehaviour
     private void UnselectTab(Label tab)
     {
         tab.RemoveFromClassList("selectedTab");
-        // Debug.Log("Unselected tab");
-        // tab.AddToClassList("unselectedTab");
     }
 
     public void LoadInStrunction(string minigameName)
@@ -283,10 +241,7 @@ public class GameScreenUI : MonoBehaviour
             VisualElement gameInfoContent = gameInstrunctionTree.Instantiate();
             infoScrollView.contentContainer.Add(gameInfoContent);
         }
-        else
-        {
-            // Debug.Log($"{minigameTitle.text}Info.uxml file not found.");
-        }
+        else {}
     }
 
     public void LoadContext(string minigameName)
@@ -301,10 +256,7 @@ public class GameScreenUI : MonoBehaviour
             VisualElement gameInfoContent = gameInfoTree.Instantiate();
             infoScrollView.contentContainer.Add(gameInfoContent);
         }
-        else
-        {
-            // Debug.Log($"{minigameTitle.text}Context.uxml file not found.");
-        }
+        else {}
     }
 
     public void LoadInfo()
@@ -346,8 +298,6 @@ public class GameScreenUI : MonoBehaviour
 
     }
 
-
-
     public void ShowScorePanel()
     {
         scorePanel.visible = true;
@@ -358,7 +308,6 @@ public class GameScreenUI : MonoBehaviour
     {
         gameScreen.visible = true;
         optionsPanel.visible = false;
-        // infoPanel.visible = false;
         infoScreen.style.display = DisplayStyle.None;
         scorePanel.visible = false;
         blackScreen.visible = false;
@@ -423,17 +372,13 @@ public class GameScreenUI : MonoBehaviour
 
     private void musicValueChanged(ChangeEvent<float> evt)
     {
-        // Debug.Log("Slider value changed: " + evt.newValue);
         GameObject musicSource = SoundManager.Instance.transform.GetChild(0).gameObject;
-        // Debug.Log("Music source name: " + musicSource.name); // Log the name of the music source
         AudioSource audioSource = musicSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
     }
     private void soundValueChanged(ChangeEvent<float> evt)
     {
-        // Debug.Log("Slider value changed: " + evt.newValue);
         GameObject soundSource = SoundManager.Instance.transform.GetChild(1).gameObject;
-        // Debug.Log("Sound source name: " + soundSource.name); // Log the name of the sound source
         AudioSource audioSource = soundSource.GetComponent<AudioSource>();
         audioSource.volume = evt.newValue / 100;
     }
@@ -445,5 +390,26 @@ public class GameScreenUI : MonoBehaviour
             AudioSource audio = audioSource.GetComponent<AudioSource>();
             slider.value = audio.volume * 100;
         }
+    }
+     private void DisableKeyboardNavigation()
+    {
+        var myUIDDocument = GetComponent<UIDocument>();
+        var rootElement = myUIDDocument.rootVisualElement;
+
+        // Use Query to select all elements in the UIDDocument
+        var allElements = rootElement.Query<VisualElement>().ToList();
+
+        // Disable keyboard navigation for all elements
+        foreach (var element in allElements)
+        {
+            element.focusable = false;
+            element.UnregisterCallback<KeyDownEvent>(OnKeyDownEvent);
+        }
+    }
+
+    private void OnKeyDownEvent(KeyDownEvent evt)
+    {
+        // Prevent the default keyboard navigation behavior
+        evt.StopPropagation();
     }
 }

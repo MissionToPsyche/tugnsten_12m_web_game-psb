@@ -2,6 +2,8 @@
 
 ### WebGL game about the Psyche Mission
 
+*On Console: Psyche* is an educational web game built in Unity and based on the NASA Psyche mission that teaches players about the scientific goals of the mission. Four minigames allow players to experience the sort of scientific investigations that will be carried out by the actual spacecraft, and a fifth minigame about the spacecraft's orbit connects them. Overall, this game aims to inform the general public about the Psyche mission as well as encourage future generations to pursue space exploration, thus promoting technological advancement and scientific progress. 
+
 ## Screenshots
 ![alt_text](images/title.png "Title Screen")
 

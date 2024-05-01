@@ -55,8 +55,6 @@ Once Unity Editor is installed, you can open the project using the Open button i
 
 Unity Hub will prompt you to select a folder that contains a project. Clone this repository, then select that folder to open it in Unity.
 
----
-
 ## How to build
 
 ### Step 1:

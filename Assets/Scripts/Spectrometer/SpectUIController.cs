@@ -15,6 +15,8 @@ public class SpectUIController : UIController
 
     public override void ResetUI()
     {
+        SetSlidersEnabled(true);
+
         // Sets the element quantities in the user graph to 0
         foreach (Element element in userGraph.elements.Values)
         {
@@ -72,5 +74,13 @@ public class SpectUIController : UIController
     {
         screenUI.GetContinueButton().text = "Continue";
         controller.FinishGame();
+    }
+
+    public void SetSlidersEnabled(bool enabled)
+    {
+        foreach (SpectrumGraph graph in controls)
+        {
+            graph.slider.enabled = enabled;
+        }
     }
 }

@@ -143,6 +143,8 @@ public class GravitySciUIController : UIController
 
     public override void ResetUI()
     {
+        SetSlidersEnabled(true);
+
         for (int i = 0; i < sliders.Count; i++)
         {
             sliders[i].value = 0;
@@ -165,5 +167,32 @@ public class GravitySciUIController : UIController
     {
         screenUI.GetContinueButton().text = "Continue";
         controller.FinishGame();
+    }
+
+    public void SetSlidersEnabled(bool enabled)
+    {
+        foreach (Slider slider in sliders)
+        {
+            slider.enabled = enabled;
+            
+            // Removes the onClick listener if disabling the slider
+            if (!enabled)
+            {
+                EventTrigger evTrig = slider.gameObject.GetComponent<EventTrigger>();
+                if (evTrig != null)
+                {
+                    List<EventTrigger.Entry> entries = new List<EventTrigger.Entry>(evTrig.triggers);
+                    for (int j = entries.Count - 1; j >= 0; j--)
+                    {
+                        if (entries[j].eventID == EventTriggerType.PointerDown)
+                        {
+                            evTrig.triggers.RemoveAt(j);
+                        }
+                    }
+                }
+            }
+        }
+
+        preciseSlider.enabled = enabled;
     }
 }

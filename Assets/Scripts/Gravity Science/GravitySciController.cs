@@ -95,6 +95,7 @@ public class GravitySciController : GameController
     public override void FinishGame()
     {
         StopGame();
+        ui.SetSlidersEnabled(false);
         ui.screenUI.getOptionsCloseButton().clicked -= startGameAction;  
         ui.screenUI.getInfoCloseButton().clicked -= startGameAction; 
         ui.ShowScore(GetScore(), GetGrade());

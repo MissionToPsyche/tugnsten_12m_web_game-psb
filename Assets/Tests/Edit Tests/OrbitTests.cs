@@ -177,7 +177,6 @@ public class OrbitTests
 
         Assert.True(Vector3.Distance(new Vector3(0, -2, 0), dummyOrbit.GetComponent<Orbit>().apoapsisPosition) < 0.1);
         Assert.True(Vector3.Distance(new Vector3(0, 1.63f, 0), dummyOrbit.GetComponent<Orbit>().periapsisPosition) < 0.1);
-        Debug.Log(Mathf.Abs(dummyOrbit.GetComponent<Orbit>().rotation));
         Assert.True(Mathf.Abs(dummyOrbit.GetComponent<Orbit>().rotation - 270) < 1);
         Assert.True(Mathf.Abs(dummyOrbit.GetComponent<Orbit>().apoapsisDistance - 2) < 0.1);
         Assert.True(Mathf.Abs(dummyOrbit.GetComponent<Orbit>().periapsisDistance - 1.63f) < 0.1);

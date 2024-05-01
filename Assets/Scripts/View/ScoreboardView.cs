@@ -8,7 +8,6 @@ public class ScoreboardView : MonoBehaviour
     private VisualElement root, scoreboardPanel, scoreContainer, numberScoreContainer, letterScoreContainer, totalScoreContainer;
     private Label magnetometerNumber, magnetometerLetter, imagerNumber, imagerLetter, gravityNumber, gravityLetter, spectNumber, spectLetter, orbitNumber, orbitLetter, AverageNumber, AverageLetter;
     private Button titleBtn;
-    private ChangeScene SceneChanger;
     public Scorecard scorecard;
     private int[] scores = {-1, -1, -1, -1, -1, -1};
     private string[] displayScores = {"-", "-", "-", "-", "-", "-", "-"};

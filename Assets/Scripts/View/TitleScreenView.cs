@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class TitleScreenView : MonoBehaviour
-{ // Public variables for editor assignment
-    public ChangeScene SceneChanger;
+{ 
+    // Public variables for editor assignment
     public TitleController titleController;
     public AudioClip clip;
     public GameObject MinigameSelectMenu, Console, Animation;

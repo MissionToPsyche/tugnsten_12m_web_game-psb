@@ -6,17 +6,17 @@
 
 ## Screenshots
 
-![alt_text](images/title.png "Title Screen")
+![alt_text](Images/title.png "Title Screen")
 
-![alt_text](images/orbit.png "Orbit Minigame")
+![alt_text](Images/orbit.png "Orbit Minigame")
 
-![alt_text](images/imager.png "Multispectral Imager Minigame")
+![alt_text](Images/imager.png "Multispectral Imager Minigame")
 
-![alt_text](images/magnetometer.png "Magnetometer Minigame")
+![alt_text](Images/magnetometer.png "Magnetometer Minigame")
 
-![alt_text](images/spectrometer.png "Spectrometer Minigame")
+![alt_text](Images/spectrometer.png "Spectrometer Minigame")
 
-![alt_text](images/gravscience.png "Gravity Science Minigame")
+![alt_text](Images/gravscience.png "Gravity Science Minigame")
 
 ---
 
@@ -26,33 +26,33 @@
 
 Install Unity Hub from [Unity's official website](https://unity.com/download). Once you have run the installer, open Unity Hub and sign in with your Unity account.
 
-![alt_text](images/unityhubdownload.png "Download Unity webpage")
+![alt_text](Images/unityhubdownload.png "Download Unity webpage")
 
 ### Step 2:
 
 Install the editor by clicking the Install Editor button in the top right corner.
 
-![alt_text](images/clickinstalleditor.png "Unity Hub editor page")
+![alt_text](Images/clickinstalleditor.png "Unity Hub editor page")
 
 We are using Long Term Support version 2022.3.10f1 for this project, so click the Install button next to that version.
 
-![alt_text](images/pickunityeditor.png "Install editors page")
+![alt_text](Images/pickunityeditor.png "Install editors page")
 
 ### Step 3:
 
 Ensure that the "WebGL Build Support" option is selected before continuing with the install.
 
-![alt_text](images/pickwebgl.png "Various selections in editor installation")
+![alt_text](Images/pickwebgl.png "Various selections in editor installation")
 
 If you selected "Microsoft Visual Studio Community 2022," agree to Microsoft Visual Studio's terms and conditions for being installed, and click the "Install" button.
 
-![alt_text](images/visualstudiocommunity.png "Visual Studio Community confirmation")
+![alt_text](Images/visualstudiocommunity.png "Visual Studio Community confirmation")
 
 ### Step 4:
 
 Once Unity Editor is installed, you can open the project using the Open button in the Projects tab.
 
-![alt_text](images/openproject.png "Unity Hub projects page")
+![alt_text](Images/openproject.png "Unity Hub projects page")
 
 Unity Hub will prompt you to select a folder that contains a project. Clone this repository, then select that folder to open it in Unity.
 
@@ -62,13 +62,13 @@ Unity Hub will prompt you to select a folder that contains a project. Clone this
 
 In Unity Editor, click on File > Build Settings... or use the keyboard shortcut Ctrl+Shift+B to open the build settings.
 
-![alt_text](images/openbuildsettings.png "File dropdown menu")
+![alt_text](Images/openbuildsettings.png "File dropdown menu")
 
 ### Step 2:
 
 Verify WebGL is highlighted in the Platform tab, and that Development Build is disabled in the WebGL tab. Set the code optimization to Runtime Speed for best performance.
 
-![alt_text](images/build.png "Build Settings screen")
+![alt_text](Images/build.png "Build Settings screen")
 
 ### Step 3:
 

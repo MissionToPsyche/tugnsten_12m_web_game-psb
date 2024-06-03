@@ -1,7 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/Resources/UI/USS/Stylesheet.uss?fileID=7433441132597879392&amp;guid=30fb6192f07eb614bb3c2983da32c6ec&amp;type=3#Stylesheet" />
-    <ui:VisualElement name="info-content" class="infoView" style="flex-grow: 1;">
-        <ui:Label text="Transferring into Orbit C in mid-January 2031 (based on current expectations), at an altitude of 118 miles (190 kilometers), the spacecraft will shift back to an orientation around the asteroid similar to Orbits A and B. This orbit will measure topography and perform the highest-priority magnetic field and gravity measurements of the prime mission." name="text-content" class="info-text-content" />
-        <ui:VisualElement name="image-content" class="info-image" style="flex-grow: 1; background-image: url(&apos;project://database/Assets/orbital%20operations%20illustration.jpg?fileID=21300000&amp;guid=b96168268adf04c4882fa207c00e2d21&amp;type=3#orbital operations illustration&apos;); -unity-background-scale-mode: scale-to-fit;" />
-    </ui:VisualElement>
-</ui:UXML>
